@@ -46,6 +46,7 @@ export class ScreenState {
 
   private origin: Element | null = null;
   private wallShown = false;
+  private handoff: string | null = null;
 
   constructor() {
     if (this.reload?.screen) writeReload({ at: this.reload.at });
@@ -97,6 +98,16 @@ export class ScreenState {
       return;
     }
     location.reload();
+  }
+
+  showWinners(region: string): void {
+    this.handoff = region;
+    this.show('winners');
+  }
+  takeHandoff(): string | null {
+    const g = this.handoff;
+    this.handoff = null;
+    return g;
   }
 
   setRegion(r: string): void {

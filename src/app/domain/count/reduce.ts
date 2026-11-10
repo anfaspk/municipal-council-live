@@ -92,6 +92,7 @@ export function blankWil(gid: string, id: number, n: string): CWil {
     notaP: null,
     conflict: null,
     drawn: false,
+    published: false,
     detail: false,
   };
 }
@@ -163,6 +164,7 @@ function applyRow(w: CWil, r: CWilRow, detail: boolean, winners: boolean): CWil 
     st: statusOf(r, winners, counted),
     conflict,
     drawn,
+    published: published(r),
     cands,
     nota,
     notaP: detail ? (nota === w.nota && r.nV?.vP == null ? w.notaP : shareOf(r.nV?.vP)) : w.notaP,

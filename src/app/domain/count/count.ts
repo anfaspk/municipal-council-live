@@ -29,6 +29,7 @@ export interface CWil {
   notaP: number | null;
   conflict: { text: string; res: string } | null;
   drawn: boolean;
+  published: boolean;
   detail: boolean;
 }
 export interface CGov {

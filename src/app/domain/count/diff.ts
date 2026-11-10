@@ -59,3 +59,11 @@ export const countComplete = (govs: readonly CGov[], known = WILAYAT_KNOWN): boo
   govs.length > 0 &&
   govs.every((g) => g.wil.length > 0 && g.wil.every(countDone)) &&
   govs.reduce((n, g) => n + g.wil.length, 0) >= known;
+export const govPublished = (
+  g: CGov | null,
+  known = g ? (GEO.wilPt[g.id]?.length ?? 0) : 0,
+): boolean => !!g && g.wil.length > 0 && g.wil.length >= known && g.wil.every((w) => w.published);
+export const natPublished = (govs: readonly CGov[], known = WILAYAT_KNOWN): boolean =>
+  govs.length > 0 &&
+  govs.every((g) => govPublished(g)) &&
+  govs.reduce((n, g) => n + g.wil.length, 0) >= known;

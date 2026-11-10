@@ -131,7 +131,7 @@ export class WinnersComponent {
 
   private open(): void {
     this.isOpen.set(true);
-    const boot = this.opened ? null : this.screen.bootRegion;
+    const boot = this.screen.takeHandoff() ?? (this.opened ? null : this.screen.bootRegion);
     this.opened = true;
     this.gov.set(boot && Object.hasOwn(GEO.g, boot) ? boot : null);
     this.cur.set(0);

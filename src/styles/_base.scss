@@ -1,0 +1,241 @@
+@use 'mixins';
+@use 'scales' as *;
+
+
+body {
+  font-family: var(--font-sans);
+  font-size: $fs-16;
+  line-height: 1.6;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+.mj-root {
+  position: relative;
+  color: var(--ink);
+  font-size: $fs-16;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  background: var(--canvas-0);
+  isolation: isolate;
+  font-family: var(--font-arabic);
+}
+.mj-root *,
+.mj-root *::before,
+.mj-root *::after {
+  box-sizing: border-box;
+}
+.mj-num {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+.mj-micro {
+  font-weight: 600;
+  color: var(--ink-muted);
+  letter-spacing: 0;
+  font-size: $fs-24;
+  line-height: 1.5;
+  text-transform: none;
+}
+.mj-micro.gold {
+  color: var(--gold-ink);
+}
+.mj-muted {
+  color: var(--ink-muted);
+}
+.mj-ambient {
+  @include mixins.cover;
+  overflow: hidden;
+  z-index: $z-under;
+  pointer-events: none;
+}
+.mj-ambient .mj-breathe {
+  @include mixins.cover;
+  background:
+    radial-gradient(1400px 800px at 28% 0%, var(--canvas-1), transparent 70%),
+    radial-gradient(900px 600px at 90% 100%, var(--canvas-1), transparent 70%);
+  animation: mj-breathe $t-18000 ease-in-out infinite alternate;
+}
+.mj-ambient .mj-stars {
+  position: absolute;
+  inset: -$sp-40;
+  width: calc(100% + 80px);
+  height: calc(100% + 80px);
+  transition: transform $t-1200 var(--ease-expo);
+}
+.mj-ambient .mj-stars circle {
+  fill: var(--ink);
+}
+[data-theme='daylight'] .mj-ambient .mj-stars {
+  opacity: 0;
+}
+.mj-lattice {
+  @include mixins.cover;
+  width: 100%;
+  height: 100%;
+  animation: mj-lattice-breathe $t-9000 ease-in-out infinite;
+}
+.mj-lattice path {
+  fill: none;
+  stroke: var(--lattice);
+  stroke-width: 1;
+}
+.mj-boot .mj-lattice {
+  animation:
+    mj-lattice-draw $t-1400 var(--ease-expo) both,
+    mj-lattice-breathe $t-9000 ease-in-out $t-1400 infinite;
+}
+@keyframes mj-breathe {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes mj-lattice-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes mj-lattice-draw {
+  from {
+    clip-path: circle(0% at 40% 30%);
+  }
+  to {
+    clip-path: circle(150% at 40% 30%);
+  }
+}
+
+.mj-glass {
+  position: relative;
+  border-radius: var(--radius-panel);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    var(--glass-fill);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  box-shadow: var(--shadow-panel);
+  isolation: isolate;
+}
+.mj-glass::before {
+  content: '';
+  @include mixins.cover;
+  border-radius: inherit;
+  padding: $sp-1;
+  background: linear-gradient(
+    155deg,
+    var(--glass-stroke),
+    transparent 45%,
+    transparent 70%,
+    var(--glass-stroke)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: $z-2;
+}
+.mj-glass::after {
+  content: '';
+  @include mixins.cover;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    380px circle at var(--mx, 50%) var(--my, -200px),
+    var(--specular),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-ui) var(--ease-std);
+  z-index: $z-1;
+}
+.mj-glass.is-lit::after {
+  opacity: 1;
+}
+.mj-glass.raised {
+  background:
+    linear-gradient(var(--glass-fill-strong), var(--glass-fill-strong)),
+    color-mix(in srgb, var(--canvas-1) 80%, transparent);
+  box-shadow: var(--shadow-raised);
+}
+.mj-tile {
+  border-radius: var(--radius-tile);
+}
+.mj-crenel {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 50%;
+  width: 88px;
+  height: 5px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, var(--gold) 50%, transparent 0) 0 0/11px 5px repeat-x;
+  opacity: 0.55;
+  border-radius: 0 0 $r-2 $r-2;
+  z-index: $z-3;
+  pointer-events: none;
+}
+.mj-panel-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+  position: relative;
+  z-index: $z-3;
+}
+.mj-ph-l {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-2;
+  min-width: 0;
+}
+.mj-panel-title {
+  font-size: $fs-14;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--ink);
+}
+.mj-z {
+  position: relative;
+  z-index: $z-3;
+}
+
+.mj-boot [data-boot] {
+  animation: mj-materialise var(--dur-panel) var(--ease-expo) both;
+  animation-delay: calc(var(--i, 0) * var(--dur-stagger) + $t-500);
+}
+@keyframes mj-materialise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mj-connecting {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: var(--ink-muted);
+  background: var(--canvas-0);
+  font-family: var(--font-arabic);
+  font-size: $fs-18;
+}

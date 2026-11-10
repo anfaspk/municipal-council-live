@@ -1,0 +1,64 @@
+@let list = items(); @let cur = item(); @let n = counts();
+<div class="mj-tv ct-tv cxd-tv" tabindex="-1" [class.on]="isOpen()" [class.tva-still]="still()">
+  <div class="mj-ambient">
+    <div class="mj-breathe"></div>
+    <svg mjLattice></svg>
+  </div>
+  <div class="mj-horizon"></div>
+  <div class="ctv-glow cxd-glow"></div>
+  <div class="cx">
+    <div class="cx-top">
+      <div class="tv-top">
+        <img class="tv-logo night" [src]="darkLogo" alt="" /><img class="tv-logo day" [src]="logo" alt="" />
+        <div class="tv-ttl"><b>{{ text('cTitle') }}</b><span>{{ text('cxdSub') }}</span></div>
+        <span class="ctv-pill cxd-pill"><i></i>{{ text('cxTossTitle') }}</span>
+        @if (counting()) {
+          @if (store.staleAt(); as at) {
+            <span class="ctv-live stale"><i></i>{{ text('figuresAt', { t: at }) }}</span>
+          } @else {
+            <span class="ctv-live"><i></i>{{ text('live') }}</span>
+          }
+        }
+        @if (list.length) {
+          <span class="tv-count mj-num">{{ pad(index() + 1) }} / {{ pad(list.length) }}</span>
+        }
+      </div>
+    </div>
+    <div class="cxd-body">
+      <nav class="cxd-list" [attr.aria-label]="text('cxdList')">
+        <div class="cxd-lh">
+          <b>{{ text('cxdList') }}</b>
+          <span class="cxd-sum"><i class="cxd-dot"></i>{{ text('cxdOpenN', { n: n.o }) }}</span>
+          <span class="cxd-sum drawn"><i class="cxd-dot"></i>{{ text('cxdDrawnN', { n: n.d }) }}</span>
+        </div>
+        @if (list.length) {
+          <ul class="cxd-rows">
+            @for (it of list; track it.id) {
+              <li>
+                <button type="button" class="cxd-row" [class.on]="it.id === cur?.id" [class.drawn]="it.state === 'drawn'" [attr.data-w]="it.id" [attr.aria-current]="it.id === cur?.id ? 'true' : null" (click)="choose(it.id)">
+                  <svg class="cxd-ri" [mjIcon]="it.state === 'drawn' ? 'crown' : 'people'"></svg>
+                  <span class="cxd-rn"><b>{{ it.name }}</b><span>{{ it.gov }} · {{ text('cxdSeats', { n: it.seats }) }}</span></span>
+                  <em class="cxd-rs">{{ text(stageRow[it.stage]) }}</em>
+                </button>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="cxd-none">{{ text(!counting() ? 'cxdBefore' : store.ready() ? 'cxdNone' : 'cxdLoadingC') }}</p>
+        }
+      </nav>
+      @if (cur) {
+        <section [cxdStage]="cur" [still]="still()" [play]="playN()" [hold]="pending() === cur.id" [active]="isOpen()" (ask)="play()"></section>
+      } @else {
+        <section class="cxd-stage cxd-empty">
+          <span class="cxd-coin" aria-hidden="true"><i></i></span>
+          <b>{{ text(!counting() ? 'cxdBefore' : store.ready() ? 'cxdNone' : 'cxdLoadingC') }}</b>
+          <span>{{ text(!counting() ? 'cxdBeforeSub' : store.ready() ? 'cxdNoneSub' : 'cxdLoadingSub') }}</span>
+        </section>
+      }
+    </div>
+  </div>
+  <button type="button" class="mj-btn tv-dash" (click)="toWall()"><svg mjIcon="prev"></svg><span>{{ text('cxdWall') }}</span></button>
+  <button type="button" class="mj-btn icon tv-x" [attr.aria-label]="text('close')" [title]="text('close')" (click)="close()"><svg mjIcon="close"></svg></button>
+  <p class="mj-sr" aria-live="polite">{{ say() }}</p>
+</div>

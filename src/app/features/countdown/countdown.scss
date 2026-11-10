@@ -1,0 +1,70 @@
+@use '../../../styles/scales' as *;
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  .mj-countdown {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    text-align: center;
+  }
+  .mj-countdown .cdn-in {
+    position: relative;
+    z-index: $z-1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp($sp-8, 1.6vh, $sp-16);
+    padding: $sp-24 $sp-16;
+    width: min(1100px, 100%);
+  }
+  .mj-countdown .cdn-logo {
+    display: block;
+    height: clamp(64px, 12vh, 120px);
+    width: auto;
+  }
+  .mj-countdown .cdn-title {
+    margin: 0;
+    font-size: clamp(22px, 3.4vw, $fs-44);
+    font-weight: 600;
+    font-family: var(--font-arabic);
+    letter-spacing: 0;
+    line-height: 1.4;
+  }
+  .mj-countdown .cdn-opens {
+    margin-top: clamp($sp-12, 3vh, $sp-32);
+  }
+  .mj-countdown .cdn-clock {
+    display: flex;
+    gap: clamp($sp-8, 1.6vw, $sp-24);
+    direction: ltr;
+    justify-content: center;
+  }
+  .mj-countdown .cdn-u {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $sp-6;
+    width: clamp(68px, 17vw, 200px);
+    padding: clamp($sp-14, 3vh, $sp-32) $sp-8;
+  }
+  .mj-countdown .cdn-u b {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 8.5vw, $fs-112);
+    line-height: 1;
+    font-weight: 600;
+    color: var(--gold-ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .mj-countdown .cdn-at {
+    font-size: clamp(14px, 1.6vw, $fs-20);
+    color: var(--ink);
+  }
+  .mj-countdown .cdn-note {
+    opacity: 0.7;
+  }
+}

@@ -1,0 +1,149 @@
+@use '../mixins';
+@use '../scales' as *;
+
+.pd-head.pd-hin > * {
+  animation: pd-hin $t-600 var(--ease-expo) backwards;
+}
+.pd-head.pd-hin > :nth-child(2) {
+  animation-delay: $t-70;
+}
+@keyframes pd-hin {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.pd-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-round;
+  background: var(--band);
+  margin-inline-end: $sp-7;
+  vertical-align: 0;
+  box-shadow: 0 0 8px var(--band);
+}
+.mj-pod .who {
+  max-width: 100%;
+  min-width: 0;
+}
+.mj-pod.pd-lat .who b,
+.mj-runner .rr.pd-lat .n b {
+  font-family: var(--font-sans);
+  @include mixins.ellipsis;
+}
+.mj-pod.pd-lat .who span,
+.mj-runner .rr.pd-lat .n span {
+  font-variant-numeric: tabular-nums;
+}
+.mj-pod.pd-empty {
+  visibility: hidden;
+}
+.pd-lat .who b,
+.pd-lat .n b {
+  direction: ltr;
+}
+.mj-runner .rr.pd-lat .n b {
+  font-size: $fs-14;
+  text-align: end;
+}
+.pd-lat .who span,
+.pd-lat .n span {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.pd-sh {
+  @include mixins.cover;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+.mj-pod.p1 .pd-sh::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: -50%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, var(--shine), transparent);
+  animation: pd-shine $t-4800 ease-in-out $t-1400 infinite;
+}
+@keyframes pd-shine {
+  0% {
+    transform: translateX(0);
+  }
+  40%,
+  100% {
+    transform: translateX(425%);
+  }
+}
+.mj-pod .blk > span {
+  position: relative;
+}
+.mj-podium.pd-in .blk {
+  transform-origin: 50% 100%;
+  animation: pd-rise $t-950 var(--ease-spring) both;
+}
+.mj-podium.pd-in .p1 .blk {
+  animation-delay: $t-50;
+}
+.mj-podium.pd-in .p2 .blk {
+  animation-delay: $t-200;
+}
+.mj-podium.pd-in .p3 .blk {
+  animation-delay: $t-320;
+}
+@keyframes pd-rise {
+  from {
+    transform: scaleY(0);
+    opacity: 0.2;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.mj-podium.pd-in .who {
+  animation: pd-hin $t-600 var(--ease-expo) backwards;
+}
+.mj-podium.pd-in .p1 .who {
+  animation-delay: $t-350;
+}
+.mj-podium.pd-in .p2 .who {
+  animation-delay: $t-480;
+}
+.mj-podium.pd-in .p3 .who {
+  animation-delay: $t-580;
+}
+.mj-podium.pd-in .rr {
+  animation: pd-slide $t-600 var(--ease-expo) both;
+  animation-delay: calc($t-500 + var(--j) * $t-90);
+  --dx: -16px;
+}
+@keyframes pd-slide {
+  from {
+    opacity: 0;
+    transform: translateX(var(--dx));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.mj-podium.pd-in .rr .sb i {
+  animation: pd-bar $t-1000 var(--ease-expo) $t-750 both;
+}
+@keyframes pd-bar {
+  from {
+    transform: translateX(calc(var(--sb-dir) * 100%));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mj-pod.p1 .pd-sh::after {
+    display: none;
+  }
+}

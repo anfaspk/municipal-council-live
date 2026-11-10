@@ -1,0 +1,64 @@
+html.mj-fit:is(.mj-fluid, .mj-zoomed) {
+  height: auto;
+  overflow: auto;
+}
+html.mj-fit:is(.mj-fluid, .mj-zoomed) body {
+  height: auto;
+}
+html.mj-fit.mj-fluid body {
+  overflow: auto;
+  overflow-x: hidden;
+}
+html.mj-fit.mj-zoomed body {
+  overflow: visible;
+}
+.mj-cc.mj-fluid {
+  width: auto;
+  height: auto;
+  overflow: visible;
+}
+.mj-fluid .cc-grid {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: none;
+  height: auto;
+}
+.mj-fluid .cc-grid > * {
+  grid-column: 1 / -1;
+}
+.mj-fluid .cc-bar {
+  flex-wrap: wrap;
+  border-radius: var(--radius-panel);
+}
+.mj-fluid .cc-bar .ttl {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.mj-fluid .cc-bar .ttl .t {
+  white-space: normal;
+}
+.mj-fluid .cc-hero {
+  min-height: 300px;
+}
+.mj-fluid .cc-kpis {
+  height: 300px;
+}
+.mj-fluid .cc-pulse {
+  height: 300px;
+}
+.mj-fluid .cc-map {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 560px 520px auto;
+}
+.mj-fluid .cc-age {
+  flex: none;
+  height: 560px;
+}
+@media (width < 700px) {
+  .mj-fluid .hero-in {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+}
+.mj-fluid .cc-ticker {
+  height: 34px;
+}

@@ -1,0 +1,28 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/shell');
+  @include meta.load-css('styles/banner');
+  @include meta.load-css('styles/panel');
+  @include meta.load-css('styles/governorate');
+  @include meta.load-css('styles/wilayat');
+  @include meta.load-css('styles/race');
+  @include meta.load-css('styles/stage');
+  @include meta.load-css('styles/stage-hud');
+  @include meta.load-css('styles/national');
+  @include meta.load-css('styles/stage-fx');
+  @include meta.load-css('styles/stage-national');
+  @include meta.load-css('styles/motion');
+  @include meta.load-css('styles/portraits');
+  @include meta.load-css('styles/results-region');
+  @include meta.load-css('styles/results-wilayat');
+  @include meta.load-css('styles/results-winners');
+  @include meta.load-css('styles/race-board');
+  @include meta.load-css('styles/toss');
+  @include meta.load-css('styles/forced-colors');
+}
+@layer states {
+  @include meta.load-css('styles/states');
+}

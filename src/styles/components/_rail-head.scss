@@ -1,0 +1,103 @@
+@use '../scales' as *;
+
+.cc-rail-heading {
+  font-weight: 600;
+  color: var(--gold-ink);
+  letter-spacing: 0;
+  font-size: $fs-22;
+  line-height: 1.5;
+  text-transform: none;
+}
+.map-rail .mr-head {
+  min-height: 40px;
+}
+.mr-head.mr-in > * {
+  animation: mr-in $t-600 var(--ease-expo) backwards;
+}
+.mr-head.mr-in.mr-rev > * {
+  animation-name: mr-in-rev;
+}
+@keyframes mr-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes mr-in-rev {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.mr-sub {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-7;
+  flex-wrap: wrap;
+}
+.mr-sub .mj-sw {
+  width: 10px;
+  height: 10px;
+  border-radius: $r-3;
+}
+.mr-sub .mj-chip.sample {
+  height: 17px;
+  font-size: $fs-9;
+  padding: 0 $sp-6;
+}
+.mr-tools {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  min-height: 30px;
+}
+.mr-back {
+  height: 28px;
+  padding-block: 0;
+  padding-inline: $sp-12 $sp-8;
+  font-size: $fs-12;
+  gap: $sp-4;
+  margin-inline-start: auto;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(calc(var(--rdir, 1) * 10px)) scale(0.94);
+  transition:
+    opacity $t-350 var(--ease-std),
+    transform $t-500 var(--ease-spring),
+    background var(--dur-micro),
+    box-shadow var(--dur-micro);
+  --rdir: -1;
+}
+.mr-back svg {
+  width: 16px;
+  height: 16px;
+  transform: scaleX(-1);
+}
+.mj-cc.cc-drill .mr-back {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  transition-delay: $t-250, $t-250, 0s, 0s;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 55%, transparent);
+}
+.mj-cc.cc-drill .mr-back:hover {
+  background: color-mix(in srgb, var(--gold) 16%, var(--glass-fill));
+  color: var(--gold-ink);
+}
+.mj-cc.cc-drill .map-rail .mj-row.is-pinned {
+  box-shadow:
+    inset 0 0 0 1.5px var(--gold),
+    0 0 18px -8px var(--gold-glow);
+  background: color-mix(in srgb, var(--gold) 8%, transparent);
+}
+.rl-ttl {
+  font-size: $fs-18;
+}

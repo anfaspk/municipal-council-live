@@ -1,0 +1,67 @@
+@let at = toAt();
+@if (gov(); as g) {
+  <div class="tv-int-sub" style="--i:1">{{ 'intSub' | t: { n: g.rows.length } }} · {{ 'intVotes' | t: votes(g.votes) }}@if (at) {<span class="tv-int-win">{{ 'intUntil' | t: { t: at } }}</span>}</div>
+  <div class="tv-ih" style="--i:3">
+    @if (featured(); as f) {
+        <div class="tv-ih-in" #hero>
+          <div class="tv-ih-top">
+            <span class="tv-ih-pin" aria-hidden="true"><svg [mjIcon]="'ballot'"></svg></span>
+            <div class="tv-ih-w"><span class="mj-micro">{{ 'intWil' | t }}</span><b>{{ f.name }}</b></div>
+            @if (f.wil; as w) {
+              <span class="mj-chip">{{ 'resSeatsN' | t: { n: f.seats } }}</span>
+              <span class="mj-chip">{{ 'resCands' | t: { n: w.candCount } }}</span>
+            }
+          </div>
+          @if (!f.wil) {
+            <div class="tv-ih-wait"><i></i>{{ 'intWait' | t }}</div>
+          } @else {
+            @if (f.leaders.length) {
+              <div class="tv-seats" [class.dense]="f.leaders.length === 3" [class.slim]="f.leaders.length > 3" [style.--c]="seatCols(f.leaders.length)">
+                @for (c of f.leaders; track c.id; let k = $index) {
+                  <div class="tv-seat" [style.--k]="k < 8 ? k : 8">
+                    <span class="tv-iav md" mjRaceAv [cand]="c"></span>
+                    <div class="who">
+                      <span class="tv-ih-badge"><svg [mjIcon]="'crown'"></svg>{{ (f.seats > 1 ? 'resSeat' : 'intLead') | t: { n: k + 1 } }}</span>
+                      <b class="nm">{{ c.name }}</b>
+                    </div>
+                    <div class="pc"><b class="mj-num">{{ c.v | fmt }}</b><span class="mj-num">{{ c.vP | share }}</span></div>
+                  </div>
+                }
+              </div>
+            } @else {
+              <div class="tv-ih-wait">{{ (f.tied ? 'intTied' : 'intNoVotes') | t }}</div>
+            }
+            <div class="tv-ih-head">
+              <span class="mj-micro">{{ (f.leaders.length ? 'intRest' : 'intAll') | t }}</span>
+              @if (f.tied) {
+                <span class="tv-ih-line">{{ 'intTied' | t }}</span>
+              } @else if (f.margin !== null) {
+                <span class="tv-ih-line">{{ 'intLine' | t: votes(f.margin) }}</span>
+              }
+            </div>
+            <div class="tv-ih-rest" tabindex="0" [attr.aria-label]="(f.leaders.length ? 'intRest' : 'intAll') | t" [class.cols]="f.rest.length > 14" [class.lined]="f.line !== null" [style.--rows]="rows(f)" [style.--line]="f.line">
+              @for (b of f.rest; track b.c.id; let k = $index) {
+                <div class="tv-ir" [style.--k]="k < 12 ? k : 12">
+                  <span class="p mj-num">{{ b.c.pos }}</span>
+                  <span class="tv-iav sm" mjRaceAv [cand]="b.c"></span>
+                  <span class="tv-ir-t" [style.--w]="b.w"><i></i><span class="nm">{{ b.c.name }}</span></span>
+                  <span class="v mj-num">{{ b.c.v | fmt }}</span>
+                  <b class="pc mj-num">{{ b.c.vP | share }}</b>
+                </div>
+              }
+              @if (f.other; as o) {
+                <div class="tv-ir other" [style.--k]="f.rest.length < 12 ? f.rest.length : 12">
+                  <span class="p"></span>
+                  <span class="tv-iav sm none"></span>
+                  <span class="tv-ir-t" [style.--w]="o.w"><i></i><span class="nm">{{ 'intOther' | t }}</span></span>
+                  <span class="v mj-num">{{ o.v | fmt }}</span>
+                  <b class="pc mj-num">{{ o.vP | share }}</b>
+                </div>
+              }
+            </div>
+          }
+        </div>
+    }
+  </div>
+}
+<div class="tv-int-note" style="--i:5">{{ 'intNote' | t }}</div>

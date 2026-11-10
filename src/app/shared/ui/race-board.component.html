@@ -1,0 +1,62 @@
+@let r = race(); @let g = grid(); @let duel = duelNext();
+@if (r.seatCards.length) {
+  <div class="rs-two" [class.one]="r.seatCards.length === 1 && !duel" [class.many]="r.seatCards.length > 2">
+    @for (c of r.seatCards; track c.id; let k = $index) {
+      <div class="rs-hero rs-seat" [class.tight]="c.tight" [attr.data-id]="c.id" [style.--d]="0.08 + k * 0.09">
+        <div class="rs-por"><span class="rs-av lg" mjRaceAv [cand]="c"></span><span class="rs-coin mj-num" aria-hidden="true">{{ c.seat }}</span></div>
+        <div class="rs-hi">
+          <span class="rs-lead"><svg [mjIcon]="'crown'"></svg>{{ 'resSeat' | t: { n: c.seat } }}@if (drawWins().includes(c.id)) {<em class="rs-drawn">{{ 'resDrawn' | t }}</em>}</span>
+          <b class="rs-nm">{{ c.name }}</b>
+          <div class="rs-v"><b class="mj-num rs-val" [mjCountUp]="c.v" [countDuration]="1400" countGroup="rs"></b>@if (c.share !== null) {<span class="rs-sh mj-num"><bdi>{{ c.share | share }}</bdi></span>}</div>
+          @if (c.mo; as m) {
+            <div class="rs-mo">
+              <svg class="rs-spark" viewBox="0 0 168 40" width="168" height="40" aria-hidden="true"><path class="a" [attr.d]="m.spark.area"/><path class="l" [attr.d]="m.spark.line"/><circle [attr.cx]="m.spark.head.cx" [attr.cy]="m.spark.head.cy" r="3.5"/></svg>
+              <span class="up mj-num">▲ +{{ m.n | fmt }}</span><span class="mn">{{ 'resLastMin' | t: { n: m.min } }}</span>
+            </div>
+          }
+        </div>
+        <div class="rs-bar"><i [style.--w]="c.w"></i></div>
+        <i class="rs-sheen" aria-hidden="true"></i>
+      </div>
+    }
+    @if (duel; as nx) {
+      <div class="rs-hero rs-chal" [class.tight]="nx.tight" [attr.data-id]="nx.id" style="--d:.17">
+        <div class="rs-por"><span class="rs-av lg" mjRaceAv [cand]="nx"></span><span class="rs-coin mj-num" aria-hidden="true">{{ nx.rank }}</span></div>
+        <div class="rs-hi">
+          <span class="rs-lead">{{ (nx.tight ? 'resTight' : 'resNextIn') | t }}</span>
+          <b class="rs-nm">{{ nx.name }}</b>
+          <div class="rs-v"><b class="mj-num rs-val" [mjCountUp]="nx.v" [countDuration]="1400" countGroup="rs"></b>@if (nx.share !== null) {<span class="rs-sh mj-num"><bdi>{{ nx.share | share }}</bdi></span>}</div>
+          <span class="rs-need mj-num">{{ 'resNeed' | t: { n: (nx.need | fmt), s: r.seats } }}@if (nx.trend; as tr) {<em [class]="tr.closing ? 'in' : 'out'">{{ (tr.closing ? 'resClosing' : 'resWidening') | t: { n: (tr.n | fmt), m: tr.min } }}</em>}</span>
+        </div>
+        <div class="rs-bar"><i [style.--w]="nx.w"></i></div>
+        <i class="rs-sheen" aria-hidden="true"></i>
+      </div>
+    }
+  </div>
+}
+@if (!duel && !nextInGrid() && r.next; as nx) {
+  <div class="rs-nx" [class.tight]="nx.tight" [attr.data-id]="nx.id" style="--d:.24">
+    <span class="rs-cut">{{ 'resLine' | t }}</span>
+    <span class="mj-micro rs-nxl">{{ (nx.tight ? 'resTight' : 'resNextIn') | t }}</span>
+    <span class="rs-rk mj-num">{{ nx.rank }}</span>
+    <span class="rs-av sm" mjRaceAv [cand]="nx"></span>
+    <span class="rs-nm">{{ nx.name }}</span>
+    <div class="rs-ten" [title]="'resOfSeat' | t: { p: (nx.ofSeat | pct), s: r.seats }"><i [style.--w]="nx.ofSeatW"></i><span class="mj-num"><bdi>{{ nx.ofSeat | pct }}</bdi>&ngsp;{{ 'resOfSeatS' | t: { s: r.seats } }}</span></div>
+    <b class="mj-num rs-val">{{ nx.v | fmt }}</b>
+    <span class="rs-need mj-num">{{ 'resNeed' | t: { n: (nx.need | fmt), s: r.seats } }}@if (nx.trend; as tr) {<em [class]="tr.closing ? 'in' : 'out'">{{ (tr.closing ? 'resClosing' : 'resWidening') | t: { n: (tr.n | fmt), m: tr.min } }}</em>}</span>
+  </div>
+}
+@if (gridCandidates().length || extraGridRows()) {
+  <div class="rs-rest" style="--d:.3">
+    @if (!r.seatCards.length) {<span class="mj-micro rs-all">{{ 'resAll' | t }}</span>}
+    <div class="rs-grid" [style.--rows]="g.rows" [style.--cols]="g.cols">
+      @for (c of gridCandidates(); track c.id) {
+        <div class="rs-row" [attr.data-id]="c.id" [style.--d]="c.d" [style.--w]="c.w">
+          <i class="rs-fill"></i><span class="rs-rk mj-num">{{ c.rank }}</span><span class="rs-av sm" mjRaceAv [cand]="c"></span>
+          <span class="rs-nm">{{ c.name }}</span><span class="rs-fig"><b class="mj-num rs-val">{{ c.v | fmt }}</b>@if (c.share !== null) {<span class="rs-sh mj-num"><bdi>{{ c.share | share }}</bdi></span>}</span>
+        </div>
+      }
+      <ng-content />
+    </div>
+  </div>
+}

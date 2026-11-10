@@ -1,0 +1,21 @@
+
+@mixin arabic {
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+}
+
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin cover {
+  position: absolute;
+  inset: 0;
+}
+
+@mixin glass-fill {
+  background: var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}

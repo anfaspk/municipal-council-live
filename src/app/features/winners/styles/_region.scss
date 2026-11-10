@@ -1,0 +1,363 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.wn-reg {
+  @include mixins.cover;
+}
+
+.wn-rail {
+  --wn-row: 66px;
+  --wn-row-gap: 4px;
+  position: absolute;
+  inset-block: calc(var(--wn-bar) + #{$sp-20}) var(--wn-foot);
+  inset-inline-start: var(--tv-action-x);
+  z-index: $z-3;
+  display: flex;
+  flex-direction: column;
+  width: var(--wn-rail-w);
+  padding: $sp-24 $sp-24 $sp-20;
+  border-radius: $r-24;
+  background:
+    radial-gradient(
+      120% 50% at 50% 0%,
+      color-mix(in srgb, var(--gold) 9%, transparent),
+      transparent
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--wn-sky-1) 92%, transparent),
+      color-mix(in srgb, var(--wn-sky-0) 94%, transparent)
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--gold) 38%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--gold-pale) 20%, transparent),
+    0 30px 80px -40px var(--shadow-ink-80);
+  animation: wn-rail-in $t-900 var(--ease-expo) both;
+}
+.wn-rail-head {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-12;
+}
+.wn-lbl {
+  font: 600 #{$fs-16}/ 1 var(--font-sans);
+  color: var(--ink-muted);
+}
+.wn-gsel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $sp-12;
+  height: 68px;
+  padding-inline: $sp-20;
+  border-radius: $r-16;
+  background: color-mix(in srgb, var(--wn-sky-0) 60%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 50%, transparent);
+  transition: box-shadow $t-300 var(--ease-std);
+}
+.wn-gsel:hover,
+.wn-gsel:focus-within {
+  box-shadow:
+    inset 0 0 0 1.5px var(--gold),
+    0 0 24px color-mix(in srgb, var(--gold) 25%, transparent);
+}
+.wn-gsel:has(select:focus-visible) {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.wn-rail-gov {
+  flex: 1;
+  min-width: 0;
+  @include mixins.ellipsis;
+  font: 700 #{$fs-30}/ 1.3 var(--font-sans);
+  background: linear-gradient(180deg, var(--ink), var(--wn-g1) 60%, var(--wn-g2));
+  background-clip: text;
+  color: transparent;
+}
+.wn-gsel-i {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  color: var(--gold);
+  transform: rotate(90deg);
+}
+.wn-gsel select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  font: inherit;
+}
+.wn-gsel select:focus-visible {
+  outline: none;
+}
+.wn-gsel option {
+  background: var(--wn-sky-0);
+  color: var(--ink);
+}
+
+.wn-tally {
+  display: flex;
+  align-items: center;
+  gap: $sp-12;
+  margin-block-start: $sp-6;
+}
+.wn-tally-t b {
+  font: 700 #{$fs-30}/ 1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  color: var(--wn-gold-text);
+}
+.wn-tally-t small {
+  font-size: $fs-20;
+  color: var(--ink-muted);
+}
+.wn-tally-l {
+  flex: 1;
+  font: 600 #{$fs-17}/ 1.3 var(--font-sans);
+  color: var(--ink);
+}
+.wn-tally-i {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: $radius-round;
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--ink-muted) 40%, transparent);
+}
+.wn-tally-i i {
+  width: 9px;
+  height: 9px;
+  border-radius: $radius-round;
+  background: var(--stat-pending);
+}
+.wn-tally:not(.full) .wn-tally-i {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--stat-pending) 70%, transparent);
+}
+.wn-tally.full .wn-tally-i {
+  background: var(--declared);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--declared) 45%, transparent);
+  color: var(--wn-sky-0);
+  animation: wn-pop $t-600 var(--ease-spring) $t-600 both;
+}
+.wn-tally-i .wn-chk {
+  width: 20px;
+  height: 20px;
+}
+.wn-tally-bar {
+  position: relative;
+  height: 8px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.wn-tally-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--gold-ink), var(--gold), var(--gold-glow));
+  transform: scaleX(var(--w));
+  transform-origin: 100% 50%;
+  transition: transform $t-1200 var(--ease-expo);
+  animation: wn-grow $t-1500 var(--ease-expo) $t-500 both;
+}
+.wn-tally.full + .wn-tally-bar::after {
+  background: var(--declared);
+  box-shadow: 0 0 14px var(--declared);
+}
+
+.wn-find {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  height: 50px;
+  margin-block-start: $sp-8;
+  padding-inline: $sp-16;
+  border-radius: $r-14;
+  background: color-mix(in srgb, var(--wn-sky-0) 55%, transparent);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  color: var(--ink-muted);
+  transition: box-shadow $t-300 var(--ease-std);
+}
+.wn-find:focus-within {
+  box-shadow: inset 0 0 0 1.5px var(--gold);
+}
+.wn-find svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+}
+.wn-find input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 500 #{$fs-17}/ 1 var(--font-sans);
+}
+.wn-find input:focus-visible {
+  outline: none;
+}
+.wn-find input::placeholder {
+  color: var(--ink-muted);
+}
+
+.wn-wils {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--wn-row-gap);
+  min-height: 0;
+  margin: $sp-14 0 0;
+  padding: 0;
+  overflow: auto;
+  list-style: none;
+  scrollbar-width: thin;
+}
+.wn-wils::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: var(--wn-row);
+  border-radius: $r-14;
+  background: linear-gradient(
+    180deg,
+    var(--gold-pale),
+    color-mix(in srgb, var(--gold-glow) 70%, var(--gold-pale))
+  );
+  box-shadow:
+    inset 0 0 0 1px var(--gold),
+    0 8px 30px -8px color-mix(in srgb, var(--gold) 70%, transparent);
+  transform: translate3d(0, calc(var(--hl, 0) * (var(--wn-row) + var(--wn-row-gap))), 0);
+  transition: transform $t-600 var(--ease-spring);
+  opacity: 0;
+}
+.wn-wils.hl::before {
+  opacity: 1;
+}
+.wn-wils li {
+  position: relative;
+  flex: none;
+  animation: wn-rise $t-600 var(--ease-expo) both;
+  animation-delay: calc(var(--i) * #{$t-40} + #{$t-250});
+}
+.wn-wil {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $sp-14;
+  width: 100%;
+  height: var(--wn-row);
+  padding: 0 $sp-14;
+  border: 0;
+  border-radius: $r-14;
+  background: transparent;
+  box-shadow: inset 0 -1px 0 var(--hairline);
+  color: var(--ink);
+  text-align: start;
+  cursor: pointer;
+  transition:
+    background-color $t-300 var(--ease-std),
+    color $t-300 var(--ease-std);
+}
+.wn-wil:hover:not(.on) {
+  background: var(--glass-fill);
+}
+.wn-wil.on {
+  box-shadow: none;
+  color: var(--on-gold);
+}
+.wn-wil.on::before {
+  content: '';
+  position: absolute;
+  inset-block: $sp-10;
+  inset-inline-start: -$sp-6;
+  width: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--gold);
+  box-shadow: 0 0 12px var(--gold);
+  animation: wn-fade $t-400 var(--ease-std) $t-200 both;
+}
+.wn-wil-dot {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: $radius-round;
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--stat-pending) 70%, transparent);
+}
+.wn-wil-dot i {
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-round;
+  background: var(--stat-pending);
+}
+.wn-wil.done .wn-wil-dot {
+  background: var(--declared);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--declared) 40%, transparent);
+  color: var(--wn-sky-0);
+}
+.wn-wil-dot .wn-chk {
+  width: 18px;
+  height: 18px;
+}
+.wn-wil-t {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: $sp-4;
+  min-width: 0;
+}
+.wn-wil-t b {
+  @include mixins.ellipsis;
+  font: 700 #{$fs-21}/ 1.25 var(--font-sans);
+}
+.wn-wil-t small {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  font: 500 #{$fs-14}/ 1.2 var(--font-sans);
+  color: var(--ink-muted);
+}
+.wn-wil.on .wn-wil-t small {
+  color: var(--wn-plate-muted);
+}
+.wn-wil-t small i {
+  width: 3px;
+  height: 3px;
+  border-radius: $radius-round;
+  background: currentcolor;
+}
+.wn-wil-go {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--ink-muted);
+  transition: transform $t-300 var(--ease-spring);
+}
+.wn-wil:hover .wn-wil-go {
+  transform: translate3d(-4px, 0, 0);
+}
+.wn-wil.on .wn-wil-go {
+  color: var(--on-gold);
+}
+.wn-none {
+  margin: $sp-24 0 0;
+  font: 500 #{$fs-17}/ 1.4 var(--font-sans);
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+@keyframes wn-rail-in {
+  from {
+    transform: translate3d(40px, 0, 0);
+    opacity: 0;
+  }
+}

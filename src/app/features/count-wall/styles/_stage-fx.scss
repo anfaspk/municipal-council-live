@@ -1,0 +1,84 @@
+@use '../../../../styles/scales' as *;
+
+.cx-scan {
+  opacity: 0;
+}
+.cx-geo .k0 {
+  stop-color: var(--data-cyan);
+  stop-opacity: 0;
+}
+.cx-geo .k1 {
+  stop-color: var(--data-cyan);
+  stop-opacity: 0.1;
+}
+.cx-geo .k2 {
+  stop-color: var(--data-cyan);
+  stop-opacity: 0.38;
+}
+.cx-geo .k3 {
+  stop-color: var(--gold-glow);
+  stop-opacity: 0.85;
+}
+.m-gov.landed .cx-scan {
+  animation: cx-scan $t-5000 cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes cx-scan {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(var(--tr));
+    opacity: 0;
+  }
+}
+.cx-comet {
+  fill: none;
+  stroke: var(--gold-glow);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 0.035 0.965;
+  opacity: 0;
+  transition: opacity $t-600;
+}
+.cx-comet.c2 {
+  stroke: var(--data-cyan);
+  stroke-dasharray: 0.022 0.978;
+}
+.m-gov.landed .cx-comet {
+  opacity: 0.95;
+  animation: cx-orbit $t-8000 linear infinite;
+}
+.m-gov.landed .cx-comet.c2 {
+  animation-duration: $t-11000;
+  animation-direction: reverse;
+}
+@keyframes cx-orbit {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.flying .cx-scan,
+.flying .cx-comet {
+  animation: none;
+  opacity: 0;
+}
+.mj-tv.tva-still .cx-scan,
+.mj-tv.tva-still .cx-comet {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-scan,
+  .cx-comet {
+    opacity: 0;
+  }
+}

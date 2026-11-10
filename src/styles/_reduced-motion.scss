@@ -1,0 +1,18 @@
+@use 'scales' as *;
+
+@media (prefers-reduced-motion: reduce) {
+  .mj-root *,
+  .mj-root *::before,
+  .mj-root *::after {
+    animation-duration: $t-1;
+    animation-iteration-count: 1;
+    transition-duration: $t-120 !important;
+  }
+  .mj-tv .tv-prog i.on::after {
+    animation-duration: var(--dur, 16s);
+  }
+  .mj-ticker .track,
+  .mj-horizon .drift {
+    animation: none;
+  }
+}

@@ -1,0 +1,205 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.wn-root {
+  @include mixins.cover;
+  @include mixins.arabic;
+  --wn-bar: 124px;
+  --wn-top: 150px;
+  --wn-rail-w: 452px;
+  --wn-rail-gap: 28px;
+  --wn-foot: var(--tv-title-y);
+  --wn-burst: 640px;
+  --wn-beams: 1500px;
+  --wn-g1: var(--gold-pale);
+  --wn-g2: var(--gold);
+  --wn-g3: var(--gold-ink);
+  --wn-gold-text: var(--gold-glow);
+  z-index: $z-screen;
+  display: none;
+  overflow: clip;
+  background: var(--wn-sky-0);
+  color: var(--ink);
+}
+.wn-root.on {
+  display: block;
+}
+.wn-root:focus {
+  outline: none;
+}
+
+.wn-top {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: $z-5;
+  display: flex;
+  align-items: center;
+  gap: $sp-16;
+  height: var(--wn-bar);
+  padding-inline: var(--tv-title-x) var(--tv-action-x);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--wn-sky-0) 92%, transparent),
+    color-mix(in srgb, var(--wn-sky-0) 40%, transparent)
+  );
+  animation: wn-drop $t-900 var(--ease-expo) both;
+}
+.wn-top::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--gold) 55%, transparent) 30%,
+    color-mix(in srgb, var(--gold-pale) 70%, transparent) 50%,
+    color-mix(in srgb, var(--gold) 55%, transparent) 70%,
+    transparent
+  );
+}
+.wn-logo {
+  height: 60px;
+  width: auto;
+}
+.wn-ttl {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+  padding-inline-start: $sp-20;
+  border-inline-start: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+}
+.wn-ttl b {
+  font: 700 #{$fs-32}/ 1.15 var(--font-sans);
+  background: linear-gradient(180deg, var(--ink), var(--wn-g1) 55%, var(--wn-g2));
+  background-clip: text;
+  color: transparent;
+}
+.wn-ttl span {
+  font: 500 #{$fs-16}/ 20px var(--font-sans);
+  color: var(--ink-muted);
+}
+.wn-gap {
+  flex: 1;
+}
+.wn-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-10;
+  height: 44px;
+  padding-inline: $sp-18;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--wn-sky-1) 70%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 45%, transparent);
+  font: 600 #{$fs-16}/ 1 var(--font-sans);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.wn-chip i {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: $radius-round;
+  background: var(--declared);
+  box-shadow: 0 0 10px var(--declared);
+}
+.wn-chip i::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: $radius-round;
+  box-shadow: 0 0 0 2px var(--declared);
+  animation: wn-ping $t-2400 var(--ease-std) infinite;
+}
+.wn-chip.stale i {
+  background: var(--stat-pending);
+  box-shadow: 0 0 10px var(--stat-pending);
+}
+.wn-chip.stale i::after {
+  box-shadow: 0 0 0 2px var(--stat-pending);
+}
+.wn-top .mj-btn {
+  height: 48px;
+  background: color-mix(in srgb, var(--wn-sky-1) 70%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 45%, transparent);
+  transition:
+    transform var(--dur-ui) var(--ease-spring),
+    background-color var(--dur-micro),
+    box-shadow var(--dur-micro);
+}
+.wn-top .mj-btn:hover {
+  background: color-mix(in srgb, var(--gold) 16%, var(--wn-sky-1));
+  box-shadow: inset 0 0 0 1px var(--gold);
+}
+.wn-top .wn-back {
+  gap: $sp-10;
+  padding-inline: $sp-20;
+  font-size: $fs-17;
+}
+.wn-top .wn-back svg {
+  color: var(--gold);
+}
+.wn-top .wn-fs,
+.wn-top .wn-x {
+  width: 48px;
+}
+
+.wn-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-12;
+  margin: 0;
+  font: 600 #{$fs-18}/ 1 var(--font-sans);
+  color: var(--gold-ink);
+}
+.wn-kicker i {
+  width: 36px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.wn-kicker i:last-child {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.wn-chk {
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@keyframes wn-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+@keyframes wn-rise {
+  from {
+    transform: translate3d(0, 28px, 0);
+    opacity: 0;
+  }
+}
+@keyframes wn-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes wn-drop {
+  from {
+    transform: translate3d(0, -24px, 0);
+    opacity: 0;
+  }
+}
+@keyframes wn-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  70%,
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}

@@ -1,0 +1,70 @@
+@use '../../../../styles/scales' as *;
+
+.cx-sealed {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-14;
+  padding: $sp-36 $sp-28;
+  border-radius: $r-20;
+  text-align: center;
+  color: var(--stat-pending);
+  background: color-mix(in srgb, var(--stat-pending) 7%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--stat-pending) 35%, transparent);
+}
+.cx-sealed b {
+  font: 700 #{$fs-34}/ 1.2 var(--font-sans);
+}
+.cx-sealed > span {
+  color: var(--ink-muted);
+  font-size: $fs-18;
+}
+.cx-sealed b,
+.cx-sealed > span {
+  font-family: var(--font-arabic);
+}
+.cx-sealed.aw {
+  color: var(--ink-muted);
+  background:
+    radial-gradient(
+      50% 60% at 50% 40%,
+      color-mix(in srgb, var(--data-cyan) 7%, transparent),
+      transparent 70%
+    ),
+    color-mix(in srgb, var(--ink-muted) 5%, transparent);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+.cx-race .cx-nota {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.cx-nota .rs-fill {
+  background: color-mix(in srgb, var(--ink-muted) 60%, transparent);
+  box-shadow: none;
+}
+.cx-nota .rs-av.sm {
+  color: var(--ink-muted);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.cx-nota .rs-av svg {
+  width: 48%;
+  height: 48%;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cx-nota .rs-nm {
+  color: var(--ink-muted);
+}
+.cx-lock.bot span {
+  bottom: auto;
+  top: calc(100% + $sp-10);
+}
+.cx-lock.mute span {
+  display: none;
+}

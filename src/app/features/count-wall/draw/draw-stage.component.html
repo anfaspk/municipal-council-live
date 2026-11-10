@@ -1,0 +1,66 @@
+@let it = item(); @let ph = phase(); @let at = lit(); @let w = won();
+<header class="cxd-hd">
+  <div class="cxd-where">
+    <span class="cxd-gov">{{ it.gov }}</span>
+    <h2 class="ctv-name cxd-name">{{ it.name }}</h2>
+  </div>
+  <div class="cxd-tags">
+    <span class="cxd-tag">{{ text('cxdSeats', { n: it.seats }) }}</span>
+    <span class="cxd-state" [class.drawn]="it.state === 'drawn'"><svg [mjIcon]="it.state === 'drawn' ? 'crown' : 'people'"></svg>{{ text(it.state === 'drawn' ? 'cxDrawn' : 'cxdOpen') }}</span>
+  </div>
+</header>
+<p class="cxd-line"><b>{{ line() }}</b>@if (tiedLine(); as t) {<span>{{ t }}</span>}</p>
+@if (steps().length) {
+  <ol class="cxd-steps" [attr.aria-label]="text('cxdSteps')">
+    @for (s of steps(); track s.k; let i = $index) {
+      <li class="cxd-step" [class.done]="s.done" [class.on]="s.on" [attr.aria-current]="s.on ? 'step' : null"><i class="mj-num">{{ i + 1 }}</i><span>{{ text(s.k) }}</span></li>
+    }
+  </ol>
+}
+<div class="cxd-arena">
+  <div class="cxd-mid" aria-hidden="true">
+    <span class="cxd-coin"><i [style.--turn]="turns()"></i></span>
+    <b class="cxd-st">{{ status() }}</b>
+  </div>
+  @if (it.tied.length) {
+    <ul class="cxd-cands" [class.many]="it.tied.length > 3">
+      @for (c of it.tied; track c.id; let i = $index) {
+        @let s = w.get(c.id);
+        <li class="cxd-c" [class.lit]="at === i" [class.won]="s !== undefined" [class.lost]="ph === 'end' && s === undefined" [style.--d]="i">
+          <span class="cxd-av" mjRaceAv [cand]="c"></span>
+          <b class="cxd-nm">{{ c.name }}</b>
+          <span class="cxd-v">{{ text('cxdVotes', { v: number(c.v) }) }}</span>
+          @if (it.state === 'open') {
+            @if (it.acks.get(c.id); as a) {
+              <em class="cxd-ack" [class.ok]="a === 'accepted'" [class.off]="a === 'expired'"><i></i>{{ text(ackText[a]) }}</em>
+            }
+          }
+          @if (s !== undefined) {
+            <em class="cxd-won"><svg mjIcon="crown"></svg>{{ text('cxTossWon', { n: s }) }}</em>
+          }
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="cxd-wait">{{ text('cxdLoading') }}</p>
+  }
+  <p class="cxd-say" aria-live="polite">{{ say() }}</p>
+</div>
+<footer class="cxd-ft">
+  @if (it.held.length) {
+    <div class="cxd-held">
+      <span>{{ text('cxdHeld') }}</span>
+      @for (h of it.held; track h.cand.id) {
+        <b><span class="cxd-hav" mjRaceAv [cand]="h.cand"></span>{{ h.cand.name }}<em>{{ text('cxdSeatN', { n: h.seat }) }}</em></b>
+      }
+    </div>
+  }
+  @if (it.draw) {
+    <button type="button" class="mj-btn cxd-go" (click)="ask.emit()"><svg mjIcon="play"></svg><span>{{ text(seen() ? 'cxdAgain' : 'cxTossGo') }}</span></button>
+  } @else if (it.state === 'open') {
+    @if (progress(); as p) {
+      <p class="cxd-prog">{{ p }}</p>
+    }
+    <p class="cxd-note">{{ text('cxdOpenNote') }}</p>
+  }
+</footer>

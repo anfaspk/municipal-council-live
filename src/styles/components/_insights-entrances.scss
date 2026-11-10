@@ -1,0 +1,64 @@
+@use '../scales' as *;
+
+.ix-build .ix-gsum {
+  animation: ix-up $t-700 var(--ease-expo) $t-250 both;
+}
+.ix-build .ix-gmeter i {
+  animation: ix-grow $t-1000 var(--ease-expo) $t-450 both;
+}
+.ix-build .ix-gb i {
+  animation: ix-grow $t-900 var(--ease-expo) both;
+  animation-delay: calc(var(--i) * $t-40 + $t-420);
+}
+.ix-build .ix-wref {
+  animation: ix-fade $t-600 var(--ease-std) $t-250 both;
+}
+.ix-build .ix-wr {
+  animation: ix-slide $t-700 var(--ease-expo) both;
+  animation-delay: calc(var(--i) * $t-70 + $t-300);
+}
+.ix-build .ix-wf {
+  animation: ix-grow $t-1100 var(--ease-expo) both;
+  animation-delay: calc(var(--i) * $t-70 + $t-440);
+}
+@keyframes ix-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes ix-pop {
+  from {
+    opacity: 0;
+    transform: translateX(var(--sx, -50%)) translateY(6px) scale(0.9);
+  }
+}
+@keyframes ix-slide {
+  from {
+    opacity: 0;
+    transform: translateX(calc(16px * var(--dirx, 1)));
+  }
+}
+@keyframes ix-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes ix-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-tt,
+  .ix-gb i,
+  .ix-gmeter i,
+  .ix-wf,
+  .ix-wk,
+  .ix-tab,
+  .ix-ink,
+  .ix-drop {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,195 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.dt-page .dt-top {
+  grid-area: 1 / 1 / 2 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $sp-8;
+  min-width: 0;
+  padding: $sp-18 $sp-28;
+  padding-inline-end: calc(58.33% + #{$sp-20});
+  overflow: hidden;
+  animation: dt-in $t-500 var(--ease-expo) both;
+}
+.dt-page .dt-top-glow {
+  position: absolute;
+  inset: 0;
+  z-index: $z-under;
+  background:
+    radial-gradient(
+      420px 260px at 52% 50%,
+      color-mix(in srgb, var(--band, var(--gold)) 22%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      600px 220px at 100% 0%,
+      color-mix(in srgb, var(--gold) 10%, transparent),
+      transparent 70%
+    );
+  pointer-events: none;
+}
+.dt-page .dt-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $sp-2;
+  min-width: 0;
+  margin-inline-start: -$sp-8;
+}
+.dt-page .dt-cr {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  padding: $sp-4 $sp-8;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--ink-muted);
+  font: 500 #{$fs-13}/ 1.2 var(--font-sans);
+  @include mixins.arabic;
+  cursor: pointer;
+}
+.dt-page button.dt-cr:hover {
+  color: var(--ink);
+  background: var(--glass-fill);
+}
+.dt-page .dt-cr.on {
+  color: var(--gold-ink);
+  font-weight: 600;
+  cursor: default;
+}
+.dt-page .dt-cr svg {
+  width: 14px;
+  height: 14px;
+}
+.dt-page .dt-sep {
+  display: inline-flex;
+  color: var(--ink-muted);
+  opacity: 0.6;
+}
+.dt-page .dt-sep svg {
+  width: 12px;
+  height: 12px;
+  transform: scaleX(-1);
+}
+.dt-page .dt-ttl {
+  display: flex;
+  align-items: baseline;
+  gap: $sp-12;
+  min-width: 0;
+  max-width: 100%;
+}
+.dt-page .dt-kind {
+  flex: none;
+  font-size: $fs-30;
+  line-height: 1.2;
+}
+.dt-page .dt-title {
+  margin: 0;
+  color: var(--ink);
+  font: 800 #{$fs-52}/ 1.15 var(--font-sans);
+  @include mixins.arabic;
+  @include mixins.ellipsis;
+}
+.dt-page .dt-title:focus {
+  outline: none;
+}
+.dt-page .dt-sum {
+  margin: 0;
+  color: var(--ink-muted);
+  font: 500 #{$fs-17}/ 1.4 var(--font-sans);
+  @include mixins.arabic;
+}
+.dt-page .dt-sum b {
+  color: var(--ink);
+  font-weight: 700;
+}
+.dt-page .dt-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $sp-8 $sp-10;
+}
+.dt-page .dt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  height: 30px;
+  padding: 0 $sp-12;
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  color: var(--ink);
+  font: 600 #{$fs-13}/ 1 var(--font-sans);
+  @include mixins.arabic;
+  white-space: nowrap;
+}
+.dt-page .dt-band {
+  color: var(--band-ink);
+  background: color-mix(in srgb, var(--band) 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--band) 50%, transparent);
+}
+.dt-page .dt-upd {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  font-size: $fs-12;
+}
+.dt-page .dt-live {
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-round;
+  background: var(--live);
+  box-shadow: var(--glow-live);
+}
+.dt-page .dt-nav {
+  display: flex;
+  gap: $sp-8;
+  margin-block-start: auto;
+}
+.dt-page .dt-navb {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  max-width: 220px;
+  height: 32px;
+  padding: 0 $sp-12;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  color: var(--ink);
+  font: 600 #{$fs-13}/ 1 var(--font-sans);
+  @include mixins.arabic;
+  cursor: pointer;
+  transition: background-color $t-200 var(--ease-std);
+}
+.dt-page .dt-navb span {
+  @include mixins.ellipsis;
+}
+.dt-page .dt-navb svg {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  color: var(--gold-ink);
+}
+.dt-page .dt-navb:hover:not(:disabled) {
+  background: var(--glass-fill-strong);
+}
+.dt-page .dt-navb:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.dt-page .dt-close {
+  position: absolute;
+  inset-block-start: $sp-16;
+  inset-inline-end: $sp-16;
+  z-index: $z-4;
+}
+.dt-page :is(.dt-cr, .dt-navb, .dt-close):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}

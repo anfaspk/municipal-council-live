@@ -1,0 +1,95 @@
+@let gov = governorate(); @let s = summary(); @let resultView = result();
+@if (results()) {
+  <h2 class="ctv-name cx-nm" style="--i: 1">{{ gov.ar }}</h2>
+  <div class="cx-gs four" style="--i: 2">
+    <div class="cx-st g">
+      <span>{{ text('cxSeatsFilled') }}</span
+      ><b class="mj-num"
+        >{{ resultView.filled }}<small> / {{ resultView.seats }}</small></b
+      ><em>{{ text('cxDeclN', { d: s.decl, t: s.n }) }}</em>
+    </div>
+    <div class="cx-st c">
+      <span>{{ text('cCounted') }}</span
+      ><b class="mj-num">{{ number(s.counted) }}</b
+      ><em class="mj-num">{{ percent(s.p) }}</em>
+    </div>
+    <div class="cx-st f">
+      <span>{{ text('cxCastBallots') }}</span
+      ><b class="mj-num">{{ number(s.cast) }}</b
+      ><em class="mj-num">{{ text('cxGenderSplit', { m: number(gender().m), f: number(gender().f) }) }}</em>
+    </div>
+    <div class="cx-st l">
+      <span>{{ text('cxClosest') }}</span><!-- prettier-ignore -->
+      <b class="mj-num">@if (resultView.closest; as close) {<bdi dir="ltr">+{{ number(close.gap) }}</bdi>} @else {—}</b
+      ><em>{{ resultView.closest?.w?.n || '' }}</em>
+    </div>
+  </div>
+  <div
+    class="cxr-grid"
+    [class.many]="s.n > 6"
+    [class.few]="s.n <= 4"
+    style="--i: 3"
+    [style.--rows]="ceil(s.n / 2)"
+  >
+    @for (card of cards(); track card.w.id) {
+      @let w = card.w;
+      <button
+        type="button"
+        [class]="'cxr-c ' + w.st"
+        [attr.data-w]="w.n"
+        [style.--j]="$index"
+        [title]="w.n"
+      >
+        <span class="hd"
+          ><i class="sg"><svg countStar></svg></i><b>{{ w.n }}</b
+          ><em>{{ text(w.st === 'decl' ? 'cxWinner' : status[w.st]) }}</em
+          ><span class="go"><svg mjIcon="next"></svg></span></span
+        ><span class="ws">
+          @for (candidate of card.race.top; track candidate.id; let k = $index) {
+            <span class="cxr-w" [style.--k]="k"
+              ><span class="pv"
+                ><i [countAvatar]="candidate"></i><i class="sn mj-num">{{ k + 1 }}</i></span
+              ><span class="tx"
+                ><b>{{ candidate.ar }}</b
+                ><span class="vl"
+                  ><b class="mj-num">{{ number(candidate.v) }}</b
+                  ><em class="mj-num">{{ share(candidate.vP) }}</em></span
+                ><i class="bar"
+                  ><s
+                    [style.width]="
+                      decimal((candidate.v / (card.race.sorted[0]?.v || 1)) * 100) + '%'
+                    "
+                  ></s></i></span
+            ></span>
+          }
+        </span>
+      </button>
+    }
+  </div>
+} @else {
+  <h2 class="ctv-name cx-nm" style="--i: 1">{{ gov.ar }}</h2>
+  <div
+    class="cx-gs four"
+    style="--i: 2"
+    countStats
+    [counted]="s.counted"
+    [cast]="s.cast"
+    [gender]="gender()"
+    prefix="g"
+  ></div>
+  <div class="cx-tbl" style="--i: 3">
+    <div class="cx-th" [first]="text('cxWil')" [last]="text('cxLeading')"></div>
+    <div class="cx-wl" [class.many]="gov.wil.length > 7">
+      @for (w of gov.wil; track w.id) {
+        <button
+          type="button"
+          [class]="'cx-w ' + w.st"
+          [attr.data-w]="w.n"
+          [style.--j]="$index"
+          [title]="w.n"
+          [countWilayatRow]="w"
+        ></button>
+      }
+    </div>
+  </div>
+}

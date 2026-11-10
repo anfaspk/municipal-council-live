@@ -1,0 +1,135 @@
+@use '../mixins';
+@use '../scales' as *;
+
+.map-rail {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-12;
+  min-height: 0;
+}
+.map-rail .mj-seg {
+  align-self: flex-start;
+}
+.map-rail .mj-seg button {
+  height: 24px;
+  padding: 0 $sp-10;
+  font-size: $fs-11;
+}
+.map-rail .rail-list {
+  flex: 1;
+  min-height: 0;
+}
+.map-rail .mj-rail {
+  display: grid;
+  grid-template-rows: repeat(11, minmax(0, 1fr));
+  gap: $sp-2;
+  height: 100%;
+}
+.map-rail .mj-row {
+  grid-template-columns: 20px 12px minmax(0, 1fr) 74px 50px;
+  gap: $sp-8;
+  padding: 0 $sp-8;
+  align-content: center;
+  border-radius: $r-10;
+}
+.map-rail .mj-row .mb {
+  display: none;
+}
+.map-rail .mj-row .nm b,
+.map-bands .bl b {
+  font-size: $fs-13;
+}
+.map-rail .mj-crown {
+  top: 50%;
+  margin-top: -$sp-18;
+}
+.map-wrap {
+  position: relative;
+  min-height: 0;
+}
+.map-wrap .map-stage {
+  @include mixins.cover;
+}
+.map-bands {
+  position: absolute;
+  bottom: 0;
+  inset-inline-start: 0;
+  z-index: $z-6;
+  width: 206px;
+  padding: $sp-12 $sp-14;
+  border-radius: var(--radius-tile);
+}
+.map-bands > * {
+  position: relative;
+  z-index: $z-3;
+}
+.map-bands .bandlist {
+  display: grid;
+  gap: $sp-7;
+  margin-top: $sp-8;
+}
+.map-bands .bl {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  gap: $sp-8;
+  align-items: center;
+  font-size: $fs-11-5;
+}
+.map-bands .bl .mj-sw {
+  width: 12px;
+  height: 12px;
+}
+
+.cc-age {
+  flex: 1;
+  min-height: 0;
+  padding: $sp-16 $sp-18;
+  display: flex;
+  flex-direction: column;
+}
+.cc-age .mj-panel-head {
+  margin-bottom: $sp-10;
+}
+
+.mj-micro .gold {
+  color: var(--gold-ink);
+}
+.ix-sel {
+  position: relative;
+  display: inline-flex;
+}
+.ix-sel select {
+  appearance: none;
+  height: 30px;
+  border: 0;
+  border-radius: $r-10;
+  background: var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--glass-stroke);
+  color: var(--ink);
+  font: 500 $fs-12 var(--font-sans);
+  cursor: pointer;
+  max-width: 150px;
+  padding-block: 0;
+  padding-inline: $sp-12 $sp-30;
+  font-family: var(--font-arabic);
+}
+.ix-sel select:hover {
+  background: var(--glass-fill-strong);
+}
+.ix-sel select option {
+  background: var(--canvas-1);
+  color: var(--ink);
+}
+.ix-sel::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: $sp-12;
+  top: $sp-11;
+  width: 6px;
+  height: 6px;
+  border: solid var(--ink-muted);
+  border-block-width: 0 1.5px;
+  border-inline-width: 1.5px 0;
+  transform: rotate(45deg);
+  pointer-events: none;
+}

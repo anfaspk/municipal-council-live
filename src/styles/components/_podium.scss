@@ -1,0 +1,121 @@
+@use '../scales' as *;
+
+.mj-podium {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-end;
+  height: 100%;
+}
+.mj-pods {
+  display: flex;
+  align-items: flex-end;
+  gap: $sp-10;
+  flex: none;
+}
+.mj-pod {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 112px;
+  text-align: center;
+}
+.mj-pod .who {
+  margin-bottom: $sp-6;
+}
+.mj-pod .who b {
+  display: block;
+  font: 600 #{$fs-15}/ 20px var(--font-arabic);
+  white-space: nowrap;
+}
+.mj-pod .who span {
+  font-size: $fs-11;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.mj-pod .blk {
+  position: relative;
+  width: 100%;
+  border-radius: $r-10 $r-10 $r-4 $r-4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: $sp-8;
+  color: var(--on-gold);
+}
+.mj-pod .blk::before {
+  content: '';
+  position: absolute;
+  inset-inline: $sp-8;
+  top: -$sp-9;
+  height: 9px;
+  background: inherit;
+  filter: brightness(1.25);
+  clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%);
+  border-radius: $r-3 $r-3 0 0;
+}
+.mj-pod .blk .r {
+  font: 800 #{$fs-22}/ 1 var(--font-display);
+}
+.mj-pod .blk .s {
+  font: 700 #{$fs-13}/ 1.2 var(--font-display);
+  margin-top: $sp-4;
+}
+.mj-pod.p1 .blk {
+  background: linear-gradient(180deg, var(--gold-glow), var(--gold));
+  box-shadow: var(--glow-gold);
+}
+.mj-pod.p2 .blk {
+  background: linear-gradient(180deg, var(--medal-silver-hi), var(--medal-silver));
+}
+.mj-pod.p3 .blk {
+  background: linear-gradient(180deg, var(--medal-bronze-hi), var(--medal-bronze));
+}
+.mj-runner {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+  flex: 1;
+  min-width: 0;
+}
+.mj-runner .rr {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) 54px;
+  gap: $sp-10;
+  align-items: center;
+  padding: $sp-6 $sp-12;
+  border-radius: $r-12;
+  background: var(--glass-fill);
+}
+.mj-runner .rr .k {
+  font: 700 $fs-13 var(--font-display);
+  color: var(--ink-muted);
+}
+.mj-runner .rr .n b {
+  display: block;
+  font: 600 #{$fs-14}/ 18px var(--font-arabic);
+}
+.mj-runner .rr .n span {
+  font-size: $fs-11;
+  color: var(--ink-muted);
+}
+.mj-runner .rr .sb {
+  height: 4px;
+  border-radius: $r-4;
+  background: var(--hairline);
+  margin-top: $sp-4;
+  overflow: hidden;
+}
+.mj-runner .rr .sb i {
+  display: block;
+  height: 100%;
+  background: var(--gold);
+  border-radius: $r-4;
+  width: 100%;
+  transform: translateX(calc(var(--sb-dir) * (100% - min(var(--w, 0%), 100%))));
+  --sb-dir: 1;
+}
+.mj-runner .rr .v {
+  font: 700 $fs-14 var(--font-display);
+  text-align: end;
+}

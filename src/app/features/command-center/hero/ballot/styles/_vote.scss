@@ -1,0 +1,280 @@
+@use '../../../../../../styles/scales' as *;
+
+.mv-opt {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: $sp-4;
+  inline-size: 100%;
+  box-sizing: border-box;
+  block-size: 12px;
+  padding-inline: $sp-5;
+  border-radius: $r-5;
+  background: color-mix(in srgb, var(--mv-white) 5%, transparent);
+  box-shadow: inset 0 0 0 0.5px color-mix(in srgb, var(--mv-white) 20%, transparent);
+
+  i {
+    position: relative;
+    flex: none;
+    inline-size: 5px;
+    block-size: 5px;
+    border-radius: $radius-round;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mv-mut) 85%, transparent);
+  }
+  b {
+    flex: 1;
+    block-size: 2px;
+    border-radius: $r-2;
+    background: color-mix(in srgb, var(--mv-mut) 40%, transparent);
+  }
+  &:nth-of-type(2) b {
+    margin-inline-end: $sp-10;
+  }
+  &:nth-of-type(3) b {
+    margin-inline-end: $sp-5;
+  }
+  &::after,
+  i::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+  }
+  &::after {
+    z-index: $z-under;
+    background: color-mix(in srgb, var(--mv-c) 18%, transparent);
+    box-shadow: inset 0 0 0 0.8px var(--mv-c);
+  }
+  i::after {
+    background: var(--mv-c);
+    box-shadow: inset 0 0 0 1.5px var(--mv-white);
+  }
+}
+.mv-sw {
+  --mv-sw: 50px;
+
+  position: relative;
+  margin-block-start: auto;
+  inline-size: 100%;
+  block-size: 16px;
+  flex: none;
+  border-radius: $r-9;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--mv-white) 6%, transparent);
+  box-shadow: inset 0 0 0 0.6px color-mix(in srgb, var(--mv-white) 22%, transparent);
+}
+.mv-swf {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--mv-c) 22%, transparent),
+    color-mix(in srgb, var(--mv-c) 55%, transparent)
+  );
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+.mv-swl {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding-inline-start: $sp-12;
+  font-weight: 600;
+  font-size: $fs-6;
+  white-space: nowrap;
+  color: var(--mv-mut);
+}
+.mv-thumb {
+  position: absolute;
+  top: $sp-2;
+  inset-inline-start: $sp-2;
+  inline-size: 12px;
+  block-size: 12px;
+  border-radius: $radius-round;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, var(--mv-gold-hi), var(--mv-gold));
+  box-shadow: 0 0 8px color-mix(in srgb, var(--mv-gold-glow) 60%, transparent);
+  transition:
+    background $t-500 var(--mv-e),
+    box-shadow $t-500 var(--mv-e);
+
+  svg {
+    inline-size: 8px;
+    block-size: 8px;
+    fill: none;
+    stroke: var(--mv-on-gold);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transform: scaleX(-1);
+  }
+  .mv-chev,
+  .mv-tck {
+    transition: opacity $t-400;
+  }
+  .mv-tck {
+    opacity: 0;
+    stroke: var(--mv-on-green);
+  }
+}
+.mv-swipe.run {
+  .mv-opt.on::after,
+  .mv-opt.on i::after {
+    animation: mv-in $t-500 var(--mv-e) $t-500 forwards;
+  }
+  .mv-thumb {
+    animation: mv-thumb $t-1000 var(--mv-io) $t-1000 forwards;
+  }
+  .mv-swf {
+    animation: mv-fill $t-1000 var(--mv-io) $t-1000 forwards;
+  }
+  .mv-swl {
+    animation: mv-out $t-500 var(--mv-e) $t-1100 forwards;
+  }
+}
+.mv-swipe.ok .mv-thumb {
+  background: var(--mv-c);
+  box-shadow: 0 0 10px var(--mv-c);
+
+  .mv-chev {
+    opacity: 0;
+  }
+  .mv-tck {
+    opacity: 1;
+  }
+}
+
+.mv-up {
+  position: relative;
+  inline-size: 40px;
+  block-size: 40px;
+  margin-block-start: $sp-2;
+
+  svg {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: visible;
+  }
+  .mv-ur1 {
+    fill: none;
+    stroke: color-mix(in srgb, var(--mv-cy) 55%, transparent);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+    transform-origin: 20px 20px;
+  }
+  .mv-ur2 {
+    fill: color-mix(in srgb, var(--mv-c) 12%, transparent);
+    stroke: var(--mv-c);
+    stroke-width: 1.4;
+    transition: filter $t-600;
+  }
+  .mv-ua,
+  .mv-uk {
+    fill: none;
+    stroke: var(--mv-c);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .mv-ua {
+    stroke-width: 1.8;
+    transform-box: fill-box;
+    transition: opacity $t-400;
+  }
+  .mv-uk {
+    stroke-width: 2.2;
+    opacity: 0;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition:
+      stroke-dashoffset $t-700 var(--mv-e),
+      opacity $t-300;
+  }
+}
+.mv-bar {
+  inline-size: 80%;
+  block-size: 2.5px;
+  flex: none;
+  border-radius: $r-2;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--mv-white) 14%, transparent);
+
+  i {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    background: var(--mv-c);
+    box-shadow: 0 0 4px var(--mv-c);
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+}
+.mv-send {
+  .mv-cap {
+    margin-block-start: $sp-2;
+    min-block-size: 10px;
+  }
+  .mv-lock {
+    margin-block-start: auto;
+  }
+}
+.mv-send.run {
+  .mv-ur1 {
+    animation: mv-spin $t-5000 linear infinite;
+  }
+  .mv-ua {
+    animation: mv-ua $t-1000 ease-in-out infinite;
+  }
+  .mv-bar i {
+    animation: mv-fill $t-2500 var(--mv-io) $t-100 forwards;
+  }
+}
+.mv-send.ok {
+  .mv-ur1,
+  .mv-ua {
+    animation: none;
+  }
+  .mv-ua {
+    opacity: 0;
+  }
+  .mv-uk {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  .mv-ur2 {
+    filter: drop-shadow(0 0 4px var(--mv-c));
+  }
+  .mv-bar i {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes mv-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes mv-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes mv-thumb {
+  to {
+    transform: translateX(calc(var(--mv-sw) * -1));
+  }
+}
+@keyframes mv-fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes mv-ua {
+  50% {
+    transform: translateY(-2px);
+  }
+}

@@ -1,0 +1,39 @@
+@let w = wil(); @let r = race(); @let d = draw();
+@if (w.st !== 'await' && (tie() || d)) {
+  <div class="cx-tie" [class.drawn]="!!d">
+    <svg class="cx-tie-ic" [mjIcon]="d ? 'crown' : 'people'"></svg>
+    <span class="cx-tie-t"><b>{{ d ? text('cxDrawn') : tie() }}</b>
+      @if (d) {
+        <span>{{ text('cxDrawnSub') }}</span>
+      }
+    </span>
+    <button type="button" class="mj-btn cx-toss-go" [attr.aria-label]="text('cxTossGoL', { w: w.ar })" (click)="play()">
+      <svg mjIcon="play"></svg><span>{{ text('cxTossGo') }}</span>
+    </button>
+  </div>
+}
+@if (w.st === 'await') {
+  <div class="cx-sealed aw">
+    <svg countStatus="await" [size]="56"></svg><b>{{ text('cAwaitBox') }}</b
+    ><span>{{ text('cAwaitBoxSub') }}</span>
+  </div>
+} @else if (r) {
+  <div class="cx-race" [mjRaceBoard]="r" [extraGridRows]="1" [drawWins]="drawWins()">
+    <div class="rs-row cx-nota" role="group" [attr.aria-label]="text('cxNotaL', { v: number(w.nota || 0) })" [style.--w]="min(1, (w.nota || 0) / top())">
+      <i class="rs-fill"></i>
+      <span class="rs-rk mj-num" aria-hidden="true">—</span>
+      <span class="rs-av sm"
+        ><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+          <rect x="3.5" y="2.5" width="13" height="15" rx="2.5" />
+          <path d="M7.5 7.5l5 5M12.5 7.5l-5 5" /></svg
+      ></span>
+      <span class="rs-nm">{{ text('cxNota') }}</span>
+      <span class="rs-fig"><b class="mj-num rs-val">{{ number(w.nota || 0) }}</b>@if (w.notaP !== null) {<span class="rs-sh mj-num"><bdi>{{ share(w.notaP) }}</bdi></span>}</span>
+    </div>
+  </div>
+} @else {
+  <div class="cx-sealed aw">
+    <svg countStatus="count" [size]="56"></svg><b>{{ text('noCands') }}</b
+    ><span>{{ text('noCandsSub') }}</span>
+  </div>
+}

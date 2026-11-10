@@ -1,0 +1,254 @@
+@use 'sass:list';
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.ctv-root {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: $z-screen;
+}
+
+
+.ct-st {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  height: 22px;
+  padding: 0 $sp-9;
+  border-radius: var(--radius-pill);
+  font: 600 #{$fs-11}/ 1 var(--font-sans);
+  white-space: nowrap;
+  font-family: var(--font-arabic);
+  font-size: $fs-12;
+}
+$chips: (
+  decl: var(--declared) 14%,
+  pend: var(--stat-pending) 15%,
+  count: var(--data-cyan) 14%,
+  await: var(--ink-muted) 12%,
+);
+@each $st, $chip in $chips {
+  $c: list.nth($chip, 1);
+  .ct-st.#{$st} {
+    background: color-mix(in srgb, #{$c} #{list.nth($chip, 2)}, transparent);
+    color: #{$c};
+  }
+}
+
+
+@keyframes ctc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ct-tv .ctv-glow {
+  @include mixins.cover;
+  pointer-events: none;
+  background: radial-gradient(
+    46% 60% at 26% 54%,
+    color-mix(in srgb, var(--data-cyan) 10%, transparent),
+    transparent 70%
+  );
+}
+.ct-root .mj-lattice {
+  mask-image:
+    linear-gradient(90deg, transparent 900px, #000 964px),
+    linear-gradient(180deg, #000 110px, transparent 150px, transparent 930px, #000 975px),
+    linear-gradient(
+      color-mix(in srgb, #000 40%, transparent),
+      color-mix(in srgb, #000 40%, transparent)
+    );
+}
+
+.ctv-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-10;
+  height: 38px;
+  padding: 0 $sp-18;
+  border-radius: var(--radius-pill);
+  background: var(--gold);
+  color: var(--on-gold);
+  font: 700 #{$fs-14}/ 1 var(--font-sans);
+  box-shadow: var(--glow-gold);
+  @include mixins.arabic;
+  font-size: $fs-15;
+}
+.ctv-pill i {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-round;
+  background: var(--on-gold);
+}
+.ctv-pill i::after {
+  content: '';
+  position: absolute;
+  inset: -$sp-5;
+  border-radius: $radius-round;
+  border: 1.5px solid var(--on-gold);
+  animation: mj-ping $t-1800 var(--ease-std) infinite;
+}
+.ctv-pill.done {
+  background: var(--declared);
+}
+.ctv-live {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-9;
+  height: 38px;
+  padding: 0 $sp-16;
+  border-radius: var(--radius-pill);
+  font: 700 #{$fs-14}/ 1 var(--font-sans);
+  color: var(--live);
+  background: color-mix(in srgb, var(--live) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--live) 40%, transparent);
+  @include mixins.arabic;
+}
+.ctv-live i {
+  width: 9px;
+  height: 9px;
+  border-radius: $radius-round;
+  background: var(--live);
+  box-shadow: var(--glow-live);
+  animation: tv-blink $t-1600 ease-in-out infinite;
+}
+.ctv-live.stale {
+  color: var(--ink-muted);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.ctv-live.stale i {
+  background: var(--ink-muted);
+  box-shadow: none;
+  animation: none;
+}
+
+.ctv-name {
+  margin: 0;
+  font: 700 #{$fs-76}/ 1.02 var(--font-sans);
+  @include mixins.arabic;
+}
+
+.ctv-name .alt {
+  font: 600 0.62em/1 var(--font-arabic);
+  color: var(--gold-ink);
+  margin-inline-start: $sp-16;
+  font-family: var(--font-sans);
+  letter-spacing: -0.02em;
+  font-size: 0.55em;
+}
+
+.tva-opts .tva-sep {
+  flex: none;
+  width: 1px;
+  height: 24px;
+  background: var(--hairline);
+}
+.tva-opts .tva-theme,
+.tva-opts .tva-full {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background: none;
+  box-shadow: none;
+}
+.tva-opts .tva-theme:hover,
+.tva-opts .tva-full:hover {
+  background: var(--glass-fill);
+}
+.tva-opts .tva-theme svg,
+.tva-opts .tva-full svg {
+  width: 18px;
+  height: 18px;
+}
+
+.cx {
+  @include mixins.cover;
+  z-index: $z-2;
+  display: flex;
+  flex-direction: column;
+  padding: var(--tv-title-y) var(--tv-title-x) var(--tv-foot);
+}
+.cx-top .tv-top {
+  gap: $sp-18;
+}
+.cx-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 860px) minmax(0, 1fr);
+  gap: $sp-36;
+  padding: $sp-20 0 $sp-30;
+}
+.cx-next {
+  opacity: 1;
+}
+
+.mj-tv .tv-dash {
+  position: absolute;
+  top: calc(var(--tv-title-y) + $sp-14);
+  inset-inline-end: calc(var(--tv-action-x) + $sp-36 + var(--space-2));
+  z-index: $z-5;
+  opacity: 0.8;
+  transition: opacity $t-450 var(--ease-std);
+}
+.mj-tv .tv-dash:hover,
+.mj-tv .tv-dash:focus-visible {
+  opacity: 1;
+}
+.mj-tv.tva-idle .tv-dash {
+  opacity: 0;
+}
+.ct-tv .tva-state {
+  inset-inline-end: 38%;
+}
+
+.tv-prog i.cur {
+  height: 6px;
+}
+.tv-prog i.cur::after {
+  transform: none;
+  box-shadow: 0 0 10px var(--gold);
+}
+
+.cxg {
+  flex: none;
+  overflow: visible;
+}
+.cxg .o {
+  fill: none;
+  stroke: var(--ink-muted);
+  stroke-width: var(--sw);
+}
+.cxg .t {
+  fill: none;
+  stroke: color-mix(in srgb, var(--data-cyan) 30%, transparent);
+  stroke-width: var(--sw);
+}
+.cxg .a {
+  fill: none;
+  stroke: var(--data-cyan);
+  stroke-width: var(--sw);
+  stroke-linecap: round;
+}
+.cxg .d {
+  fill: var(--declared);
+}
+.cxg.pend .d {
+  fill: var(--stat-pending);
+}
+.cxg path:not(.a) {
+  fill: none;
+  stroke: var(--canvas-0);
+  stroke-width: var(--sw);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cx-chip.pend {
+  color: var(--stat-pending);
+}

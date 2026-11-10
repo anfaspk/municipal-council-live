@@ -1,0 +1,25 @@
+@media (forced-colors: active) {
+  .cxd-row,
+  .cxd-c,
+  .cxd-list,
+  .cxd-stage {
+    border: 1px solid canvastext;
+  }
+  .cxd-row.on,
+  .cxd-c.lit,
+  .cxd-c.won {
+    outline: 3px solid highlight;
+    outline-offset: -3px;
+  }
+  .cxd-coin i {
+    forced-color-adjust: none;
+  }
+  .cxd-step.on {
+    outline: 2px solid highlight;
+  }
+  .cxd-won,
+  .cxd-ack,
+  .cxd-go {
+    border: 1px solid canvastext;
+  }
+}

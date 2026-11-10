@@ -1,0 +1,92 @@
+@let s = slide();
+<div class="tv-top">
+  <img class="tv-logo night" [src]="logoDark" alt="">
+  <img class="tv-logo day" [src]="logo" alt="">
+  <div class="tv-ttl"><b>{{ 'title' | t }}</b><span>{{ 'liveAcross' | t }}</span></div>
+  @if (phase() === 'soon') {
+    <span class="tv-int-cd" [title]="'intSoonL' | t: { t: fromAt() ?? '' }"><svg [mjIcon]="'ballot'"></svg>{{ 'intSoon' | t }}<b class="mj-num">{{ left() }}</b></span>
+  } @else if (phase() === 'open' && left(); as l) {
+    <span class="tv-int-cd on"><i></i>{{ 'intTab' | t }} · {{ 'intEnds' | t }}<b class="mj-num">{{ l }}</b></span>
+  }
+  @if (staleAt(); as at) {<span class="tv-live stale"><i></i>{{ 'figuresAt' | t: { t: at } }}</span>} @else {<span class="tv-live"><i></i>{{ (s.done ? 'declared' : 'live') | t }}</span>}
+  <span class="tv-count mj-num">{{ s.count }}</span>
+</div>
+@if (nat(); as n) {
+  <div class="tv-body">
+    <div class="tv-info">
+      <div class="tv-kick" style="--i:0"><span class="tv-tag">{{ 'national' | t }}</span><span class="tv-band">{{ n.band | t }}</span></div>
+      <h2 class="tv-name tv-nm-nat" style="--i:1">{{ 'natTurnout' | t }}</h2>
+      <div class="tv-sub" style="--i:2">{{ 'allGovs' | t }} · {{ 'election' | t }}</div>
+      <div class="tv-big" style="--i:3"><span class="tv-pct mj-num" [mjCountUp]="n.turnout" countFormat="pct" [countDuration]="2000" countGroup="show"></span></div>
+      <div class="tv-in" style="--i:4"><div class="tv-stats" appTvStats [voted]="n.voted" [reg]="n.reg"></div></div>
+      <div class="tv-cards" style="--i:5">
+        <div class="tv-card tv-gen" appTvGender [gender]="n.gender"></div>
+        <div class="tv-card">
+          <div class="tv-ch"><span class="mj-micro">{{ 'podium' | t }}</span></div>
+          <div class="tv-leads">
+            @for (l of n.leaders; track l.rank) {
+              <div class="tv-lead" [class]="l.band"><span class="mj-num r">{{ l.rank }}</span><span class="nm">{{ l.name }}</span><b class="mj-num">{{ l.t | pct }}</b></div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tv-map">
+      <div class="tv-hud"></div>
+      <div class="tv-phase" aria-hidden="true"><i class="th"></i><span class="a">{{ 'tvOman' | t }}</span><span class="b">{{ 'tvGovs' | t }} · {{ s.govCount }}</span></div>
+      <svg class="tv-shape tv-oman" appTvCountryMap [map]="n.map"></svg>
+      <div class="tv-key">
+        @for (b of bands; track b) {<span [class]="b"><i></i>{{ b | t }}</span>}
+      </div>
+    </div>
+  </div>
+} @else if (gov(); as g) {
+  <div class="tv-body" [class.tabbed]="inter()">
+    @if (inter()) {
+      <div class="tv-int-bar">
+        <div class="tv-tabs" role="tablist" [attr.aria-label]="'intTabs' | t">
+          <button type="button" role="tab" class="tv-tab tv-tab-int" [attr.aria-selected]="tab() === 'inter'" (click)="choose('inter')"><i></i>{{ 'intTab' | t }}</button>
+          <button type="button" role="tab" class="tv-tab" [attr.aria-selected]="tab() === 'info'" (click)="choose('info')">{{ 'infoTab' | t }}</button>
+        </div>
+        @if (tab() === 'inter') {<h2 class="tv-int-gov">{{ g.name }}</h2>}
+      </div>
+      <div appTvInterim [slide]="s" [class.off]="tab() !== 'inter'" role="tabpanel"></div>
+    }
+    <div class="tv-info" [class.off]="inter() && tab() !== 'info'">
+      <div class="tv-kick" style="--i:0"><span class="tv-tag">{{ 'of11' | t: { n: g.rank } }}</span><span class="tv-band">{{ g.band | t }}</span></div>
+      <h2 class="tv-name" style="--i:1">{{ g.name }}</h2>
+      <div class="tv-sub" style="--i:2">{{ 'wilCount' | t: { n: g.wilCount } }} · {{ 'share' | t }} <b class="mj-num">{{ g.share | pct }}</b></div>
+      <div class="tv-big" style="--i:3">
+        <span class="tv-pct mj-num" [mjCountUp]="g.turnout" countFormat="pct" [countDuration]="2000" countGroup="show"></span>
+      </div>
+      <div class="tv-in" style="--i:4"><div class="tv-stats" appTvStats [voted]="g.voted" [reg]="g.reg"></div></div>
+      <div class="tv-stage" style="--i:5">
+        <div class="tv-s-a">
+          <div class="tv-cards">
+            <div class="tv-card tv-gen" appTvGender [gender]="g.gender"></div>
+            <div class="tv-card">
+              <div class="tv-ch"><span class="mj-micro">{{ 'overTime' | t }}</span><span class="mj-chip sm">{{ 'live' | t }}</span></div>
+              <svg class="tv-curve" appTvCurve [curve]="g.curve"></svg>
+              <div class="tv-hrs mj-num" dir="ltr">
+                @for (h of g.hours; track $index) {<span>{{ h }}</span>}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tv-s-b tv-card tv-wt" appTvWilayatTable [rows]="g.wilayat"></div>
+      </div>
+    </div>
+    <div class="tv-map">
+      <div class="tv-hud"></div>
+      <div class="tv-phase" aria-hidden="true"><i class="th"></i><span class="a">{{ 'tvGov' | t }}</span><span class="b">{{ 'tvWil' | t }} · {{ g.wilayat.length }}</span></div>
+      <svg class="tv-shape" appTvRegionShape [shape]="g.region"></svg>
+      @if (g.region.columns; as c) {<svg class="tv-shape tv-lbl" appTvRegionColumns [columns]="c"></svg>}
+      <div class="tv-locw"><svg class="tv-loc" appTvLocator [locator]="g.locator"></svg><span class="mj-micro">{{ 'rank' | t }} <b class="mj-num">{{ g.rank }}/{{ s.govCount }}</b></span></div>
+      <div class="tv-coord mj-num" dir="ltr">{{ g.reg | fmt }} {{ registeredLower }}</div>
+      <div class="tv-wkey"><span>{{ 'labelKey' | t }}</span></div>
+    </div>
+  </div>
+}
+@if (s.next; as next) {
+  <div class="tv-next"><span class="mj-micro">{{ 'tvNext' | t }}</span><b>{{ next.name ?? ('natTurnout' | t) }}</b><i></i></div>
+}

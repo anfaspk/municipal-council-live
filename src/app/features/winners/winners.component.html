@@ -1,0 +1,16 @@
+<div class="wn-sky" wnSky [deep]="!!gov()"></div>
+<header class="wn-top">
+  <img class="wn-logo" [src]="logoDark" [alt]="'elecLogoAlt' | wnT">
+  <div class="wn-ttl"><b>{{ 'wnTitle' | wnT }}</b><span>{{ 'wnSub' | wnT }}</span></div>
+  <span class="wn-gap"></span>
+  @if (stamp(); as s) {<span class="wn-chip" [class.stale]="store.stale()"><i></i>{{ s }}</span>}
+  @if (gov()) {<button type="button" class="mj-btn wn-back" (click)="back()"><svg [mjIcon]="'layers'"></svg><span>{{ 'wnBack' | wnT }}</span></button>}
+  <button type="button" class="mj-btn icon wn-fs" [attr.aria-label]="'wnFull' | wnT" [title]="'wnFull' | wnT" (click)="fullscreen()"><svg [mjIcon]="'expand'"></svg></button>
+  <button type="button" class="mj-btn icon wn-x" [attr.aria-label]="'close' | wnT" [title]="('close' | wnT) + ' (Esc)'" (click)="close()"><svg [mjIcon]="'close'"></svg></button>
+</header>
+@if (card(); as c) {
+  <div class="wn-reg" wnRegion [card]="c" [govs]="cards()" (pickGov)="pick($event, false)" [data]="store.data()" [load]="store.load()" [cur]="cur()" [lap]="lap()" [step]="step" [walking]="walking()" [paused]="paused()" (choose)="choose($event)" (move)="move($event)" (playPause)="togglePlay()" (hover)="hover.set($event)" (retry)="store.retry()"></div>
+} @else {
+  <div class="wn-pick" wnPicker [cards]="cards()" [wait]="!counting()" [sums]="store.summaries()" (pick)="pick($event)"></div>
+}
+<p class="mj-sr" aria-live="polite">{{ say() }}</p>

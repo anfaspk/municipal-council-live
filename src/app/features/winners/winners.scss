@@ -1,0 +1,20 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/shell');
+  @include meta.load-css('styles/sky');
+  @include meta.load-css('styles/pick');
+  @include meta.load-css('styles/region');
+  @include meta.load-css('styles/walk');
+  @include meta.load-css('styles/scene');
+  @include meta.load-css('styles/stage');
+  @include meta.load-css('styles/msg');
+  @include meta.load-css('styles/card');
+  @include meta.load-css('styles/plate');
+  @include meta.load-css('styles/forced-colors');
+}
+@layer states {
+  @include meta.load-css('styles/states');
+}

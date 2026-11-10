@@ -1,0 +1,144 @@
+@use '../../../../../styles/mixins';
+@use '../../../../../styles/scales' as *;
+
+.ct-tv .ctv-glow.cxd-glow {
+  background: radial-gradient(
+    50% 62% at 42% 54%,
+    color-mix(in srgb, var(--gold) 11%, transparent),
+    transparent 70%
+  );
+}
+
+.cxd-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 540px) minmax(0, 1fr);
+  gap: $sp-36;
+  padding: $sp-20 0 $sp-30;
+}
+
+.cxd-list {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-16;
+  min-height: 0;
+  padding: $sp-22 $sp-20;
+  border-radius: var(--radius-panel);
+  background: color-mix(in srgb, var(--canvas-1) 72%, transparent);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  animation: cx-rise $t-950 cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.cxd-lh {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $sp-10;
+  padding-inline: $sp-4;
+  font-family: var(--font-arabic);
+}
+.cxd-lh > b {
+  flex: 1;
+  font-size: $fs-26;
+}
+.cxd-sum {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  height: 30px;
+  padding: 0 $sp-12;
+  border-radius: var(--radius-pill);
+  font-size: $fs-14;
+  color: var(--stat-pending);
+  background: color-mix(in srgb, var(--stat-pending) 10%, transparent);
+}
+.cxd-sum.drawn {
+  color: var(--gold-ink);
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+}
+.cxd-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-round;
+  background: currentcolor;
+}
+.cxd-rows {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+  margin: 0;
+  padding: $sp-2;
+  overflow-y: auto;
+  list-style: none;
+}
+.cxd-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: $sp-14;
+  width: 100%;
+  padding: $sp-14 $sp-16;
+  border: 0;
+  border-radius: $r-16;
+  color: var(--ink);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    background $t-300 var(--ease-std),
+    box-shadow $t-300 var(--ease-std);
+}
+.cxd-row:hover {
+  background: var(--glass-fill);
+}
+.cxd-row.on {
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+.cxd-ri {
+  width: 24px;
+  height: 24px;
+  color: var(--stat-pending);
+}
+.cxd-row.drawn .cxd-ri {
+  color: var(--gold-ink);
+}
+.cxd-rn {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+  min-width: 0;
+  font-family: var(--font-arabic);
+}
+.cxd-rn b {
+  font-size: $fs-21;
+  @include mixins.ellipsis;
+}
+.cxd-rn span {
+  font-size: $fs-14;
+  color: var(--ink-muted);
+  @include mixins.ellipsis;
+}
+.cxd-rs {
+  padding: $sp-5 $sp-12;
+  border-radius: var(--radius-pill);
+  font: normal 600 #{$fs-13}/ 1.2 var(--font-arabic);
+  color: var(--stat-pending);
+  background: color-mix(in srgb, var(--stat-pending) 12%, transparent);
+  white-space: nowrap;
+}
+.cxd-row.drawn .cxd-rs {
+  color: var(--gold-ink);
+  background: color-mix(in srgb, var(--gold) 14%, transparent);
+}
+.cxd-none {
+  margin: 0;
+  padding: $sp-20 $sp-4;
+  font: 500 #{$fs-17}/ 1.5 var(--font-arabic);
+  color: var(--ink-muted);
+}

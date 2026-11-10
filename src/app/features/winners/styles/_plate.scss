@@ -1,0 +1,206 @@
+@use '../../../../styles/scales' as *;
+
+.wn-elect {
+  position: relative;
+  z-index: $z-3;
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-10;
+  height: 46px;
+  margin-block-start: -$sp-24;
+  padding-inline: $sp-20 $sp-5;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(180deg, var(--wn-sky-1), var(--wn-sky-0));
+  box-shadow:
+    inset 0 0 0 1.5px var(--gold),
+    0 10px 30px -8px var(--shadow-ink-80),
+    0 0 24px color-mix(in srgb, var(--gold) 30%, transparent);
+  font: 700 #{$fs-18}/ 1 var(--font-sans);
+  color: var(--gold-pale);
+  animation: wn-stamp $t-700 var(--ease-spring) both;
+  animation-delay: calc(var(--at) + #{$t-1200});
+}
+.wn-medal {
+  order: 1;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-round;
+  background: radial-gradient(
+    circle at 35% 30%,
+    var(--gold-pale),
+    var(--gold) 55%,
+    var(--gold-ink)
+  );
+  box-shadow: 0 0 14px color-mix(in srgb, var(--gold) 60%, transparent);
+  color: var(--wn-sky-0);
+}
+.wn-medal .wn-chk {
+  width: 20px;
+  height: 20px;
+}
+
+.wn-plate {
+  position: relative;
+  width: 100%;
+  margin-block-start: $sp-12;
+  padding: $sp-18 $sp-24 $sp-24;
+  overflow: hidden;
+  border-radius: $r-18;
+  background: linear-gradient(180deg, var(--wn-plate-hi), var(--wn-plate-lo));
+  box-shadow:
+    0 0 0 1.5px color-mix(in srgb, var(--gold) 80%, transparent),
+    inset 0 -3px 0 color-mix(in srgb, var(--gold) 30%, transparent),
+    0 0 40px -6px color-mix(in srgb, var(--gold) 45%, transparent);
+  color: var(--wn-plate-ink);
+  text-align: center;
+}
+.wn-plate::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 30%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    color-mix(in srgb, var(--paper) 70%, transparent),
+    transparent
+  );
+  transform: translateX(-360%) skewX(-14deg);
+  animation: wn-plate-sweep $t-1400 var(--ease-std) both;
+  animation-delay: calc(var(--at) + #{$t-1500});
+  pointer-events: none;
+}
+.wn-cname {
+  display: -webkit-box;
+  margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font: 700 #{$fs-28}/ 1.35 var(--font-sans);
+  text-wrap: balance;
+}
+.wn-cards.many .wn-cname {
+  font-size: $fs-21;
+}
+.wn-fig {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin: $sp-12 0 0;
+  padding-block-start: $sp-12;
+  border-block-start: 1px solid color-mix(in srgb, var(--wn-plate-muted) 30%, transparent);
+}
+.wn-votes,
+.wn-share {
+  display: inline-flex;
+  align-items: baseline;
+  gap: $sp-8;
+}
+.wn-share {
+  margin-inline-start: $sp-20;
+  padding-inline-start: $sp-20;
+  border-inline-start: 1px solid color-mix(in srgb, var(--wn-plate-muted) 35%, transparent);
+}
+.wn-votes b {
+  font: 700 #{$fs-44}/ 1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+.wn-cards.many .wn-votes b {
+  font-size: $fs-32;
+}
+.wn-share b {
+  font: 700 #{$fs-24}/ 1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+}
+.wn-votes small,
+.wn-share small {
+  font: 600 #{$fs-16}/ 1 var(--font-sans);
+  color: var(--wn-plate-muted);
+}
+.wn-part {
+  position: absolute;
+  inset-inline: $sp-24;
+  inset-block-end: $sp-10;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--wn-plate-muted) 18%, transparent);
+}
+.wn-part::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--gold-ink), var(--gold) 60%, var(--gold-glow));
+  transform: scaleX(var(--w));
+  transform-origin: 100% 50%;
+  animation: wn-grow $t-1500 var(--ease-expo) both;
+  animation-delay: calc(var(--at) + #{$t-1400});
+}
+
+.wn-card.wait .wn-frame {
+  background: color-mix(in srgb, var(--wn-sky-0) 70%, transparent);
+  box-shadow: none;
+  outline: 2px dashed color-mix(in srgb, var(--gold) 45%, transparent);
+  outline-offset: -2px;
+}
+.wn-card.wait .wn-frame::before,
+.wn-card.wait .wn-frame::after {
+  content: none;
+}
+.wn-q {
+  width: 58%;
+  margin-block-start: 24%;
+  fill: color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.wn-card.wait .wn-shine {
+  animation-duration: $t-3600;
+}
+.wn-card.wait .wn-elect {
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink-muted) 50%, transparent);
+  color: var(--ink);
+}
+.wn-card.wait .wn-medal {
+  background: color-mix(in srgb, var(--stat-pending) 18%, transparent);
+  box-shadow: inset 0 0 0 1.5px var(--stat-pending);
+}
+.wn-card.wait .wn-medal i {
+  width: 10px;
+  height: 10px;
+  border-radius: $radius-round;
+  background: var(--stat-pending);
+  animation: wn-blink $t-1600 var(--ease-std) infinite;
+}
+.wn-card.wait .wn-plate {
+  padding-block: $sp-24;
+}
+.wn-card.wait .wn-cname {
+  font-size: $fs-21;
+  font-weight: 600;
+  color: var(--wn-plate-muted);
+}
+
+@keyframes wn-stamp {
+  0% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+  55% {
+    transform: scale(0.94);
+    opacity: 1;
+  }
+}
+@keyframes wn-plate-sweep {
+  to {
+    transform: translateX(460%) skewX(-14deg);
+  }
+}
+@keyframes wn-grow {
+  from {
+    transform: scaleX(0);
+  }
+}

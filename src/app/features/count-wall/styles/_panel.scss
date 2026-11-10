@@ -1,0 +1,148 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.cx-panel {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+.cx-pv {
+  @include mixins.cover;
+  opacity: 0;
+  pointer-events: none;
+}
+.cx-pv.on {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: $z-2;
+}
+.cx-pin {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-16;
+  height: 100%;
+  min-height: 0;
+}
+
+.cx-pv.cx-in .cx-pin > * {
+  animation: cx-rise $t-950 cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: calc($t-100 + var(--i, 0) * $t-70);
+}
+@keyframes cx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+.cx-wave {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: $radius-round;
+  pointer-events: none;
+  z-index: $z-5;
+  border: 1.5px solid color-mix(in srgb, var(--data-cyan) 75%, transparent);
+  box-shadow:
+    0 0 34px color-mix(in srgb, var(--data-cyan) 45%, transparent),
+    inset 0 0 34px color-mix(in srgb, var(--data-cyan) 30%, transparent);
+}
+
+.cx-st {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+  min-width: 0;
+  padding-inline-start: $sp-14;
+  border-inline-start: 2px solid var(--hairline);
+}
+.cx-st span {
+  font: 600 #{$fs-12}/ 1 var(--font-sans);
+  color: var(--ink-muted);
+  @include mixins.arabic;
+  text-transform: none;
+  font-size: $fs-14;
+}
+.cx-st b {
+  font: 700 #{$fs-38}/ 1 var(--font-display);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.cx-st b small {
+  font-size: $fs-19;
+  color: var(--ink-muted);
+}
+.cx-st em {
+  font: 600 #{$fs-13}/ 1 var(--font-sans);
+  font-style: normal;
+  color: var(--ink-muted);
+  @include mixins.ellipsis;
+  font-family: var(--font-arabic);
+}
+.cx-st.c {
+  border-color: var(--declared);
+}
+.cx-st.c b {
+  color: var(--declared);
+}
+.cx-st.l {
+  border-color: var(--stat-pending);
+}
+.cx-st.l b {
+  color: var(--stat-pending);
+}
+.cx-st.g {
+  border-color: var(--gold);
+}
+.cx-st.g b {
+  color: var(--gold-ink);
+}
+
+.cx-pv.leave {
+  animation: cx-leave $t-500 cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes cx-leave {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-18px) scale(0.985);
+  }
+}
+
+.cx-gs.four,
+.cx-wk.four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: $sp-16;
+}
+.cx-gs.four .cx-st b {
+  font-size: $fs-32;
+}
+.cx-wk.four .cx-st b {
+  font-size: $fs-28;
+}
+.cx-st.m {
+  border-color: var(--male);
+}
+.cx-st.f {
+  border-color: var(--female);
+}
+.cx-st.m span::before,
+.cx-st.f span::before,
+.cx-th .m::before,
+.cx-th .f::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-round;
+  margin-inline-end: $sp-7;
+  vertical-align: 1px;
+  background: var(--male);
+}
+.cx-st.f span::before,
+.cx-th .f::before {
+  background: var(--female);
+}

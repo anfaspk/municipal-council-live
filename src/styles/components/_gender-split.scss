@@ -1,0 +1,97 @@
+@use '../scales' as *;
+
+.mj-gender .row {
+  margin-top: var(--space-2);
+}
+.mj-gender .lbls {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: $fs-12;
+  margin-bottom: $sp-6;
+}
+.mj-gender .lbls b {
+  font-family: var(--font-display);
+  font-size: $fs-15;
+}
+.mj-gender .lbls > * {
+  white-space: nowrap;
+}
+.mj-gender .lbls .mj-micro {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-inline: $sp-6;
+}
+
+.mj-gender .bars {
+  display: flex;
+  align-items: center;
+  gap: $sp-3;
+  height: 14px;
+  direction: rtl;
+}
+.mj-gender .half {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  background: var(--hairline);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.mj-gender .half.m {
+  justify-content: flex-end;
+}
+.mj-gender .bar {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width $t-1400 var(--ease-expo);
+}
+.mj-gender .bar.m {
+  background: linear-gradient(270deg, var(--male-neon), var(--male));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--male) 50%, transparent);
+}
+.mj-gender .bar.f {
+  background: linear-gradient(90deg, var(--female), var(--female-deep));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--female) 45%, transparent);
+}
+.mj-gender .axis {
+  width: 2px;
+  height: 22px;
+  background: var(--gold);
+  border-radius: $r-2;
+  box-shadow: var(--glow-gold);
+}
+.mj-gender .glyphs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $sp-8;
+}
+.mj-gender .glyph {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  font-size: $fs-12;
+  font-weight: 600;
+}
+.mj-gender .glyph svg {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mj-gender .glyph.m svg {
+  stroke: var(--male-neon);
+}
+.mj-gender .glyph.f svg {
+  stroke: var(--female);
+}
+.mj-gender .m-t {
+  color: var(--male-neon);
+}
+.mj-gender .f-t {
+  color: var(--female);
+}

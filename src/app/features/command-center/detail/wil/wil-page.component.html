@@ -1,0 +1,61 @@
+@if (wil(); as w) {
+  @let g = gov()!;
+  <div class="dt-c-gauge" [class]="band()">
+    <div class="gwrap" [size]="gauge" [label]="'dtKind.wil' | dtT" [sub]="w.name" [value]="t()" [gid]="'dtg'" [changeMs]="1400"></div>
+  </div>
+  <div class="dt-c-cmp dt-cmpb" [model]="cmp()" [name]="w.name"></div>
+  <section class="dt-card dt-c-flow mj-glass" [style.--j]="0" aria-labelledby="dt-h-flow">
+    <h3 class="mj-sr" id="dt-h-flow">{{ 'dtFlowT' | dtT }}</h3>
+    <div class="dt-flow" [steps]="flow()"></div>
+  </section>
+  <section class="dt-card dt-c-locator mj-glass raised" [style.--j]="1" aria-labelledby="dt-h-locator">
+    <span class="mj-crenel"></span>
+    <div class="mj-panel-head dt-chd">
+      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-locator">{{ 'dtT.locator' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.locator' | dtT: { g: g.ar } }}</p></div>
+    </div>
+    <div class="dt-loc" [gid]="g.id" [gname]="g.ar" [rows]="g.wils" [wid]="w.id" (pick)="sibling($event)"></div>
+  </section>
+  <section class="dt-card dt-c-villages mj-glass" [style.--j]="2" aria-labelledby="dt-h-villages">
+    <span class="mj-crenel"></span>
+    <div class="mj-panel-head dt-chd">
+      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-villages">{{ 'dtT.villages' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.villages' | dtT }}</p></div>
+    </div>
+    <div class="dt-vils" [villages]="villages()" [ref]="t()" (pick)="open($event)"></div>
+  </section>
+  <section class="dt-card dt-c-bands mj-glass" [style.--j]="3" aria-labelledby="dt-h-bands">
+    <span class="mj-crenel"></span>
+    <div class="mj-panel-head dt-chd">
+      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-bands">{{ 'dtT.bands' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.bands' | dtT }}</p></div>
+    </div>
+    @if (villages(); as list) {
+      @if (list.length) {
+        <div class="dt-strip" [places]="strip()" (pick)="open($event)"></div>
+      } @else {
+        <p class="dt-empty">{{ 'dtNoVils' | dtT }}</p>
+      }
+    } @else {
+      <div class="dt-skel dt-skel-strip" aria-hidden="true"></div>
+      <p class="mj-sr">{{ 'dtLoading' | dtT }}</p>
+    }
+  </section>
+  <section class="dt-card dt-c-rhythm mj-glass" [style.--j]="4" aria-labelledby="dt-h-rhythm">
+    <span class="mj-crenel"></span>
+    <div class="dt-rhy" [series]="series()" [ref]="govSeries()" [name]="w.name" [refName]="g.ar"></div>
+  </section>
+  <section class="dt-card dt-c-ages mj-glass" [style.--j]="5" aria-labelledby="dt-h-ages">
+    <span class="mj-crenel"></span>
+    <div class="mj-panel-head dt-chd">
+      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-ages">{{ 'dtT.ages' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.ages' | dtT }}</p></div>
+    </div>
+    <div class="dt-ageb" [ages]="w.ages"></div>
+  </section>
+  <section class="dt-card dt-c-gender mj-glass" [style.--j]="6" aria-labelledby="dt-h-gender">
+    <span class="mj-crenel"></span>
+    <div class="mj-panel-head dt-chd">
+      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-gender">{{ 'dtT.gender' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.gender' | dtT }}</p></div>
+    </div>
+    <div class="dt-gnd" [reg]="reg()" [voted]="voted()"></div>
+  </section>
+} @else {
+  <p class="dt-wait">{{ 'dtLoading' | dtT }}</p>
+}

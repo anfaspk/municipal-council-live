@@ -1,0 +1,97 @@
+<div class="mv-holo">
+  <svg class="mv-ring" viewBox="0 0 160 160">
+    <defs>
+      <radialGradient [attr.id]="gid"><stop offset="0" stop-color="currentColor" stop-opacity=".26" /><stop offset=".7" stop-color="currentColor" stop-opacity=".05" /><stop offset="1" stop-color="currentColor" stop-opacity="0" /></radialGradient>
+    </defs>
+    <circle class="mv-disc" cx="80" cy="80" r="58" [attr.fill]="'url(#' + gid + ')'" />
+    <g class="mv-ticks">@for (l of art.ticks; track $index) {<line [attr.x1]="l.x1" [attr.y1]="l.y1" [attr.x2]="l.x2" [attr.y2]="l.y2" />}</g>
+    <circle class="mv-track" cx="80" cy="80" r="62" />
+    <circle class="mv-arc" cx="80" cy="80" r="62" pathLength="100" stroke-dasharray="100" transform="rotate(-90 80 80)" />
+    <g class="mv-spin"><circle cx="80" cy="80" r="44" /><circle cx="80" cy="80" r="30" /></g>
+    <circle class="mv-echo" cx="80" cy="80" r="62" />
+    <g class="mv-headg"><circle class="mv-head" cx="80" cy="18" r="4" /></g>
+  </svg>
+</div>
+<svg class="mv-dc" viewBox="0 0 80 60">
+  <polygon class="mv-dc-base" [attr.points]="art.base" />
+  @for (t of art.towers; track $index) {
+    <g class="mv-tower" [style.--d]="t.delay"><polygon class="mv-dc-r" [attr.points]="t.right" /><polygon class="mv-dc-l" [attr.points]="t.left" /><polygon class="mv-dc-t" [attr.points]="t.top" /><g class="mv-leds">@for (l of t.leds; track $index) {<line [attr.x1]="l.x1" [attr.y1]="l.y1" [attr.x2]="l.x2" [attr.y2]="l.y2" />}</g></g>
+  }
+</svg>
+<i class="mv-dcg"></i>
+<div class="mv-pad"><i></i><i></i></div>
+<div class="mv-stage">
+  <div class="mv-float">
+    <div class="mv-phone">
+      <div class="mv-edge"></div>
+      <div class="mv-body">
+        <div class="mv-scr" data-s="home">
+          <span class="mv-isl"></span>
+          <span class="mv-steps">@for (k of steps; track k) {<i></i>}</span>
+          <div class="mv-view mv-home">
+            <img class="mv-logo" [src]="logo" alt="" />
+            <span class="mv-ttl">{{ s.election }}</span>
+            <span class="mv-cta">{{ s.start }}<span class="mv-tap"></span></span>
+          </div>
+          <div class="mv-view mv-civil">
+            <span class="mv-h"><em>{{ s.step[0] }}</em>{{ s.civil }}</span>
+            <span class="mv-nfc"><i></i><i></i><i></i></span>
+            <span class="mv-cardw"><span class="mv-card3">
+              <span class="mv-cf" dir="ltr">
+                <span class="mv-chd"><span class="mv-cen">SULTANATE OF OMAN</span><i class="mv-cem"></i><span class="mv-car" lang="ar">سلطنة عُمان</span></span>
+                <span class="mv-cbody"><span class="mv-cph"><svg viewBox="0 0 16 20"><circle cx="8" cy="7.5" r="3.6" /><path d="M1 20c.8-4.6 3.6-6.6 7-6.6s6.2 2 7 6.6z" /></svg></span><span class="mv-cl"><b></b><b></b><b></b><b></b></span></span>
+                <span class="mv-ovd"></span><span class="mv-cscan"></span>
+              </span>
+              <span class="mv-cbk" dir="ltr"><span class="mv-chip"></span><span class="mv-bc"></span><span class="mv-mrz"><b></b><b></b><b></b></span></span>
+            </span></span>
+            <span class="mv-cap"><span class="mv-ca">{{ s.tap }}</span><span class="mv-cb"><svg class="mv-ck" viewBox="0 0 12 12"><path d="M2.5 6.3l2.3 2.3 4.7-5" /></svg>{{ s.civilOk }}</span></span>
+          </div>
+          <div class="mv-view mv-face">
+            <span class="mv-h"><em>{{ s.step[1] }}</em>{{ s.face }}</span>
+            <span class="mv-fid">
+              <svg viewBox="0 0 48 48">
+                <circle class="mv-ftrk" cx="24" cy="24" r="22" />
+                <circle class="mv-fprg" cx="24" cy="24" r="22" pathLength="100" transform="rotate(-90 24 24)" />
+                <path class="mv-fbr" d="M9 15v-3a3 3 0 0 1 3-3h3M33 9h3a3 3 0 0 1 3 3v3M39 33v3a3 3 0 0 1-3 3h-3M15 39h-3a3 3 0 0 1-3-3v-3" />
+                <g class="mv-mesh">@for (row of art.mesh; track $index) {<g [style.--d]="row.delay">@for (d of row.dots; track $index) {<circle [attr.cx]="d.x" [attr.cy]="d.y" r=".75" />}</g>}</g>
+                <path class="mv-fc" pathLength="100" d="M24 11.5c-5.6 0-9.4 4.3-9.4 10.4 0 6.9 4.3 13.1 9.4 13.1s9.4-6.2 9.4-13.1c0-6.1-3.8-10.4-9.4-10.4z" />
+                <path class="mv-fc mv-fc2" pathLength="100" d="M19.6 21.2h2.2M26.2 21.2h2.2M24 22.6v4.2h-1.4M21 29.6c1.9 1.3 4.1 1.3 6 0" />
+              </svg>
+              <i class="mv-fline"></i>
+              <span class="mv-fok"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" /></svg></span>
+            </span>
+            <span class="mv-cap"><span class="mv-ca">{{ s.verify }}</span><span class="mv-cb"><svg class="mv-ck" viewBox="0 0 12 12"><path d="M2.5 6.3l2.3 2.3 4.7-5" /></svg>{{ s.faceOk }}</span></span>
+          </div>
+          <div class="mv-view mv-pass">
+            <span class="mv-h"><em>{{ s.step[2] }}</em>{{ s.pass }}</span>
+            <span class="mv-pbox">
+              <span class="mv-who"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="4" /><path d="M4 21c1-4.4 4.2-6.6 8-6.6s7 2.2 8 6.6" /></svg></span>
+              <span class="mv-dust">@for (d of art.dust; track $index) {<i [style.--x]="d.x" [style.--y]="d.y" [style.--d]="d.delay"></i>}</span>
+              <span class="mv-tok"><svg viewBox="0 0 40 52"><path class="mv-thex" d="M20 6l8.7 5v10L20 26l-8.7-5V11z" /><path class="mv-tq" d="M20 13.2a2 2 0 1 1 0 4a2 2 0 0 1 0-4zM20 17.2v3" /><g class="mv-code">@for (c of art.code; track $index) {<rect [attr.x]="c.x" [attr.y]="c.y" width="3.6" height="3.6" rx=".6" />}</g></svg><span class="mv-shim"></span></span>
+            </span>
+            <span class="mv-cap"><span class="mv-ca">&#8203;</span><span class="mv-cb"><svg class="mv-ck" viewBox="0 0 12 12"><path d="M2.5 6.3l2.3 2.3 4.7-5" /></svg>{{ s.passSub }}</span></span>
+          </div>
+          <div class="mv-view mv-swipe">
+            <span class="mv-h"><em>{{ s.step[3] }}</em>{{ s.app }}</span>
+            <span class="mv-opt on"><i></i><b></b></span><span class="mv-opt"><i></i><b></b></span><span class="mv-opt"><i></i><b></b></span>
+            <span class="mv-sw"><span class="mv-swf"></span><span class="mv-swl">{{ s.swipe }}</span><span class="mv-thumb"><svg viewBox="0 0 12 12"><path class="mv-chev" d="M4.5 3l3 3-3 3" /><path class="mv-tck" d="M3 6.3l2 2 4-4.4" /></svg></span></span>
+          </div>
+          <div class="mv-view mv-send">
+            <span class="mv-h"><em>{{ s.step[4] }}</em>{{ s.dc }}</span>
+            <span class="mv-up"><svg viewBox="0 0 40 40"><circle class="mv-ur1" cx="20" cy="20" r="17" /><circle class="mv-ur2" cx="20" cy="20" r="12" /><path class="mv-ua" d="M20 26V14M15 18.5l5-5 5 5" /><path class="mv-uk" pathLength="100" d="M13.5 20.5l4.5 4.5 8.5-9" /></svg></span>
+            <span class="mv-bar"><i></i></span>
+            <span class="mv-cap"><span class="mv-ca">{{ s.sending }}</span><span class="mv-cb"><svg class="mv-ck" viewBox="0 0 12 12"><path d="M2.5 6.3l2.3 2.3 4.7-5" /></svg>{{ s.recorded }}</span></span>
+            <span class="mv-lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>{{ s.secure }}</span>
+          </div>
+          <span class="mv-glare"></span>
+        </div>
+      </div>
+      <span class="mv-sheen"></span>
+    </div>
+  </div>
+</div>
+<div class="mv-fx">
+  <i class="mv-pk"></i><i class="mv-pk"></i><i class="mv-pk"></i>
+  <span class="mv-plus">+1</span>
+  <i class="mv-sparks" [style.--sp]="art.sparks"></i>
+</div>

@@ -1,0 +1,40 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.dt-vil .dt-place {
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: $sp-20;
+  min-height: 0;
+}
+.dt-vil .dt-loc.mini {
+  min-height: 0;
+  padding-inline-start: $sp-16;
+  border-inline-start: 1px solid var(--hairline);
+}
+
+.dt-vil .dt-skel-bars,
+.dt-vil .dt-skel-cols {
+  display: flex;
+  flex: 1;
+  gap: $sp-8;
+  min-height: 0;
+}
+.dt-vil .dt-skel-bars {
+  flex-direction: column;
+  justify-content: space-around;
+}
+.dt-vil .dt-skel-bars .dt-skel {
+  flex: 1;
+  max-height: 30px;
+}
+.dt-vil .dt-skel-cols .dt-skel {
+  flex: 1;
+}
+
+.dt-busy > :is(.dt-card, .dt-c-cmp, .dt-c-gauge) > :not(.dt-chd, .mj-crenel) {
+  opacity: 0.55;
+  transition: opacity $t-300 var(--ease-std);
+}

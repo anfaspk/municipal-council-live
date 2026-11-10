@@ -1,0 +1,269 @@
+@use '../../mixins';
+@use '../../scales' as *;
+
+.dw-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-16;
+}
+.dw-big {
+  display: flex;
+  align-items: baseline;
+  gap: $sp-2;
+  margin-top: $sp-2;
+}
+.dw-big b {
+  font: 700 #{$fs-72}/ 1 var(--font-display);
+  letter-spacing: -0.04em;
+  color: var(--ink);
+}
+.dw-big small {
+  font: 700 #{$fs-30}/ 1 var(--font-display);
+  color: var(--band-ink);
+}
+.dw-big.sm b {
+  font-size: $fs-52;
+}
+.dw-big.sm small {
+  font-size: $fs-24;
+}
+.dw-chips {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  margin-top: $sp-10;
+  flex-wrap: wrap;
+}
+.dw-bandl {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-7;
+  font-size: $fs-12;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+.dw-ring .mj-ring text {
+  font-size: $fs-20;
+}
+
+.dw-meter {
+  position: relative;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  background: var(--hairline);
+  margin: $sp-6 0 $sp-30;
+}
+.dw-meter i {
+  position: absolute;
+  width: var(--t);
+  border-radius: inherit;
+  box-shadow: 0 0 16px -2px var(--band);
+  transition: width $t-1000 var(--ease-expo);
+  inset-block: 0;
+  inset-inline: 0 auto;
+  transform-origin: right center;
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--band) 55%, transparent),
+    var(--band)
+  );
+}
+.dw-meter em {
+  position: absolute;
+  top: -$sp-5;
+  bottom: -$sp-5;
+  inset-inline-start: var(--a);
+  width: 2px;
+  margin-inline-start: -$sp-1;
+  background: var(--gold);
+  border-radius: $r-2;
+  box-shadow: var(--glow-gold);
+}
+.dw-meter em span {
+  position: absolute;
+  top: calc(100% + $sp-5);
+  inset-inline-end: 50%;
+  transform: translateX(-50%);
+  font: 600 #{$fs-11}/ 1 var(--font-sans);
+  font-style: normal;
+  color: var(--gold-ink);
+  white-space: nowrap;
+}
+
+.dw-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: $sp-10;
+}
+.dw-kpis-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.dw-k {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+  padding: $sp-12 $sp-14;
+  border-radius: var(--radius-tile);
+  @include mixins.glass-fill;
+  min-width: 0;
+}
+.dw-k .mj-micro {
+  display: flex;
+  align-items: center;
+  gap: $sp-6;
+  line-height: 13px;
+  min-height: 26px;
+  font-size: $fs-11-5;
+  letter-spacing: 0;
+}
+.dw-k .mj-micro .mj-chip.sample {
+  height: 15px;
+  font-size: $fs-8-5;
+  padding: 0 $sp-5;
+  letter-spacing: 0.08em;
+}
+.dw-k b {
+  font: 700 #{$fs-22}/ 1 var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.dw-k .sub {
+  font-size: $fs-11;
+  line-height: 14px;
+  color: var(--ink-muted);
+  text-overflow: ellipsis;
+}
+.dw-k.voted b,
+.dw-k.voted .dw-live {
+  color: var(--stat-voted);
+}
+.dw-k.yet b,
+.dw-k.yet .dw-live {
+  color: var(--stat-pending);
+}
+.dw-k.voted {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--stat-voted) 35%, transparent);
+  background: color-mix(in srgb, var(--stat-voted) 6%, var(--glass-fill));
+}
+.dw-k.yet {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--stat-pending) 30%, transparent);
+  background: color-mix(in srgb, var(--stat-pending) 5%, var(--glass-fill));
+}
+.dw-live {
+  width: 7px;
+  height: 7px;
+  border-radius: $radius-round;
+  flex: none;
+  background: currentcolor;
+  position: relative;
+}
+.dw-live::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in srgb, currentcolor 60%, transparent);
+  opacity: 0;
+  animation: dw-live $t-1800 ease-out infinite;
+}
+@keyframes dw-live {
+  0% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+.dw-card {
+  padding: $sp-16 $sp-18;
+  border-radius: var(--radius-tile);
+  @include mixins.glass-fill;
+}
+.dw-ch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-10;
+  margin-bottom: $sp-12;
+}
+.dw-spark svg {
+  width: 100%;
+  height: 92px;
+}
+.dw-hrs {
+  display: flex;
+  justify-content: space-between;
+  font-size: $fs-11;
+  margin-top: $sp-4;
+}
+.dw-gen .lbls {
+  font-size: $fs-12;
+}
+.dw-gen .lbls b {
+  font-size: $fs-16;
+}
+.dw-gl {
+  display: flex;
+  justify-content: space-between;
+  font: 600 #{$fs-11}/ 1 var(--font-display);
+  color: var(--ink-muted);
+  margin-top: $sp-6;
+}
+.dw-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-6;
+  width: 100%;
+  height: 36px;
+  margin-top: $sp-10;
+  border: 0;
+  border-radius: $r-12;
+  background: transparent;
+  color: var(--gold-ink);
+  font: 600 #{$fs-13}/ 1 var(--font-sans);
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 35%, transparent);
+  transition: background var(--dur-micro);
+  font-family: var(--font-arabic);
+}
+.dw-more:hover {
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+}
+.dw-more svg {
+  width: 16px;
+  height: 16px;
+  transform: scaleX(-1);
+}
+.dw-note {
+  margin: 0;
+  font-size: $fs-12;
+  line-height: 17px;
+  color: var(--ink-muted);
+  display: flex;
+  align-items: baseline;
+  gap: $sp-8;
+  flex-wrap: wrap;
+}
+.dw-note.dw-stale {
+  color: var(--gold-ink);
+}
+.dw-tools,
+.dw-vtools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-12;
+}
+.dw-tools .mj-seg button,
+.dw-vtools .mj-seg button {
+  height: 30px;
+  padding: 0 $sp-12;
+  font-size: $fs-12;
+}

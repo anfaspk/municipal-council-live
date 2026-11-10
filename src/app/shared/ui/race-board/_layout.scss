@@ -1,0 +1,329 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.rs-two {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: $sp-16;
+}
+.rs-two.one {
+  grid-template-columns: minmax(0, 1fr);
+}
+.rs-two.one .rs-hero {
+  --pw: 164px;
+  --ph: 200px;
+  gap: $sp-30;
+}
+.rs-two.one .rs-nm {
+  font-size: $fs-38;
+  -webkit-line-clamp: 1;
+}
+.rs-two.one .rs-v b {
+  font-size: $fs-72;
+}
+.rs-two.many {
+  grid-template-columns: none;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: $sp-12;
+}
+.rs-two.many .rs-hero {
+  --pw: 104px;
+  --ph: 128px;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: $sp-10;
+  padding: $sp-16 $sp-14 $sp-18;
+  text-align: center;
+}
+.rs-two.many .rs-hi {
+  align-items: center;
+}
+.rs-two.many .rs-nm {
+  font-size: $fs-20;
+}
+.rs-two.many .rs-v b {
+  font-size: $fs-36;
+}
+.rs-two.many .rs-mo {
+  display: none;
+}
+.rs-hero.rs-chal {
+  background:
+    radial-gradient(
+      110% 130% at 100% 0%,
+      color-mix(in srgb, var(--stat-pending) 12%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--canvas-1) 92%, var(--stat-pending) 8%),
+      color-mix(in srgb, var(--canvas-0) 85%, transparent)
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--stat-pending) 42%, transparent),
+    0 28px 60px -36px color-mix(in srgb, var(--stat-pending) 45%, transparent);
+}
+.rs-chal .rs-av.lg {
+  box-shadow:
+    0 0 0 2px var(--canvas-0),
+    0 0 0 4px color-mix(in srgb, var(--medal-silver) 75%, transparent),
+    0 18px 40px -16px var(--shadow-ink-70);
+}
+.rs-chal .rs-coin {
+  color: var(--ink-on-status);
+  background: radial-gradient(
+    circle at 35% 30%,
+    var(--medal-silver-hi),
+    var(--medal-silver) 60%,
+    color-mix(in srgb, var(--medal-silver) 60%, var(--canvas-0))
+  );
+  box-shadow:
+    0 0 0 4px var(--canvas-0),
+    0 8px 22px color-mix(in srgb, var(--medal-silver) 40%, transparent);
+}
+.rs-chal .rs-lead {
+  color: var(--stat-pending);
+}
+.rs-chal .rs-v .rs-sh {
+  color: var(--ink-muted);
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.rs-chal .rs-need {
+  align-items: flex-start;
+  font-size: $fs-17;
+}
+.rs-chal .rs-bar i {
+  box-shadow: 0 0 14px color-mix(in srgb, var(--stat-pending) 60%, transparent);
+  background: linear-gradient(
+    270deg,
+    var(--stat-pending),
+    color-mix(in srgb, var(--stat-pending) 55%, var(--gold-glow))
+  );
+}
+.rs-hero.rs-chal.tight {
+  box-shadow:
+    inset 0 0 0 1.5px var(--stat-pending),
+    0 0 70px -22px color-mix(in srgb, var(--stat-pending) 80%, transparent);
+}
+.rs-dense .rs-hero {
+  --pw: 112px;
+  --ph: 136px;
+  gap: $sp-18;
+  padding-block: $sp-12;
+}
+.rs-dense .rs-hero .rs-nm {
+  font-size: $fs-22;
+}
+.rs-dense .rs-v b {
+  font-size: $fs-38;
+}
+.rs-dense .rs-hero .rs-mo {
+  display: none;
+}
+.rs-mo {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  margin-block-start: $sp-2;
+}
+.rs-mo .up {
+  font: 700 #{$fs-17}/ 1 var(--font-display);
+  color: var(--stat-voted);
+}
+.rs-mo .mn {
+  font: 500 #{$fs-13}/ 1 var(--font-sans);
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.rs-spark {
+  flex: none;
+  overflow: visible;
+}
+.rs-spark .l {
+  fill: none;
+  stroke: var(--stat-voted);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.rs-spark .a {
+  fill: color-mix(in srgb, var(--stat-voted) 16%, transparent);
+}
+.rs-spark circle {
+  fill: var(--stat-voted);
+  filter: drop-shadow(0 0 4px var(--stat-voted));
+}
+.rs-hero.rs-seat.tight {
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in srgb, var(--stat-pending) 80%, transparent),
+    0 0 70px -22px color-mix(in srgb, var(--stat-pending) 80%, transparent),
+    0 24px 50px -28px var(--shadow-ink-60);
+}
+.rs-seat.tight .rs-av.lg {
+  box-shadow:
+    0 0 0 2px var(--canvas-0),
+    0 0 0 4px color-mix(in srgb, var(--stat-pending) 75%, transparent),
+    0 18px 40px -16px var(--shadow-ink-70);
+}
+.rs-nx {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 34px 46px minmax(0, 1fr) 240px auto auto;
+  align-items: center;
+  column-gap: $sp-14;
+  min-height: 60px;
+  padding: $sp-6 $sp-18;
+  border-radius: $r-16;
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--stat-pending) 12%, transparent),
+    color-mix(in srgb, var(--stat-pending) 3%, transparent)
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--stat-pending) 36%, transparent);
+}
+.rs-nx::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: -$sp-12;
+  border-block-start: 2px dashed color-mix(in srgb, var(--gold) 70%, transparent);
+  pointer-events: none;
+}
+.rs-cut {
+  position: absolute;
+  inset-block-start: -$sp-22;
+  inset-inline-start: $sp-24;
+  padding: $sp-2 $sp-12;
+  border-radius: var(--radius-pill);
+  font: 700 #{$fs-13}/ 1.4 var(--font-arabic);
+  color: var(--gold-ink);
+  background: var(--canvas-0);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 55%, transparent);
+}
+.rs-nx .mj-micro {
+  padding-inline-end: $sp-4;
+  font: 700 #{$fs-15}/ 1.2 var(--font-arabic);
+  letter-spacing: 0;
+  color: var(--stat-pending);
+}
+.rs-nx .rs-rk {
+  font: 700 #{$fs-16}/ 1 var(--font-display);
+  color: var(--ink-muted);
+  text-align: center;
+}
+.rs-nx .rs-nm {
+  font: 600 #{$fs-19}/ 1.3 var(--font-arabic);
+  @include mixins.ellipsis;
+}
+.rs-nx > b {
+  font: 700 #{$fs-24}/ 1 var(--font-display);
+}
+.rs-need {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $sp-4;
+  font: 600 #{$fs-15}/ 1 var(--font-sans);
+  color: var(--stat-pending);
+  white-space: nowrap;
+}
+.rs-need em {
+  font: 500 #{$fs-12}/ 1 var(--font-sans);
+  font-style: normal;
+}
+.rs-need em.in {
+  color: var(--stat-pending);
+}
+.rs-need em.out {
+  color: var(--ink-muted);
+}
+@keyframes rs-pulse {
+  50% {
+    box-shadow:
+      0 0 0 6px color-mix(in srgb, var(--stat-pending) 18%, transparent),
+      0 0 22px color-mix(in srgb, var(--stat-pending) 60%, transparent);
+  }
+}
+.rs-nx.tight {
+  animation: rs-pulse $t-1600 ease-in-out infinite;
+  box-shadow: inset 0 0 0 1.5px var(--stat-pending);
+}
+.rs-ten {
+  position: relative;
+  height: 30px;
+  border-radius: $r-8;
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  overflow: hidden;
+}
+.rs-ten i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--stat-pending) 25%, transparent),
+    color-mix(in srgb, var(--stat-pending) 65%, transparent)
+  );
+}
+.rs-ten::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-end: 0;
+  border-inline-end: 2px dashed var(--gold);
+}
+.rs-ten span {
+  position: relative;
+  display: block;
+  padding-inline-start: $sp-10;
+  font: 600 #{$fs-13}/ 30px var(--font-sans);
+  color: var(--ink);
+  white-space: nowrap;
+}
+.rs-enter .rs-nx {
+  animation: rs-in $t-700 var(--ease-expo) backwards;
+  animation-delay: calc(var(--d, 0) * $t-1000);
+}
+.rs-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--rows), auto);
+  gap: $sp-8 $sp-12;
+}
+.rs-all {
+  color: var(--ink-muted);
+}
+.rs-race {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-18;
+  min-width: 0;
+  min-height: 0;
+}
+.rs-bar i,
+.rs-fill,
+.rs-ten i {
+  transform: scaleX(var(--w));
+  transform-origin: right;
+  transition: transform $t-800 var(--ease-expo);
+}
+.rs-enter :is(.rs-hero, .rs-rest) {
+  animation: rs-in $t-700 var(--ease-expo) backwards;
+  animation-delay: calc(var(--d, 0) * $t-1000);
+}
+.mj-tv.tva-still :is(.rs-bar i, .rs-fill, .rs-ten i) {
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rs-bar i,
+  .rs-fill,
+  .rs-ten i {
+    transition: none !important;
+  }
+}

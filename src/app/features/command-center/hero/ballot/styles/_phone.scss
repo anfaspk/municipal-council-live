@@ -1,0 +1,309 @@
+@use '../../../../../../styles/scales' as *;
+
+.mv-stage {
+  position: absolute;
+  inset: 0;
+  perspective: 720px;
+  z-index: $z-2;
+}
+.mv-float {
+  position: absolute;
+  inset-inline: 0;
+  top: $sp-86;
+  inline-size: 88px;
+  block-size: 157px;
+  margin-inline: auto;
+  animation: mv-float $t-7000 ease-in-out infinite alternate;
+}
+.mv-phone {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  transform-style: preserve-3d;
+  transform: rotateX(9deg) rotateY(-22deg) rotateZ(1.5deg);
+}
+.mv-edge,
+.mv-body,
+.mv-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: $r-17;
+}
+.mv-edge {
+  transform: translateZ(-6px);
+  background: linear-gradient(90deg, var(--mv-edge-1), var(--mv-edge-2) 60%, var(--mv-edge-3));
+  box-shadow: 0 24px 36px -14px var(--mv-shadow);
+}
+.mv-body {
+  box-sizing: border-box;
+  padding: $sp-4;
+  background: linear-gradient(
+    150deg,
+    var(--mv-body-hi),
+    var(--mv-body-mid) 38%,
+    var(--mv-body-lo) 75%
+  );
+  border: 1px solid var(--mv-body-edge);
+  box-shadow:
+    0 0 26px var(--mv-body-glow),
+    inset 0 1px 0 color-mix(in srgb, var(--mv-white) 40%, transparent);
+}
+.mv-sheen {
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateZ(0.5px);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      115deg,
+      transparent 38%,
+      color-mix(in srgb, var(--mv-white) 18%, transparent) 46%,
+      transparent 54%
+    );
+    animation: mv-sheen $t-9000 ease-in-out infinite;
+  }
+}
+
+.mv-scr {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: $r-13;
+  overflow: hidden;
+  font-family: var(--font-arabic);
+  color: var(--mv-ink);
+
+  --mv-c: var(--mv-green);
+  --mv-cy: var(--mv-cyan);
+}
+.mv-scr,
+.mv-view {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      color-mix(in srgb, var(--mv-gold) 5%, transparent) 0 0.5px,
+      transparent 0.5px 9px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      color-mix(in srgb, var(--mv-gold) 5%, transparent) 0 0.5px,
+      transparent 0.5px 9px
+    ),
+    radial-gradient(130% 80% at 50% 0%, var(--mv-scr-hi), var(--mv-scr) 48%, var(--mv-scr-lo) 85%);
+}
+.mv-isl {
+  position: absolute;
+  inset-inline: 0;
+  top: $sp-4;
+  inline-size: 24px;
+  block-size: 6px;
+  margin-inline: auto;
+  border-radius: $r-6;
+  background: var(--mv-island);
+  z-index: $z-3;
+}
+.mv-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    125deg,
+    color-mix(in srgb, var(--mv-white) 12%, transparent),
+    transparent 34%
+  );
+  z-index: $z-4;
+}
+
+.mv-steps {
+  position: absolute;
+  inset-inline: $sp-9;
+  top: $sp-13;
+  display: flex;
+  gap: $sp-2;
+  z-index: $z-3;
+  transition: opacity $t-800 var(--mv-e);
+
+  i {
+    position: relative;
+    flex: 1;
+    block-size: 2px;
+    border-radius: $r-2;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--mv-white) 14%, transparent);
+  }
+  i::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: $r-2;
+    background: var(--mv-gold);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: background $t-600 var(--mv-e);
+  }
+  i.on::after {
+    animation: mv-seg var(--seg, 2s) linear forwards;
+  }
+  i.done::after {
+    transform: scaleX(1);
+    background: var(--mv-c);
+    box-shadow: 0 0 4px var(--mv-c);
+  }
+}
+.mv-scr[data-s='home'] .mv-steps {
+  opacity: 0;
+}
+
+.mv-view {
+  position: absolute;
+  inset: 0;
+  z-index: $z-1;
+  box-sizing: border-box;
+  padding: $sp-20 $sp-7 $sp-9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-5;
+  opacity: 0;
+  filter: blur(5px);
+  transform: scale(1.06);
+  transition:
+    opacity $t-600 var(--mv-e) $t-400,
+    filter $t-600 var(--mv-e) $t-300,
+    transform $t-900 var(--mv-e) $t-250;
+}
+.mv-scr[data-s='home'] .mv-home,
+.mv-scr[data-s='civil'] .mv-civil,
+.mv-scr[data-s='face'] .mv-face,
+.mv-scr[data-s='pass'] .mv-pass,
+.mv-scr[data-s='swipe'] .mv-swipe,
+.mv-scr[data-s='send'] .mv-send {
+  opacity: 1;
+  filter: none;
+  transform: none;
+  z-index: $z-2;
+  transition:
+    opacity $t-700 var(--mv-e),
+    filter $t-800 var(--mv-e),
+    transform $t-1000 var(--mv-e);
+}
+.mv-scr[data-s='home'] .mv-view:not(.mv-home) * {
+  transition: none;
+}
+.mv-h {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-1;
+  max-inline-size: 100%;
+  font-weight: 600;
+  font-size: $fs-7;
+  line-height: 10px;
+  color: var(--mv-ink);
+  text-align: center;
+
+  em {
+    font-style: normal;
+    font-weight: 700;
+    font-size: $fs-5-4;
+    line-height: 6px;
+    color: var(--mv-gold);
+  }
+}
+.mv-cap {
+  margin-block-start: auto;
+  min-block-size: 18px;
+  inline-size: 100%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-weight: 600;
+  font-size: $fs-6-3;
+  line-height: 8.5px;
+  color: var(--mv-mut);
+
+  > span {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $sp-2;
+    transition:
+      opacity $t-600 var(--mv-e),
+      transform $t-600 var(--mv-e),
+      filter $t-600 var(--mv-e);
+  }
+  .mv-cb {
+    opacity: 0;
+    transform: translateY(4px);
+    filter: blur(2px);
+    color: var(--mv-c);
+  }
+}
+.mv-view.ok .mv-cap {
+  .mv-ca {
+    opacity: 0;
+    transform: translateY(-4px);
+    filter: blur(2px);
+  }
+  .mv-cb {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+.mv-ck {
+  flex: none;
+  inline-size: 7px;
+  block-size: 7px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mv-lock {
+  display: flex;
+  align-items: center;
+  gap: $sp-3;
+  font-weight: 600;
+  font-size: $fs-5-8;
+  line-height: 8px;
+  color: var(--mv-mut);
+  white-space: nowrap;
+
+  svg {
+    inline-size: 7px;
+    block-size: 7px;
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+}
+
+@keyframes mv-float {
+  from {
+    transform: translateY(2px);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+@keyframes mv-sheen {
+  0%,
+  55% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+@keyframes mv-seg {
+  to {
+    transform: scaleX(1);
+  }
+}

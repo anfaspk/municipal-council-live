@@ -1,0 +1,31 @@
+@if (geo(); as g) {
+  <svg class="dt-loc-svg" [attr.viewBox]="'0 0 ' + g.w + ' ' + g.h" role="group" [attr.aria-label]="label()">
+    <path class="dt-loc-face" [attr.d]="g.d"/>
+    <path class="dt-loc-edge" [attr.d]="g.d" [attr.stroke-width]="g.sw"/>
+    @for (p of g.pins; track p.id) {
+      @if (p.id !== wid()) {
+        <g class="dt-loc-pin" [class]="p.band" [class.over]="over() === p.id" role="link" tabindex="0" [attr.aria-label]="say(p)" (click)="go(p)" (keydown.enter)="go(p)" (pointerenter)="over.set(p.id)" (pointerleave)="over.set(null)" (focus)="over.set(p.id)" (blur)="over.set(null)">
+          <circle class="hit" [attr.cx]="p.x" [attr.cy]="p.y" [attr.r]="p.r + 6"/>
+          <circle class="dot" [attr.cx]="p.x" [attr.cy]="p.y" [attr.r]="p.r * 0.8"/>
+        </g>
+      }
+    }
+    @if (me(); as p) {
+      <g class="dt-loc-pin me" [class]="p.band" role="img" [attr.aria-label]="say(p)">
+        <circle class="pulse" [attr.cx]="p.x" [attr.cy]="p.y" [attr.r]="p.r * 2.2"/>
+        <circle class="ring" [attr.cx]="p.x" [attr.cy]="p.y" [attr.r]="p.r * 1.6"/>
+        <circle class="dot" [attr.cx]="p.x" [attr.cy]="p.y" [attr.r]="p.r * 1.1"/>
+      </g>
+    }
+    <g class="dt-loc-labels" aria-hidden="true">
+      @for (l of labels(); track l.id) {
+        <g class="dt-loc-lab" [class.me]="l.me">
+          <rect [attr.x]="l.x - l.w / 2" [attr.y]="l.y - l.h / 2" [attr.width]="l.w" [attr.height]="l.h" [attr.rx]="l.h / 2"/>
+          <text [attr.x]="l.x" [attr.y]="l.y">{{ l.name }}</text>
+        </g>
+      }
+    </g>
+  </svg>
+} @else {
+  <div class="dt-skel" aria-hidden="true"></div>
+}

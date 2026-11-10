@@ -1,0 +1,27 @@
+<div class="dt-vtools">
+  <label class="dt-q">
+    <svg [mjIcon]="'search'"></svg>
+    <input type="search" [value]="q()" (input)="q.set($any($event.target).value)" (keydown.arrowdown)="down($event)" [placeholder]="'dtSearchP' | dtT" [attr.aria-label]="'dtSearchL' | dtT" aria-keyshortcuts="/" autocomplete="off" spellcheck="false"/>
+  </label>
+  <div class="dt-sort mj-seg" [items]="sorts" [value]="sort()" (valueChange)="sort.set($any($event))" [attr.aria-label]="'dtSortVL' | dtT"></div>
+</div>
+<div class="dt-chips" role="group" [attr.aria-label]="'dtBandsL' | dtT">
+  @for (b of bandList; track b) {
+    <button type="button" class="dt-chipb" [class]="b" [attr.aria-pressed]="bands().includes(b)" [disabled]="villages() === undefined" (click)="toggle(b)"><i class="mj-sw" [class]="b"></i><span>{{ 'dtBand.' + b | dtT }}</span><b class="mj-num">{{ counts()[b] }}</b></button>
+  }
+  <p class="dt-vcount mj-muted" role="status">{{ villages() === undefined ? ('dtLoading' | dtT) : status() }}</p>
+</div>
+@if (villages() === undefined) {
+  <ul class="dt-skel-rows" aria-hidden="true">
+    @for (i of skeleton; track i) {<li class="dt-skel" [style.--j]="i"></li>}
+  </ul>
+} @else if (!villages()!.length) {
+  <p class="dt-empty">{{ 'dtNoVils' | dtT }}</p>
+} @else if (!shown().length) {
+  <div class="dt-empty">
+    <p>{{ 'dtNoMatch' | dtT }}</p>
+    <button type="button" class="mj-btn dt-clear" (click)="clear()">{{ 'dtClear' | dtT }}</button>
+  </div>
+} @else {
+  <div class="dt-ranked" [rows]="rows()" [sort]="sort()" [ref]="ref()" (pick)="pick.emit($event)"></div>
+}

@@ -1,0 +1,127 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.dt-page .dt-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  border-radius: $r-8;
+  direction: ltr;
+}
+.dt-page .dt-svg:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+.dt-page .dt-gl {
+  stroke: var(--hairline);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+.dt-page .dt-ax,
+.dt-page .dt-lab {
+  fill: var(--ink-muted);
+  font: 500 #{$fs-11}/ 1 var(--font-display);
+  dominant-baseline: central;
+}
+.dt-page .dt-ax.end {
+  text-anchor: end;
+}
+.dt-page .dt-ax.mid {
+  text-anchor: middle;
+}
+.dt-page .dt-lab {
+  fill: var(--ink);
+  font-size: $fs-12;
+  font-weight: 600;
+}
+.dt-page .dt-lab.end {
+  text-anchor: end;
+}
+.dt-page .dt-hit {
+  fill: transparent;
+}
+.dt-page .dt-hit.on {
+  fill: var(--glass-fill);
+}
+
+.dt-page .dt-cum {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.dt-page .dt-ref {
+  fill: none;
+  stroke: var(--ink-muted);
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+  opacity: 0.8;
+}
+
+.dt-page .dt-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $sp-6 $sp-16;
+  margin: 0;
+  color: var(--ink-muted);
+  font: 500 #{$fs-12}/ 1.2 var(--font-sans);
+  @include mixins.arabic;
+}
+.dt-page .dt-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+}
+.dt-page .dt-sw {
+  display: inline-block;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: $r-3;
+  background: var(--gold);
+}
+.dt-page .dt-sw.m {
+  background: var(--male);
+}
+.dt-page .dt-sw.f {
+  background: var(--female);
+}
+.dt-page .dt-sw.cum {
+  height: 3px;
+  width: 16px;
+  border-radius: $r-2;
+}
+.dt-page .dt-sw.ref {
+  height: 0;
+  width: 16px;
+  border-radius: 0;
+  border-block-start: 2px dashed var(--ink-muted);
+  background: none;
+}
+.dt-page .dt-sw.tick {
+  width: 2px;
+  height: 14px;
+  border-radius: $r-1;
+}
+
+@keyframes dt-grow-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes dt-grow-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes dt-fade {
+  from {
+    opacity: 0;
+  }
+}

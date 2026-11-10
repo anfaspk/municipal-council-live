@@ -1,0 +1,178 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.dt-page .dt-c-gauge {
+  position: relative;
+  z-index: $z-3;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  animation: dt-in $t-700 var(--ease-expo) $t-100 both;
+}
+.dt-page .dt-c-gauge .dt-skel.dial {
+  width: 180px;
+  height: 180px;
+  border-radius: $radius-round;
+}
+
+.dt-page .dt-c-cmp {
+  position: relative;
+  z-index: $z-3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: $sp-10;
+  min-width: 0;
+  padding-block: $sp-18;
+  padding-inline: $sp-28 $sp-12;
+  margin-inline-end: $sp-56;
+  animation: dt-in $t-700 var(--ease-expo) $t-200 both;
+}
+.dt-cmpb .dt-cmp-rows {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dt-cmpb .dt-cmp-row {
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr) 84px;
+  align-items: center;
+  gap: $sp-14;
+}
+.dt-cmpb .dt-cmp-nm {
+  color: var(--ink-muted);
+  font: 600 #{$fs-14}/ 1.2 var(--font-sans);
+  @include mixins.arabic;
+  @include mixins.ellipsis;
+}
+.dt-cmpb .dt-cmp-row.self .dt-cmp-nm {
+  color: var(--ink);
+  font-weight: 700;
+}
+.dt-cmpb .dt-cmp-track {
+  position: relative;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  background: var(--hairline);
+  overflow: hidden;
+}
+.dt-cmpb .dt-cmp-row.self .dt-cmp-track {
+  height: 18px;
+}
+.dt-cmpb .dt-cmp-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--band, var(--ink-muted)) 55%, transparent),
+    var(--band, var(--ink-muted))
+  );
+  transform: scaleX(var(--k, 0));
+  transform-origin: 100% 50%;
+  transition: transform $t-1200 var(--ease-expo);
+  animation: dt-grow-x $t-1200 var(--ease-expo) $t-300 both;
+}
+.dt-cmpb .dt-cmp-row:not(.self) .dt-cmp-fill {
+  opacity: 0.55;
+}
+.dt-cmpb .dt-cmp-row.nat .dt-cmp-fill {
+  background: var(--ink-muted);
+}
+.dt-cmpb .dt-cmp-v {
+  color: var(--ink);
+  font: 700 #{$fs-18}/ 1 var(--font-display);
+  text-align: end;
+}
+.dt-cmpb .dt-cmp-row.self .dt-cmp-v {
+  color: var(--band-ink, var(--ink));
+  font-size: $fs-24;
+}
+.dt-cmpb .dt-cmp-row:not(.self) .dt-cmp-v {
+  color: var(--ink-muted);
+}
+.dt-cmpb .dt-cmp-scale {
+  align-items: start;
+  margin-block-start: $sp-8;
+}
+.dt-cmpb .dt-cmp-zones {
+  position: relative;
+  display: grid;
+  grid-template-columns: 50fr 20fr 30fr;
+  gap: $sp-2;
+  height: 26px;
+}
+.dt-cmpb .dt-cmp-zones .z {
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--band) 70%, transparent);
+}
+.dt-cmpb .dt-cmp-zones em {
+  display: block;
+  margin-block-start: $sp-8;
+  color: var(--band-ink);
+  font: 600 #{$fs-11}/ 1 var(--font-sans);
+  font-style: normal;
+  @include mixins.arabic;
+  text-align: center;
+}
+.dt-cmpb .dt-cmp-zones b {
+  position: absolute;
+  inset-block-start: -$sp-14;
+  color: var(--ink-muted);
+  font: 600 #{$fs-10}/ 1 var(--font-display);
+  transform: translateX(50%);
+}
+.dt-cmpb .dt-cmp-zones .t50 {
+  inset-inline-start: 50%;
+}
+.dt-cmpb .dt-cmp-zones .t70 {
+  inset-inline-start: 70%;
+}
+.dt-cmpb .dt-cmp-diff {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: $sp-8;
+  margin: 0;
+  padding: $sp-6 $sp-14;
+  border-radius: var(--radius-pill);
+  font: 700 #{$fs-14}/ 1.2 var(--font-sans);
+  @include mixins.arabic;
+}
+.dt-cmpb .dt-cmp-diff svg {
+  width: 18px;
+  height: 18px;
+}
+.dt-cmpb .dt-cmp-diff.up {
+  color: var(--stat-voted);
+  background: color-mix(in srgb, var(--stat-voted) 14%, transparent);
+}
+.dt-cmpb .dt-cmp-diff.down {
+  color: var(--live);
+  background: color-mix(in srgb, var(--live) 12%, transparent);
+}
+.dt-cmpb .dt-cmp-diff.down svg {
+  transform: scaleY(-1);
+}
+.dt-cmpb .dt-cmp-diff.level {
+  color: var(--ink);
+  background: var(--glass-fill);
+}
+
+.mj-fluid .dt-page :is(.dt-c-gauge, .dt-c-cmp) {
+  margin: 0;
+  border-radius: var(--radius-panel);
+  background: var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.mj-fluid .dt-page .dt-c-gauge {
+  padding-block: $sp-12;
+}
+.mj-fluid .dt-page .dt-c-cmp {
+  padding-inline: $sp-16;
+}

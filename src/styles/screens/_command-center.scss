@@ -1,0 +1,259 @@
+@use '../mixins';
+@use '../scales' as *;
+
+.mj-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.cc-logo {
+  flex: none;
+  position: relative;
+  z-index: $z-3;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding-inline: $sp-4 $sp-14;
+  border-inline-end: 1px solid var(--hairline);
+}
+.cc-logo img {
+  display: block;
+  height: 52px;
+  width: auto;
+  margin-block: -$sp-2;
+}
+.cc-logo .day {
+  display: none;
+}
+[data-theme='daylight'] .cc-logo .day {
+  display: block;
+}
+[data-theme='daylight'] .cc-logo .night {
+  display: none;
+}
+
+.mj-cc {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+}
+.cc-dash {
+  display: contents;
+}
+
+html.mj-fit,
+html.mj-fit body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--canvas-0);
+}
+.cc-grid {
+  position: relative;
+  z-index: $z-1;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: 56px 300px minmax(0, 1fr) 34px;
+  gap: $sp-14;
+  padding: $sp-16 $sp-16 $sp-12;
+  height: 100%;
+}
+.cc-grid > * {
+  min-width: 0;
+  min-height: 0;
+}
+.cc-bar {
+  grid-column: 1/-1;
+  display: flex;
+  align-items: center;
+  gap: $sp-14;
+  padding-block: 0;
+  padding-inline: $sp-10 $sp-8;
+  border-radius: var(--radius-pill);
+}
+.cc-bar > * {
+  position: relative;
+  z-index: $z-3;
+}
+.cc-bar .ttl .t {
+  font: 600 #{$fs-16}/ 20px var(--font-sans);
+  white-space: nowrap;
+  font-family: var(--font-arabic);
+}
+.cc-bar .cc-subtitle {
+  font-weight: 600;
+  color: var(--ink-muted);
+  letter-spacing: 0;
+  font-size: $fs-21;
+  line-height: 1.5;
+  text-transform: none;
+}
+.cc-upd {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  font-size: $fs-12;
+  color: var(--ink-muted);
+  white-space: nowrap;
+  min-width: 140px;
+}
+.cc-upd .cd {
+  stroke: var(--gold);
+}
+.cc-gap {
+  flex: 1;
+}
+.cc-hero {
+  grid-column: span 6;
+  overflow: hidden;
+}
+.cc-hero .incense {
+  @include mixins.cover;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-in {
+  position: relative;
+  z-index: $z-3;
+  height: 100%;
+}
+.hero-in .mid {
+  flex: 1;
+  min-width: 0;
+  gap: $sp-12;
+}
+.cc-pulse {
+  grid-column: span 3;
+  display: flex;
+  flex-direction: column;
+  padding: $sp-16 $sp-20 $sp-14;
+}
+.cc-kpis {
+  grid-column: span 3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: $sp-14;
+}
+.cc-kpis .mj-kpi-header {
+  font-size: $fs-18;
+}
+.cc-kpis > .mj-glass {
+  min-height: 0;
+}
+.cc-kpis .mj-kpi {
+  min-height: 0;
+  height: 100%;
+}
+.cc-map {
+  grid-column: span 8;
+  display: grid;
+  grid-template-columns: 312px minmax(0, 1fr) 296px;
+  gap: $sp-16;
+  padding: $sp-20;
+}
+.cc-map .map-focus {
+  align-self: stretch;
+}
+.map-stage {
+  min-height: 0;
+  position: relative;
+}
+.cc-side {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-14;
+  min-height: 0;
+}
+.cc-podium {
+  flex: none;
+  height: 226px;
+  padding: $sp-16 $sp-20;
+}
+.cc-podium .mj-panel-head {
+  margin-bottom: $sp-4;
+}
+.cc-podium .pod {
+  height: 150px;
+  position: relative;
+  z-index: $z-3;
+}
+.cc-podium .mj-pod {
+  width: 96px;
+}
+.cc-podium .mj-runner {
+  justify-content: center;
+}
+.cc-ticker {
+  grid-column: 1/-1;
+  border-radius: var(--radius-pill);
+}
+.cc-ticker::before {
+  z-index: $z-5;
+}
+.mj-cc .mj-horizon {
+  z-index: 0;
+  opacity: 0.9;
+}
+.mj-drawer .mj-gender .bars {
+  height: 12px;
+}
+.cc-cover {
+  @include mixins.cover;
+  z-index: $z-screen;
+  background: var(--canvas-0);
+}
+
+.mj-cc.cc-paged .cc-grid > :not(.cc-bar),
+.mj-cc.cc-paged .mj-drawer,
+.mj-cc.cc-paged .mj-scrim {
+  visibility: hidden;
+  content-visibility: hidden;
+}
+.mj-fluid.cc-paged .cc-grid > :not(.cc-bar) {
+  display: none;
+}
+.cc-fly {
+  position: absolute;
+  z-index: $z-3;
+  perspective: 1800px;
+  pointer-events: none;
+  transform-origin: 0 0;
+}
+.cc-fly .cc-fly-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: rotateX(26deg) rotateZ(-4deg);
+}
+.cc-fly path {
+  fill: color-mix(in srgb, var(--band) 40%, transparent);
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 $sp-12 var(--band));
+}
+
+.cc-dash.cc-inactive > * {
+  visibility: hidden;
+}
+.cc-dash.cc-inactive *,
+.cc-dash.cc-inactive *::before,
+.cc-dash.cc-inactive *::after {
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+.cc-dash > .mj-ambient .mj-breathe,
+.cc-dash > .mj-horizon .drift {
+  animation-play-state: paused;
+}

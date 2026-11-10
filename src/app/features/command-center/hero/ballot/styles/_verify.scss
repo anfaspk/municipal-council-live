@@ -1,0 +1,283 @@
+@use '../../../../../../styles/scales' as *;
+
+.mv-fid {
+  position: relative;
+  inline-size: 46px;
+  block-size: 46px;
+  margin-block-start: $sp-2;
+
+  > svg {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: visible;
+  }
+  .mv-ftrk {
+    fill: none;
+    stroke: color-mix(in srgb, var(--mv-white) 12%, transparent);
+    stroke-width: 2;
+  }
+  .mv-fprg {
+    fill: none;
+    stroke: var(--mv-cy);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition: stroke $t-600 var(--mv-e);
+  }
+  .mv-fbr {
+    fill: none;
+    stroke: color-mix(in srgb, var(--mv-white) 50%, transparent);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+  }
+  .mv-mesh {
+    fill: var(--mv-cy);
+    transition: opacity $t-600 var(--mv-e);
+
+    g {
+      opacity: 0;
+    }
+  }
+  .mv-fc {
+    fill: none;
+    stroke: var(--mv-cyan-hi);
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    filter: drop-shadow(0 0 2px var(--mv-cy));
+    transition: opacity $t-600;
+  }
+}
+.mv-fline {
+  position: absolute;
+  inset-inline: $sp-9;
+  top: $sp-8;
+  block-size: 1.5px;
+  border-radius: $r-2;
+  background: linear-gradient(90deg, transparent, var(--mv-cy), transparent);
+  box-shadow: 0 0 6px var(--mv-cy);
+  opacity: 0;
+}
+.mv-fok {
+  position: absolute;
+  inset: $sp-11;
+  border-radius: $radius-round;
+  display: grid;
+  place-items: center;
+  background: color-mix(
+    in srgb,
+    var(--mv-c) 22%,
+    color-mix(in srgb, var(--mv-scr-lo) 88%, transparent)
+  );
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity $t-600 var(--mv-e),
+    transform $t-800 var(--ease-spring);
+
+  svg {
+    inline-size: 16px;
+    block-size: 16px;
+    fill: none;
+    stroke: var(--mv-c);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+.mv-face.run .mv-fid {
+  .mv-fprg {
+    animation: mv-draw $t-2000 var(--mv-io) $t-150 forwards;
+  }
+  .mv-mesh g {
+    animation: mv-dot $t-1000 ease-out calc(#{$t-450} + var(--d)) forwards;
+  }
+  .mv-fc {
+    animation: mv-draw $t-1100 var(--mv-io) $t-200 forwards;
+  }
+  .mv-fc2 {
+    animation-delay: $t-750;
+  }
+  .mv-fline {
+    animation: mv-fline $t-1000 var(--mv-io) $t-300 2 alternate both;
+  }
+}
+.mv-face.ok .mv-fid {
+  .mv-fprg {
+    stroke: var(--mv-c);
+    stroke-dashoffset: 0;
+    filter: drop-shadow(0 0 3px var(--mv-c));
+  }
+  .mv-fc,
+  .mv-mesh {
+    opacity: 0.2;
+  }
+  .mv-fok {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mv-pbox {
+  position: relative;
+  inline-size: 44px;
+  block-size: 56px;
+  margin-block-start: $sp-1;
+}
+.mv-who {
+  position: absolute;
+  inset: $sp-8 $sp-4;
+  display: grid;
+  place-items: center;
+
+  svg {
+    inline-size: 28px;
+    block-size: 28px;
+    fill: none;
+    stroke: var(--mv-mut);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+  }
+}
+.mv-dust i {
+  position: absolute;
+  inset-inline-start: 50%;
+  top: 45%;
+  inline-size: 2.4px;
+  block-size: 2.4px;
+  margin: -$sp-1-2;
+  border-radius: $radius-round;
+  background: var(--mv-cy);
+  opacity: 0;
+}
+.mv-tok {
+  position: absolute;
+  inset: 0;
+  border-radius: $r-6;
+  overflow: hidden;
+  clip-path: inset(100% 0 0 0 round 6px);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--mv-gold) 20%, transparent),
+    color-mix(in srgb, var(--mv-scr-lo) 92%, transparent)
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mv-gold) 75%, transparent);
+  transition: box-shadow $t-600 var(--mv-e);
+
+  > svg {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+  .mv-thex {
+    fill: color-mix(in srgb, var(--mv-gold) 14%, transparent);
+    stroke: var(--mv-gold);
+    stroke-width: 1.3;
+    stroke-linejoin: round;
+  }
+  .mv-tq {
+    fill: none;
+    stroke: var(--mv-gold);
+    stroke-width: 1.3;
+    stroke-linecap: round;
+  }
+  .mv-code rect {
+    fill: var(--mv-ink);
+    opacity: 0.85;
+  }
+}
+.mv-shim {
+  position: absolute;
+  inset: -$sp-10;
+  background: linear-gradient(
+    115deg,
+    transparent 40%,
+    color-mix(in srgb, var(--mv-white) 45%, transparent) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+}
+.mv-pass.run {
+  .mv-who {
+    animation: mv-who $t-800 var(--mv-io) $t-250 forwards;
+  }
+  .mv-dust i {
+    animation: mv-dust $t-1100 var(--mv-io) calc(#{$t-450} + var(--d)) both;
+  }
+  .mv-tok {
+    animation: mv-tok $t-700 var(--mv-e) $t-1100 forwards;
+  }
+  .mv-shim {
+    animation: mv-shim $t-1000 var(--mv-io) $t-1600 both;
+  }
+}
+.mv-pass.ok .mv-tok {
+  box-shadow:
+    inset 0 0 0 1px var(--mv-gold),
+    0 0 14px color-mix(in srgb, var(--mv-gold-glow) 40%, transparent);
+}
+
+@keyframes mv-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes mv-dot {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+@keyframes mv-fline {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(29px);
+    opacity: 0.2;
+  }
+}
+@keyframes mv-who {
+  to {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+@keyframes mv-dust {
+  0% {
+    opacity: 0;
+    transform: none;
+  }
+  40% {
+    opacity: 1;
+    transform: translate(var(--x), var(--y));
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@keyframes mv-tok {
+  to {
+    clip-path: inset(0 0 0 0 round 6px);
+  }
+}
+@keyframes mv-shim {
+  to {
+    transform: translateX(100%);
+  }
+}

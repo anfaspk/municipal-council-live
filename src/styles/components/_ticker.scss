@@ -1,0 +1,82 @@
+@use '../mixins';
+@use '../scales' as *;
+
+.mj-ticker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 38px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.mj-ticker .lab {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  height: 100%;
+  padding: 0 $sp-14;
+  background: var(--gold);
+  color: var(--on-gold);
+  font: 800 $fs-11 var(--font-sans);
+  z-index: $z-4;
+  @include mixins.arabic;
+  font-size: $fs-12;
+  white-space: nowrap;
+}
+.mj-ticker .vp {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  z-index: $z-3;
+  mask: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent);
+}
+.mj-ticker .track {
+  display: flex;
+  width: max-content;
+  animation: mj-marquee-rtl var(--tk-dur, 60s) linear infinite;
+}
+.mj-ticker .tk-run {
+  display: flex;
+}
+.mj-ticker:hover .track {
+  animation-play-state: paused;
+}
+.mj-tk {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-14;
+  padding-inline-end: $sp-14;
+  white-space: nowrap;
+  font-size: $fs-13;
+}
+.mj-tk b {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+.mj-tk .t {
+  font: 600 $fs-11 var(--font-display);
+  color: var(--ink-muted);
+}
+.mj-tk svg.star {
+  width: 12px;
+  height: 12px;
+  fill: var(--gold);
+  flex: none;
+}
+.mj-tk.new {
+  animation: mj-tk-in $t-800 var(--ease-expo);
+}
+@keyframes mj-tk-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes mj-marquee-rtl {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--tk-shift, 50%));
+  }
+}

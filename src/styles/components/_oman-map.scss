@@ -1,0 +1,227 @@
+@use '../mixins';
+@use '../scales' as *;
+
+.mj-omap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.mj-omap .om-tilt {
+  @include mixins.cover;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+.mj-omap .om-svg {
+  @include mixins.cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+.mj-omap .om-ground {
+  pointer-events: none;
+  will-change: transform;
+}
+.mj-omap .om-halo-layer {
+  pointer-events: none;
+  opacity: 0.55;
+  animation: om-halo $t-4500 ease-in-out infinite;
+}
+.mj-omap .om-shadow {
+  fill: var(--map-shadow);
+  transform: translate(0, 22px);
+}
+.mj-omap .om-halo {
+  fill: none;
+  stroke: var(--data-cyan);
+  stroke-width: 6;
+}
+@keyframes om-halo {
+  50% {
+    opacity: 0.22;
+  }
+}
+.mj-omap .om-rim {
+  fill: none;
+  stroke: var(--data-cyan);
+  stroke-width: 1.2;
+  opacity: 0.65;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+}
+.mj-omap .rg {
+  cursor: pointer;
+  outline: none;
+}
+.mj-omap .om-svg.has-hot .rg:not(.is-hot) {
+  opacity: 0.4;
+}
+.mj-omap .rg .top {
+  transition: filter var(--dur-ui) var(--ease-std);
+}
+.mj-omap .rg .edge {
+  fill: none;
+  stroke: var(--map-edge);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+.mj-omap .rg .pat,
+.mj-omap .om-tex {
+  pointer-events: none;
+}
+.mj-omap .rg.is-hot .top {
+  filter: drop-shadow(0 0 16px var(--band)) brightness(1.18);
+}
+.mj-omap .rg.is-hot .edge {
+  stroke: var(--gold-glow);
+  stroke-width: 2;
+}
+.mj-omap .rg:focus-visible .edge {
+  stroke: var(--focus-ring);
+  stroke-width: 2.5;
+}
+.mj-omap .rg.is-pinned .edge {
+  stroke: var(--gold);
+  stroke-width: 2.5;
+}
+.mj-omap .rg .top.flash {
+  animation: om-flash $t-1300 var(--ease-expo);
+}
+@keyframes om-flash {
+  0% {
+    filter: brightness(1.9) drop-shadow(0 0 20px var(--gold-glow));
+  }
+  100% {
+    filter: none;
+  }
+}
+.mj-omap .om-grid {
+  opacity: 0.14;
+}
+.mj-omap .om-scan {
+  animation: om-scan $t-7000 linear infinite;
+}
+@keyframes om-scan {
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(900px);
+  }
+}
+.mj-omap .om-lead {
+  fill: none;
+  stroke: var(--ink-muted);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+  opacity: 0.7;
+  vector-effect: non-scaling-stroke;
+}
+.mj-omap .om-hud {
+  position: absolute;
+  inset: $sp-4;
+  pointer-events: none;
+}
+.mj-omap .om-hud i {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 0 solid var(--gold);
+  opacity: 0.55;
+}
+.mj-omap .om-hud i:nth-child(1) {
+  top: 0;
+  inset-inline-start: 0;
+  border-block-width: 1.5px 0;
+  border-inline-width: 1.5px 0;
+}
+.mj-omap .om-hud i:nth-child(2) {
+  top: 0;
+  inset-inline-end: 0;
+  border-block-width: 1.5px 0;
+  border-inline-width: 0 1.5px;
+}
+.mj-omap .om-hud i:nth-child(3) {
+  bottom: 0;
+  inset-inline-start: 0;
+  border-block-width: 0 1.5px;
+  border-inline-width: 1.5px 0;
+}
+.mj-omap .om-hud i:nth-child(4) {
+  bottom: 0;
+  inset-inline-end: 0;
+  border-block-width: 0 1.5px;
+  border-inline-width: 0 1.5px;
+}
+.om-labels {
+  @include mixins.cover;
+  pointer-events: none;
+  z-index: $z-5;
+}
+.om-lab {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $sp-3 $sp-8 $sp-4;
+  border-radius: $r-10;
+  background: color-mix(in srgb, var(--canvas-0) 62%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--band) 60%, transparent);
+  white-space: nowrap;
+  transition:
+    transform var(--dur-ui) var(--ease-spring),
+    opacity var(--dur-ui),
+    box-shadow var(--dur-ui);
+}
+.om-lab .nm {
+  font: 600 #{$fs-9}/ 1.25 var(--font-sans);
+  color: var(--ink-muted);
+  @include mixins.arabic;
+  text-transform: none;
+  font-size: $fs-11;
+}
+.om-lab b {
+  font: 700 #{$fs-13}/ 1.1 var(--font-display);
+  color: var(--ink);
+}
+:where(.om-labels.has-hot) .om-lab:not(.is-hot) {
+  opacity: 0.3;
+}
+.om-lab.is-hot {
+  transform: translate(-50%, -50%) scale(1.25);
+  box-shadow:
+    inset 0 0 0 1px var(--band),
+    0 0 24px color-mix(in srgb, var(--band) 65%, transparent);
+  z-index: $z-2;
+}
+.om-lab.flash::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px var(--gold-glow),
+    0 0 28px var(--gold-glow);
+  opacity: 0;
+  pointer-events: none;
+  animation: om-labflash $t-1300 var(--ease-expo);
+}
+@keyframes om-labflash {
+  0% {
+    opacity: 1;
+  }
+}
+.om-hatch {
+  fill: var(--pattern-ink-24);
+}
+.om-dot {
+  fill: var(--data-cyan);
+}
+.om-scan-s {
+  stop-color: var(--data-cyan);
+}

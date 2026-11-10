@@ -1,0 +1,155 @@
+@use 'mixins';
+@use 'scales' as *;
+
+.mj-toasts {
+  position: absolute;
+  top: $sp-88;
+  inset-inline-end: $sp-24;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+  z-index: $z-toast;
+  pointer-events: none;
+}
+.mj-toast {
+  display: flex;
+  align-items: center;
+  gap: $sp-12;
+  padding: $sp-12 $sp-16;
+  border-radius: var(--radius-tile);
+  min-width: 280px;
+  animation: mj-toast-in var(--dur-panel) var(--ease-spring) both;
+}
+.mj-toast .ic {
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-round;
+  background: var(--gold);
+  color: var(--on-gold);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--glow-gold);
+  flex: none;
+  position: relative;
+  z-index: $z-3;
+}
+.mj-toast .ic svg {
+  width: 16px;
+  height: 16px;
+}
+.mj-toast .ic .star {
+  fill: currentcolor;
+}
+.mj-toast .tx {
+  position: relative;
+  z-index: $z-3;
+}
+.mj-toast .tx b {
+  display: block;
+  font-size: $fs-14;
+}
+.mj-toast .tx span {
+  font-size: $fs-12;
+  color: var(--ink-muted);
+}
+.mj-toast.out {
+  animation: mj-toast-out $t-500 var(--ease-std) forwards;
+}
+@keyframes mj-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.96);
+  }
+}
+@keyframes mj-toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+.mj-confetti {
+  @include mixins.cover;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: $z-confetti;
+}
+.mj-confetti svg {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+}
+
+.mj-horizon {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 120px;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.mj-horizon .drift {
+  position: absolute;
+  inset-inline-end: 0;
+  bottom: 0;
+  width: 200%;
+  height: 100%;
+  display: flex;
+  animation: mj-drift $t-120000 linear infinite;
+}
+.mj-horizon svg {
+  width: 50%;
+  height: 100%;
+  flex: none;
+}
+.mj-horizon .ridge {
+  fill: none;
+  stroke: var(--data-cyan);
+  stroke-width: 1;
+}
+.mj-horizon .ridge.g {
+  stroke: var(--gold);
+}
+.mj-horizon .sil {
+  fill: var(--canvas-1);
+}
+.mj-horizon .sil-l {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1;
+  opacity: 0.5;
+}
+@keyframes mj-drift {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.mj-scrim {
+  @include mixins.cover;
+  background: var(--scrim);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-panel);
+  z-index: $z-scrim;
+}
+.mj-scrim.on {
+  opacity: 1;
+  pointer-events: auto;
+}
+.mj-drawer {
+  position: absolute;
+  top: $sp-16;
+  bottom: $sp-16;
+  inset-inline-end: $sp-16;
+  width: 620px;
+  z-index: $z-drawer;
+  transition: transform var(--dur-panel) var(--ease-expo);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateX(-110%);
+}
+.mj-drawer.on {
+  transform: none;
+}

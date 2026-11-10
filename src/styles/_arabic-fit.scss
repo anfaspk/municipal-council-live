@@ -1,0 +1,34 @@
+@use 'mixins';
+@use 'scales' as *;
+
+.hs-l {
+  font-size: $fs-15;
+}
+.hero-stats {
+  grid-template-columns: auto auto auto;
+  justify-content: space-between;
+  column-gap: $sp-16;
+}
+.fc-name {
+  font-size: $fs-18;
+  @include mixins.ellipsis;
+}
+.fc-gt .glyphs,
+.fc-gt .glyph {
+  gap: $sp-4;
+}
+.fc-gt .glyph svg {
+  width: 20px;
+  height: 20px;
+}
+.hero-in {
+  column-gap: $sp-28;
+}
+.mj-pod .who b {
+  font-size: $fs-13-5;
+}
+
+.fc-gt .mj-chip.sm {
+  font-size: $fs-9-5;
+  padding: 0 $sp-6;
+}

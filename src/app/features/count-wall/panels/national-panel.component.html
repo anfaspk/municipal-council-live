@@ -1,0 +1,47 @@
+@let n = national();
+<div class="cx-nh" style="--i: 1">
+  <h2 class="ctv-name">{{ text('cTvNat') }}</h2>
+  <div class="cx-np">
+    <b class="mj-num cx-xpp" [attr.data-pct]="n.p">{{ percent(n.p) }}</b
+    ><span
+      >{{ text('cBallotsCounted') }}<br /><em class="mj-num cx-nd">{{
+        text('cxDeclN', { d: n.decl, t: n.wil })
+      }}</em></span
+    >
+  </div>
+</div>
+<div
+  class="cx-gs four"
+  style="--i: 2"
+  countStats
+  [counted]="n.counted"
+  [cast]="n.cast"
+  [gender]="n"
+  prefix="x"
+></div>
+<div class="cx-tbl" style="--i: 3">
+  <div class="cx-th" [first]="text('cxGov')" [last]="text('stDecl')"></div>
+  <div class="cx-wl cx-gl">
+    @for (row of rows(); track row.gov.id) {
+      @let s = row.sum;
+      <button
+        type="button"
+        [class]="'cx-w cx-gr ' + (s.decl === s.n ? 'decl' : s.counted ? 'count' : 'await')"
+        [attr.data-g]="row.gov.id"
+        [style.--j]="$index"
+      >
+        <span class="nm"
+          ><span class="t"
+            ><b>{{ row.gov.ar }}</b
+            ><em class="pc mj-num">{{ percent(s.p) }}</em></span
+          ><span class="pg"><i [style.width]="decimal(s.p) + '%'"></i></span></span
+        ><b class="n c mj-num">{{ number(s.counted) }}</b
+        ><b class="n l mj-num">{{ number(s.cast - s.counted) }}</b
+        ><b class="n m mj-num">{{ number(row.gender.m) }}</b
+        ><b class="n f mj-num">{{ number(row.gender.f) }}</b
+        ><span class="dc mj-num">{{ text('cDeclOf', { d: s.decl, t: s.n }) }}</span
+        ><span class="go"><svg mjIcon="next"></svg></span>
+      </button>
+    }
+  </div>
+</div>

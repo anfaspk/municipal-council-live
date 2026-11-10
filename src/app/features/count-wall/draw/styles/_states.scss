@@ -1,0 +1,14 @@
+.mj-tv.tva-still .cxd-coin,
+.mj-tv.tva-still .cxd-c,
+.mj-tv.tva-still .cxd-won,
+.mj-tv.tva-still .cxd-list {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cxd-coin,
+  .cxd-c,
+  .cxd-won,
+  .cxd-list {
+    animation: none;
+  }
+}

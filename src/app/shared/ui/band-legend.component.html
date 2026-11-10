@@ -1,0 +1,1 @@
+<div class="mj-micro">{{ 'bands' | t }}</div><div class="bandlist">@for (b of bands; track b) {<div [class]="'bl ' + b"><i [class]="'mj-sw ' + b"></i><span>{{ (b | t) }}</span><b class="mj-num">{{ count()[b] }}</b></div>}</div>

@@ -1,0 +1,32 @@
+@media (forced-colors: active) {
+  .mj-sw,
+  .mj-row .mb i,
+  .dw-br,
+  .mj-gender .bar,
+  .ix-gmeter :is(.m, .f),
+  .ix-gb i,
+  .mj-runner .rr .sb i {
+    forced-color-adjust: none;
+  }
+  .mj-glass {
+    outline: 1px solid canvastext;
+    outline-offset: -1px;
+  }
+  :is(.mj-seg button[aria-pressed='true'], .dw-tab[aria-selected='true'], .ix-tab.on) {
+    forced-color-adjust: none;
+    background: highlight;
+  }
+  :is(.mj-seg button[aria-pressed='true'], .dw-tab[aria-selected='true'], .ix-tab.on),
+  :is(.mj-seg button[aria-pressed='true'], .dw-tab[aria-selected='true'], .ix-tab.on) * {
+    color: highlighttext;
+  }
+  .mj-row:is(.is-pinned, .is-hot),
+  .dw-wr.is-sel,
+  .dw-wc.on {
+    outline: 2px solid highlight;
+    outline-offset: -2px;
+  }
+  .mj-root :focus-visible {
+    outline-color: highlight;
+  }
+}

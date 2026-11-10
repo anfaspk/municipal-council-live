@@ -1,0 +1,40 @@
+@use '../../../../styles/scales' as *;
+
+.cx-nh {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $sp-20;
+}
+.cx-natp .ctv-name {
+  font-size: $fs-64;
+}
+.cx-np {
+  display: flex;
+  align-items: center;
+  gap: $sp-14;
+}
+.cx-np b {
+  font: 700 #{$fs-78}/ 0.9 var(--font-display);
+  letter-spacing: -0.04em;
+  background: linear-gradient(180deg, var(--gold-pale), var(--gold) 92%);
+  background-clip: text;
+  color: transparent;
+}
+[data-theme='daylight'] .cx-np b {
+  background: linear-gradient(180deg, var(--gold-ink), var(--gold));
+  background-clip: text;
+}
+.cx-np span {
+  font: 600 #{$fs-15}/ 1.4 var(--font-sans);
+  color: var(--ink-muted);
+  font-family: var(--font-arabic);
+}
+.cx-np em {
+  font-style: normal;
+  color: var(--ink);
+  font-size: $fs-13;
+}
+.cx-natp {
+  gap: $sp-34;
+}

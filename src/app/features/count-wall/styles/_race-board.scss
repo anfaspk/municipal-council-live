@@ -1,0 +1,61 @@
+@use '../../../../styles/scales' as *;
+
+.cx-race {
+  flex: 1;
+  gap: $sp-14;
+}
+.cx-race .rs-nx {
+  margin-block-start: $sp-12;
+}
+.cx-race .rs-rest {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: $sp-8;
+  min-height: 0;
+}
+.cx-race .rs-grid {
+  flex: 1;
+  grid-template-rows: repeat(var(--rows), minmax(72px, 92px));
+  align-content: start;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.cx-race.rs-dense .rs-grid {
+  row-gap: $sp-6;
+}
+.cx-race .rs-row {
+  container-type: size;
+}
+.cx-race .rs-row .rs-av.sm {
+  width: clamp(28px, 74cqh, 62px);
+  height: clamp(28px, 74cqh, 62px);
+}
+.cx-race .rs-row .rs-rk {
+  font-size: clamp($fs-12, 22cqh, $fs-16);
+}
+.cx-race .rs-row .rs-nm {
+  font-size: clamp($fs-14, 27cqh, $fs-21);
+}
+.cx-race .rs-fig .rs-val {
+  font-size: clamp($fs-16, 33cqh, $fs-26);
+}
+.cx-race .rs-fig .rs-sh {
+  font-size: clamp($fs-11, 18cqh, $fs-14);
+}
+@container (height >= 64px) {
+  .cx-race .rs-row .rs-nm {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.24;
+    white-space: normal;
+  }
+}
+@container (height < 54px) {
+  .cx-race .rs-fig .rs-sh {
+    display: none;
+  }
+}

@@ -1,0 +1,1 @@
+function a(n,r,e){let i=e*.7654,o=[];for(let t=0;t<16;t++){let s=(t*22.5-90)*Math.PI/180,u=t%2?i:e;o.push((n+u*Math.cos(s)).toFixed(2)+`,`+(r+u*Math.sin(s)).toFixed(2))}return o.join(` `)}var b=n=>{let r=n>>>0||1;return()=>(r=r*1664525+1013904223>>>0,r/4294967296)};export{b as n,a as t};

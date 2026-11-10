@@ -1,0 +1,23 @@
+.cc-dash.cc-inactive *,
+.cc-dash.cc-inactive *::before,
+.cc-dash.cc-inactive *::after {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mj-rail.rl-out .mj-row,
+  .mj-rail.rl-in .mj-row,
+  .mj-rail.rl-in .mj-row .mb i {
+    animation: none;
+  }
+}
+.ix-still *,
+.ix-still *::after {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ix *,
+  .ix *::after,
+  .ix-stage::after {
+    animation: none;
+  }
+}

@@ -1,0 +1,5 @@
+@use '../../../../styles/scales' as *;
+
+.tv-oman .tv-sh-trace {
+  animation-delay: calc($t-200 + var(--k) * $t-80);
+}

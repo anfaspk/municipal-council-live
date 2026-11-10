@@ -1,0 +1,231 @@
+@use '../../../../../../styles/scales' as *;
+
+.mv {
+  --mv-c: var(--stat-voted);
+  --mv-cy: var(--data-cyan);
+  --mv-e: cubic-bezier(0.22, 1, 0.36, 1);
+  --mv-io: cubic-bezier(0.65, 0, 0.35, 1);
+
+  position: relative;
+  isolation: isolate;
+  inline-size: 200px;
+  block-size: 250px;
+  flex: none;
+}
+
+.mv-holo {
+  position: absolute;
+  inset-inline: 0;
+  top: -$sp-34;
+  inline-size: 160px;
+  block-size: 160px;
+  margin-inline: auto;
+  transform: perspective(520px) rotateX(63deg);
+  pointer-events: none;
+  z-index: 0;
+}
+.mv-ring {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+  color: var(--mv-cy);
+
+  .mv-ticks line {
+    stroke: color-mix(in srgb, var(--mv-line) 38%, transparent);
+    stroke-width: 0.9;
+  }
+  .mv-track {
+    fill: none;
+    stroke: color-mix(in srgb, var(--mv-line) 12%, transparent);
+    stroke-width: 5;
+  }
+  .mv-arc {
+    fill: none;
+    stroke: var(--mv-c);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dashoffset: calc(100px * (1 - var(--mv-level, 0)));
+    filter: drop-shadow(0 0 4px var(--mv-c));
+    transition: stroke-dashoffset var(--mv-ld, 1200ms) var(--ease-expo);
+  }
+  .mv-spin {
+    transform-origin: 80px 80px;
+    animation: mv-spin $t-30000 linear infinite;
+
+    circle {
+      fill: none;
+      stroke: color-mix(in srgb, var(--mv-line) 28%, transparent);
+      stroke-width: 0.8;
+      stroke-dasharray: 2 5;
+    }
+    circle + circle {
+      stroke-dasharray: 10 4 2 4;
+      stroke: color-mix(in srgb, var(--gold) 55%, transparent);
+    }
+  }
+  .mv-headg {
+    transform-origin: 80px 80px;
+    transform: rotate(calc(var(--mv-level, 0) * 360deg));
+    transition: transform var(--mv-ld, 1200ms) var(--ease-expo);
+  }
+  .mv-head {
+    fill: var(--mv-white);
+    stroke: var(--mv-c);
+    stroke-width: 2.2;
+    transform-box: fill-box;
+    transform-origin: center;
+    filter: drop-shadow(0 0 5px var(--mv-c));
+  }
+  .mv-echo {
+    fill: none;
+    stroke: var(--mv-c);
+    stroke-width: 1.6;
+    opacity: 0;
+    transform-origin: 80px 80px;
+  }
+}
+
+.mv-beam {
+  position: absolute;
+  inset-inline: 0;
+  top: $sp-44;
+  inline-size: 84px;
+  block-size: 52px;
+  margin-inline: auto;
+  z-index: $z-1;
+  pointer-events: none;
+  clip-path: polygon(0 0, 100% 0, 60% 100%, 40% 100%);
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--mv-cy) 50%, transparent),
+    color-mix(in srgb, var(--mv-cy) 4%, transparent)
+  );
+  opacity: 0.4;
+  transition: opacity $t-800 var(--mv-e);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--mv-c) 70%, transparent),
+      transparent
+    );
+    opacity: 0;
+    transition: opacity $t-800 var(--mv-e);
+  }
+  &.on {
+    opacity: 1;
+  }
+  &.on::after {
+    opacity: 0.75;
+  }
+}
+
+.mv-dc {
+  position: absolute;
+  inset-inline: 0;
+  top: -$sp-1;
+  inline-size: 80px;
+  block-size: 60px;
+  margin-inline: auto;
+  z-index: $z-1;
+  pointer-events: none;
+  overflow: visible;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--mv-cy) 35%, transparent));
+
+  polygon {
+    stroke-width: 0.5;
+  }
+  .mv-dc-base {
+    fill: color-mix(in srgb, var(--mv-cy) 12%, transparent);
+    stroke: color-mix(in srgb, var(--gold) 60%, transparent);
+  }
+  .mv-dc-t {
+    fill: var(--mv-dc-top);
+    stroke: color-mix(in srgb, var(--mv-line) 75%, transparent);
+  }
+  .mv-dc-l {
+    fill: var(--mv-dc-left);
+    stroke: color-mix(in srgb, var(--mv-line) 55%, transparent);
+  }
+  .mv-dc-r {
+    fill: var(--mv-dc-right);
+    stroke: color-mix(in srgb, var(--mv-line) 45%, transparent);
+  }
+  .mv-leds {
+    stroke: var(--mv-cy);
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    animation: mv-led $t-3000 ease-in-out var(--d, 0s) infinite;
+  }
+}
+
+.mv-dcg {
+  position: absolute;
+  inset-inline: 0;
+  top: -$sp-6;
+  inline-size: 84px;
+  block-size: 64px;
+  margin-inline: auto;
+  z-index: $z-1;
+  pointer-events: none;
+  border-radius: $radius-round;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--mv-c) 55%, transparent),
+    transparent
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+.mv-pad {
+  position: absolute;
+  inset-inline: 0;
+  top: $sp-178;
+  inline-size: 144px;
+  block-size: 144px;
+  margin-inline: auto;
+  transform: perspective(420px) rotateX(74deg);
+  border-radius: $radius-round;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--mv-cy) 30%, transparent),
+    color-mix(in srgb, var(--mv-cy) 6%, transparent) 55%,
+    transparent 70%
+  );
+
+  i {
+    position: absolute;
+    border-radius: $radius-round;
+    border: 1px solid color-mix(in srgb, var(--mv-line) 28%, transparent);
+  }
+  i:nth-child(1) {
+    inset: 14%;
+  }
+  i:nth-child(2) {
+    inset: 26%;
+    border-style: dashed;
+    border-color: color-mix(in srgb, var(--gold) 55%, transparent);
+    animation: mv-spin $t-36000 linear infinite;
+  }
+}
+
+@keyframes mv-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes mv-led {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}

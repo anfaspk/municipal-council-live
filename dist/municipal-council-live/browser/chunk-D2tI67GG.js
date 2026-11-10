@@ -1,0 +1,1 @@
+var n=0;var i=t=>t+ ++n;export{i as t};

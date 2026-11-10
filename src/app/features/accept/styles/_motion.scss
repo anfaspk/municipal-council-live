@@ -1,0 +1,8 @@
+@media (prefers-reduced-motion: reduce) {
+  .ca-root :is(.ca-ring-f, .ca-steps-l::after) {
+    transition: none;
+  }
+  .ca-root :is(.ca-go::after, .ca-step.on .ca-dot) {
+    animation: none;
+  }
+}

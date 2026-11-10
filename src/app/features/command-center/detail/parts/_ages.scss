@@ -1,0 +1,253 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+$ageb-cols: 62px minmax(0, 1fr) 58px minmax(0, 1fr) 62px 66px;
+
+.dt-ageb {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: $sp-6;
+  min-height: 0;
+}
+.dt-ageb .dt-ageb-head {
+  display: grid;
+  grid-template-columns: $ageb-cols;
+  align-items: center;
+  gap: $sp-6;
+  color: var(--ink-muted);
+  font: 600 #{$fs-12}/ 1.2 var(--font-sans);
+  @include mixins.arabic;
+}
+.dt-ageb .dt-ageb-head > span {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+}
+.dt-ageb .dt-ageb-head b {
+  color: var(--ink);
+  font: 700 #{$fs-12}/ 1 var(--font-display);
+}
+.dt-ageb .dt-ageb-head .m {
+  grid-column: 1 / 3;
+}
+.dt-ageb .dt-ageb-head .c {
+  justify-content: center;
+}
+.dt-ageb .dt-ageb-head .f {
+  grid-column: 4 / 6;
+  justify-content: flex-end;
+}
+.dt-ageb .dt-ageb-head .s {
+  justify-content: flex-end;
+}
+.dt-ageb .dt-ageb-rows {
+  display: grid;
+  flex: 1;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: $sp-4;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dt-ageb .dt-ageb-row {
+  display: grid;
+  grid-template-columns: $ageb-cols;
+  align-items: center;
+  gap: $sp-6;
+  min-height: 0;
+  animation: dt-rise-in $t-500 var(--ease-expo) both;
+  animation-delay: calc(#{$t-300} + var(--j, 0) * #{$t-60});
+}
+.dt-ageb .dt-ageb-v {
+  color: var(--ink-muted);
+  font: 600 #{$fs-12}/ 1 var(--font-display);
+}
+.dt-ageb .dt-ageb-v.f {
+  text-align: end;
+}
+.dt-ageb .dt-ageb-bar {
+  position: relative;
+  height: 70%;
+  max-height: 22px;
+  min-height: 8px;
+  border-radius: $r-6;
+  background: color-mix(in srgb, var(--hairline) 60%, transparent);
+}
+.dt-ageb .dt-ageb-bar i {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transform: scaleX(var(--k, 0));
+  transition: transform $t-1200 var(--ease-expo);
+}
+.dt-ageb .dt-ageb-bar.m i {
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--male) 75%, transparent),
+    var(--male)
+  );
+  transform-origin: 0 50%;
+}
+.dt-ageb .dt-ageb-bar.f i {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--female) 75%, transparent),
+    var(--female)
+  );
+  transform-origin: 100% 50%;
+}
+.dt-ageb .dt-ageb-b {
+  justify-self: center;
+  padding: $sp-3 $sp-8;
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill);
+  color: var(--ink);
+  font: 700 #{$fs-12}/ 1 var(--font-display);
+  white-space: nowrap;
+  direction: ltr;
+}
+.dt-ageb .dt-ageb-s {
+  color: var(--ink);
+  font: 700 #{$fs-13}/ 1 var(--font-display);
+  text-align: end;
+}
+.dt-ageb .dt-ageb-row.top .dt-ageb-b {
+  background: var(--gold);
+  color: var(--on-gold);
+}
+.dt-ageb .dt-ageb-row.top .dt-ageb-s {
+  color: var(--gold-ink);
+}
+.dt-ageb .dt-ageb-row.top .dt-ageb-v {
+  color: var(--ink);
+}
+
+.dt-rate {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: $sp-10;
+  min-height: 0;
+}
+.dt-rate .dt-rate-rows {
+  display: grid;
+  flex: 1;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: $sp-6;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dt-rate .dt-rate-row {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) 82px;
+  align-items: center;
+  gap: $sp-12;
+  min-height: 0;
+  padding: 0 $sp-10;
+  border-radius: $r-12;
+  background: var(--glass-fill);
+  animation: dt-rise-in $t-500 var(--ease-expo) both;
+  animation-delay: calc(#{$t-300} + var(--j, 0) * #{$t-60});
+}
+.dt-rate .dt-rate-row.hi {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 55%, transparent);
+}
+.dt-rate .dt-rate-b {
+  color: var(--ink);
+  font: 700 #{$fs-14}/ 1 var(--font-display);
+  direction: ltr;
+  text-align: end;
+}
+.dt-rate .dt-rate-bars {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+}
+.dt-rate .dt-rate-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 54px;
+  align-items: center;
+  gap: $sp-8;
+}
+.dt-rate .dt-rate-tr {
+  position: relative;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  background: var(--hairline);
+}
+.dt-rate .dt-rate-tr i {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transform: scaleX(var(--k, 0));
+  transform-origin: 100% 50%;
+  transition: transform $t-1200 var(--ease-expo);
+}
+.dt-rate .dt-rate-line.m i {
+  background: var(--male);
+}
+.dt-rate .dt-rate-line.f i {
+  background: var(--female);
+}
+.dt-rate .ref .dt-rate-tr::after {
+  content: '';
+  position: absolute;
+  inset-block: -$sp-3;
+  inset-inline-start: calc(var(--ref, 0) * 100%);
+  width: 2px;
+  border-radius: $r-1;
+  background: var(--gold);
+}
+.dt-rate .dt-rate-line em {
+  color: var(--ink);
+  font: 600 #{$fs-12}/ 1 var(--font-display);
+  font-style: normal;
+}
+.dt-rate .dt-rate-t {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $sp-2;
+  color: var(--ink);
+  font: 700 #{$fs-18}/ 1 var(--font-display);
+}
+.dt-rate .dt-rate-t small {
+  color: var(--ink-muted);
+  font: 600 #{$fs-10}/ 1 var(--font-sans);
+  @include mixins.arabic;
+}
+.dt-rate .dt-rate-row.hi .dt-rate-t,
+.dt-rate .dt-rate-row.hi .dt-rate-t small {
+  color: var(--gold-ink);
+}
+.dt-rate .dt-rate-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sp-6 $sp-16;
+  color: var(--ink-muted);
+  font: 500 #{$fs-12}/ 1.2 var(--font-sans);
+  @include mixins.arabic;
+}
+.dt-rate .dt-rate-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+}
+.dt-rate .dt-rate-refk {
+  width: 2px;
+  height: 14px;
+  border-radius: $r-1;
+  background: var(--gold);
+}
+
+@keyframes dt-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

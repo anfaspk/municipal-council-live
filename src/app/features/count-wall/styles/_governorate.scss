@@ -1,0 +1,311 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+@use 'status';
+
+.cx-nm {
+  font-size: $fs-60;
+}
+.cx-gs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $sp-18;
+}
+
+.cx-wl {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+  min-height: 0;
+  padding: $sp-3;
+  margin: -$sp-3;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--data-cyan) 45%, transparent) transparent;
+}
+.cx-w {
+  --c: var(--ink-muted);
+  position: relative;
+  flex: none;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1.2fr) 110px 50px minmax(0, 1.35fr) 16px;
+  align-items: center;
+  gap: $sp-4;
+  height: 56px;
+  padding: 0 $sp-16;
+  border: 0;
+  border-radius: $r-14;
+  background: color-mix(in srgb, var(--canvas-1) 58%, transparent);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  color: var(--ink);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    box-shadow $t-400,
+    background $t-400,
+    transform $t-450 var(--ease-expo);
+  @include status.c;
+}
+.cx-w:hover,
+.cx-w:focus-visible {
+  outline: none;
+  background: color-mix(in srgb, var(--c) 10%, var(--canvas-1));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--c) 60%, transparent),
+    0 14px 34px -20px var(--c);
+  transform: translateX(-6px);
+}
+.cx-w.decl {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--declared) 32%, transparent);
+}
+.cx-w.was {
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--gold) 70%, transparent);
+}
+.cx-w.upd::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1.5px var(--c),
+    0 0 28px -6px var(--c);
+  opacity: 0;
+  pointer-events: none;
+  animation: cx-flash $t-1200 var(--ease-std);
+}
+@keyframes cx-flash {
+  25% {
+    opacity: 1;
+  }
+}
+
+.cx-w .nm {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-2;
+  min-width: 0;
+}
+.cx-w .nm b {
+  font: 600 #{$fs-17}/ 1.2 var(--font-sans);
+  @include mixins.ellipsis;
+}
+.cx-w .nm em {
+  font: 500 #{$fs-12-5}/ 1.3 var(--font-sans);
+  font-style: normal;
+  color: var(--ink-muted);
+  @include mixins.ellipsis;
+}
+.cx-w .nm b,
+.cx-w .ld b,
+.cx-w .ld.aw {
+  font-family: var(--font-arabic);
+}
+.cx-w .pg {
+  height: 6px;
+  border-radius: $r-3;
+  background: color-mix(in srgb, var(--ink-muted) 18%, transparent);
+  overflow: hidden;
+}
+.cx-w .pg i {
+  display: block;
+  height: 100%;
+  border-radius: $r-3;
+  background: var(--c);
+  box-shadow: 0 0 12px var(--c);
+  transition: width $t-1100 var(--ease-expo);
+}
+.cx-w .pc {
+  font: 700 #{$fs-17}/ 1 var(--font-display);
+  text-align: end;
+  color: var(--c);
+}
+.cx-w .ld {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  min-width: 0;
+  font-size: $fs-14;
+}
+.cx-w .ld i {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: $radius-round;
+  display: grid;
+  place-items: center;
+  font: 700 #{$fs-10-5}/ 1 var(--font-sans);
+  font-style: normal;
+  color: var(--ink);
+}
+.cx-w .ld i:where(:not(.ph)) {
+  background: color-mix(in srgb, var(--c) 22%, var(--canvas-1));
+  box-shadow: inset 0 0 0 1px var(--c);
+}
+.cx-w.decl .ld i {
+  color: var(--on-gold);
+}
+.cx-w.decl .ld i:where(:not(.ph)) {
+  background: var(--gold);
+  box-shadow: none;
+}
+.cx-w .ld b {
+  font-weight: 600;
+  @include mixins.ellipsis;
+  min-width: 0;
+}
+.cx-w .ld em {
+  flex: none;
+  font: 700 #{$fs-10-5}/ 1 var(--font-sans);
+  font-style: normal;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  @include mixins.arabic;
+  font-size: $fs-12;
+}
+.cx-w .ld em.ok {
+  color: var(--declared);
+}
+.cx-w .ld.aw {
+  color: var(--ink-muted);
+}
+.cx-w .go {
+  display: grid;
+  place-items: center;
+  opacity: 0.45;
+  transition:
+    opacity $t-300,
+    transform $t-400 var(--ease-expo);
+}
+.cx-w .go svg {
+  width: 16px;
+  height: 16px;
+  transform: scaleX(-1);
+}
+.cx-w:hover .go {
+  opacity: 1;
+  transform: translateX(3px);
+}
+.cx-pv.cx-in .cx-w {
+  animation: cx-row $t-750 cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: calc($t-320 + var(--j, 0) * $t-45);
+  animation-name: cx-row-r;
+}
+@keyframes cx-row {
+  from {
+    opacity: 0;
+    translate: -26px 0;
+  }
+}
+@keyframes cx-row-r {
+  from {
+    opacity: 0;
+    translate: 26px 0;
+  }
+}
+
+.cx-wl.many {
+  gap: $sp-5;
+}
+.cx-wl.many .cx-w {
+  height: 48px;
+}
+.cx-wl.many .cx-w .nm b {
+  font-size: $fs-16;
+}
+.cx-wl.many .cx-w .nm em {
+  font-size: $fs-12;
+}
+.cx-tbl {
+  --cols: minmax(0, 1.25fr) 90px 90px 82px 82px minmax(0, 1.15fr) 14px;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+  min-height: 0;
+  flex: 1;
+}
+.cx-natp .cx-tbl {
+  --cols: minmax(0, 1.3fr) 96px 96px 88px 88px 112px 14px;
+}
+.cx-th {
+  display: grid;
+  grid-template-columns: var(--cols);
+  align-items: center;
+  gap: $sp-12;
+  padding: 0 $sp-16;
+  font: 600 #{$fs-11}/ 1 var(--font-sans);
+  color: var(--ink-muted);
+  @include mixins.arabic;
+  text-transform: none;
+  font-size: $fs-15;
+}
+.cx-th span:nth-child(n + 2):nth-child(-n + 5) {
+  text-align: end;
+}
+.cx-tbl .cx-w {
+  grid-template-columns: var(--cols);
+  height: 52px;
+  gap: $sp-12;
+}
+.cx-tbl .cx-wl.many .cx-w {
+  height: 46px;
+}
+.cx-natp .cx-gl {
+  gap: $sp-4;
+}
+.cx-w .nm .t {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  min-width: 0;
+}
+.cx-w .nm .t b {
+  min-width: 0;
+  @include mixins.ellipsis;
+}
+.cx-w .nm .pc {
+  margin-inline-start: auto;
+  font: 700 #{$fs-14}/ 1 var(--font-display);
+  font-style: normal;
+  color: var(--c);
+  flex: none;
+}
+.cx-tbl .cx-w .nm {
+  gap: $sp-6;
+}
+.cx-tbl .cx-w .pg {
+  height: 4px;
+}
+.cx-w .n {
+  font: 600 #{$fs-15}/ 1 var(--font-display);
+  text-align: end;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.cx-w .n.c {
+  color: var(--declared);
+}
+.cx-w .n.l {
+  color: var(--stat-pending);
+}
+.cx-gr .dc {
+  font: 500 #{$fs-12-5}/ 1 var(--font-sans);
+  color: var(--ink-muted);
+  text-align: end;
+  white-space: nowrap;
+}
+.cx-gr .dc {
+  font-family: var(--font-arabic);
+}
+.cx-gr.hot {
+  background: color-mix(in srgb, var(--gold) 12%, var(--canvas-1));
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in srgb, var(--gold) 70%, transparent),
+    0 0 28px -10px var(--gold);
+  transform: translateX(-6px);
+}
+.cx-gr.hot .nm .t b {
+  color: var(--gold-ink);
+}
+.cx-natp .cx-gl .cx-w {
+  height: 46px;
+}

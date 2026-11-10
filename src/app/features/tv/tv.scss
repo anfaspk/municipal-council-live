@@ -1,0 +1,17 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/frame');
+  @include meta.load-css('styles/stats');
+  @include meta.load-css('styles/stage');
+  @include meta.load-css('styles/playback');
+  @include meta.load-css('styles/split');
+  @include meta.load-css('styles/side');
+  @include meta.load-css('styles/screen');
+  @include meta.load-css('styles/forced-colors');
+}
+@layer states {
+  @include meta.load-css('styles/slides-states');
+}

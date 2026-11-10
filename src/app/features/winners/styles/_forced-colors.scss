@@ -1,0 +1,30 @@
+@media (forced-colors: active) {
+  .wn-gov,
+  .wn-wil,
+  .wn-rail,
+  .wn-frame,
+  .wn-plate,
+  .wn-gsel,
+  .wn-find {
+    border: 1px solid canvastext;
+  }
+  .wn-gov.hot,
+  .wn-wil.on {
+    border-color: highlight;
+  }
+  .wn-pick-h,
+  .wn-ttl b,
+  .wn-name-n,
+  .wn-name-k,
+  .wn-ini {
+    background: none;
+    color: canvastext;
+  }
+  .wn-wil-dot,
+  .wn-wil-prog,
+  .wn-medal,
+  .wn-tally-bar,
+  .wn-part {
+    forced-color-adjust: none;
+  }
+}

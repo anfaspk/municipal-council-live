@@ -1,0 +1,42 @@
+@let r = race();
+<div class="cxr-hero">
+  <div class="cxr-fx" aria-hidden="true">
+    <b class="rays"></b>
+    @for (p of particles(); track p.id) {
+      <i [style.--x]="p.x" [style.--y]="p.y" [style.--d]="p.delay" [style.--s]="p.scale"></i>
+    }
+  </div>
+  @for (c of r.top; track c.id; let k = $index) {
+    <div class="cxr-card" [style.--k]="k">
+      <span class="seat"
+        ><i class="mj-num">{{ k + 1 }}</i
+        >{{ text('cxSeat', { n: k + 1 }) }}</span
+      ><span class="por"
+        ><i class="ring"></i><span class="xl" [countAvatar]="c"></span
+        ><i class="badge"><svg countStar></svg>{{ text('cxWinner') }}</i></span
+      ><b class="nm">{{ c.ar }}</b
+      ><span class="alt"></span
+      ><span class="vv"
+        ><b class="mj-num" [attr.data-cu]="c.v">{{ number(c.v) }}</b
+        ><em>{{ text('cxVotesW') }}</em></span
+      ><span class="shr"
+        ><i [style.--w]="decimal((c.v / (r.sorted[0]?.v || 1)) * 100) + '%'"></i></span
+      ><em class="pc"
+        >@if (c.vP !== null) {<b class="mj-num">{{ share(c.vP) }}</b> {{ text('cxOfValid') }}}</em
+      >
+    </div>
+  }
+</div>
+@if (r.chaser; as runner) {
+  <div class="cxr-ru">
+    <span class="k">{{ text('cxRunnerUp') }}</span
+    ><i [countAvatar]="runner"></i><b>{{ runner.ar }}</b
+    ><em class="mj-num">{{ number(runner.v) }}</em
+    ><span class="mg"
+      >{{ text('cxMarginL', { n: runner.ar })
+      }}<b class="mj-num"
+        ><bdi dir="ltr">+{{ number(r.gap) }}</bdi></b
+      ></span
+    >
+  </div>
+}

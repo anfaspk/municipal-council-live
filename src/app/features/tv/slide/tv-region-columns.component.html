@@ -1,0 +1,35 @@
+@let c = columns();
+<svg:defs>
+  @for (b of bands; track b) {
+    <svg:linearGradient [attr.id]="ref(b)" x1="0" y1="0" x2="1" y2="0">
+      <svg:stop offset="0" stop-opacity=".45" [style.stop-color]="color(b)"/>
+      <svg:stop offset=".45" stop-opacity=".95" [style.stop-color]="color(b)"/>
+      <svg:stop offset="1" stop-opacity=".35" [style.stop-color]="color(b)"/>
+    </svg:linearGradient>
+  }
+</svg:defs>
+<svg:g class="tv-cols">
+  @for (o of c.cols; track o.i) {
+    <svg:g class="tv-col" [class]="o.band" [class.hi]="spot() === o.i" [style.--j]="o.i" [style.--h]="o.h" [attr.data-w]="o.i">
+      <svg:ellipse class="gl" [attr.cx]="o.glow.cx" [attr.cy]="o.glow.cy" [attr.rx]="o.glow.rx" [attr.ry]="o.glow.ry"/>
+      <svg:ellipse class="ar" [attr.cx]="o.arc.cx" [attr.cy]="o.arc.cy" [attr.rx]="o.arc.rx" [attr.ry]="o.arc.ry"/>
+      <svg:path class="bd" [attr.fill]="url(o.band)" [attr.d]="o.body"/>
+      <svg:ellipse class="cp" [attr.cx]="o.cap.cx" [attr.cy]="o.cap.cy" [attr.rx]="o.cap.rx" [attr.ry]="o.cap.ry"/>
+      <svg:circle class="pt" [attr.cx]="o.pt.cx" [attr.cy]="o.pt.cy" r="2.6"/>
+    </svg:g>
+  }
+</svg:g>
+<svg:g class="tv-wls">
+  @for (l of c.labels; track l.i) {
+    <svg:g class="tv-wl" [class]="l.band" [class.hi]="spot() === l.i" [style.--j]="l.i" [attr.data-w]="l.i">
+      @if (l.lead) {<svg:path class="ld" [attr.d]="l.lead" pathLength="1" stroke-width="1.3"/>}
+      <svg:g class="tv-wlc">
+        <svg:rect class="bg" [attr.x]="l.bg.x" [attr.y]="l.bg.y" [attr.width]="l.bg.w" [attr.height]="l.bg.h" rx="14" stroke-width="1"/>
+        <svg:rect class="tp" [attr.x]="l.top.x" [attr.y]="l.top.y" [attr.width]="l.top.w" [attr.height]="l.top.h"/>
+        <svg:text class="nm" [attr.x]="l.nm.cx" [attr.y]="l.nm.cy" font-size="14">{{ l.name }}</svg:text>
+        <svg:text class="pc" [attr.x]="l.pc.cx" [attr.y]="l.pc.cy" font-size="26" [mjCountUp]="l.t" countFormat="pct" [countDuration]="1200" countGroup="labels"></svg:text>
+        <svg:text class="ct" [attr.x]="l.ct.cx" [attr.y]="l.ct.cy" font-size="12.5">{{ l.count }}</svg:text>
+      </svg:g>
+    </svg:g>
+  }
+</svg:g>

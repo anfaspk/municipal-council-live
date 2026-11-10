@@ -1,0 +1,42 @@
+@if (drawer.snap(); as s) {
+  <div class="dw-glow" aria-hidden="true"></div>
+  <span class="mj-crenel dw-crenel"></span>
+  <div class="dw-head">
+    <span class="dsw mj-sw" [class]="drawer.band()"></span>
+    <div class="dw-ttl">
+      <div class="mj-micro gold dw-rk">{{ 'of11' | t: { n: s.rank } }} · {{ drawer.band() | t }}</div>
+      <h2 id="dw-title">{{ s.g.ar }}</h2>
+    </div>
+    <button class="mj-btn icon dclose" type="button" [attr.aria-label]="'close' | t" [title]="('close' | t) + ' (Esc)'" (click)="state.close()">
+      <svg [mjIcon]="'close'"></svg>
+    </button>
+  </div>
+  <nav class="dw-crumbs" [attr.aria-label]="'crumbsL' | t">
+    <button type="button" class="cr" data-cr="oman" (click)="state.close()"><svg [mjIcon]="'home'"></svg><span>{{ 'tvOman' | t }}</span></button>
+    <span class="sep" aria-hidden="true"><svg [mjIcon]="'next'"></svg></span>
+    @if (crumbWil(); as wn) {
+      <button type="button" class="cr" data-cr="gov" (click)="tabGo('wil')">{{ s.g.ar }}</button>
+      <span class="sep" aria-hidden="true"><svg [mjIcon]="'next'"></svg></span>
+      <span class="cr on" aria-current="page">{{ wn }}</span>
+    } @else {
+      <span class="cr on" aria-current="page">{{ s.g.ar }}</span>
+    }
+    <button class="mj-btn dw-full" type="button" [attr.aria-label]="'fullDetailsOf' | t: { p: s.g.ar }" (click)="openPage()">
+      <svg [mjIcon]="'expand'"></svg><span>{{ 'fullDetails' | t }}</span>
+    </button>
+  </nav>
+  <div class="dw-tabs" role="tablist" [attr.aria-label]="'tabsL' | t">
+    <span class="dw-ink" aria-hidden="true"></span>
+    @for (tb of tabs; track tb.k) {
+      @let on = drawer.tab() === tb.k;
+      <button type="button" role="tab" class="dw-tab" [attr.data-tab]="tb.k" [id]="'dwt-' + tb.k" [attr.aria-controls]="'dwp-' + tb.k" [attr.aria-selected]="on" [tabIndex]="on ? 0 : -1" (click)="tabGo(tb.k)" (keydown)="tabKey($event, tb.k)">
+        <svg [mjIcon]="tb.icon"></svg><span>{{ tb.label | t }}</span><span class="dw-cnt mj-num">{{ tb.k === 'wil' ? s.g.wil.length : tb.k === 'vil' ? vilCount() : '' }}</span>
+      </button>
+    }
+  </div>
+  <div class="dw-panes">
+    <section class="dw-pane" data-tab="ov" id="dwp-ov" role="tabpanel" aria-labelledby="dwt-ov" tabindex="0" (pick)="selectWil($event)" (more)="tabGo('wil')"></section>
+    <section class="dw-pane" data-tab="wil" id="dwp-wil" role="tabpanel" aria-labelledby="dwt-wil" tabindex="0" (pick)="selectWil($event)" (sort)="sortWil($event)" (page)="openPage($event)"></section>
+    <section class="dw-pane" data-tab="vil" id="dwp-vil" role="tabpanel" aria-labelledby="dwt-vil" tabindex="0" (pick)="selectWil($event)" (sort)="sortVil($event)" (query)="search($event)" (openVil)="toggleVil($event)" (page)="openVilPage($event)"></section>
+  </div>
+}

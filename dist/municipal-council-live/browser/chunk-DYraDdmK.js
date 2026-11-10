@@ -1,0 +1,1 @@
+import{W as v}from"./chunk-C0EECQ-D.js";var o=/[ؐ-ًؚ-ٰٟۖ-ۭـ‌‍]/g;var t={أ:`ا`,إ:`ا`,آ:`ا`,ٱ:`ا`,ى:`ي`,ئ:`ي`,ؤ:`و`,ة:`ه`};var c=new RegExp(`[`+Object.keys(t).join(``)+`]`,`g`);var s=/[٠-٩۰-۹]/g;function i(n){return v(n).replace(o,``).replace(c,e=>t[e]).replace(s,e=>String((e.charCodeAt(0)&15)%10)).toLowerCase().replace(/\s+/g,` `).trim()}export{i as t};

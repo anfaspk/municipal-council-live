@@ -1,0 +1,266 @@
+@use 'sass:meta';
+@use '../../../../styles/scales' as *;
+@use '../../../../styles/mixins';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  .dt-page {
+    position: absolute;
+    inset-block: $sp-16 + $sp-56 + $sp-14 $sp-12;
+    inset-inline: $sp-16;
+    z-index: $z-2;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: 226px 124px minmax(0, 1fr) minmax(0, 1fr);
+    gap: $sp-14;
+    min-height: 0;
+  }
+  .dt-page .dt-grid {
+    display: contents;
+  }
+  .dt-gov {
+    grid-template-areas:
+      'h h h h h gauge gauge cmp cmp cmp cmp cmp'
+      'flow flow flow flow flow flow flow flow flow flow flow flow'
+      'region region region wilayat wilayat wilayat rhythm rhythm rhythm rhythm rhythm rhythm'
+      'region region region wilayat wilayat wilayat ages ages ages gender gender gender';
+  }
+  .dt-wil {
+    grid-template-areas:
+      'h h h h h gauge gauge cmp cmp cmp cmp cmp'
+      'flow flow flow flow flow flow flow flow flow flow flow flow'
+      'locator locator locator villages villages villages rhythm rhythm rhythm rhythm rhythm rhythm'
+      'bands bands bands villages villages villages ages ages ages gender gender gender';
+  }
+  .dt-vil {
+    grid-template-areas:
+      'h h h h h gauge gauge cmp cmp cmp cmp cmp'
+      'flow flow flow flow flow flow flow flow flow flow flow flow'
+      'place place place place place place place place rate rate rate rate'
+      'ages ages ages ages gender gender gender gender rate rate rate rate';
+  }
+  @each $c in gauge, cmp, flow, region, wilayat, rhythm, ages, gender, locator, villages, bands,
+    place, rate
+  {
+    .dt-page .dt-c-#{$c} {
+      grid-area: $c;
+    }
+  }
+
+  .dt-page .dt-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $sp-12;
+    min-width: 0;
+    min-height: 0;
+    padding: $sp-18 $sp-22;
+    border-radius: var(--radius-panel);
+    animation: dt-in $t-600 var(--ease-expo) both;
+    animation-delay: calc(#{$t-100} + var(--j, 0) * #{$t-60});
+  }
+  .dt-page .dt-chd {
+    flex: none;
+    align-items: flex-start;
+    margin: 0;
+  }
+  .dt-page .dt-ch {
+    margin: 0;
+    font-size: $fs-22;
+    line-height: 1.3;
+  }
+  .dt-page .dt-cs {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: $fs-13;
+    font-weight: 500;
+    line-height: 1.45;
+  }
+  .dt-page .dt-chd-end {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: $sp-10;
+  }
+  .dt-page .dt-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: $sp-2;
+    margin: 0;
+    color: var(--ink-muted);
+    font: 500 #{$fs-11}/ 1.2 var(--font-sans);
+    @include mixins.arabic;
+  }
+  .dt-page .dt-stat b {
+    color: var(--gold-ink);
+    font: 700 #{$fs-15}/ 1.2 var(--font-display);
+  }
+  .dt-page .dt-sort button {
+    font-size: $fs-12;
+  }
+  .dt-page .dt-wait {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: $fs-13;
+  }
+  .dt-page .dt-cap {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: $fs-12;
+  }
+
+  .mj-fluid .dt-page {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0 $sp-16 $sp-12;
+  }
+  .mj-fluid .dt-page .dt-top {
+    padding-inline-end: $sp-64;
+  }
+  .mj-fluid .dt-page .dt-card {
+    min-height: 260px;
+  }
+  .mj-fluid .dt-page :is(.dt-c-region, .dt-c-locator, .dt-c-villages, .dt-c-wilayat, .dt-c-rate) {
+    min-height: 460px;
+  }
+
+  @keyframes dt-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.985);
+    }
+  }
+
+  .dt-vt .dt-page .dt-crumbs {
+    view-transition-name: dt-crumbs;
+  }
+  .dt-vt .dt-page .dt-title {
+    view-transition-name: dt-title;
+  }
+  .dt-vt:not(.dt-vt-head) .dt-page :is(.dt-c-region, .dt-c-locator) {
+    view-transition-name: dt-place;
+  }
+  .dt-vt:not(.dt-vt-head) .dt-page .dt-c-gauge {
+    view-transition-name: dt-gauge;
+  }
+  .dt-vt-head {
+    view-transition-name: none;
+  }
+  .dt-vt::view-transition-group(*) {
+    animation-duration: $t-500;
+    animation-timing-function: var(--ease-expo);
+  }
+  .dt-vt::view-transition-old(root),
+  .dt-vt::view-transition-new(root) {
+    animation-duration: $t-300;
+  }
+  .dt-vt::view-transition-old(dt-title),
+  .dt-vt::view-transition-new(dt-title),
+  .dt-vt::view-transition-old(dt-crumbs),
+  .dt-vt::view-transition-new(dt-crumbs) {
+    inline-size: auto;
+    block-size: 100%;
+    object-fit: none;
+  }
+}
+
+@layer app {
+  @include meta.load-css('charts/charts');
+  @include meta.load-css('charts/charts-html');
+  @include meta.load-css('parts/head');
+  @include meta.load-css('parts/hero');
+  @include meta.load-css('parts/flow');
+  @include meta.load-css('parts/gender');
+  @include meta.load-css('parts/ages');
+  @include meta.load-css('parts/rhythm');
+  @include meta.load-css('parts/cols');
+  @include meta.load-css('gov/region');
+  @include meta.load-css('wil/wil');
+  @include meta.load-css('vil/vil');
+
+  @media (forced-colors: active) {
+    .dt-page :is(.dt-svg, .dt-fill, .dt-seg, .dt-sw, .mj-sw),
+    .dt-page
+      :is(
+        .dt-cmp-fill,
+        .dt-step-bar,
+        .dt-gnd-split,
+        .dt-gnd-track,
+        .dt-ageb-bar,
+        .dt-rate-tr,
+        .dt-vcol
+      ) {
+      forced-color-adjust: none;
+    }
+    .dt-page :is(.dt-track, .dt-cmp-track, .dt-gnd-track, .dt-rate-tr, .dt-step-bar) {
+      outline: 1px solid graytext;
+    }
+    .dt-page .dt-tip {
+      border: 1px solid canvastext;
+    }
+    .dt-page :is(.dt-ax, .dt-lab) {
+      fill: canvastext;
+    }
+    .dt-page .dt-gl {
+      stroke: graytext;
+    }
+  }
+}
+
+@mixin region-still {
+  .dt-rg-scan,
+  .dt-rg-pin .ring,
+  .dt-rg-trace {
+    animation: none;
+  }
+  .dt-rg-comet {
+    animation: none;
+    visibility: hidden;
+  }
+  .dt-rg-tilt {
+    transition: none;
+  }
+  .dt-loc-pin .pulse,
+  .dt-skel::after {
+    animation: none;
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .dt-page .dt-top,
+    .dt-page .dt-card,
+    .dt-page .dt-grow,
+    .dt-page .dt-rise,
+    .dt-page .dt-rows > li,
+    .dt-page .dt-ageb-row,
+    .dt-page .dt-rate-row,
+    .dt-page .dt-rhy-bar,
+    .dt-page .dt-vcol i,
+    .dt-page .dt-c-cmp,
+    .dt-page .dt-c-gauge,
+    .dt-page .dt-rg-halo,
+    .dt-page .dt-rg-ext use,
+    .dt-page .dt-rg-face,
+    .dt-page .dt-rg-pin,
+    .dt-page .dt-rg-lab,
+    .dt-page .dt-rg-card,
+    .dt-page .dt-loc-svg,
+    .dt-page .dt-loc-lab {
+      animation: none;
+    }
+    .dt-page {
+      @include region-still;
+    }
+  }
+}
+
+@layer states {
+  .dt-page.dt-still {
+    @include region-still;
+  }
+}

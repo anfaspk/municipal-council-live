@@ -1,0 +1,31 @@
+<section class="wn-pick-side">
+  <p class="wn-kicker"><i></i>{{ 'wnPickKicker' | wnT }}<i></i></p>
+  <h2 class="wn-pick-h">{{ 'wnPickTitle' | wnT }}</h2>
+  <p class="wn-pick-lead">{{ 'wnPickLead' | wnT }}</p>
+  @if (wait()) {<p class="wn-note"><svg [mjIcon]="'ballot'"></svg><span>{{ 'wnWait' | wnT }}</span></p>}
+  <ul class="wn-govs">
+    @for (c of cards(); track c.id) {
+      <li [style.--i]="$index">
+        <button type="button" class="wn-gov" [class.hot]="hot() === c.id" [attr.data-g]="c.id" (click)="pick.emit(c.id)" (focus)="hot.set(c.id)" (blur)="hot.set(null)" (pointerenter)="hot.set(c.id)">
+          <span class="wn-gov-n" aria-hidden="true">{{ two(c.n) }}</span>
+          <span class="wn-gov-t"><b>{{ c.name }}</b><small>{{ wilsLabel(c.wils) }}</small></span>
+          @if (sum(c); as s) {<span class="wn-gov-p" [class.full]="s.done === s.all" [style.--p]="s.done / s.all"><i></i><em>{{ 'wnAnnounced' | wnT: { done: s.done, all: s.all } }}</em></span>}
+          <svg class="wn-gov-go" [mjIcon]="'prev'"></svg>
+        </button>
+      </li>
+    }
+  </ul>
+</section>
+<div class="wn-pick-map" dir="ltr" aria-hidden="true">
+  <div class="wn-om-box">
+    <svg class="wn-om" [attr.viewBox]="map.view">
+      <path class="wn-om-outline" [attr.d]="map.outline" vector-effect="non-scaling-stroke"/>
+      @for (g of map.govs; track g.id) {<path class="wn-om-gov" [class.hot]="hot() === g.id" [attr.data-mg]="g.id" [attr.d]="g.d" vector-effect="non-scaling-stroke"/>}
+      @for (p of map.pts; track p.id) {<circle class="wn-om-pt" [attr.cx]="p.x" [attr.cy]="p.y" r="2.2"/>}
+    </svg>
+    @if (hotGov(); as g) {
+      @for (k of [g.id]; track k) {<span class="wn-om-tag" [style.--x]="g.x / map.w * 100 + '%'" [style.--y]="g.y / map.h * 100 + '%'"><i></i><b>{{ hotName() }}</b></span>}
+    }
+  </div>
+  <p class="wn-pick-hint">{{ 'wnPickHint' | wnT }}</p>
+</div>

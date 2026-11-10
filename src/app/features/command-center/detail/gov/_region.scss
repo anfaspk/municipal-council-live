@@ -1,0 +1,268 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.dt-page .dt-hl {
+  overflow: hidden;
+  background:
+    radial-gradient(
+      70% 60% at 50% 60%,
+      color-mix(in srgb, var(--band) 24%, transparent),
+      transparent 72%
+    ),
+    linear-gradient(var(--glass-fill-strong), var(--glass-fill-strong)),
+    color-mix(in srgb, var(--canvas-1) 80%, transparent);
+  box-shadow: var(--shadow-raised), var(--glow-gold);
+}
+.dt-page .dt-hl::before {
+  background: linear-gradient(155deg, var(--gold), transparent 40%, transparent 70%, var(--gold));
+}
+.dt-page .dt-hl .dt-ch {
+  color: var(--gold-ink);
+}
+
+.dt-region {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  perspective: 1800px;
+}
+.dt-page .dt-rg-tilt {
+  position: absolute;
+  inset: 0;
+  transform: rotateX(calc(26deg + var(--rx, 0deg))) rotateY(var(--ry, 0deg)) rotateZ(-4deg);
+  transform-style: preserve-3d;
+  transition: transform $t-700 var(--ease-expo);
+}
+.dt-page .dt-rg-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  direction: ltr;
+}
+
+.dt-page .dt-rg-halo {
+  fill: var(--band);
+  opacity: 0.3;
+  animation: dt-fade $t-1600 var(--ease-std) $t-600 both;
+}
+.dt-page .dt-rg-ext use {
+  fill: color-mix(in srgb, var(--band) 22%, var(--canvas-0));
+  stroke: color-mix(in srgb, var(--band) 35%, transparent);
+  stroke-width: 0.6;
+  animation: dt-fade $t-500 var(--ease-std) both;
+  animation-delay: calc(#{$t-300} + var(--i) * #{$t-60});
+}
+.dt-page .dt-rg-face {
+  animation: dt-fade $t-1200 var(--ease-std) $t-500 both;
+}
+.dt-page .dt-rg-bs {
+  stop-color: var(--band);
+}
+.dt-page .dt-rg-ws {
+  stop-color: var(--paper);
+}
+.dt-page .dt-rg-bl {
+  stroke: var(--band);
+  opacity: 0.5;
+}
+.dt-page .dt-rg-lat {
+  opacity: 0.55;
+}
+.dt-page .dt-rg-scan {
+  opacity: 0;
+  animation: dt-rg-scan $t-4800 cubic-bezier(0.45, 0, 0.55, 1) $t-1600 infinite;
+}
+.dt-page .dt-rg-trace {
+  fill: none;
+  stroke: var(--gold);
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  filter: drop-shadow(0 0 4px var(--gold));
+  animation: dt-rg-draw $t-2200 var(--ease-std) $t-200 both;
+}
+.dt-page .dt-rg-comet {
+  fill: none;
+  stroke: var(--paper);
+  stroke-linecap: round;
+  stroke-dasharray: 0.035 0.965;
+  filter: drop-shadow(0 0 6px var(--gold)) drop-shadow(0 0 14px var(--gold));
+  animation:
+    dt-fade $t-600 $t-2400 both,
+    dt-rg-comet $t-7000 linear $t-2400 infinite;
+}
+
+.dt-page .dt-rg-pin {
+  cursor: pointer;
+  outline: none;
+  animation: dt-rg-pop $t-500 var(--ease-expo) both;
+  animation-delay: calc(#{$t-1200} + min(var(--j, 0), 14) * #{$t-60});
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.dt-page .dt-rg-pin .hit {
+  fill: transparent;
+}
+.dt-page .dt-rg-pin .dot {
+  fill: var(--band);
+  stroke: var(--paper);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 5px var(--band));
+  transition: stroke-width $t-200 var(--ease-std);
+}
+.dt-page .dt-rg-pin .core {
+  fill: var(--paper);
+}
+.dt-page .dt-rg-pin .ring {
+  fill: none;
+  stroke: var(--band);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dt-rg-ping $t-2800 var(--ease-std) infinite;
+  animation-delay: calc(#{$t-2000} + var(--j, 0) * #{$t-350});
+}
+.dt-page .dt-rg-pin:is(:hover, .hot, :focus-visible) .dot {
+  stroke: var(--gold);
+  stroke-width: 3;
+}
+.dt-page .dt-rg-pin:focus-visible .hit {
+  stroke: var(--focus-ring);
+  stroke-width: 2;
+}
+.dt-page .dt-rg-lab {
+  pointer-events: none;
+  animation: dt-fade $t-600 var(--ease-std) $t-1800 both;
+}
+.dt-page .dt-rg-lab rect {
+  fill: color-mix(in srgb, var(--canvas-0) 78%, transparent);
+  stroke: var(--hairline);
+}
+.dt-page .dt-rg-lab.hot rect {
+  stroke: var(--gold);
+}
+.dt-page .dt-rg-lab text {
+  fill: var(--ink);
+  font: 600 #{$fs-12}/ 1 var(--font-sans);
+  @include mixins.arabic;
+  text-anchor: middle;
+  dominant-baseline: central;
+  direction: rtl;
+}
+.dt-page .dt-rg-lead {
+  fill: none;
+  stroke: var(--ink-muted);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.dt-page .dt-rg-card,
+.dt-page .dt-rg-key {
+  position: absolute;
+  z-index: $z-3;
+  margin: 0;
+}
+.dt-page .dt-rg-card {
+  inset-block-start: $sp-14;
+  inset-inline-end: $sp-16;
+}
+.dt-page .dt-rg-key {
+  inset-block-end: $sp-14;
+  inset-inline-start: $sp-16;
+}
+.dt-page .dt-rg-card {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+  gap: $sp-2 $sp-12;
+  padding: $sp-8 $sp-12;
+  border-radius: $r-12;
+  background: color-mix(in srgb, var(--canvas-0) 82%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--band) 55%, transparent),
+    var(--shadow-panel);
+  animation: dt-rise-in $t-300 var(--ease-expo) both;
+  pointer-events: none;
+}
+.dt-page .dt-rg-card b {
+  color: var(--ink);
+  font: 700 #{$fs-15}/ 1.2 var(--font-sans);
+  @include mixins.arabic;
+}
+.dt-page .dt-rg-card .dt-rg-t {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  color: var(--band-ink);
+  font: 700 #{$fs-15}/ 1 var(--font-display);
+}
+.dt-page .dt-rg-card small {
+  grid-column: 1 / -1;
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}
+.dt-page .dt-rg-key {
+  display: flex;
+  align-items: center;
+  gap: $sp-4;
+  color: var(--ink-muted);
+  font-size: $fs-11;
+}
+.dt-page .dt-rg-kd {
+  width: 6px;
+  height: 6px;
+  border-radius: $radius-round;
+  background: var(--gold);
+}
+.dt-page .dt-rg-kd.big {
+  width: 11px;
+  height: 11px;
+  margin-inline-end: $sp-4;
+}
+
+@keyframes dt-rg-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes dt-rg-comet {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+@keyframes dt-rg-scan {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(var(--sy));
+    opacity: 0;
+  }
+}
+@keyframes dt-rg-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+}
+@keyframes dt-rg-ping {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}

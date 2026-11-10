@@ -1,0 +1,48 @@
+.tva-paused .cx-in .cx-pin > *,
+.tva-paused .cx-in .cx-w {
+  animation-play-state: running;
+}
+.mj-tv.tva-still .cx-scan,
+.mj-tv.tva-still .cx-comet {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-scan,
+  .cx-comet {
+    animation: none;
+  }
+}
+.mj-tv.tva-still .cx-n .tk,
+.mj-tv.tva-still .cx-s .k,
+.mj-tv.tva-still .cx-sweep,
+.mj-tv.tva-still .cx-wd {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-n .tk,
+  .cx-s .k,
+  .cx-hb .p1,
+  .cx-hb .p2,
+  .cx-sweep,
+  .cx-wd {
+    animation: none;
+  }
+}
+.mj-tv.tva-still .cxr-c::after,
+.mj-tv.tva-still .cxr-card::before,
+.mj-tv.tva-still .cxr-card .ring,
+.mj-tv.tva-still .cxr-card .por::before,
+.mj-tv.tva-still .cxr-fx .rays,
+.mj-tv.tva-still .cxr-on .cx-n.decl .halo {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cxr-c::after,
+  .cxr-card::before,
+  .cxr-card .ring,
+  .cxr-card .por::before,
+  .cxr-fx .rays,
+  .cxr-on .cx-n.decl .halo {
+    animation: none;
+  }
+}

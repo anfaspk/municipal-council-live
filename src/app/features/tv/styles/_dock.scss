@@ -1,0 +1,316 @@
+@use '../../../../styles/scales' as *;
+
+.tva-dock {
+  position: absolute;
+  inset-inline: var(--tv-title-x);
+  bottom: var(--tv-action-y);
+  height: var(--tv-dock-h);
+  z-index: $z-6;
+  display: flex;
+  align-items: center;
+  gap: $sp-20;
+}
+.tva-ctl,
+.tva-opts {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: $sp-4;
+  padding: $sp-4;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--canvas-1) 74%, transparent);
+  box-shadow:
+    inset 0 0 0 1px var(--hairline),
+    0 14px 34px -20px var(--shadow-ink-70);
+  backdrop-filter: blur(12px);
+  transition: opacity $t-450 var(--ease-std);
+}
+.tva-ctl .mj-btn,
+.tva-opts .tva-motion {
+  height: 40px;
+  min-width: 40px;
+  background: none;
+  box-shadow: none;
+}
+.tva-ctl .mj-btn.icon {
+  width: 40px;
+}
+.tva-ctl .mj-btn:hover,
+.tva-opts .tva-motion:hover {
+  background: var(--glass-fill);
+}
+.tva-ctl svg {
+  width: 20px;
+  height: 20px;
+}
+.tva-ctl .tva-play {
+  min-width: 120px;
+  gap: $sp-8;
+  font-size: $fs-15;
+  background: var(--glass-fill-strong);
+  box-shadow: inset 0 0 0 1px var(--glass-stroke);
+  padding-block: 0;
+  padding-inline: $sp-14 $sp-18;
+}
+.tva-ctl .tva-play svg {
+  width: 18px;
+  height: 18px;
+}
+.tva-prev svg,
+.tva-next svg {
+  transform: scaleX(-1);
+}
+.tva-opts {
+  gap: $sp-10;
+  padding-inline-start: $sp-18;
+}
+.tva-lbl {
+  font: 600 #{$fs-11}/ 1 var(--font-sans);
+  color: var(--ink-muted);
+  white-space: nowrap;
+  font-family: var(--font-arabic);
+  font-size: $fs-13;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.tva-time button {
+  height: 32px;
+  padding: 0 $sp-13;
+  font-size: $fs-13;
+}
+.tva-opts .tva-motion {
+  gap: $sp-10;
+  font-size: $fs-14;
+  font-weight: 600;
+  padding-block: 0;
+  padding-inline: $sp-12 $sp-16;
+}
+.tva-sw {
+  position: relative;
+  flex: none;
+  width: 30px;
+  height: 18px;
+  border-radius: $r-9;
+  box-shadow: inset 0 0 0 1.5px var(--ink-muted);
+  transition: background var(--dur-ui);
+}
+.tva-sw::after {
+  content: '';
+  position: absolute;
+  top: $sp-3;
+  inset-inline-start: $sp-3;
+  width: 12px;
+  height: 12px;
+  border-radius: $radius-round;
+  background: var(--ink-muted);
+  transition:
+    transform var(--dur-ui) var(--ease-spring),
+    background var(--dur-ui);
+}
+.tva-motion[aria-checked='true'] .tva-sw {
+  background: var(--gold);
+  box-shadow: none;
+}
+.tva-motion[aria-checked='true'] .tva-sw::after {
+  background: var(--on-gold);
+  transform: translateX(-12px);
+}
+.tva-motion[aria-disabled='true'] {
+  cursor: default;
+}
+
+.mj-tv.tva-idle {
+  cursor: none;
+}
+.mj-tv.tva-idle .tva-ctl,
+.mj-tv.tva-idle .tva-opts,
+.mj-tv.tva-idle .tv-x {
+  opacity: 0;
+}
+
+.tva-state {
+  position: absolute;
+  top: calc(var(--tv-title-y) + $sp-14);
+  inset-inline-end: 50%;
+  z-index: $z-6;
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  padding-block: $sp-10;
+  padding-inline: $sp-18 $sp-14;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--canvas-1) 78%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--gold) 50%, transparent),
+    0 14px 34px -20px var(--shadow-ink-70);
+  backdrop-filter: blur(12px);
+  font: 500 #{$fs-14}/ 1 var(--font-sans);
+  color: var(--ink-muted);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, -6px);
+  transition:
+    opacity $t-300 var(--ease-std),
+    transform $t-400 var(--ease-expo);
+  pointer-events: none;
+}
+.tva-state svg {
+  width: 16px;
+  height: 16px;
+  color: var(--gold-ink);
+}
+.tva-state b {
+  font: 700 #{$fs-12}/ 1 var(--font-sans);
+  color: var(--gold-ink);
+  font-size: $fs-14;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.tva-state,
+.tva-state b {
+  font-family: var(--font-arabic);
+}
+.mj-tv.tva-paused .tva-state {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.mj-tv.tva-hold .tv-prog i.on::after {
+  animation-play-state: paused;
+}
+
+.tva-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.mj-tv.tva-still *,
+.mj-tv.tva-still *::before,
+.mj-tv.tva-still *::after,
+.tv-face.tva-settled *,
+.tv-face.tva-settled *::before,
+.tv-face.tva-settled *::after {
+  transition-duration: $t-120 !important;
+}
+.mj-tv.tva-still .tv-face,
+.tv-face.tva-settled {
+  filter: none !important;
+  transform: none !important;
+}
+.tv-face.tva-settled {
+  transition: opacity $t-350 var(--ease-std) !important;
+}
+:is(.mj-tv.tva-still, .tv-face.tva-settled)
+  :is(
+    .tv-shock,
+    .tv-wl .ar,
+    .tv-next i,
+    .tv-col .ar,
+    .tv-sh-comet,
+    .tv-sh-scan,
+    .tv-pt .ring,
+    .tv-sh-pin .ring
+  ) {
+  display: none;
+}
+:is(.mj-tv.tva-still, .tv-face.tva-settled) .tv-hud::before,
+:is(.mj-tv.tva-still, .tv-face.tva-settled) .tv-hud::after {
+  display: none;
+}
+.mj-tv.tva-still .tv-face.on .tv-lab,
+.tv-face.tva-settled.on .tv-lab {
+  opacity: 1 !important;
+}
+:is(.mj-tv.tva-still, .tv-face.tva-settled) :is(.tv-wlc, .tv-wr, .tv-col) {
+  transition: none !important;
+}
+:is(.mj-tv.tva-still, .tv-face.tva-settled)
+  :is(
+    .tv-info > *,
+    .tv-shape,
+    .tv-sh-face,
+    .tv-sh-ext > *,
+    .tv-rg .fill,
+    .tv-locw,
+    .tv-coord,
+    .tv-hud,
+    .tv-curve .area,
+    .tv-curve .hd,
+    .tv-pt .core,
+    .tv-sh-pin .core
+  ) {
+  opacity: 1 !important;
+  transform: none !important;
+}
+:is(.mj-tv.tva-still, .tv-face.tva-settled) :is(.tv-sh-trace, .tv-curve .ln) {
+  stroke-dashoffset: 0 !important;
+}
+:is(.mj-tv.tva-still, .tv-face.tva-settled) .tv-gbar i {
+  width: var(--w) !important;
+}
+:is(.mj-tv.tva-still, .tv-face.tva-settled) .tv-sh-halo {
+  opacity: 0.32 !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv-face {
+    filter: none !important;
+    transform: none !important;
+  }
+  .tv-shock,
+  .tv-wl .ar,
+  .tv-next i,
+  .tv-col .ar,
+  .tv-sh-comet,
+  .tv-sh-scan,
+  .tv-pt .ring,
+  .tv-sh-pin .ring,
+  .tv-hud::before,
+  .tv-hud::after {
+    display: none;
+  }
+  .tv-face.on .tv-lab {
+    opacity: 1 !important;
+  }
+  .tv-wlc,
+  .tv-wr,
+  .tv-col {
+    transition: none !important;
+  }
+  .tv-info > *,
+  .tv-shape,
+  .tv-sh-face,
+  .tv-sh-ext > *,
+  .tv-rg .fill,
+  .tv-locw,
+  .tv-coord,
+  .tv-hud,
+  .tv-curve .area,
+  .tv-curve .hd,
+  .tv-pt .core,
+  .tv-sh-pin .core {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .tv-sh-trace,
+  .tv-curve .ln {
+    stroke-dashoffset: 0 !important;
+  }
+  .tv-gbar i {
+    width: var(--w) !important;
+  }
+  .tv-sh-halo {
+    opacity: 0.32 !important;
+  }
+}
+
+.tv-name.tv-nm-nat {
+  font-size: $fs-66;
+  line-height: 1.3;
+}
+.tv-lab .n {
+  font-size: $fs-13;
+}

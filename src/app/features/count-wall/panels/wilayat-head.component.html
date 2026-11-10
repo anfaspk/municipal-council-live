@@ -1,0 +1,30 @@
+@for (key of [revision()]; track key) {
+  @let w = wilayat();
+  <div class="cx-wh">
+    <svg [attr.class]="'cx-ring ' + w.st" viewBox="0 0 84 84" aria-hidden="true">
+      <circle cx="42" cy="42" r="34" class="t" />
+      <circle
+        cx="42"
+        cy="42"
+        r="34"
+        class="a"
+        [attr.stroke-dasharray]="ring().dash"
+        transform="rotate(-90 42 42)"
+      />
+      <!-- prettier-ignore -->
+      <text x="42" y="48" class="v">{{ ring().value }}<tspan>%</tspan></text>
+    </svg>
+    <div class="cx-wt">
+      <h2 class="cx-wn" [class.long]="w.n.length > 12">{{ w.n }}</h2>
+      <!-- prettier-ignore -->
+    </div>
+  </div>
+  <div
+    class="cx-wk four"
+    countStats
+    [counted]="w.counted"
+    [cast]="w.cast"
+    [gender]="w"
+    prefix="w"
+  ></div>
+}

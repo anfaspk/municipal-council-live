@@ -1,0 +1,261 @@
+@use '../../../../styles/scales' as *;
+
+.tv-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $sp-32;
+  padding-top: $sp-4;
+}
+.tv-stats .ts {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+  min-width: 0;
+  padding-inline-start: $sp-18;
+  border-inline-start: 2px solid color-mix(in srgb, var(--c) 70%, transparent);
+}
+.tv-stats .voted {
+  --c: var(--stat-voted);
+}
+.tv-stats .yet {
+  --c: var(--stat-pending);
+}
+.tv-stats .reg {
+  --c: var(--ink-muted);
+}
+.tv-ts-l {
+  display: flex;
+  align-items: center;
+  gap: $sp-9;
+  font: 600 #{$fs-14}/ 18px var(--font-sans);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  white-space: nowrap;
+  letter-spacing: 0;
+  font-size: $fs-17;
+}
+.tv-stats .ts b {
+  font: 700 #{$fs-44}/ 1 var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--c);
+}
+.tv-stats .reg b {
+  color: var(--ink);
+}
+.tv-stats .voted b,
+.tv-stats .yet b {
+  text-shadow: 0 0 22px color-mix(in srgb, var(--c) 45%, transparent);
+}
+.tv-stats .reg .hs-dot {
+  background: var(--ink-muted);
+}
+
+.tv-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: $sp-18;
+}
+.tv-card {
+  position: relative;
+  padding: $sp-18 $sp-22;
+  border-radius: $r-20;
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--canvas-1) 72%, transparent),
+    color-mix(in srgb, var(--canvas-1) 38%, transparent)
+  );
+  box-shadow:
+    inset 0 0 0 1px var(--hairline),
+    0 18px 40px -24px var(--shadow-ink-50);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+}
+.tv-card::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--gold) 55%, transparent),
+    transparent
+  );
+}
+.tv-ch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-10;
+  margin-bottom: $sp-12;
+}
+.tv-ch .mj-micro {
+  font-size: $fs-13;
+}
+.tv-gv {
+  display: flex;
+  justify-content: space-between;
+  gap: $sp-12;
+}
+.tv-gv .gm,
+.tv-gv .gf {
+  display: flex;
+  align-items: center;
+  gap: $sp-12;
+}
+.tv-gv .gf {
+  text-align: end;
+}
+.tv-gv b {
+  display: block;
+  font: 700 #{$fs-30}/ 1.05 var(--font-display);
+  letter-spacing: -0.02em;
+}
+.tv-gv span:not(.glyph) {
+  font: 500 #{$fs-13}/ 18px var(--font-sans);
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.tv-gen .glyph {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: $radius-round;
+  flex: none;
+}
+.tv-gen .glyph svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tv-gen .glyph.m {
+  color: var(--male-neon);
+  background: color-mix(in srgb, var(--male-neon) 14%, transparent);
+}
+.tv-gen .glyph.f {
+  color: var(--female);
+  background: color-mix(in srgb, var(--female) 14%, transparent);
+}
+.tv-gv .gm b {
+  color: var(--male-neon);
+}
+.tv-gv .gf b {
+  color: var(--female);
+}
+.tv-gbar {
+  display: flex;
+  gap: $sp-4;
+  height: 8px;
+  margin-top: $sp-14;
+}
+.tv-gbar i {
+  display: block;
+  height: 100%;
+  border-radius: $r-8;
+  width: var(--w);
+  transform-origin: right;
+}
+.tv-gbar .m {
+  background: var(--male-neon);
+}
+.tv-gbar .f {
+  background: var(--female);
+}
+.tv-face.on .tv-gbar i {
+  animation: tv-w $t-1400 var(--ease-expo) $t-900 both;
+}
+@keyframes tv-w {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+.tv-gl {
+  display: flex;
+  justify-content: space-between;
+  margin-top: $sp-6;
+  font: 600 #{$fs-12}/ 16px var(--font-sans);
+  color: var(--ink-muted);
+}
+.tv-curve {
+  display: block;
+  width: 100%;
+  height: 104px;
+  overflow: visible;
+}
+.tv-curve .gl {
+  stroke: var(--hairline);
+  stroke-dasharray: 3 5;
+  vector-effect: non-scaling-stroke;
+}
+.tv-curve .ln {
+  fill: none;
+  stroke: var(--band);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.tv-curve .area {
+  opacity: 0;
+}
+.tv-curve .hd {
+  fill: var(--band);
+  opacity: 0;
+  filter: drop-shadow(0 0 6px var(--band));
+}
+.tv-face.on .tv-curve .ln {
+  animation: tv-draw $t-1800 var(--ease-std) $t-1000 forwards;
+}
+.tv-face.on .tv-curve .area {
+  animation: tv-fade $t-1000 var(--ease-std) $t-1800 forwards;
+}
+.tv-face.on .tv-curve .hd {
+  animation: tv-fade $t-400 $t-2700 forwards;
+}
+.tv-hrs {
+  display: flex;
+  justify-content: space-between;
+  margin-top: $sp-6;
+  font: 500 #{$fs-12}/ 16px var(--font-sans);
+  color: var(--ink-muted);
+}
+.tv-leads {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+}
+.tv-lead {
+  display: flex;
+  align-items: center;
+  gap: $sp-12;
+  font: 600 #{$fs-19}/ 24px var(--font-sans);
+}
+.tv-lead .r {
+  width: 30px;
+  height: 30px;
+  border-radius: $radius-round;
+  display: grid;
+  place-items: center;
+  font: 700 #{$fs-14}/ 1 var(--font-display);
+  color: var(--gold-ink);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 50%, transparent);
+}
+.tv-lead .nm {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tv-lead b {
+  color: var(--band-ink);
+  font: 700 #{$fs-22}/ 1 var(--font-display);
+}

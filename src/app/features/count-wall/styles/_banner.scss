@@ -1,0 +1,98 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+
+.ctv-banner {
+  position: absolute;
+  inset-inline-end: $sp-96;
+  bottom: $sp-108;
+  max-width: 860px;
+  z-index: $z-8;
+  display: flex;
+  align-items: center;
+  gap: $sp-18;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--canvas-1) 90%, transparent);
+  box-shadow:
+    inset 0 0 0 1.5px var(--gold),
+    0 0 60px -10px color-mix(in srgb, var(--gold-glow) 50%, transparent),
+    var(--shadow-raised);
+  backdrop-filter: blur(14px);
+  animation: ctv-ban-in $t-900 var(--ease-spring) backwards;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-block: $sp-14;
+  padding-inline: $sp-14 $sp-26;
+}
+.ctv-banner.out {
+  animation: ctv-ban-out $t-800 var(--ease-std) forwards;
+}
+@keyframes ctv-ban-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scaleX(0.6);
+  }
+}
+@keyframes ctv-ban-out {
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+.ctv-banner .k {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  height: 38px;
+  padding: 0 $sp-16;
+  border-radius: var(--radius-pill);
+  background: var(--declared);
+  color: var(--canvas-0);
+  font: 800 #{$fs-13}/ 1 var(--font-sans);
+  text-transform: uppercase;
+  @include mixins.arabic;
+  font-size: $fs-15;
+}
+.ctv-banner .k svg {
+  width: 16px;
+  height: 16px;
+  fill: currentcolor;
+  animation: ctc-spin $t-3000 linear infinite;
+}
+.ctv-banner b {
+  font: 700 #{$fs-22}/ 1 var(--font-sans);
+  font-family: var(--font-arabic);
+}
+.ctv-banner .g {
+  font-size: $fs-15;
+  color: var(--ink-muted);
+}
+.ctv-banner .w {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  font-size: $fs-14;
+  font-weight: 600;
+  min-width: 0;
+}
+.ctv-banner .w i {
+  font-style: normal;
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-round;
+  display: inline-grid;
+  place-items: center;
+  color: var(--on-gold);
+  font-size: $fs-11;
+  font-weight: 800;
+  margin-inline-end: $sp-4;
+}
+.ctv-banner .w i:where(:not(.ph)) {
+  background: var(--gold);
+}
+.ctv-banner .w s {
+  width: 1px;
+  height: 20px;
+  background: var(--hairline);
+  margin: 0 $sp-4;
+}

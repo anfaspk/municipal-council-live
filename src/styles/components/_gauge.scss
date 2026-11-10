@@ -1,0 +1,118 @@
+@use '../mixins';
+@use '../scales' as *;
+
+.mj-gauge {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  flex: none;
+}
+.mj-gauge svg {
+  @include mixins.cover;
+  overflow: visible;
+}
+.mj-gauge .center {
+  @include mixins.cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: $sp-4;
+}
+.mj-gauge .big {
+  font-family: var(--font-display);
+  font-size: $fs-54;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.mj-gauge .big .u {
+  font-size: 0.45em;
+  letter-spacing: 0;
+  margin-inline-start: $sp-2;
+  color: var(--ink-muted);
+}
+.mj-gauge .tick {
+  stroke: var(--ink-muted);
+  stroke-width: 1;
+  opacity: 0.5;
+}
+.mj-gauge .ms {
+  fill: var(--gold-glow);
+}
+.mj-gauge .gs0 {
+  stop-color: var(--gold);
+}
+.mj-gauge .gs1 {
+  stop-color: var(--band-mid);
+}
+.mj-gauge .gs2 {
+  stop-color: var(--live);
+}
+.mj-gauge .tip {
+  stroke: var(--gold-glow);
+}
+.mj-gauge .hilt {
+  stroke: var(--gold);
+}
+.mj-gauge .sub {
+  font-size: $fs-12;
+}
+.mj-gauge .sparks .sg {
+  fill: var(--gold-glow);
+}
+.mj-gauge .sparks .sw {
+  fill: var(--paper);
+}
+.mj-gauge .sparks circle {
+  offset-path: var(--arc);
+  offset-rotate: 0deg;
+  animation:
+    g-spark $t-2600 cubic-bezier(0.3333, 0.6667, 0.6667, 1) infinite,
+    g-spark-o $t-2600
+      linear(
+        0,
+        0.1564,
+        0.309,
+        0.454,
+        0.5878,
+        0.7071,
+        0.809,
+        0.891,
+        0.9511,
+        0.9877,
+        1,
+        0.9877,
+        0.9511,
+        0.891,
+        0.809,
+        0.7071,
+        0.5878,
+        0.454,
+        0.309,
+        0.1564,
+        0
+      )
+      infinite;
+  animation-delay: calc(var(--i) * -1 * $t-858);
+}
+.mj-gauge .sparks.held circle {
+  animation-play-state: paused;
+}
+@keyframes g-spark {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: calc(var(--gp, 0) * 1%);
+  }
+}
+@keyframes g-spark-o {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--o);
+  }
+}

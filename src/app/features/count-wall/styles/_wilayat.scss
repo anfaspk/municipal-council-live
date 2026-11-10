@@ -1,0 +1,182 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+@use 'status';
+
+.cx-panel {
+  --cx-wide: 280px;
+}
+.cx-pv:has(> .cx-wil) {
+  inset-inline-end: calc(-1 * var(--cx-wide));
+}
+.cx-pv {
+  transition-property: opacity;
+}
+.cx-pv.leave {
+  z-index: $z-1;
+}
+.cx-wil {
+  gap: $sp-14;
+  padding: $sp-18 $sp-22;
+  border-radius: $r-24;
+  background:
+    radial-gradient(
+      70% 50% at 100% 0%,
+      color-mix(in srgb, var(--gold) 7%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--canvas-1) 95%, transparent),
+      color-mix(in srgb, var(--canvas-0) 93%, transparent)
+    );
+  box-shadow:
+    inset 0 0 0 1px var(--hairline),
+    inset 0 1px 0 var(--specular),
+    0 40px 90px -40px var(--shadow-ink-80);
+}
+.cx-bk {
+  align-self: flex-start;
+  height: 38px;
+  gap: $sp-6;
+  font-size: $fs-14;
+  padding-block: 0;
+  padding-inline: $sp-10 $sp-16;
+}
+.cx-bk svg {
+  transform: scaleX(-1);
+}
+.cx-wil .cx-bk {
+  position: absolute;
+  top: $sp-30;
+  inset-inline-end: $sp-22;
+  z-index: $z-2;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: $radius-round;
+}
+.cx-wil .cx-bk span {
+  display: none;
+}
+.cx-whw {
+  display: flex;
+  align-items: center;
+  gap: $sp-24;
+  min-height: 72px;
+}
+.cx-wh {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: $sp-18;
+  min-width: 0;
+}
+.cx-ring {
+  --c: var(--ink-muted);
+  flex: none;
+  width: 72px;
+  height: 72px;
+  overflow: visible;
+  @include status.c;
+}
+.cx-ring .t {
+  fill: none;
+  stroke: color-mix(in srgb, var(--ink-muted) 18%, transparent);
+  stroke-width: 6;
+}
+.cx-ring .a {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: 6;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px var(--c));
+  transition: stroke-dasharray $t-1000 var(--ease-expo);
+}
+.cx-ring .v {
+  font: 700 $fs-22 var(--font-display);
+  fill: var(--ink);
+  text-anchor: middle;
+}
+.cx-ring .v tspan {
+  font-size: $fs-12;
+  fill: var(--ink-muted);
+}
+.cx-wt {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+  min-width: 0;
+}
+.cx-wn {
+  margin: 0;
+  font: 700 #{$fs-48}/ 1.04 var(--font-sans);
+  @include mixins.ellipsis;
+  @include mixins.arabic;
+}
+.cx-wn.long {
+  font-size: $fs-36;
+}
+.cx-wn .alt {
+  font: 600 0.52em/1 var(--font-arabic);
+  color: var(--gold-ink);
+  margin-inline-start: $sp-12;
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+}
+.cx-wch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $sp-8;
+}
+.cx-wch .ct-st {
+  height: 28px;
+  padding: 0 $sp-12;
+  font-size: $fs-14;
+}
+.cx-wcp {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 $sp-12;
+  border-radius: var(--radius-pill);
+  font: 600 #{$fs-14}/ 1 var(--font-arabic);
+  color: var(--ink-muted);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.cx-wk {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $sp-18;
+}
+.cx-wk .cx-st b {
+  font-size: $fs-32;
+}
+.cx-wil .cx-wk.four {
+  flex: none;
+  grid-template-columns: repeat(4, auto);
+  gap: $sp-20;
+  margin-inline-end: $sp-56;
+}
+.cx-wil .cx-st {
+  gap: $sp-4;
+  padding-inline-start: $sp-12;
+}
+.cx-wil .cx-st span {
+  font-size: $fs-13;
+}
+.cx-wil .cx-wk.four .cx-st b {
+  font-size: $fs-26;
+}
+.cx-wil .cx-st em {
+  font-size: $fs-12;
+}
+.cx-wb {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+  flex: 1;
+  min-height: 0;
+}

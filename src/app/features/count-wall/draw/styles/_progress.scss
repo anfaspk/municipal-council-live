@@ -1,0 +1,82 @@
+@use '../../../../../styles/scales' as *;
+
+.cxd-steps {
+  display: flex;
+  gap: $sp-8;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cxd-step {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: $sp-10;
+  min-width: 0;
+  padding: $sp-8 $sp-14;
+  border-radius: var(--radius-pill);
+  font: 600 #{$fs-16}/ 1.2 var(--font-arabic);
+  color: var(--ink-muted);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  transition:
+    color $t-300 ease,
+    background-color $t-300 ease,
+    box-shadow $t-300 ease;
+}
+.cxd-step i {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: $radius-round;
+  font: normal 700 #{$fs-14}/ 1 var(--font-display);
+  box-shadow: inset 0 0 0 1px currentcolor;
+}
+.cxd-step span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cxd-step.done {
+  color: var(--declared);
+}
+.cxd-step.on {
+  color: var(--stat-pending);
+  background: color-mix(in srgb, var(--stat-pending) 12%, transparent);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--stat-pending) 55%, transparent);
+}
+.cxd-step.on i {
+  color: var(--on-gold);
+  background: var(--stat-pending);
+  box-shadow: none;
+}
+
+.cxd-ack {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  padding: $sp-5 $sp-12;
+  border-radius: var(--radius-pill);
+  font: normal 600 #{$fs-15}/ 1.2 var(--font-arabic);
+  color: var(--stat-pending);
+  background: color-mix(in srgb, var(--stat-pending) 12%, transparent);
+}
+.cxd-ack i {
+  width: 9px;
+  height: 9px;
+  border-radius: $radius-round;
+  background: currentcolor;
+}
+.cxd-ack.ok {
+  color: var(--declared);
+  background: color-mix(in srgb, var(--declared) 14%, transparent);
+}
+.cxd-ack.off {
+  color: var(--ink-muted);
+  background: color-mix(in srgb, var(--ink-muted) 12%, transparent);
+}
+.cxd-prog {
+  margin: 0;
+  font: 600 #{$fs-17}/ 1.4 var(--font-arabic);
+}

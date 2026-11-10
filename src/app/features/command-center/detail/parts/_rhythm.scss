@@ -1,0 +1,83 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.dt-rhy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: $sp-8;
+  min-height: 0;
+}
+.dt-rhy-plot {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+.dt-rhy .dt-key {
+  justify-content: flex-start;
+}
+.dt-page .dt-rhy-bar {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: dt-grow-y $t-700 var(--ease-expo) both;
+  animation-delay: calc(#{$t-200} + var(--j, 0) * #{$t-40});
+}
+.dt-page .dt-rhy-bar rect {
+  transition:
+    y $t-900 var(--ease-expo),
+    height $t-900 var(--ease-expo),
+    opacity $t-200 var(--ease-std);
+}
+.dt-page .dt-rhy-bar .m {
+  fill: var(--male);
+  opacity: 0.82;
+}
+.dt-page .dt-rhy-bar .f {
+  fill: var(--female);
+  opacity: 0.82;
+}
+.dt-page .dt-rhy-bar.peak rect,
+.dt-page .dt-rhy-bar.on rect {
+  opacity: 1;
+}
+.dt-page .dt-rhy-bar.peak .f {
+  stroke: var(--gold);
+  stroke-width: 1.5;
+}
+.dt-page .dt-rhy-peak .dt-lab {
+  fill: var(--gold-ink);
+  font-size: $fs-13;
+  font-weight: 700;
+  text-anchor: middle;
+  animation: dt-fade $t-500 var(--ease-std) $t-900 both;
+}
+.dt-page .dt-rhy-area {
+  fill: color-mix(in srgb, var(--gold) 16%, transparent);
+  stroke: none;
+}
+.dt-page .dt-rhy-dot {
+  fill: var(--gold);
+  stroke: var(--canvas-1);
+  stroke-width: 2;
+}
+.dt-page .dt-rhy-dot.ref {
+  fill: var(--ink-muted);
+}
+.dt-page .dt-rhy-cum .dt-lab {
+  font-size: $fs-13;
+  font-weight: 700;
+  direction: rtl;
+  unicode-bidi: plaintext;
+  text-anchor: start;
+  @include mixins.arabic;
+}
+.dt-page .dt-rhy-cum .dt-lab.own {
+  fill: var(--gold-ink);
+}
+.dt-page .dt-rhy-cum .dt-lab.ref {
+  fill: var(--ink-muted);
+}
+.dt-page .dt-rhy-cum {
+  animation: dt-fade $t-500 var(--ease-std) both;
+}

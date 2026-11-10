@@ -1,0 +1,371 @@
+.cxr-tabs {
+  position: relative;
+  align-self: flex-start;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.cxr-tab {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  cursor: pointer;
+  font: 700 15px/1 var(--font-sans);
+  color: var(--ink-muted);
+  transition: color 0.3s;
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+}
+.cxr-tab svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.cxr-tab:first-child svg {
+  fill: currentcolor;
+}
+.cxr-tab[aria-selected='true'] {
+  color: var(--on-gold);
+}
+.cxr-tab:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.cxr-tabs .ink {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  inset-inline-start: 4px;
+  width: calc(50% - 4px);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--gold-glow), var(--gold));
+  box-shadow: 0 0 22px -4px var(--gold);
+  transition: translate 0.55s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.cxr-tabs[data-t='race'] .ink {
+  translate: -100% 0;
+}
+.cxr-panes {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+.cxr-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  min-height: 0;
+}
+.cxr-pane[hidden] {
+  display: none;
+}
+.cxr-pane.in[data-t='race'] {
+  animation: cxr-pane 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes cxr-pane {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+.cxr-hero {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.cxr-fx {
+  position: absolute;
+  inset: -30px -20px 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.cxr-fx .rays {
+  position: absolute;
+  inset-inline-end: 50%;
+  top: 44%;
+  width: 1100px;
+  height: 1100px;
+  margin-block: -550px 0;
+  margin-inline: 0 -550px;
+  border-radius: 50%;
+  opacity: 0.55;
+  background: repeating-conic-gradient(
+    from 0deg,
+    color-mix(in srgb, var(--gold) 16%, transparent) 0 4deg,
+    transparent 4deg 15deg
+  );
+  mask: radial-gradient(closest-side, #000 8%, transparent 70%);
+  animation: cx-spin 70s linear infinite;
+}
+.cxr-fx i {
+  position: absolute;
+  inset-inline-end: 50%;
+  top: 56%;
+  width: 7px;
+  height: 7px;
+  opacity: 0;
+  background: var(--gold-glow);
+  box-shadow: 0 0 10px var(--gold);
+  rotate: 45deg;
+  scale: var(--s);
+}
+.cxr-pane.in .cxr-fx i {
+  animation: cxr-burst 2.4s cubic-bezier(0.12, 0.8, 0.3, 1) both;
+  animation-delay: calc(0.55s + var(--d));
+}
+@keyframes cxr-burst {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), var(--y));
+  }
+}
+.cxr-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 0;
+  padding: 20px 22px 22px;
+  border-radius: 24px;
+  overflow: hidden;
+  text-align: center;
+  background:
+    radial-gradient(
+      110% 70% at 50% 0%,
+      color-mix(in srgb, var(--gold) 20%, transparent),
+      transparent 62%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--canvas-1) 94%, transparent),
+      color-mix(in srgb, var(--canvas-0) 88%, transparent)
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--gold) 40%, transparent),
+    0 30px 60px -30px rgba(0, 0, 0, 0.9),
+    0 0 70px -36px var(--gold-glow);
+}
+.cxr-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 38%,
+    color-mix(in srgb, var(--gold) 20%, transparent) 50%,
+    transparent 62%
+  );
+  translate: -120% 0;
+  animation: cxr-glint 5.5s ease-in-out infinite;
+  animation-delay: calc(1.6s + var(--k, 0) * 0.3s);
+}
+.cxr-card::after {
+  content: '';
+  position: absolute;
+  inset-inline: 22%;
+  top: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-glow), transparent);
+  box-shadow: 0 0 14px var(--gold);
+}
+.cxr-card .seat {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 800 12px/1 var(--font-sans);
+  text-transform: uppercase;
+  color: var(--gold-ink);
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+  font-size: 14px;
+}
+.cxr-card .seat i {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font: 800 12px/1 var(--font-display);
+  font-style: normal;
+  letter-spacing: 0;
+  background: var(--gold);
+  color: var(--on-gold);
+}
+.cxr-card .por {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 176px;
+  height: 176px;
+  margin: 10px 0 14px;
+  flex: none;
+}
+.cxr-card .ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from var(--cxr-a),
+    var(--gold),
+    transparent 28%,
+    var(--gold-glow) 50%,
+    transparent 78%,
+    var(--gold)
+  );
+  mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+  filter: drop-shadow(0 0 8px var(--gold));
+  animation: cxr-spin 5s linear infinite;
+}
+.cxr-card .por::before {
+  content: '';
+  position: absolute;
+  inset: -18px;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--gold) 26%, transparent),
+    transparent
+  );
+  animation: cx-breath 3.2s ease-in-out infinite;
+}
+.cxr-card .cx-av.xl {
+  position: relative;
+  width: 152px;
+  height: 152px;
+}
+.cxr-card .cx-av.xl.ph {
+  --ring: color-mix(in srgb, var(--gold) 70%, transparent);
+}
+.cxr-card .cx-av.xl:not(.ph) {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font: 700 52px/1 var(--font-display);
+  background: radial-gradient(circle at 50% 35%, var(--gold-glow), var(--gold));
+  color: var(--on-gold);
+}
+.cxr-card .badge {
+  position: absolute;
+  inset-inline-end: 50%;
+  bottom: -12px;
+  translate: -50% 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font: 800 12px/1 var(--font-sans);
+  font-style: normal;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--gold-glow), var(--gold));
+  color: var(--on-gold);
+  box-shadow:
+    0 6px 18px -6px var(--gold),
+    0 0 0 3px var(--canvas-1);
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+  font-size: 13px;
+}
+.cxr-card .badge svg {
+  width: 13px;
+  height: 13px;
+  fill: var(--on-gold);
+}
+.cxr-card .nm {
+  max-width: 100%;
+  margin-top: 6px;
+  font: 700 28px/1.15 var(--font-sans);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+}
+.cxr-card .alt {
+  max-width: 100%;
+  font: 600 16px/1.3 var(--font-arabic);
+  color: var(--gold-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-sans);
+}
+.cxr-card .vv {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 8px;
+}
+.cxr-card .vv b {
+  font: 700 44px/1 var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--gold-ink);
+  text-shadow: 0 0 24px color-mix(in srgb, var(--gold) 45%, transparent);
+}
+.cxr-card .vv em {
+  font: 600 15px/1 var(--font-sans);
+  font-style: normal;
+  color: var(--ink-muted);
+}
+.cxr-card .vv em {
+  font-family: var(--font-arabic);
+}
+.cxr-card .shr {
+  display: block;
+  width: 78%;
+  height: 6px;
+  margin-top: 6px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--gold) 14%, transparent);
+  overflow: hidden;
+}
+.cxr-card .shr i {
+  display: block;
+  width: var(--w);
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-glow));
+  box-shadow: 0 0 12px var(--gold);
+}
+.cxr-card .pc {
+  font: 500 13.5px/1 var(--font-sans);
+  font-family: var(--font-arabic);
+  font-style: normal;
+  color: var(--ink-muted);
+}
+.cxr-card .pc b {
+  font: 700 14px/1 var(--font-display);
+  color: var(--ink);
+}

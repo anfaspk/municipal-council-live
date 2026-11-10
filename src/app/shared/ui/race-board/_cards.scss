@@ -1,0 +1,328 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.rs-av {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: var(--ink-muted);
+  background: radial-gradient(
+    120% 90% at 50% 0%,
+    color-mix(in srgb, var(--ink) 16%, var(--canvas-1)),
+    var(--canvas-1) 75%
+  );
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.rs-av img {
+  @include mixins.cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;
+}
+.rs-av b {
+  font: 700 #{$fs-26}/ 1 var(--font-display);
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+.rs-av.sm {
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-round;
+  box-shadow:
+    inset 0 0 0 1px var(--hairline),
+    0 0 0 2px color-mix(in srgb, var(--data-cyan) 40%, transparent);
+}
+.rs-av.sm b {
+  font-size: $fs-14;
+  color: var(--ink-muted);
+}
+.rs-hero {
+  --pw: 150px;
+  --ph: 184px;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--pw) minmax(0, 1fr);
+  gap: $sp-22;
+  align-items: center;
+  border-radius: $r-24;
+  overflow: hidden;
+  padding: $sp-16;
+  padding-inline-end: $sp-24;
+  background:
+    radial-gradient(
+      110% 130% at 100% 0%,
+      color-mix(in srgb, var(--gold) 16%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--canvas-1) 90%, var(--gold) 10%),
+      color-mix(in srgb, var(--canvas-0) 85%, transparent)
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--gold) 52%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--gold-pale) 28%, transparent),
+    0 28px 60px -34px color-mix(in srgb, var(--gold) 55%, transparent);
+}
+.rs-por {
+  position: relative;
+  width: var(--pw);
+  height: var(--ph);
+}
+.rs-av.lg {
+  width: 100%;
+  height: 100%;
+  border-radius: $r-18;
+  box-shadow:
+    0 0 0 2px var(--canvas-0),
+    0 0 0 4px color-mix(in srgb, var(--gold) 72%, transparent),
+    0 18px 40px -16px var(--shadow-ink-70);
+}
+.rs-av.lg::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 38%;
+  background: linear-gradient(transparent, color-mix(in srgb, var(--canvas-0) 50%, transparent));
+}
+.rs-av.lg b {
+  font-size: $fs-44;
+}
+.rs-coin {
+  position: absolute;
+  inset-block-start: -$sp-8;
+  inset-inline-start: -$sp-8;
+  z-index: $z-2;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: $radius-round;
+  font: 700 #{$fs-24}/ 1 var(--font-display);
+  color: var(--on-gold);
+  background: radial-gradient(
+    circle at 35% 30%,
+    var(--gold-pale),
+    var(--gold) 55%,
+    var(--gold-ink)
+  );
+  box-shadow:
+    0 0 0 4px var(--canvas-0),
+    0 8px 22px color-mix(in srgb, var(--gold) 55%, transparent);
+}
+.rs-hi {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $sp-6;
+  min-width: 0;
+}
+.rs-lead {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  font: 700 #{$fs-16}/ 1.2 var(--font-arabic);
+  letter-spacing: 0;
+  color: var(--gold-ink);
+}
+.rs-drawn {
+  font-style: normal;
+  padding: $sp-2 $sp-8;
+  border-radius: $radius-round;
+  color: var(--on-gold);
+  background: var(--gold);
+}
+.rs-lead svg {
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 0 8px var(--gold-glow));
+}
+.rs-hero .rs-nm {
+  display: -webkit-box;
+  max-width: 100%;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font: 700 #{$fs-28}/ 1.28 var(--font-arabic);
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+.rs-v {
+  display: flex;
+  align-items: center;
+  gap: $sp-12;
+  margin-block-start: $sp-2;
+}
+.rs-v b {
+  font: 700 #{$fs-54}/ 1 var(--font-display);
+  letter-spacing: -0.035em;
+  color: var(--ink);
+}
+.rs-v .rs-sh {
+  padding: $sp-5 $sp-10;
+  border-radius: var(--radius-pill);
+  font: 700 #{$fs-17}/ 1 var(--font-display);
+  white-space: nowrap;
+  color: var(--gold-ink);
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 38%, transparent);
+}
+.rs-bar {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 5px;
+  background: var(--hairline);
+}
+.rs-bar i {
+  display: block;
+  height: 100%;
+  box-shadow: 0 0 14px var(--gold-glow);
+  background: linear-gradient(270deg, var(--gold), var(--gold-glow));
+}
+.rs-sheen {
+  position: absolute;
+  inset-block: -10%;
+  inset-inline-start: 0;
+  width: 38%;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    color-mix(in srgb, var(--gold-pale) 34%, transparent),
+    transparent
+  );
+  transform: translateX(120%) skewX(-14deg);
+}
+.rs-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: $sp-12;
+  padding-block-end: $sp-6;
+  padding-inline: $sp-10 $sp-16;
+  border-radius: $r-14;
+  overflow: hidden;
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--canvas-1) 70%, transparent),
+    color-mix(in srgb, var(--canvas-1) 35%, transparent)
+  );
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.rs-row::before,
+.rs-fill {
+  position: absolute;
+  inset-inline: $sp-12;
+  bottom: $sp-6;
+  height: 4px;
+  border-radius: $r-2;
+}
+.rs-row::before {
+  content: '';
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.rs-fill {
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--data-cyan) 45%, transparent),
+    var(--data-cyan)
+  );
+  box-shadow: 0 0 10px color-mix(in srgb, var(--data-cyan) 55%, transparent);
+}
+.rs-row .rs-rk {
+  min-width: 2em;
+  padding: $sp-4 $sp-6;
+  border-radius: $r-8;
+  font: 700 #{$fs-14}/ 1 var(--font-display);
+  text-align: center;
+  color: var(--ink-muted);
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.rs-row .rs-nm {
+  font: 600 #{$fs-17}/ 1.3 var(--font-arabic);
+  letter-spacing: 0;
+  @include mixins.ellipsis;
+}
+.rs-fig {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $sp-3;
+}
+.rs-fig .rs-val {
+  font: 700 #{$fs-20}/ 1 var(--font-display);
+  color: var(--ink);
+}
+.rs-fig .rs-sh {
+  font: 600 #{$fs-12}/ 1 var(--font-display);
+  color: var(--ink-muted);
+}
+.rs-bump {
+  animation: rs-bump $t-1100 var(--ease-std);
+}
+@keyframes rs-bump {
+  0%,
+  40% {
+    color: var(--stat-voted);
+    text-shadow: 0 0 14px color-mix(in srgb, var(--stat-voted) 60%, transparent);
+  }
+}
+.rs-enter .rs-row {
+  animation: rs-in $t-500 var(--ease-expo) backwards;
+  animation-delay: calc(var(--d, 0) * $t-1000);
+}
+.rs-enter .rs-bar i,
+.rs-enter .rs-fill {
+  animation: rs-w $t-1100 var(--ease-expo) $t-350 backwards;
+}
+.rs-enter .rs-av.lg img {
+  animation: rs-zoom $t-1400 var(--ease-expo) backwards;
+  animation-delay: calc(var(--d, 0) * $t-1000);
+}
+.rs-enter .rs-coin,
+.rs-gain .rs-coin {
+  animation: rs-pop $t-700 var(--ease-spring) backwards;
+  animation-delay: calc(var(--d, 0) * $t-1000 + #{$t-450});
+}
+.rs-enter .rs-sheen,
+.rs-gain .rs-sheen {
+  animation: rs-sweep $t-1300 var(--ease-std) backwards;
+  animation-delay: calc(var(--d, 0) * $t-1000 + #{$t-350});
+}
+.rs-gain .rs-coin,
+.rs-gain .rs-sheen {
+  animation-delay: 0ms;
+}
+@keyframes rs-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+@keyframes rs-w {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes rs-zoom {
+  from {
+    opacity: 0;
+    transform: scale(1.16);
+  }
+}
+@keyframes rs-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+}
+@keyframes rs-sweep {
+  to {
+    transform: translateX(-300%) skewX(-14deg);
+  }
+}

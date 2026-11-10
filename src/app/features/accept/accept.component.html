@@ -1,0 +1,102 @@
+<div class="mj-ambient ca-sky"></div>
+<div class="mj-horizon ca-hz"></div>
+
+<header class="ca-top mj-glass">
+  <img class="ca-logo" [src]="logo" alt="" />
+  <span class="ca-top-tx">
+    <span class="ca-top-t">{{ 'caBrand' | caT }}</span>
+    <span class="ca-top-s">{{ 'caFoot' | caT }}</span>
+  </span>
+</header>
+
+<main class="ca-main" [attr.data-s]="state()">
+  <section class="ca-card ca-req mj-glass" aria-labelledby="ca-title">
+    <i class="mj-crenel" aria-hidden="true"></i>
+    <p class="ca-kicker">{{ 'caKicker' | caT }}</p>
+    <h1 class="ca-title" id="ca-title">{{ 'caTitle' | caT }}</h1>
+    @if (place(); as pl) {
+      <p class="ca-place">{{ pl }}</p>
+    }
+
+    @if (v().me; as me) {
+      <div class="ca-who">
+        <span class="ca-av lg" [caAv]="me"></span>
+        <div class="ca-who-tx">
+          <p class="ca-name">{{ me.name }}</p>
+          <p class="ca-role">{{ 'caRole' | caT }}</p>
+        </div>
+      </div>
+    }
+
+    <div class="ca-status" aria-live="polite">
+      @if (state() === 'loading') {
+        <p class="ca-wait"><i class="ca-spin"></i>{{ 'caLoading' | caT }}</p>
+      } @else if (state() === 'open') {
+        <p class="ca-lead">{{ 'caLead' | caT }}</p>
+        <p class="ca-ask">{{ 'caAsk' | caT }}</p>
+        @if (left() !== null) {
+          <div class="ca-time" [class.warn]="urgent() === 'warn'" [class.late]="urgent() === 'late'" role="timer" [attr.aria-label]="'caTimer' | caT">
+            <span class="ca-ring">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="ca-ring-t" cx="60" cy="60" r="52" pathLength="100" />
+                <circle class="ca-ring-f" cx="60" cy="60" r="52" pathLength="100" [style.--k]="share()" />
+              </svg>
+              <b class="ca-time-v mj-num">{{ time() }}</b>
+            </span>
+            <span class="ca-time-tx">
+              <span class="ca-time-l">{{ 'caTimer' | caT }}</span>
+              @if (roundText(); as r) {
+                <span class="ca-time-r">{{ r }}</span>
+              }
+            </span>
+          </div>
+        }
+      } @else if (msg(); as m) {
+        <div class="ca-box" [attr.data-tone]="m.tone">
+          <span class="ca-ic"><svg [caGlyph]="m.icon"></svg></span>
+          <div class="ca-box-in">
+            <h2 class="ca-msg-t" tabindex="-1" #msg>{{ m.title }}</h2>
+            @if (m.chip; as c) {
+              <span class="ca-chip">{{ c }}</span>
+            }
+            @if (m.sub; as s) {
+              <p class="ca-msg-s">{{ s }}</p>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (canConfirm()) {
+      <div class="ca-act">
+        <button type="button" class="ca-go" [disabled]="store.sending()" [attr.aria-busy]="store.sending()" (click)="confirm()">
+          @if (store.sending()) {
+            <i class="ca-spin"></i>
+            {{ 'caSending' | caT }}
+          } @else {
+            <svg caGlyph="check"></svg>
+            {{ 'caConfirm' | caT }}
+          }
+        </button>
+        @if (store.outcome() === 'serverError' && !store.sending()) {
+          <p class="ca-err" role="alert">{{ 'caError' | caT }}</p>
+        }
+        @if (state() === 'unknown') {
+          <button type="button" class="ca-retry" (click)="retry()"><svg caGlyph="retry"></svg>{{ 'caRetry' | caT }}</button>
+        }
+        <p class="ca-note">{{ 'caNote' | caT }}</p>
+      </div>
+    }
+  </section>
+
+  @if (v().me) {
+    <section class="ca-card ca-tie mj-glass" caTie [view]="v()"></section>
+    @if (v().stage; as st) {
+      <section class="ca-card ca-steps mj-glass" caSteps [stage]="st"></section>
+    }
+  }
+</main>
+
+<footer class="ca-foot">
+  <span class="ca-priv"><svg caGlyph="lock"></svg>{{ 'caPrivate' | caT }}</span>
+</footer>

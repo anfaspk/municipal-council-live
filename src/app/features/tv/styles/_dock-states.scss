@@ -1,0 +1,100 @@
+@use '../../../../styles/scales' as *;
+
+.mj-tv.tva-paused *,
+.mj-tv.tva-paused *::before,
+.mj-tv.tva-paused *::after {
+  animation-play-state: paused;
+}
+.mj-tv.tva-paused .tv-face.tva-settled *,
+.mj-tv.tva-paused .tv-face.tva-settled *::before,
+.mj-tv.tva-paused .tv-face.tva-settled *::after {
+  animation-play-state: running;
+}
+.mj-tv.tva-still *,
+.mj-tv.tva-still *::before,
+.mj-tv.tva-still *::after,
+.tv-face.tva-settled *,
+.tv-face.tva-settled *::before,
+.tv-face.tva-settled *::after {
+  animation-duration: $t-1;
+  animation-iteration-count: 1;
+}
+.tv-face.tva-settled *,
+.tv-face.tva-settled *::before,
+.tv-face.tva-settled *::after {
+  animation-delay: 0s;
+}
+.mj-tv.tva-still .tv-prog i.on::after {
+  animation-duration: var(--dur, 16s);
+}
+.mj-tv.tva-still .mj-horizon .drift,
+.mj-tv.tva-still .mj-breathe {
+  animation: none;
+}
+.mj-tv.tva-still .tv-face.on .tv-lab,
+.tv-face.tva-settled.on .tv-lab {
+  animation: none;
+}
+:is(.mj-tv.tva-still, .tv-face.tva-settled)
+  :is(
+    .tv-info > *,
+    .tv-shape,
+    .tv-sh-face,
+    .tv-sh-ext > *,
+    .tv-rg .fill,
+    .tv-locw,
+    .tv-coord,
+    .tv-hud,
+    .tv-curve .area,
+    .tv-curve .hd,
+    .tv-pt .core,
+    .tv-sh-pin .core
+  ) {
+  animation: none;
+}
+:is(.mj-tv.tva-still, .tv-face.tva-settled) :is(.tv-sh-trace, .tv-curve .ln) {
+  animation: none;
+}
+:is(.mj-tv.tva-still, .tv-face.tva-settled) .tv-gbar i {
+  animation: none;
+}
+:is(.mj-tv.tva-still, .tv-face.tva-settled) .tv-sh-halo {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv-face.on .tv-lab {
+    animation: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv-info > *,
+  .tv-shape,
+  .tv-sh-face,
+  .tv-sh-ext > *,
+  .tv-rg .fill,
+  .tv-locw,
+  .tv-coord,
+  .tv-hud,
+  .tv-curve .area,
+  .tv-curve .hd,
+  .tv-pt .core,
+  .tv-sh-pin .core {
+    animation: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv-sh-trace,
+  .tv-curve .ln {
+    animation: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv-gbar i {
+    animation: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv-sh-halo {
+    animation: none;
+  }
+}

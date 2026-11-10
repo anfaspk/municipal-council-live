@@ -1,0 +1,91 @@
+@use '../../../../../../styles/scales' as *;
+
+.mv-home {
+  justify-content: center;
+  gap: $sp-6;
+
+  .mv-logo {
+    inline-size: 36px;
+    block-size: auto;
+  }
+  .mv-ttl {
+    font-size: $fs-6-3;
+    line-height: 9px;
+    color: var(--mv-mut);
+    text-align: center;
+  }
+}
+.mv-cta {
+  position: relative;
+  margin-block-start: $sp-8;
+  inline-size: 100%;
+  box-sizing: border-box;
+  padding: $sp-3-5 $sp-4;
+  border-radius: $r-9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 700;
+  font-size: $fs-5-8;
+  line-height: 7.5px;
+  background: linear-gradient(180deg, var(--mv-gold-hi), var(--mv-gold));
+  color: var(--mv-on-gold);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--mv-gold-glow) 40%, transparent);
+  transition:
+    transform $t-400 var(--mv-e),
+    filter $t-400;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--mv-gold-glow) 75%, transparent);
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+.mv-scr[data-s='home'] .mv-cta::after {
+  animation: mv-cta $t-3000 ease-in-out infinite;
+}
+.mv-tap {
+  position: absolute;
+  inset: 0;
+  inline-size: 13px;
+  block-size: 13px;
+  margin: auto;
+  border-radius: $radius-round;
+  background: color-mix(in srgb, var(--mv-white) 75%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+.mv-scr.tapped {
+  .mv-tap {
+    animation: mv-tap $t-700 var(--mv-e);
+  }
+  .mv-cta {
+    transform: scale(0.95);
+    filter: brightness(1.12);
+  }
+}
+
+@keyframes mv-cta {
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes mv-tap {
+  0% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}

@@ -1,0 +1,319 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.wn-show {
+  @include mixins.cover;
+  z-index: $z-2;
+}
+.wn-show.wn-out {
+  pointer-events: none;
+}
+
+.wn-fx {
+  @include mixins.cover;
+  pointer-events: none;
+}
+.wn-rays {
+  position: absolute;
+  inset-block-start: calc(56% - var(--wn-beams) / 2);
+  inset-inline-start: calc(50% - var(--wn-beams) / 2);
+  width: var(--wn-beams);
+  height: var(--wn-beams);
+  border-radius: $radius-round;
+  background: repeating-conic-gradient(
+    from 0deg,
+    color-mix(in srgb, var(--gold) 15%, transparent) 0deg 3deg,
+    transparent 3deg 12deg
+  );
+  -webkit-mask-image: radial-gradient(closest-side, var(--ink) 6%, transparent 62%);
+  mask-image: radial-gradient(closest-side, var(--ink) 6%, transparent 62%);
+  opacity: 0.2;
+  animation:
+    wn-fade $t-1500 var(--ease-std) both,
+    wn-spin $t-120000 linear infinite;
+}
+.wn-show.done .wn-rays {
+  opacity: 0.7;
+}
+.wn-burst {
+  position: absolute;
+  inset-block-start: calc(58% - var(--wn-burst) / 2);
+  inset-inline-start: calc(50% - var(--wn-burst) / 2);
+  width: var(--wn-burst);
+  height: var(--wn-burst);
+  border-radius: $radius-round;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--gold-glow) 70%, transparent),
+    transparent
+  );
+  opacity: 0;
+}
+.wn-show.done .wn-burst {
+  animation: wn-burst $t-1600 var(--ease-expo) $t-700 both;
+}
+.wn-sweep {
+  position: absolute;
+  inset-block: -10%;
+  inset-inline-start: 0;
+  width: 34%;
+  direction: ltr;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    color-mix(in srgb, var(--gold-pale) 16%, transparent) 45%,
+    color-mix(in srgb, var(--gold-pale) 22%, transparent) 50%,
+    color-mix(in srgb, var(--gold-pale) 16%, transparent) 55%,
+    transparent
+  );
+  transform: translate3d(-130%, 0, 0) skewX(-16deg);
+  animation: wn-sweep $t-1400 var(--ease-std) both;
+}
+.wn-motes {
+  --w: 920px;
+  position: absolute;
+  inset-block-start: 30%;
+  inset-inline-start: calc(50% - var(--w) / 2);
+  width: 2px;
+  height: 2px;
+  border-radius: $radius-round;
+  direction: ltr;
+  color: var(--gold-glow);
+  box-shadow: var(--motes);
+  opacity: 0;
+  animation: wn-motes $t-10000 linear $t-1200 infinite;
+}
+.wn-motes.m2 {
+  animation-duration: $t-11000;
+  animation-delay: $t-6000;
+}
+
+.wn-head {
+  position: absolute;
+  inset-block-start: $sp-24;
+  inset-inline: $sp-112;
+  z-index: $z-2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-6;
+  text-align: center;
+}
+.wn-head .wn-kicker {
+  font-size: $fs-21;
+  animation: wn-rise $t-700 var(--ease-expo) $t-200 both;
+}
+.wn-head .wn-kicker i {
+  width: 72px;
+  transform-origin: 0 50%;
+  animation: wn-line $t-900 var(--ease-expo) $t-150 both;
+}
+.wn-head .wn-kicker i:last-child {
+  transform-origin: 100% 50%;
+}
+.wn-gname {
+  color: var(--wn-gold-text);
+}
+.wn-name {
+  max-width: 100%;
+  margin: 0;
+  @include mixins.ellipsis;
+  font: 700 #{$fs-76}/ 1.2 var(--font-sans);
+  -webkit-mask-image: linear-gradient(270deg, var(--ink) 46%, transparent 54%);
+  mask-image: linear-gradient(270deg, var(--ink) 46%, transparent 54%);
+  -webkit-mask-size: 250% 100%;
+  mask-size: 250% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 100% 0;
+  mask-position: 100% 0;
+  animation: wn-wipe $t-1100 var(--ease-expo) $t-250 both;
+}
+.wn-name-k {
+  font-weight: 600;
+  color: var(--ink);
+}
+.wn-name-n {
+  background: linear-gradient(
+    100deg,
+    var(--wn-g3) 20%,
+    var(--wn-g1) 45%,
+    var(--wn-g2) 60%,
+    var(--wn-g3) 85%
+  );
+  background-size: 250% 100%;
+  background-position: 0% 0;
+  background-clip: text;
+  color: transparent;
+  animation: wn-gleam $t-2400 var(--ease-std) $t-900 both;
+}
+.wn-sub {
+  margin: 0;
+  font: 500 #{$fs-21}/ 1.3 var(--font-sans);
+  color: var(--ink-muted);
+  animation: wn-rise $t-700 var(--ease-expo) $t-400 both;
+}
+.wn-chips {
+  display: flex;
+  align-items: center;
+  gap: $sp-12;
+  margin: $sp-6 0 0;
+}
+.wn-badge,
+.wn-seats {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  height: 38px;
+  padding-inline: $sp-16;
+  border-radius: var(--radius-pill);
+  font: 600 #{$fs-17}/ 1 var(--font-sans);
+  animation: wn-pop $t-600 var(--ease-spring) $t-550 both;
+}
+.wn-badge {
+  background: color-mix(in srgb, var(--declared) 12%, var(--wn-sky-0));
+  box-shadow:
+    inset 0 0 0 1.5px var(--declared),
+    0 0 22px color-mix(in srgb, var(--declared) 25%, transparent);
+  color: var(--declared);
+}
+.wn-badge .wn-chk {
+  width: 18px;
+  height: 18px;
+}
+.wn-badge.pend {
+  background: color-mix(in srgb, var(--stat-pending) 10%, var(--wn-sky-0));
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--stat-pending) 70%, transparent);
+  color: var(--ink);
+}
+.wn-badge.pend i {
+  width: 9px;
+  height: 9px;
+  border-radius: $radius-round;
+  background: var(--stat-pending);
+  animation: wn-blink $t-1600 var(--ease-std) infinite;
+}
+.wn-seats {
+  background: color-mix(in srgb, var(--gold) 12%, var(--wn-sky-0));
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--gold) 60%, transparent);
+  color: var(--gold-pale);
+  animation-delay: $t-700;
+}
+
+.wn-cards {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: calc(var(--wn-floor) + #{$sp-4});
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: $sp-96;
+  perspective: 1600px;
+}
+.wn-cards.many {
+  gap: $sp-28;
+}
+
+.wn-foot {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: calc(var(--wn-floor) / 2 - #{$sp-12});
+  z-index: $z-4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-8;
+  margin: 0;
+  font: 600 #{$fs-16}/ 1 var(--font-sans);
+  color: var(--wn-plate-hi);
+  text-shadow: 0 1px 8px var(--shadow-ink-80);
+  animation: wn-fade $t-900 var(--ease-std) $t-1800 both;
+}
+.wn-foot .wn-chk {
+  width: 18px;
+  height: 18px;
+  padding: $sp-3;
+  border-radius: $radius-round;
+  background: var(--declared);
+  color: var(--wn-sky-0);
+}
+
+.wn-out .wn-head {
+  animation: wn-away $t-250 var(--ease-std) both;
+}
+.wn-out .wn-lift {
+  animation: wn-sink $t-600 cubic-bezier(0.5, 0, 0.75, 0) both;
+  animation-delay: calc(var(--k, 0) * #{$t-80});
+}
+.wn-out .wn-beam,
+.wn-out .wn-fx {
+  animation: wn-away $t-400 var(--ease-std) both;
+}
+
+@keyframes wn-burst {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+@keyframes wn-motes {
+  0% {
+    transform: translate3d(0, 60px, 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate3d(0, -180px, 0);
+    opacity: 0;
+  }
+}
+@keyframes wn-sweep {
+  from {
+    transform: translate3d(300%, 0, 0) skewX(-16deg);
+  }
+}
+@keyframes wn-line {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes wn-wipe {
+  from {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+  }
+}
+@keyframes wn-gleam {
+  from {
+    background-position: 100% 0;
+  }
+}
+@keyframes wn-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+@keyframes wn-away {
+  to {
+    transform: translate3d(0, -20px, 0);
+    opacity: 0;
+  }
+}
+@keyframes wn-sink {
+  to {
+    transform: translate3d(0, 108%, 0);
+  }
+}

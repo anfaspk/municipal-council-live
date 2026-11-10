@@ -1,0 +1,332 @@
+@use '../../mixins';
+@use '../../scales' as *;
+
+.mj-drawer.dw {
+  width: 620px;
+  box-shadow:
+    var(--shadow-raised),
+    0 30px 80px -30px var(--shadow-ink-65);
+}
+.dw .dw-glow {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 260px;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      120% 100% at 18% -10%,
+      color-mix(in srgb, var(--band) 34%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      60% 80% at 100% 0%,
+      color-mix(in srgb, var(--gold) 10%, transparent),
+      transparent 70%
+    );
+  transition: background $t-600;
+}
+.dw .dw-glow,
+.dw-crumbs .sep svg,
+.dw-wr .go svg {
+  transform: scaleX(-1);
+}
+.dw-head {
+  position: relative;
+  z-index: $z-3;
+  display: flex;
+  align-items: flex-start;
+  gap: $sp-16;
+  padding: $sp-24 $sp-24 $sp-10;
+}
+.dw-head .dsw {
+  width: 46px;
+  height: 46px;
+  border-radius: $r-14;
+  margin-top: $sp-2;
+  flex: none;
+  box-shadow:
+    0 0 0 1px var(--ring-light) inset,
+    0 10px 26px -8px var(--band);
+}
+.dw-ttl {
+  flex: 1;
+  min-width: 0;
+}
+.dw h2 {
+  margin: $sp-4 0 0;
+  font: 700 #{$fs-28}/ 34px var(--font-sans);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  @include mixins.ellipsis;
+}
+.dw h3 {
+  margin: $sp-4 0 0;
+  font: 700 #{$fs-24}/ 30px var(--font-sans);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.dw h4 {
+  margin: 0;
+  font: 600 #{$fs-14}/ 20px var(--font-sans);
+  color: var(--ink);
+}
+.dw :is(h2, h3, h4) {
+  @include mixins.arabic;
+}
+.dw-alt {
+  font-size: $fs-13;
+  line-height: 18px;
+  color: var(--ink-muted);
+  margin-top: $sp-2;
+}
+.dw-crumbs .dw-full {
+  flex: none;
+  height: 30px;
+  margin-inline-start: auto;
+  color: var(--gold-ink);
+  font-size: $fs-12;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 45%, transparent);
+}
+.dw-crumbs .dw-full svg {
+  width: 14px;
+  height: 14px;
+}
+.dw-head .dclose,
+.dw-note .mj-chip.sample,
+.map-rail .mr-tools .mj-seg {
+  flex: none;
+}
+.dw-crumbs {
+  position: relative;
+  z-index: $z-3;
+  display: flex;
+  align-items: center;
+  gap: $sp-2;
+  padding: 0 $sp-20 $sp-12;
+  min-height: 30px;
+  flex-wrap: wrap;
+}
+.dw-crumbs .cr {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  height: 26px;
+  padding: 0 $sp-9;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--ink-muted);
+  font: 600 #{$fs-12}/ 1 var(--font-sans);
+  cursor: pointer;
+  transition:
+    background var(--dur-micro),
+    color var(--dur-micro);
+}
+.dw-crumbs .cr {
+  font-family: var(--font-arabic);
+}
+.dw-crumbs .cr svg,
+.dw-crumbs .sep svg {
+  width: 14px;
+  height: 14px;
+}
+.dw-crumbs button.cr:hover {
+  background: var(--glass-fill-strong);
+  color: var(--ink);
+}
+.dw-crumbs button.cr:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+.dw-crumbs .cr.on {
+  color: var(--gold-ink);
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 40%, transparent);
+  cursor: default;
+}
+.dw-crumbs .sep {
+  display: inline-flex;
+  color: var(--ink-muted);
+  opacity: 0.55;
+}
+.dw-tabs {
+  position: relative;
+  z-index: $z-3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $sp-4;
+  margin: 0 $sp-24 $sp-6;
+  padding: $sp-4;
+  border-radius: $r-16;
+  @include mixins.glass-fill;
+}
+.dw-ink {
+  position: absolute;
+  top: $sp-4;
+  bottom: $sp-4;
+  inset-inline-end: 0;
+  border-radius: $r-12;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--gold) 22%, var(--glass-fill-strong)),
+    color-mix(in srgb, var(--gold) 10%, var(--glass-fill-strong))
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--gold) 55%, transparent),
+    0 8px 22px -12px var(--gold-glow);
+  transition:
+    transform $t-550 var(--ease-spring),
+    width $t-550 var(--ease-spring);
+}
+.dw-tab {
+  position: relative;
+  z-index: $z-1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-8;
+  height: 42px;
+  border: 0;
+  border-radius: $r-12;
+  background: transparent;
+  color: var(--ink-muted);
+  font: 600 #{$fs-14}/ 1 var(--font-sans);
+  font-family: var(--font-arabic);
+  cursor: pointer;
+  transition: color $t-300;
+}
+.dw-tab svg {
+  width: 18px;
+  height: 18px;
+}
+.dw-tab:hover,
+.dw-tab[aria-selected='true'] {
+  color: var(--ink);
+}
+.dw-tab[aria-selected='true'] svg {
+  color: var(--gold-ink);
+}
+.dw-tab:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+.dw-cnt {
+  min-width: 22px;
+  height: 20px;
+  padding: 0 $sp-6;
+  border-radius: var(--radius-pill);
+  display: inline-grid;
+  place-items: center;
+  font: 700 #{$fs-11}/ 1 var(--font-display);
+  background: var(--hairline);
+  color: var(--ink);
+}
+.dw-cnt:empty {
+  display: none;
+}
+.dw-tab[aria-selected='true'] .dw-cnt {
+  background: var(--gold);
+  color: var(--on-gold);
+}
+.dw-panes {
+  position: relative;
+  z-index: $z-3;
+  flex: 1;
+  min-height: 0;
+}
+.dw-pane {
+  @include mixins.cover;
+  overflow: auto;
+  padding: $sp-12 $sp-24 $sp-28;
+  scrollbar-width: thin;
+  outline: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(calc(var(--dx, 1) * 36px));
+  transition:
+    opacity $t-250 var(--ease-std),
+    transform $t-450 var(--ease-expo),
+    visibility 0s linear $t-450;
+  --rd: -1;
+}
+.dw-pane.on {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity $t-400 var(--ease-std) $t-80,
+    transform $t-600 var(--ease-expo) $t-40,
+    visibility 0s;
+}
+.dw-pane > * + * {
+  margin-top: $sp-14;
+}
+
+.mj-drawer.dw-new * {
+  transition: none !important;
+}
+.mj-drawer.dw-in :is(.dw-head, .dw-crumbs, .dw-tabs) {
+  animation: dw-up $t-600 var(--ease-expo) backwards;
+}
+.mj-drawer.dw-in .dw-crumbs {
+  animation-delay: $t-60;
+}
+.mj-drawer.dw-in .dw-tabs {
+  animation-delay: $t-100;
+}
+@keyframes dw-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.dw-pane.dw-anim > * {
+  animation: dw-up $t-600 var(--ease-expo) backwards;
+}
+.dw-pane.dw-anim > :nth-child(2) {
+  animation-delay: $t-50;
+}
+.dw-pane.dw-anim > :nth-child(3) {
+  animation-delay: $t-100;
+}
+.dw-pane.dw-anim > :nth-child(4) {
+  animation-delay: $t-150;
+}
+.dw-pane.dw-anim > :nth-child(n + 5) {
+  animation-delay: $t-200;
+}
+.dw-pane.dw-anim :is(.dw-wr, .dw-vr, .dw-wc) {
+  animation: dw-row $t-550 var(--ease-expo) backwards;
+  animation-delay: calc(var(--j, 0) * $t-35 + $t-120);
+}
+.dw-pane.dw-anim .dw-br i,
+.dw-pane.dw-anim .dw-meter i {
+  animation: dw-grow $t-1000 var(--ease-expo) backwards;
+  animation-delay: calc(var(--j, 0) * $t-35 + $t-220);
+}
+.dw-pane.dw-anim .dw-stack i {
+  animation: dw-grow $t-900 var(--ease-expo) backwards $t-250;
+}
+@keyframes dw-row {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--rd, 1) * 18px));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dw-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+.dw-crenel {
+  width: 120px;
+}

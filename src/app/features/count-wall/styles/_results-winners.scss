@@ -1,0 +1,128 @@
+.cxr-ru {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  height: 54px;
+  padding: 0 18px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--canvas-1) 70%, transparent);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  font-size: 15px;
+}
+.cxr-ru .k {
+  flex: none;
+  font: 700 11px/1 var(--font-sans);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.cxr-ru,
+.cxr-ru .k {
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+}
+.cxr-ru .cx-av {
+  width: 34px;
+  height: 34px;
+}
+.cxr-ru .cx-av:not(.ph) {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font: 700 11px/1 var(--font-sans);
+  font-style: normal;
+  background: color-mix(in srgb, var(--ink-muted) 30%, transparent);
+}
+.cxr-ru .cx-av.ph {
+  --ring: color-mix(in srgb, var(--ink-muted) 55%, transparent);
+}
+.cxr-ru > b {
+  min-width: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cxr-ru > em {
+  font: 600 15px/1 var(--font-display);
+  font-style: normal;
+  color: var(--ink-muted);
+}
+.cxr-ru .mg {
+  margin-inline-start: auto;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-muted);
+  font-size: 13.5px;
+}
+.cxr-ru .mg b {
+  font: 700 18px/1 var(--font-display);
+  color: var(--gold-ink);
+}
+.cxr-pane.in .cxr-card {
+  animation: cxr-hero 1.1s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: calc(0.25s + var(--k, 0) * 0.2s);
+}
+@keyframes cxr-hero {
+  from {
+    opacity: 0;
+    transform: translateY(48px) scale(0.9);
+    filter: blur(10px);
+  }
+}
+.cxr-pane.in .cxr-card .por {
+  animation: cxr-por 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(0.45s + var(--k, 0) * 0.2s);
+}
+@keyframes cxr-por {
+  from {
+    opacity: 0;
+    transform: scale(0.4) rotate(-25deg);
+  }
+}
+.cxr-pane.in .cxr-card .badge {
+  animation: cxr-badge 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(1.05s + var(--k, 0) * 0.2s);
+}
+@keyframes cxr-badge {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.5);
+  }
+}
+.cxr-pane.in .cxr-card .shr i {
+  animation: cxr-grow 1.4s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(0.9s + var(--k, 0) * 0.2s);
+  transform-origin: 100% 50%;
+}
+.cxr-pane.in .cxr-ru {
+  animation: cx-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: 0.85s;
+}
+.cxr-pane.in .cxr-fx .rays {
+  animation:
+    cxr-rays 1.6s cubic-bezier(0.16, 1, 0.3, 1) backwards,
+    cx-spin 70s linear infinite;
+}
+@keyframes cxr-rays {
+  from {
+    opacity: 0;
+    scale: 0.3;
+  }
+}
+
+.mj-tv.tva-still .cxr-fx i,
+.mj-tv.tva-still .cxr-c::after,
+.mj-tv.tva-still .cxr-card::before {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cxr-fx i,
+  .cxr-c::after,
+  .cxr-card::before {
+    display: none;
+  }
+}

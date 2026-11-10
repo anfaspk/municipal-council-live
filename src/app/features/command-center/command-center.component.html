@@ -1,0 +1,22 @@
+@let paged = !!detail.at();
+<div class="mj-ambient"></div>
+<div class="mj-horizon"></div>
+<div class="cc-grid">
+  <header class="cc-bar mj-glass" data-boot></header>
+  <section class="cc-hero mj-glass" data-boot [inert]="paged" [attr.aria-label]="'natTurnout' | t"></section>
+  <section class="cc-pulse mj-glass" data-boot [inert]="paged" [attr.aria-label]="'gender' | t"><span class="mj-crenel"></span>@defer (on idle) {<div gpPulse></div>}</section>
+  <section class="cc-kpis" data-boot [inert]="paged" [attr.aria-label]="'kpisL' | t"></section>
+  <section class="cc-map mj-glass" data-boot [inert]="paged" [attr.aria-label]="'map' | t" (pointerenter)="tourEnter()" (pointerleave)="tourLeave()" (focusin)="tourFocus(true)" (focusout)="tourFocus(false, $event)"><span class="mj-crenel"></span>
+    <div class="map-rail mj-z"></div>
+    <div class="map-wrap mj-z"><div class="map-stage" dir="ltr"></div><div class="map-bands mj-glass raised" [govs]="stats.govs()"></div></div>
+    <div class="map-focus mj-z"></div></section>
+  <div class="cc-side" [inert]="paged"><section class="cc-age ix-card mj-glass" data-boot [attr.aria-label]="'ixTabs' | t"><span class="mj-crenel"></span><div class="ixw mj-z"></div></section>
+    <section class="cc-podium mj-glass" data-boot [attr.aria-label]="'podium' | t"></section></div>
+  <footer class="cc-ticker mj-glass mj-ticker" data-boot [inert]="paged"></footer>
+</div>
+@if (paged) {@defer (on immediate) {<div class="dt-page"></div>}}
+<div class="mj-scrim" aria-hidden="true" [inert]="paged" (click)="state.close()"></div>
+@defer (on idle; on timer(2s); when !!state.pinned()) {<div class="mj-drawer mj-glass raised dw" [inert]="paged" role="dialog" aria-modal="false" aria-labelledby="dw-title" aria-hidden="true"></div>}
+<div class="mj-sr" aria-live="polite" #live></div>
+@if (fx.shown()) {<div class="mj-toasts" aria-hidden="true">@for (t of fx.toasts(); track t.id) {<div class="mj-toast mj-glass raised" [class.out]="t.out"><span class="ic">@if (t.icon === 'star') {<svg class="star" viewBox="0 0 24 24" aria-hidden="true"><polygon [attr.points]="star"/></svg>}</span><div class="tx"><b>{{ t.title }}</b><span>{{ t.sub }}</span></div></div>}</div>}
+@for (b of fx.bursts(); track b.id) {<div class="mj-confetti" [burst]="b"></div>}

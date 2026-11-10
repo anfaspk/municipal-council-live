@@ -1,0 +1,30 @@
+@let initial = wilayat(); @let w = current();
+<span class="nm"
+  ><span class="t">
+    @for (key of [revision()]; track key) {
+      <svg [countStatus]="w.st" [size]="14"></svg>
+    }
+    <b>{{ initial.n }}</b
+    ><em class="pc mj-num">{{ percent(share()) }}</em></span
+  ><span class="pg"><i [style.width]="decimal(share()) + '%'"></i></span></span
+><b class="n c mj-num">{{ number(initial.counted) }}</b
+><b class="n l mj-num">{{ number(initial.cast - initial.counted) }}</b
+><b class="n m mj-num">{{ number(initial.m) }}</b
+><b class="n f mj-num">{{ number(initial.f) }}</b>
+@for (key of [revision()]; track key) {
+  @if (w.st === 'await') {
+    <span class="ld aw">{{ text('cAwaitBox') }}</span>
+  } @else if (w.conflict) {
+    <span class="ld aw">{{ text('cxTieS') }}</span>
+  } @else if (!w.counted || !lead()) {
+    <span class="ld aw">{{ text('cStarting') }}</span>
+  } @else {
+    <span class="ld"
+      ><i [countAvatar]="lead()!"></i><b dir="auto">{{ lead()!.ar }}</b>
+      @if (w.st === 'decl') {
+        <em class="ok">{{ text('cxWinner') }}</em>
+      }
+    </span>
+  }
+}
+<span class="go"><svg mjIcon="next"></svg></span>

@@ -1,0 +1,63 @@
+@if (geo(); as g) {
+  <div class="dt-rg-tilt">
+    <svg class="dt-rg-svg" [attr.viewBox]="'0 0 ' + g.w + ' ' + g.h" role="group" [attr.aria-label]="label()">
+      <defs>
+        <path [attr.id]="ref('p')" [attr.d]="g.d"/>
+        <clipPath [attr.id]="ref('c')"><use [attr.href]="href('p')"/></clipPath>
+        <linearGradient [attr.id]="ref('f')" x1="0" y1="0" x2=".35" y2="1">
+          <stop class="dt-rg-bs" offset="0" stop-opacity=".62"/>
+          <stop class="dt-rg-bs" offset=".55" stop-opacity=".26"/>
+          <stop class="dt-rg-bs" offset="1" stop-opacity=".1"/>
+        </linearGradient>
+        <linearGradient [attr.id]="ref('s')" x1="0" y1="0" x2="0" y2="1">
+          <stop class="dt-rg-bs" offset="0" stop-opacity="0"/>
+          <stop class="dt-rg-bs" offset=".85" stop-opacity=".4"/>
+          <stop class="dt-rg-ws" offset="1" stop-opacity=".75"/>
+        </linearGradient>
+        <pattern [attr.id]="ref('l')" [attr.width]="g.lattice.step" [attr.height]="g.lattice.step" patternUnits="userSpaceOnUse">
+          <path class="dt-rg-bl" [attr.d]="g.lattice.d" fill="none" [attr.stroke-width]="g.sw * 0.35"/>
+        </pattern>
+        <filter [attr.id]="ref('b')" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur [attr.stdDeviation]="g.blur"/></filter>
+      </defs>
+      <g class="dt-rg-halo" [attr.filter]="url('b')"><use [attr.href]="href('p')"/></g>
+      <g class="dt-rg-ext">
+        @for (e of g.ext; track $index) {<use [attr.href]="href('p')" [attr.transform]="'translate(0 ' + e + ')'" [style.--i]="$index"/>}
+      </g>
+      <g class="dt-rg-face">
+        <use [attr.href]="href('p')" [attr.fill]="url('f')"/>
+        <g [attr.clip-path]="url('c')">
+          <rect class="dt-rg-lat" [attr.x]="g.bounds.x" [attr.y]="g.bounds.y" [attr.width]="g.bounds.w" [attr.height]="g.bounds.h" [attr.fill]="url('l')"/>
+          <rect class="dt-rg-scan" [attr.x]="g.scan.x" [attr.y]="g.scan.y" [attr.width]="g.scan.w" [attr.height]="g.scan.h" [attr.fill]="url('s')" [style.--sy]="g.scan.sy + 'px'"/>
+        </g>
+      </g>
+      <path class="dt-rg-trace" [attr.d]="g.d" pathLength="1" [attr.stroke-width]="g.sw"/>
+      <path class="dt-rg-comet" [attr.d]="g.d" pathLength="1" [attr.stroke-width]="g.sw * 2.4"/>
+      @for (p of g.pins; track p.id; let i = $index) {
+        <g class="dt-rg-pin" [class]="p.band" [class.hot]="hot() === p.id" [style.--j]="i" role="link" tabindex="0" [attr.aria-label]="say(p)" (click)="pick.emit(p.id)" (keydown.enter)="pick.emit(p.id)" (pointerenter)="hover.emit(p.id)" (pointerleave)="hover.emit(null)" (focus)="hover.emit(p.id)" (blur)="hover.emit(null)">
+          <circle class="hit" [attr.cx]="p.x" [attr.cy]="p.y" [attr.r]="p.r + 6"/>
+          <circle class="ring" [attr.cx]="p.x" [attr.cy]="p.y" [attr.r]="p.r * 1.7"/>
+          <circle class="dot" [attr.cx]="p.x" [attr.cy]="p.y" [attr.r]="p.r"/>
+          <circle class="core" [attr.cx]="p.x" [attr.cy]="p.y" [attr.r]="p.r * 0.38"/>
+        </g>
+      }
+      <g class="dt-rg-labels" aria-hidden="true">
+        @for (l of g.labels; track l.id) {
+          <g class="dt-rg-lab" [class.hot]="hot() === l.id">
+            @if (l.lead) {<path class="dt-rg-lead" [attr.d]="l.lead"/>}
+            <rect [attr.x]="l.x - l.w / 2" [attr.y]="l.y - l.h / 2" [attr.width]="l.w" [attr.height]="l.h" [attr.rx]="l.h / 2"/>
+            <text [attr.x]="l.x" [attr.y]="l.y">{{ l.name }}</text>
+          </g>
+        }
+      </g>
+    </svg>
+  </div>
+  @if (lit(); as p) {
+    <div class="dt-rg-card" [class]="p.band" aria-hidden="true">
+      <b>{{ p.name }}</b>
+      <span class="dt-rg-t mj-num"><i class="mj-sw" [class]="p.band"></i>{{ pct(p.t) }}</span>
+      <small class="mj-num">{{ 'dtPinVotes' | dtT: { v: fmt(p.voted), r: fmt(p.reg) } }}</small>
+    </div>
+  } @else {
+    <p class="dt-rg-key"><i class="dt-rg-kd"></i><i class="dt-rg-kd big"></i>{{ 'dtRgKey' | dtT }}</p>
+  }
+}

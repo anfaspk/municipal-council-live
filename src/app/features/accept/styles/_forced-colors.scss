@@ -1,0 +1,43 @@
+@media (forced-colors: active) {
+  .ca-top,
+  .ca-card,
+  .ca-who,
+  .ca-box,
+  .ca-time,
+  .ca-p,
+  .ca-ack,
+  .ca-chip {
+    border: 1px solid canvastext;
+  }
+  .ca-go,
+  .ca-retry {
+    border: 2px solid buttontext;
+    color: buttontext;
+    background: buttonface;
+  }
+  .ca-go::after {
+    display: none;
+  }
+  .ca-ring,
+  .ca-step.done .ca-dot,
+  .ca-step.on .ca-dot {
+    forced-color-adjust: none;
+  }
+  .ca-ring-t {
+    stroke: graytext;
+  }
+  .ca-ring-f {
+    stroke: highlight;
+  }
+  .ca-time-v {
+    color: canvastext;
+  }
+  .ca-step.done .ca-dot,
+  .ca-step.on .ca-dot {
+    border: 1px solid canvastext;
+  }
+  .ca-step.done .ca-dot {
+    color: highlighttext;
+    background: highlight;
+  }
+}

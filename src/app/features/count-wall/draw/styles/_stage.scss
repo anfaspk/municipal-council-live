@@ -1,0 +1,370 @@
+@use '../../../../../styles/mixins';
+@use '../../../../../styles/scales' as *;
+
+.cxd-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-18;
+  min-width: 0;
+  min-height: 0;
+  padding: $sp-28 $sp-36 $sp-30;
+  overflow: hidden;
+  border-radius: var(--radius-panel);
+  background: radial-gradient(
+    90% 70% at 50% 0%,
+    color-mix(in srgb, var(--stat-pending) 9%, var(--canvas-1)),
+    color-mix(in srgb, var(--canvas-1) 82%, transparent) 72%
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--stat-pending) 30%, transparent);
+  animation: cx-rise $t-950 cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: $t-100;
+}
+.cxd-stage.drawn {
+  background: radial-gradient(
+    90% 70% at 50% 0%,
+    color-mix(in srgb, var(--gold) 14%, var(--canvas-1)),
+    color-mix(in srgb, var(--canvas-1) 82%, transparent) 72%
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 38%, transparent);
+}
+.cxd-hd {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $sp-24;
+}
+.cxd-where {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+  min-width: 0;
+}
+.cxd-gov {
+  font: 600 #{$fs-19}/ 1.2 var(--font-arabic);
+  color: var(--ink-muted);
+}
+.cxd-name {
+  font-size: $fs-64;
+  @include mixins.ellipsis;
+}
+.cxd-tags {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: $sp-10;
+}
+.cxd-tag,
+.cxd-state {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  height: 40px;
+  padding: 0 $sp-16;
+  border-radius: var(--radius-pill);
+  font: 600 #{$fs-16}/ 1 var(--font-arabic);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.cxd-state {
+  color: var(--stat-pending);
+  background: color-mix(in srgb, var(--stat-pending) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--stat-pending) 40%, transparent);
+}
+.cxd-state.drawn {
+  color: var(--on-gold);
+  background: var(--gold);
+  box-shadow: var(--glow-gold);
+}
+.cxd-state svg {
+  width: 18px;
+  height: 18px;
+}
+.cxd-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: $sp-8 $sp-16;
+  margin: 0;
+  font-family: var(--font-arabic);
+}
+.cxd-line b {
+  font-size: $fs-22;
+  color: var(--stat-pending);
+}
+.cxd-stage.drawn .cxd-line b {
+  color: var(--gold-ink);
+}
+.cxd-line span {
+  font-size: $fs-17;
+  color: var(--ink-muted);
+}
+
+.cxd-arena {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-20;
+}
+.cxd-mid {
+  display: flex;
+  align-items: center;
+  gap: $sp-16;
+}
+.cxd-coin {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  perspective: 400px;
+  animation: cxd-float $t-3600 ease-in-out infinite;
+}
+.cxd-stage.drawn .cxd-coin {
+  animation: none;
+}
+.cxd-coin i {
+  width: 64px;
+  height: 64px;
+  border-radius: $radius-round;
+  background: radial-gradient(
+    circle at 35% 30%,
+    var(--gold-pale),
+    var(--gold) 55%,
+    var(--gold-ink)
+  );
+  box-shadow: 0 0 28px var(--gold-glow);
+  transform: rotateY(calc(var(--turn, 0) * 180deg));
+  transition:
+    transform $t-300 ease-out,
+    box-shadow $t-600 ease;
+}
+.cxd-stage.spin .cxd-coin i {
+  box-shadow: 0 0 48px var(--gold-glow);
+}
+@keyframes cxd-float {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.cxd-st {
+  min-height: 32px;
+  font: 700 #{$fs-26}/ 1.2 var(--font-arabic);
+}
+.cxd-stage.drawn .cxd-st {
+  color: var(--gold-ink);
+}
+.cxd-wait {
+  margin: 0;
+  font: 500 #{$fs-18}/ 1.4 var(--font-arabic);
+  color: var(--ink-muted);
+}
+
+.cxd-cands {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $sp-28;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cxd-c {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-10;
+  width: 290px;
+  padding: $sp-18 $sp-16;
+  border-radius: $r-24;
+  background: color-mix(in srgb, var(--canvas-0) 55%, transparent);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  transition:
+    transform $t-150 ease,
+    opacity $t-600 ease,
+    filter $t-600 ease,
+    box-shadow $t-300 ease;
+  animation: cx-rise $t-700 cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: calc($t-200 + var(--d, 0) * $t-90);
+}
+.cxd-cands.many .cxd-c {
+  width: 236px;
+}
+.cxd-av {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 150px;
+  height: 180px;
+  overflow: hidden;
+  border-radius: $r-20;
+  color: var(--ink);
+  background: radial-gradient(
+    120% 90% at 50% 0%,
+    color-mix(in srgb, var(--ink) 16%, var(--canvas-1)),
+    var(--canvas-1) 75%
+  );
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.cxd-cands.many .cxd-av {
+  width: 124px;
+  height: 148px;
+}
+.cxd-av img {
+  @include mixins.cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cxd-av b {
+  font: 700 #{$fs-48}/ 1 var(--font-display);
+}
+.cxd-nm {
+  font: 700 #{$fs-22}/ 1.25 var(--font-arabic);
+  text-align: center;
+}
+.cxd-v {
+  font: 500 #{$fs-17}/ 1 var(--font-arabic);
+  color: var(--ink-muted);
+}
+.cxd-c.lit {
+  transform: scale(1.06);
+  box-shadow:
+    inset 0 0 0 3px var(--gold),
+    0 0 60px -6px var(--gold-glow);
+}
+.cxd-c.won {
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--gold) 30%, var(--canvas-1)),
+    var(--canvas-1) 80%
+  );
+  box-shadow:
+    inset 0 0 0 3px var(--gold),
+    0 0 90px -10px var(--gold-glow);
+  transform: scale(1.08);
+  transition:
+    transform $t-900 cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow $t-600 ease;
+}
+.cxd-c.lost {
+  opacity: 0.42;
+  filter: grayscale(0.7);
+}
+.cxd-won {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  padding: $sp-6 $sp-14;
+  border-radius: var(--radius-pill);
+  font: normal 700 #{$fs-16}/ 1.2 var(--font-arabic);
+  color: var(--on-gold);
+  background: var(--gold);
+  animation: cxd-pop $t-600 cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+.cxd-won svg {
+  width: 18px;
+  height: 18px;
+}
+@keyframes cxd-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+.cxd-ft {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $sp-16 $sp-24;
+  min-height: 56px;
+}
+.cxd-held {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $sp-10;
+  font-family: var(--font-arabic);
+}
+.cxd-held > span {
+  font-size: $fs-15;
+  color: var(--ink-muted);
+}
+.cxd-held > b {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-10;
+  padding-block: $sp-4;
+  padding-inline: $sp-4 $sp-14;
+  border-radius: var(--radius-pill);
+  font-size: $fs-16;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.cxd-held em {
+  font-style: normal;
+  font-size: $fs-14;
+  color: var(--declared);
+}
+.cxd-hav {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  overflow: hidden;
+  border-radius: $radius-round;
+  background: var(--canvas-1);
+}
+.cxd-hav img {
+  @include mixins.cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cxd-hav b {
+  font: 700 #{$fs-13}/ 1 var(--font-display);
+}
+.cxd-say {
+  min-height: 28px;
+  margin: 0;
+  font: 600 #{$fs-21}/ 1.3 var(--font-arabic);
+  text-align: center;
+}
+.cxd-go {
+  margin-inline-start: auto;
+  height: 52px;
+  padding: 0 $sp-24;
+  gap: $sp-10;
+  font: 700 #{$fs-18}/ 1 var(--font-arabic);
+  color: var(--on-gold);
+  background: var(--gold);
+  box-shadow: var(--glow-gold);
+}
+.cxd-go svg {
+  width: 18px;
+  height: 18px;
+}
+.cxd-note {
+  margin: 0;
+  margin-inline-start: auto;
+  font: 500 #{$fs-16}/ 1.4 var(--font-arabic);
+  color: var(--ink-muted);
+}
+
+.cxd-empty {
+  align-items: center;
+  justify-content: center;
+  gap: $sp-14;
+  text-align: center;
+  font-family: var(--font-arabic);
+}
+.cxd-empty b {
+  font-size: $fs-30;
+}
+.cxd-empty span {
+  font-size: $fs-18;
+  color: var(--ink-muted);
+}

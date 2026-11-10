@@ -1,0 +1,19 @@
+<i class="wn-sky-bg"></i>
+@for (s of stars; track $index) {<i class="wn-stars" [style.--stars]="s" [style.--l]="$index"></i>}
+<svg class="wn-grid" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="wn-khatam" width="120" height="120" patternUnits="userSpaceOnUse">
+      <g transform="translate(60 60)"><rect x="-26" y="-26" width="52" height="52"/><rect x="-26" y="-26" width="52" height="52" transform="rotate(45)"/><circle r="4"/></g>
+      <path d="M0 60h34M86 60h34M60 0v34M60 86v34"/>
+    </pattern>
+  </defs>
+  <rect class="wn-grid-r" x="-480" y="-480" width="2880" height="2040" fill="url(#wn-khatam)"/>
+</svg>
+<div class="wn-sky-lat"><svg mjLattice></svg></div>
+<i class="wn-horizon"></i>
+<svg class="wn-dunes" viewBox="0 0 1920 260" preserveAspectRatio="none">
+  <path class="wn-dune d1" d="M0 150 C 220 90 420 120 640 100 C 900 76 1080 140 1300 118 C 1520 96 1720 70 1920 96 L1920 260 L0 260 Z"/>
+  <path class="wn-dune d2" d="M0 190 C 260 150 520 176 760 160 C 1000 144 1240 196 1480 178 C 1680 164 1820 150 1920 158 L1920 260 L0 260 Z"/>
+  <path class="wn-dune d3" d="M0 224 C 300 206 560 234 860 220 C 1140 206 1400 240 1660 226 C 1780 220 1860 216 1920 218 L1920 260 L0 260 Z"/>
+</svg>
+<i class="wn-grain"></i>

@@ -1,0 +1,107 @@
+@use '../../../../styles/scales' as *;
+
+.wn-msg {
+  --w: 720px;
+  position: absolute;
+  inset-block-start: 18%;
+  inset-inline-start: calc(50% - var(--w) / 2);
+  z-index: $z-4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-14;
+  width: var(--w);
+  padding: $sp-40 $sp-32;
+  border-radius: $r-24;
+  background: color-mix(in srgb, var(--wn-sky-0) 82%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--gold) 40%, transparent),
+    0 30px 80px -30px var(--shadow-ink-80);
+  text-align: center;
+  animation: wn-rise $t-700 var(--ease-expo) both;
+}
+.wn-msg h3 {
+  margin: $sp-12 0 0;
+  font: 700 #{$fs-38}/ 1.3 var(--font-sans);
+}
+.wn-msg p {
+  margin: 0;
+  font: 500 #{$fs-21}/ 1.5 var(--font-sans);
+  color: var(--ink-muted);
+}
+.wn-msg-i {
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+  border-radius: $radius-round;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--gold) 22%, transparent),
+    transparent
+  );
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--gold) 55%, transparent);
+  color: var(--gold);
+}
+.wn-msg-i svg {
+  width: 46px;
+  height: 46px;
+}
+.wn-msg-i.warn {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--live) 60%, transparent);
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--live) 18%, transparent),
+    transparent
+  );
+  color: var(--live);
+}
+.wn-msg .wn-retry {
+  height: 48px;
+  margin-block-start: $sp-12;
+  padding-inline: $sp-24;
+  background: var(--gold);
+  color: var(--on-gold);
+  font-size: $fs-17;
+}
+
+.wn-skel i {
+  display: block;
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill);
+  animation: wn-blink $t-1600 var(--ease-std) infinite;
+}
+.wn-skel .wn-skel-k {
+  width: 220px;
+  height: 20px;
+}
+.wn-skel .wn-skel-h {
+  width: 480px;
+  height: 76px;
+  margin-block-start: $sp-6;
+  border-radius: $r-20;
+}
+.wn-skel .wn-skel-s {
+  width: 300px;
+  height: 22px;
+  margin-block-start: $sp-8;
+}
+.wn-skel .wn-plate i {
+  margin-inline: auto;
+}
+.wn-skel .wn-skel-l {
+  width: 280px;
+  height: 28px;
+  background: color-mix(in srgb, var(--wn-plate-muted) 22%, transparent);
+}
+.wn-skel .wn-skel-l.s {
+  width: 170px;
+  height: 22px;
+  margin-block-start: $sp-12;
+}
+
+@keyframes wn-blink {
+  50% {
+    opacity: 0.4;
+  }
+}

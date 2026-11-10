@@ -1,0 +1,28 @@
+@use '../../../../styles/scales' as *;
+
+.tva-region {
+  height: 32px;
+  max-width: 170px;
+  padding-inline: $sp-12;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--glass-stroke);
+  color: var(--ink);
+  font: 600 #{$fs-14}/ 1 var(--font-arabic);
+  cursor: pointer;
+}
+.tva-region:hover {
+  background: var(--glass-fill-strong);
+}
+.tva-region option {
+  background: var(--canvas-1);
+  color: var(--ink);
+}
+.mj-tv.tva-pinned .tva-play,
+.mj-tv.tva-pinned .tva-tm {
+  display: none;
+}
+.mj-tv.tva-pinned .tv-prog {
+  visibility: hidden;
+}

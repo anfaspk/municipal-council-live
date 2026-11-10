@@ -1,0 +1,24 @@
+[data-theme] .mj-drawer.dw {
+  --glass-fill: var(--dw-glass-fill);
+  --glass-fill-strong: var(--dw-glass-fill-strong);
+  --glass-stroke: var(--dw-glass-stroke);
+  --hairline: var(--dw-hairline);
+}
+[data-theme='night'] .mj-drawer.dw.mj-glass.raised {
+  background:
+    linear-gradient(var(--glass-tint-faint), var(--glass-tint-faint)),
+    color-mix(in srgb, var(--canvas-1) 96%, transparent);
+}
+[data-theme='night'] :is(.dw-wr .pc, .dw-vr .pc, .dw-wc b, .dw-big small, .dw-wr .rk, .dw-vr .rk) {
+  color: color-mix(in srgb, var(--band) 58%, var(--paper));
+}
+[data-theme='daylight'] .mj-drawer.dw.mj-glass.raised {
+  background:
+    linear-gradient(var(--glass-fill-strong), var(--glass-fill-strong)),
+    color-mix(in srgb, var(--canvas-1) 80%, transparent);
+}
+[data-theme='daylight']
+  :is(.dw-wr .pc, .dw-vr .pc, .dw-wc b, .dw-big small, .dw-wr .rk, .dw-vr .rk) {
+  color: var(--band-ink);
+}
+

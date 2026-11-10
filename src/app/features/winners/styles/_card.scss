@@ -1,0 +1,270 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.wn-card {
+  --cw: 440px;
+  --pw: 380px;
+  --ph: 390px;
+  --at: calc(var(--k, 0) * #{$t-220} + #{$t-300});
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--cw);
+  translate: calc(var(--px, 0) * 8px) 0;
+  rotate: y calc(var(--px, 0) * -5deg);
+  transition:
+    translate $t-1400 var(--ease-expo),
+    rotate $t-1400 var(--ease-expo);
+}
+.wn-cards.one .wn-card {
+  --cw: 580px;
+  --pw: 410px;
+}
+.wn-cards.many .wn-card {
+  --cw: 300px;
+  --pw: 260px;
+  --ph: 300px;
+}
+
+.wn-beam {
+  --up: 320px;
+  position: absolute;
+  inset-block: calc(var(--up) * -1) 18%;
+  inset-inline: -30%;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--gold-pale) 30%, transparent),
+    color-mix(in srgb, var(--gold) 12%, transparent) 55%,
+    transparent
+  );
+  clip-path: polygon(43% 0, 57% 0, 100% 100%, 0 100%);
+  transform-origin: 50% 0;
+  opacity: 0.85;
+  pointer-events: none;
+  animation:
+    wn-switch $t-1200 linear var(--at) both,
+    wn-sway $t-7000 ease-in-out var(--at) infinite alternate;
+}
+.wn-card.wait .wn-beam {
+  opacity: 0.3;
+}
+
+.wn-lift {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  animation: wn-lift $t-1300 var(--ease-expo) both;
+  animation-delay: calc(var(--at) + #{$t-150});
+}
+.wn-por {
+  position: relative;
+  flex: none;
+  width: var(--pw);
+  height: var(--ph);
+}
+.wn-aura {
+  position: absolute;
+  inset: -$sp-3;
+  overflow: hidden;
+  border-radius: var(--radius-pill) var(--radius-pill) $r-24 $r-24;
+  box-shadow:
+    0 0 50px color-mix(in srgb, var(--gold) 40%, transparent),
+    0 40px 90px -30px color-mix(in srgb, var(--gold) 45%, transparent);
+  animation: wn-fade $t-900 var(--ease-std) both;
+  animation-delay: calc(var(--at) + #{$t-900});
+}
+.wn-aura::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--gold-ink),
+    var(--gold-pale) 10%,
+    var(--gold) 20%,
+    var(--gold-ink) 45%,
+    var(--gold-ink) 55%,
+    var(--gold-glow) 70%,
+    var(--gold) 80%,
+    var(--gold-ink)
+  );
+  animation: wn-spin $t-6000 linear infinite;
+}
+.wn-frame {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--radius-pill) var(--radius-pill) $r-20 $r-20;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--wn-star) 26%, var(--wn-sky-1)),
+    var(--wn-sky-1) 35%,
+    var(--wn-sky-0)
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold-pale) 45%, transparent);
+}
+.wn-frame::before {
+  content: '';
+  position: absolute;
+  inset: $sp-10;
+  border-radius: var(--radius-pill) var(--radius-pill) $r-14 $r-14;
+  background:
+    radial-gradient(
+      80% 55% at 50% 32%,
+      color-mix(in srgb, var(--gold) 24%, transparent),
+      transparent
+    ),
+    linear-gradient(180deg, var(--wn-sky-2), var(--wn-sky-0));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 50%, transparent);
+}
+.wn-frame::after {
+  content: '';
+  position: absolute;
+  inset: $sp-10;
+  z-index: $z-2;
+  border-radius: var(--radius-pill) var(--radius-pill) $r-14 $r-14;
+  background:
+    linear-gradient(0deg, color-mix(in srgb, var(--wn-sky-0) 75%, transparent), transparent 26%),
+    radial-gradient(
+      90% 75% at 50% 55%,
+      transparent 55%,
+      color-mix(in srgb, var(--wn-sky-0) 45%, transparent)
+    ),
+    linear-gradient(122deg, color-mix(in srgb, var(--wn-star) 16%, transparent) 8%, transparent 34%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 45%, transparent);
+  pointer-events: none;
+}
+.wn-img {
+  position: absolute;
+  inset: $sp-10;
+  z-index: $z-1;
+  width: calc(100% - #{$sp-20});
+  height: calc(100% - #{$sp-20});
+  border-radius: var(--radius-pill) var(--radius-pill) $r-14 $r-14;
+  object-fit: cover;
+  object-position: 50% 20%;
+  opacity: 0;
+}
+.wn-img.on {
+  opacity: 1;
+  animation: wn-zoom $t-1400 var(--ease-expo) both;
+  animation-delay: calc(var(--at) + #{$t-150});
+}
+.wn-img.on.late {
+  animation:
+    wn-zoom $t-1400 var(--ease-expo) both,
+    wn-fade $t-700 var(--ease-std) both;
+}
+.wn-card.pic .wn-ini {
+  opacity: 0;
+  transition: opacity $t-700 var(--ease-std);
+}
+.wn-ini {
+  position: relative;
+  z-index: $z-1;
+  font: 700 #{$fs-112}/ 1 var(--font-sans);
+  background: linear-gradient(180deg, var(--wn-g1), var(--wn-g2) 60%, var(--wn-g3));
+  background-clip: text;
+  color: transparent;
+}
+.wn-cards.many .wn-ini {
+  font-size: $fs-76;
+}
+.wn-shine {
+  position: absolute;
+  inset-block: -20%;
+  inset-inline-start: 0;
+  z-index: $z-3;
+  width: 40%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    color-mix(in srgb, var(--gold-pale) 38%, transparent),
+    transparent
+  );
+  transform: translateX(-240%) skewX(-12deg);
+  animation: wn-shine $t-8000 var(--ease-std) $t-2000 infinite;
+  pointer-events: none;
+}
+.wn-sparks {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-start: 50%;
+  z-index: $z-4;
+}
+.wn-sparks i {
+  position: absolute;
+  width: var(--s);
+  height: var(--s);
+  border-radius: $radius-round;
+  background: radial-gradient(circle, var(--gold-pale), var(--gold) 60%, transparent 72%);
+  opacity: 0;
+  animation: wn-spark $t-1400 var(--ease-expo) both;
+  animation-delay: calc(var(--at) + #{$t-1300} + var(--t));
+}
+
+@keyframes wn-lift {
+  from {
+    transform: translate3d(0, 108%, 0);
+  }
+}
+@keyframes wn-switch {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.55;
+  }
+  12% {
+    opacity: 0.1;
+  }
+  20% {
+    opacity: 0.7;
+  }
+  25% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 0.9;
+  }
+}
+@keyframes wn-sway {
+  from {
+    transform: rotate(-1.2deg);
+  }
+  to {
+    transform: rotate(1.2deg);
+  }
+}
+@keyframes wn-zoom {
+  from {
+    transform: scale(1.08);
+  }
+}
+@keyframes wn-shine {
+  0% {
+    transform: translateX(-240%) skewX(-12deg);
+  }
+  16%,
+  100% {
+    transform: translateX(260%) skewX(-12deg);
+  }
+}
+@keyframes wn-spark {
+  0% {
+    transform: rotate(var(--a)) translateX(0) scale(1.4);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--a)) translateX(var(--d)) scale(0.2);
+    opacity: 0;
+  }
+}

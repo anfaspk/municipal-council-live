@@ -1,0 +1,82 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.cx-av {
+  flex: none;
+}
+.cx-av.ph {
+  --ring: var(--data-cyan);
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  border-radius: $radius-round;
+  background: radial-gradient(
+    circle at 50% 34%,
+    color-mix(in srgb, var(--data-cyan) 34%, var(--canvas-1)),
+    var(--canvas-0) 78%
+  );
+  box-shadow: 0 4px 14px -6px var(--shadow-ink-70);
+}
+.cx-av.ph img {
+  @include mixins.cover;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 16%;
+  border-radius: $radius-round;
+  transform: none;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.cx-av.ph::after {
+  content: '';
+  @include mixins.cover;
+  border-radius: $radius-round;
+  box-shadow:
+    inset 0 0 0 1.5px var(--ring),
+    inset 0 -10px 14px -10px color-mix(in srgb, var(--ring) 55%, transparent);
+}
+[data-theme='daylight'] .cx-av.ph {
+  background: radial-gradient(
+    circle at 50% 34%,
+    var(--paper),
+    color-mix(in srgb, var(--data-cyan) 22%, var(--paper-muted)) 78%
+  );
+}
+.cx-w .ld i.ph {
+  --ring: var(--c);
+  width: 34px;
+  height: 34px;
+}
+.cx-w.decl .ld i.ph,
+.cx-lb.decl .ld i.ph,
+.cx-lb.sel .ld i.ph {
+  --ring: var(--gold);
+}
+.cx-lb .ld i.ph {
+  --ring: var(--c);
+  width: 28px;
+  height: 28px;
+}
+.ctv-banner .w i.ph {
+  --ring: var(--gold);
+  width: 34px;
+  height: 34px;
+}
+.cx-n .rim {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: 1.4;
+}
+.cx-n.decl .rim,
+.cx-n.sel .rim {
+  stroke: var(--gold-glow);
+  stroke-width: 1.8;
+}
+
+.cx-n image.ph {
+  clip-path: circle(12px at 50% 50%);
+}
+.cx-n .core {
+  r: 12px;
+}

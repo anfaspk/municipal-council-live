@@ -1,0 +1,17 @@
+@media (forced-colors: active) {
+  .cx-np b {
+    forced-color-adjust: none;
+    background: none;
+    color: canvastext;
+  }
+  .cx-w:focus-visible {
+    outline: 2px solid highlight;
+  }
+  .cx-race :is(.rs-fill, .rs-bar i, .rs-ten i, .rs-coin) {
+    forced-color-adjust: none;
+  }
+  .cx-race :is(.rs-hero, .rs-nx, .rs-row) {
+    outline: 1px solid canvastext;
+    outline-offset: -1px;
+  }
+}

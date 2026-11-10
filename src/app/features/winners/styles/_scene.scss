@@ -1,0 +1,231 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.wn-stage {
+  --wn-set-w: max(calc(100cqw + 32px), calc((100cqh + 32px) * 1.3333));
+  --wn-floor: calc(var(--wn-set-w) * 0.063 - 16px);
+  position: absolute;
+  inset-block: calc(var(--wn-bar) + #{$sp-20}) var(--wn-foot);
+  inset-inline: calc(var(--tv-action-x) + var(--wn-rail-w) + var(--wn-rail-gap)) var(--tv-action-x);
+  z-index: $z-2;
+  overflow: clip;
+  container-type: size;
+  border-radius: $r-24;
+  background: var(--wn-sky-0);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--gold) 45%, transparent),
+    0 40px 90px -40px var(--shadow-ink-80);
+  animation: wn-fade $t-900 var(--ease-std) both;
+}
+.wn-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: $z-5;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--gold-pale) 22%, transparent),
+    inset 0 0 120px color-mix(in srgb, var(--wn-sky-0) 70%, transparent);
+  pointer-events: none;
+}
+.wn-scene,
+.wn-front {
+  @include mixins.cover;
+  pointer-events: none;
+  translate: calc(var(--px, 0) * -10px) calc(var(--py, 0) * -6px);
+  transition: translate $t-1400 var(--ease-expo);
+}
+.wn-scene {
+  z-index: $z-1;
+}
+.wn-front {
+  z-index: $z-3;
+}
+.wn-set {
+  position: absolute;
+  inset-block-end: -$sp-16;
+  inset-inline: calc((100cqw - var(--wn-set-w)) / 2);
+  aspect-ratio: 1448 / 1086;
+  direction: ltr;
+  transform-origin: 50% 90%;
+  animation: wn-breathe $t-26000 ease-in-out infinite alternate;
+}
+.wn-front .wn-set {
+  clip-path: inset(91.6% 0 0 0);
+}
+.wn-pic {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity $t-1200 var(--ease-std);
+}
+.wn-scene.ready .wn-pic,
+.wn-front.ready .wn-pic {
+  opacity: 1;
+}
+
+.wn-night {
+  @include mixins.cover;
+  -webkit-mask-image: radial-gradient(52% 88% at 50% 92%, var(--ink) 58%, transparent 92%);
+  mask-image: radial-gradient(52% 88% at 50% 92%, var(--ink) 58%, transparent 92%);
+}
+.wn-sstars {
+  position: absolute;
+  inset-block-start: 3%;
+  inset-inline-start: 9%;
+  width: 1px;
+  height: 1px;
+  border-radius: $radius-round;
+  color: var(--wn-star);
+  box-shadow: var(--stars);
+  opacity: calc(0.55 + var(--l) * 0.25);
+  translate: calc(var(--px, 0) * -8px) calc(var(--py, 0) * -4px);
+  transition: translate $t-1400 var(--ease-expo);
+  animation: wn-twinkle calc(#{$t-4000} + var(--l) * #{$t-2200}) ease-in-out infinite alternate;
+}
+.wn-meteor {
+  position: absolute;
+  inset-block-start: 9%;
+  inset-inline-start: 74%;
+  width: 180px;
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, transparent, var(--wn-star));
+  transform-origin: 0 50%;
+  opacity: 0;
+  animation: wn-meteor $t-11000 linear $t-3000 infinite;
+}
+.wn-meteor.m2 {
+  inset-block-start: 22%;
+  inset-inline-start: 40%;
+  width: 120px;
+  animation-duration: $t-18000;
+  animation-delay: $t-9000;
+}
+.wn-hglow {
+  position: absolute;
+  inset-inline: 6%;
+  inset-block: 68% 19%;
+  background: radial-gradient(
+    50% 50% at 50% 70%,
+    color-mix(in srgb, var(--wn-amber) 30%, transparent),
+    transparent
+  );
+  animation: wn-glow $t-9000 ease-in-out infinite alternate;
+}
+.wn-mist {
+  position: absolute;
+  inset-block: 71% 17%;
+  inset-inline-start: 0;
+  width: 200%;
+  background:
+    radial-gradient(
+      30% 50% at 25% 60%,
+      color-mix(in srgb, var(--wn-star) 9%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      22% 40% at 70% 45%,
+      color-mix(in srgb, var(--wn-star) 7%, transparent),
+      transparent
+    );
+  background-size: 50% 100%;
+  animation: wn-mist $t-120000 linear infinite;
+}
+.wn-lamps {
+  position: absolute;
+  inset-inline: 0;
+  inset-block: 80% 6%;
+  background:
+    radial-gradient(
+      5% 36% at 13.5% 59%,
+      color-mix(in srgb, var(--wn-amber) 55%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      5% 36% at 30.9% 59%,
+      color-mix(in srgb, var(--wn-amber) 55%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      5% 36% at 51.1% 59%,
+      color-mix(in srgb, var(--wn-amber) 55%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      5% 36% at 69.1% 59%,
+      color-mix(in srgb, var(--wn-amber) 55%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      5% 36% at 88.9% 59%,
+      color-mix(in srgb, var(--wn-amber) 55%, transparent),
+      transparent
+    );
+  animation: wn-flicker $t-4800 steps(1, end) infinite;
+}
+.wn-pool {
+  position: absolute;
+  inset-inline: 16%;
+  inset-block: 88% 2%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--gold-glow) 60%, transparent),
+    transparent
+  );
+  opacity: 0.25;
+  transition: opacity $t-1400 var(--ease-std) $t-600;
+}
+.wn-stage.lit .wn-pool {
+  opacity: 0.8;
+}
+
+@keyframes wn-breathe {
+  to {
+    transform: scale(1.035);
+  }
+}
+@keyframes wn-meteor {
+  0% {
+    transform: rotate(160deg) translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  1.5% {
+    opacity: 1;
+  }
+  7%,
+  100% {
+    transform: rotate(160deg) translate3d(480px, 0, 0);
+    opacity: 0;
+  }
+}
+@keyframes wn-mist {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes wn-flicker {
+  0% {
+    opacity: 0.9;
+  }
+  13% {
+    opacity: 0.7;
+  }
+  15% {
+    opacity: 1;
+  }
+  48% {
+    opacity: 0.8;
+  }
+  51% {
+    opacity: 0.95;
+  }
+  79% {
+    opacity: 0.75;
+  }
+  82% {
+    opacity: 1;
+  }
+}

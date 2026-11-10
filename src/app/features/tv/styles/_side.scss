@@ -1,0 +1,162 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.tv-stage {
+  display: grid;
+}
+.tv-stage > * {
+  grid-area: 1/1;
+  min-width: 0;
+}
+.tv-s-a {
+  align-self: start;
+}
+.tv-face.on .tv-s-a {
+  animation: tv-out $t-600 var(--ease-std) var(--sp) forwards;
+}
+@keyframes tv-out {
+  to {
+    opacity: 0;
+    transform: translateY(-14px);
+    visibility: hidden;
+  }
+}
+.tv-s-b {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.tv-face.on .tv-s-b {
+  animation: tv-rise $t-800 var(--ease-expo) calc(var(--sp) + $t-200) forwards;
+}
+.tv-wrs {
+  display: grid;
+  gap: $sp-6 $sp-20;
+  grid-template-rows: repeat(var(--rows), auto);
+}
+.tv-wt.two .tv-wrs {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-auto-flow: column;
+}
+.tv-wr {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: $sp-1 $sp-12;
+  align-items: center;
+  padding: $sp-6 $sp-12;
+  border-radius: $r-14;
+  opacity: 0;
+  transition:
+    background $t-350,
+    box-shadow $t-350;
+  transform: translateX(12px);
+}
+.tv-face.on .tv-wr {
+  animation: tv-rise $t-600 var(--ease-expo) calc(var(--sp) + $t-450 + var(--j) * $t-60) forwards;
+}
+.tv-wr .r {
+  grid-row: 1/3;
+  width: 30px;
+  height: 30px;
+  border-radius: $radius-round;
+  display: grid;
+  place-items: center;
+  font: 700 #{$fs-13}/ 1 var(--font-display);
+  color: var(--band-ink);
+  background: color-mix(in srgb, var(--band) 10%, transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--band) 60%, transparent);
+}
+.tv-wr .nm {
+  font: 600 #{$fs-17}/ 22px var(--font-sans);
+  @include mixins.ellipsis;
+}
+.tv-wr .pc {
+  grid-row: 1/3;
+  grid-column: 3;
+  font: 700 #{$fs-24}/ 1 var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--band-ink);
+}
+.tv-wr .ct {
+  grid-column: 2;
+  justify-self: start;
+  font: 500 #{$fs-13}/ 18px var(--font-sans);
+  color: var(--ink-muted);
+}
+.tv-wr .ct em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--stat-voted);
+}
+.tv-wr.hi {
+  background: color-mix(in srgb, var(--band) 14%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--band) 50%, transparent),
+    0 0 24px -10px var(--band);
+}
+
+.tv-lab .w {
+  font: 600 #{$fs-12}/ 1 var(--font-sans);
+  fill: var(--gold-ink);
+  opacity: 0;
+  font-family: var(--font-arabic);
+  font-size: $fs-12;
+}
+.tv-face.on .tv-lab .w {
+  animation: tv-fade $t-500 calc(var(--sp) + $t-1000) forwards;
+}
+.tv-oman {
+  direction: ltr;
+}
+
+.tv-next {
+  position: absolute;
+  bottom: $sp-66;
+  inset-inline-end: calc($sp-108 + var(--tva-ow, 470px));
+  z-index: $z-4;
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  font: 600 #{$fs-15}/ 1 var(--font-sans);
+  color: var(--ink);
+  opacity: 0;
+  font-family: var(--font-arabic);
+}
+.tv-next .mj-micro {
+  color: var(--gold-ink);
+}
+.tv-next i {
+  position: relative;
+  width: 22px;
+  height: 10px;
+  overflow: hidden;
+  transform: scaleX(-1);
+}
+.tv-next i::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  inset-inline-end: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: -$sp-4;
+  border-top: 1.5px solid var(--gold);
+  border-inline-start: 1.5px solid var(--gold);
+  transform: rotate(45deg);
+  animation: tv-nudge $t-1600 var(--ease-std) infinite;
+}
+@keyframes tv-nudge {
+  0% {
+    transform: translateX(0) rotate(45deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(12px) rotate(45deg);
+    opacity: 0;
+  }
+}
+.tv-face.on .tv-next {
+  animation: tv-fade $t-600 $t-2200 forwards;
+}

@@ -1,0 +1,45 @@
+@if (isOpen()) {
+  <div class="mj-ambient"><div class="mj-breathe"></div><svg mjLattice></svg></div>
+  <div class="mj-horizon"></div>
+  <div class="tv-glow"></div>
+  @for (face of faces; track $index; let f = $index) {
+    <div class="tv-face" [class.on]="active() === f" [class.tva-settled]="face().settled"
+      [attr.aria-hidden]="active() === f ? null : 'true'" [attr.role]="active() === f ? 'group' : null"
+      [attr.aria-roledescription]="active() === f ? ('tvSlideRole' | t) : null" [attr.aria-label]="active() === f ? label(k()) : null">
+      @for (s of face().slides; track s.uid) {<div appTvSlide [slide]="s" [settled]="face().settled"></div>}
+    </div>
+  }
+  <div class="tva-state" aria-hidden="true"><svg [mjIcon]="'pause'"></svg><b>{{ 'tvPaused' | t }}</b><span>{{ 'tvResume' | t }}</span></div>
+  <div class="tva-dock" role="group" [attr.aria-label]="'tvCtl' | t">
+    <div class="tva-ctl">
+      <button type="button" class="mj-btn icon tva-prev" [attr.aria-label]="'tvPrev' | t" [title]="'tvPrev' | t" (click)="show(k() - 1, true)"><svg [mjIcon]="'prev'"></svg></button>
+      <button type="button" class="mj-btn tva-play" [attr.aria-label]="(paused() ? 'tvPlayL' : 'tvPauseL') | t" [title]="(paused() ? 'tvPlayL' : 'tvPauseL') | t" (click)="toggle()">
+        <svg [mjIcon]="paused() ? 'play' : 'pause'"></svg><span>{{ (paused() ? 'tvPlay' : 'tvPause') | t }}</span>
+      </button>
+      <button type="button" class="mj-btn icon tva-next" [attr.aria-label]="'tvNextSl' | t" [title]="'tvNextSl' | t" (click)="show(k() + 1, true)"><svg [mjIcon]="'next'"></svg></button>
+    </div>
+    <div class="tv-prog" role="group" [attr.aria-label]="'tvSlides' | t">
+      @for (key of keys(); track key; let i = $index) {
+        <button type="button" class="tva-seg" [attr.aria-label]="label(i)" [title]="label(i)" [tabIndex]="i === k() ? 0 : -1"
+          [attr.aria-current]="i === k() ? 'step' : null" (click)="show(i, true)"><i [class.done]="i < k()"></i></button>
+      }
+    </div>
+    <div class="tva-opts">
+      <select class="tva-region" [attr.aria-label]="'scrHere' | t" [title]="'scrHere' | t" (change)="setRegion($event)">
+        <option value="nat" [selected]="region() === 'nat'">{{ 'tvOman' | t }}</option>
+        @for (g of regions(); track g.id) {<option [value]="g.id" [selected]="region() === g.id">{{ g.ar }}</option>}
+      </select>
+      <button type="button" class="mj-btn tva-motion tva-rot" role="switch" [attr.aria-checked]="!pinned()" [title]="'scrRotateL' | t" (click)="toggleRotation()">
+        <i class="tva-sw" aria-hidden="true"></i><span>{{ 'scrRotate' | t }}</span>
+      </button>
+      <i class="tva-sep" aria-hidden="true"></i>
+      <span class="tva-lbl tva-tm" [id]="timeLabelId">{{ 'tvTime' | t }}</span>
+      <div class="mj-seg tva-time tva-tm" [items]="secItems" [value]="secValue()" (valueChange)="setSecs($event)" [attr.aria-labelledby]="timeLabelId"></div>
+      <button type="button" class="mj-btn tva-motion" role="switch" [attr.aria-checked]="still()" [attr.aria-disabled]="osReduced() ? 'true' : null" (click)="toggleStill()">
+        <i class="tva-sw" aria-hidden="true"></i><span>{{ 'tvStill' | t }}</span>
+      </button>
+    </div>
+  </div>
+  <div class="tva-live" [attr.aria-live]="announce().polite ? 'polite' : 'off'" aria-atomic="true">{{ announce().text }}</div>
+  <button type="button" class="mj-btn icon tv-x" [attr.aria-label]="'close' | t" [title]="('close' | t) + ' (Esc)'" (click)="close()"><svg [mjIcon]="'close'"></svg></button>
+}

@@ -1,0 +1,20 @@
+<div class="wn-lift">
+  <div class="wn-por">
+    <i class="wn-aura" aria-hidden="true"></i>
+    <div class="wn-frame">
+      @if (!early()) {<span class="wn-ini" aria-hidden="true">{{ cand().ini }}</span>}
+      @if (photo(); as p) {<img #pic class="wn-img" [class.on]="shown()" [class.late]="!early()" [src]="p" alt="" decoding="async" (load)="onLoad(pic)" (error)="failed()">}
+      <i class="wn-shine" aria-hidden="true"></i>
+    </div>
+    <span class="wn-sparks" aria-hidden="true">@for (s of sparks; track $index) {<i [style.--a]="s.a + 'deg'" [style.--d]="s.d + 'px'" [style.--s]="s.s + 'px'" [style.--t]="s.t + 'ms'"></i>}</span>
+  </div>
+  <span class="wn-elect"><span class="wn-medal" aria-hidden="true"><svg class="wn-chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>{{ 'wnElected' | wnT }}</span>
+  <div class="wn-plate">
+    <h3 class="wn-cname">{{ cand().name }}</h3>
+    <p class="wn-fig">
+      <span class="wn-votes">@if (cand().votes !== null) {<b [mjCountUp]="cand().votes ?? 0" countGroup="wn" [countDuration]="1600"></b>} @else {<b>—</b>}<small>{{ 'wnVotes' | wnT }}</small></span>
+      @if (share()) {<span class="wn-share"><b>{{ share() }}</b><small>{{ 'wnShare' | wnT }}</small></span>}
+    </p>
+    @if (part() !== null) {<i class="wn-part" aria-hidden="true" [style.--w]="part()"></i>}
+  </div>
+</div>

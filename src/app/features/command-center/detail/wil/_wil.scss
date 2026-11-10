@@ -1,0 +1,269 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.dt-loc {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+.dt-page .dt-loc-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: dt-fade $t-600 var(--ease-std) $t-200 both;
+}
+.dt-page .dt-loc-face {
+  fill: color-mix(in srgb, var(--gold) 9%, transparent);
+}
+.dt-page .dt-loc-edge {
+  fill: none;
+  stroke: color-mix(in srgb, var(--gold) 55%, transparent);
+  stroke-linejoin: round;
+}
+.dt-page .dt-loc-pin {
+  cursor: pointer;
+  outline: none;
+}
+.dt-page .dt-loc-pin .hit {
+  fill: transparent;
+}
+.dt-page .dt-loc-pin .dot {
+  fill: var(--ink-muted);
+  opacity: 0.55;
+  transition:
+    opacity $t-200 var(--ease-std),
+    fill $t-200 var(--ease-std);
+}
+.dt-page .dt-loc-pin:is(:hover, .over, :focus-visible) .dot {
+  fill: var(--band);
+  opacity: 1;
+}
+.dt-page .dt-loc-pin:focus-visible .hit {
+  stroke: var(--focus-ring);
+  stroke-width: 2;
+}
+.dt-page .dt-loc-pin.me {
+  pointer-events: none;
+}
+.dt-page .dt-loc-pin.me .dot {
+  fill: var(--band);
+  opacity: 1;
+  stroke: var(--paper);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px var(--band));
+}
+.dt-page .dt-loc-pin.me .ring {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+}
+.dt-page .dt-loc-pin.me .pulse {
+  fill: color-mix(in srgb, var(--band) 30%, transparent);
+  stroke: var(--band);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dt-rg-ping $t-2400 var(--ease-std) $t-600 infinite;
+}
+.dt-page .dt-loc-lab {
+  pointer-events: none;
+  animation: dt-fade $t-300 var(--ease-std) both;
+}
+.dt-page .dt-loc-lab rect {
+  fill: color-mix(in srgb, var(--canvas-0) 80%, transparent);
+  stroke: var(--hairline);
+}
+.dt-page .dt-loc-lab.me rect {
+  stroke: var(--gold);
+}
+.dt-page .dt-loc-lab text {
+  fill: var(--ink);
+  font: 600 #{$fs-12}/ 1 var(--font-sans);
+  @include mixins.arabic;
+  text-anchor: middle;
+  dominant-baseline: central;
+  direction: rtl;
+}
+
+.dt-vils {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: $sp-10;
+  min-height: 0;
+}
+.dt-vils .dt-vtools {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+}
+.dt-vils .dt-q {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+}
+.dt-vils .dt-q svg {
+  position: absolute;
+  inset-inline-start: $sp-10;
+  width: 16px;
+  height: 16px;
+  color: var(--ink-muted);
+  pointer-events: none;
+}
+.dt-vils .dt-q input {
+  width: 100%;
+  height: 34px;
+  padding-inline: $sp-32 $sp-12;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  color: var(--ink);
+  font: 500 #{$fs-13}/ 1 var(--font-sans);
+  @include mixins.arabic;
+}
+.dt-vils .dt-q input::-webkit-search-cancel-button {
+  appearance: none;
+}
+.dt-vils .dt-q input::placeholder {
+  color: var(--ink-muted);
+}
+.dt-vils .dt-q input:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+.dt-vils .dt-sort {
+  flex: none;
+}
+.dt-vils .dt-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $sp-6;
+}
+.dt-vils .dt-chipb {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  height: 28px;
+  padding: 0 $sp-10;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  color: var(--ink-muted);
+  font: 500 #{$fs-12}/ 1 var(--font-sans);
+  @include mixins.arabic;
+  cursor: pointer;
+  transition:
+    background-color $t-200 var(--ease-std),
+    color $t-200 var(--ease-std);
+}
+.dt-vils .dt-chipb b {
+  color: var(--ink);
+  font: 700 #{$fs-12}/ 1 var(--font-display);
+}
+.dt-vils .dt-chipb:hover:not(:disabled) {
+  color: var(--ink);
+}
+.dt-vils .dt-chipb[aria-pressed='true'] {
+  color: var(--band-ink);
+  background: color-mix(in srgb, var(--band) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--band) 60%, transparent);
+}
+.dt-vils .dt-chipb:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.dt-vils .dt-chipb:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+.dt-vils .dt-vcount {
+  margin: 0;
+  margin-inline-start: auto;
+  font-size: $fs-12;
+  @include mixins.arabic;
+}
+.dt-vils .dt-rows > li {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 52px;
+}
+
+.dt-page .dt-skel {
+  position: relative;
+  overflow: hidden;
+  border-radius: $r-12;
+  background: var(--glass-fill);
+}
+.dt-page .dt-skel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--ink) 7%, transparent),
+    transparent
+  );
+  transform: translateX(100%);
+  animation: dt-shimmer $t-1600 var(--ease-std) infinite;
+  animation-delay: calc(var(--j, 0) * #{$t-80});
+}
+.dt-loc .dt-skel {
+  position: absolute;
+  inset: 0;
+}
+.dt-page .dt-skel-rows {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dt-page .dt-skel-rows .dt-skel {
+  height: 52px;
+}
+.dt-page .dt-skel-strip {
+  flex: 1;
+  min-height: 0;
+}
+.dt-page .dt-empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-10;
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+  @include mixins.arabic;
+  text-align: center;
+}
+.dt-page .dt-empty p {
+  margin: 0;
+}
+
+.mj-fluid .dt-page .dt-c-locator {
+  min-height: 360px;
+}
+.mj-fluid .dt-page .dt-c-villages {
+  height: 640px;
+}
+.mj-fluid .dt-vils .dt-rows > li {
+  content-visibility: visible;
+}
+
+@keyframes dt-shimmer {
+  to {
+    transform: translateX(-100%);
+  }
+}

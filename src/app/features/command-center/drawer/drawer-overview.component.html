@@ -1,0 +1,67 @@
+@if (view(); as v) {
+  <div class="dw-hero" [class]="v.band">
+    <div class="dw-hl">
+      <div class="mj-micro">{{ 'sTurnoutL' | t }}</div>
+      <div class="dw-big"><b class="mj-num" [mjCountUp]="v.t" [countFormat]="'pctNum'" [countDuration]="1000" [countGroup]="'ov'"></b><small>%</small></div>
+      <div class="dw-chips">
+        <span class="mj-chip sm" [class.up]="v.delta >= 0" [class.down]="v.delta < 0">{{ v.deltaText }}</span>
+        <span class="dw-bandl"><i class="mj-sw" [class]="v.band" [title]="v.band | t"></i>{{ v.band | t }}</span>
+      </div>
+    </div>
+    <div class="dw-ring" role="img" [attr.aria-label]="'of11' | t: { n: v.rank }">
+      <svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true">
+        <circle class="mj-track" cx="60" cy="60" [attr.r]="ring.r" fill="none" [attr.stroke-width]="ring.sw" />
+        <circle class="arc" cx="60" cy="60" [attr.r]="ring.r" fill="none" [attr.stroke-width]="ring.sw" stroke-linecap="round" [attr.stroke-dasharray]="v.arc" transform="rotate(-90 60 60)" />
+      </svg>
+      <div class="dw-rr">
+        <span class="mj-micro">{{ 'rank' | t }}</span><b class="mj-num">#{{ v.rank }}</b><span class="of mj-num">/ {{ v.of }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="dw-meter" [style.--t]="bar(v.t)" [style.--a]="v.nat.toFixed(1) + '%'">
+    <i></i><em><span class="mj-num">{{ v.natLabel }}</span></em>
+  </div>
+  <div class="dw-kpis dw-kpis-3">
+    <div class="dw-k voted" [label]="'votesCast' | t" [value]="v.g.voted" [sub]="v.votedSub" [live]="true" [group]="'ov'"></div>
+    <div class="dw-k" [label]="'registered' | t" [value]="v.g.reg" [sub]="'fixedRoll' | t" [group]="'ov'"></div>
+    <div class="dw-k yet" [label]="'yetToVote' | t" [value]="v.g.reg - v.g.voted" [sub]="v.yetSub" [live]="true" [group]="'ov'"></div>
+  </div>
+  <div class="dw-card">
+    <div class="dw-ch"><h4 aria-level="3">{{ 'topWil' | t }}</h4></div>
+    <div class="dw-wl">
+      @for (r of v.top; track r.id; let i = $index) {
+        <button type="button" class="dw-wr" [row]="r" [index]="i" [avg]="v.t" (click)="pick.emit(r.name)"></button>
+      }
+    </div>
+    <button type="button" class="dw-more" data-go="wil" (click)="more.emit()">
+      <span>{{ 'seeAllWil' | t: { n: v.count } }}</span><svg [mjIcon]="'next'"></svg>
+    </button>
+  </div>
+  <div class="dw-card">
+    <div class="dw-ch">
+      <h4 aria-level="3">{{ 'overTime' | t }}</h4><span class="mj-micro">{{ 'live' | t }}</span>
+    </div>
+    <div dir="ltr" class="dw-spark">
+      <svg class="mj-spark" viewBox="0 0 540 92" width="540" height="92" aria-hidden="true">
+        <defs>
+          <linearGradient [attr.id]="sparkId" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-opacity=".32" [style.stop-color]="v.color" />
+            <stop offset="1" stop-opacity="0" [style.stop-color]="v.color" />
+          </linearGradient>
+        </defs>
+        <path [attr.d]="v.spark.area" [attr.fill]="'url(#' + sparkId + ')'" />
+        <path [attr.d]="v.spark.d" fill="none" [style.stroke]="v.color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <circle [attr.cx]="v.spark.cx" [attr.cy]="v.spark.cy" r="2.6" [style.fill]="v.color" />
+      </svg>
+      <div class="dw-hrs mj-muted mj-num">
+        @for (h of v.hours; track $index) {
+          <span>{{ h }}</span>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="dw-card">
+    <div class="dw-ch"><h4 aria-level="3">{{ 'gender' | t }}</h4></div>
+    <div class="mj-gender dw-gen" [m]="v.g.votedM" [f]="v.g.votedF"></div>
+  </div>
+}

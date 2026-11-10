@@ -1,0 +1,48 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer tokens {
+  @include meta.load-css('styles/tokens');
+}
+@layer base {
+  @include meta.load-css('styles/fonts');
+  @include meta.load-css('styles/base');
+}
+@layer app {
+  @include meta.load-css('styles/controls');
+  @include meta.load-css('styles/components/odometer');
+  @include meta.load-css('styles/components/kpi');
+  @include meta.load-css('styles/components/gauge');
+  @include meta.load-css('styles/components/gender-split');
+  @include meta.load-css('styles/components/gov-rows');
+  @include meta.load-css('styles/components/map');
+  @include meta.load-css('styles/components/podium');
+  @include meta.load-css('styles/components/ticker');
+  @include meta.load-css('styles/overlays');
+  @include meta.load-css('styles/screens/command-center');
+  @include meta.load-css('styles/components/oman-map');
+  @include meta.load-css('styles/components/map-focus');
+  @include meta.load-css('styles/components/map-section');
+  @include meta.load-css('styles/components/podium-follow');
+  @include meta.load-css('styles/components/ballot-slot');
+  @include meta.load-css('styles/components/hero');
+  @include meta.load-css('styles/arabic-fit');
+  @include meta.load-css('styles/components/map-drill');
+  @include meta.load-css('styles/components/rail-drill');
+  @include meta.load-css('styles/components/rail-head');
+  @include meta.load-css('styles/screens/drawer');
+  @include meta.load-css('styles/screens/drawer-night');
+  @include meta.load-css('styles/components/insights');
+  @include meta.load-css('styles/components/insights-gender');
+  @include meta.load-css('styles/components/insights-wilayat');
+  @include meta.load-css('styles/components/insights-entrances');
+  @include meta.load-css('styles/screens/fluid');
+  @include meta.load-css('styles/forced-colors');
+}
+@layer motion {
+  @include meta.load-css('styles/reduced-motion');
+}
+@layer states {
+  @include meta.load-css('styles/states');
+}

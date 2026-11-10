@@ -1,0 +1,236 @@
+@use 'mixins';
+@use 'scales' as *;
+
+.mj-icons {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.mj-track {
+  stroke: var(--hairline);
+}
+
+.mj-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  height: 28px;
+  padding: 0 $sp-12;
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill);
+  font-size: $fs-12;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.mj-chip.sm {
+  height: 22px;
+  padding: 0 $sp-8;
+  font-size: $fs-11;
+  gap: $sp-4;
+}
+.mj-chip.gold {
+  background: var(--gold);
+  color: var(--on-gold);
+  box-shadow: var(--glow-gold);
+}
+.mj-chip.sample {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--gold-ink);
+  color: var(--gold-ink);
+  letter-spacing: 0;
+  font-size: $fs-10;
+  height: 20px;
+  padding: 0 $sp-7;
+}
+.mj-chip.declared {
+  color: var(--declared);
+  box-shadow: inset 0 0 0 1px var(--declared);
+}
+.mj-chip svg {
+  width: 14px;
+  height: 14px;
+}
+.mj-beacon {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  height: 28px;
+  padding-block: 0;
+  padding-inline: $sp-12 $sp-10;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--live) 16%, transparent);
+  color: var(--ink);
+  font-size: $fs-11;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.mj-beacon i {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: $radius-round;
+  background: var(--live);
+  box-shadow: var(--glow-live);
+}
+.mj-beacon i::after {
+  content: '';
+  position: absolute;
+  inset: -$sp-6;
+  border-radius: $radius-round;
+  border: 2px solid var(--live);
+  animation: mj-ping var(--dur-beacon) var(--ease-std) infinite;
+}
+.mj-beacon.declared {
+  background: color-mix(in srgb, var(--declared) 16%, transparent);
+}
+.mj-beacon.declared i {
+  background: var(--declared);
+  box-shadow: 0 0 14px var(--declared);
+}
+.mj-beacon.declared i::after {
+  border-color: var(--declared);
+  animation: none;
+  opacity: 0;
+}
+@keyframes mj-ping {
+  0% {
+    transform: scale(0.4);
+    opacity: 1;
+  }
+  80%,
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+.mj-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  height: 24px;
+  padding-block: 0;
+  padding-inline: $sp-9 $sp-6;
+  border-radius: var(--radius-pill);
+  @include mixins.glass-fill;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: $fs-12;
+  color: var(--ink);
+}
+.mj-sw {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: $r-4;
+  flex: none;
+  background-color: var(--band);
+}
+.mj-sw.low {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--pattern-ink-42) 0 1.5px,
+    transparent 1.5px 4px
+  );
+}
+.mj-sw.mid {
+  background-image: radial-gradient(var(--pattern-ink-45) 1px, transparent 1.3px);
+  background-size: 4px 4px;
+}
+.mj-sw.high {
+  background-image: none;
+  box-shadow: inset 0 0 0 1.5px var(--pattern-ring);
+}
+@each $b in low, mid, high {
+  .#{$b} {
+    --band: var(--band-#{$b});
+    --band-ink: var(--band-#{$b}-ink);
+  }
+}
+.mj-band-label {
+  font-size: $fs-11;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.mj-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-6;
+  height: 36px;
+  min-width: 36px;
+  padding: 0 $sp-12;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill);
+  color: var(--ink);
+  font: 600 #{$fs-13}/ 1 var(--font-sans);
+  font-family: var(--font-arabic);
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  transition:
+    transform var(--dur-ui) var(--ease-spring),
+    background var(--dur-micro);
+}
+.mj-btn:hover {
+  background: var(--glass-fill-strong);
+}
+.mj-btn:active {
+  transform: scale(0.94);
+}
+.mj-btn svg {
+  width: 18px;
+  height: 18px;
+}
+.mj-btn.icon {
+  padding: 0;
+  width: 36px;
+}
+.mj-btn.gold {
+  background: var(--gold);
+  color: var(--on-gold);
+  box-shadow: var(--glow-gold);
+}
+.mj-root :focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.mj-seg {
+  position: relative;
+  display: inline-flex;
+  padding: $sp-3;
+  border-radius: var(--radius-pill);
+  @include mixins.glass-fill;
+}
+.mj-seg button {
+  position: relative;
+  z-index: $z-1;
+  height: 28px;
+  padding: 0 $sp-12;
+  border: 0;
+  background: none;
+  color: var(--ink-muted);
+  font: 600 #{$fs-12}/ 1 var(--font-sans);
+  font-family: var(--font-arabic);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: color var(--dur-ui);
+}
+.mj-seg button[aria-pressed='true'] {
+  color: var(--on-gold);
+}
+.mj-seg .mj-thumb {
+  position: absolute;
+  top: $sp-3;
+  bottom: $sp-3;
+  border-radius: var(--radius-pill);
+  background: var(--gold);
+  box-shadow: var(--glow-gold);
+  transition:
+    left var(--dur-ui) var(--ease-spring),
+    width var(--dur-ui) var(--ease-spring);
+}

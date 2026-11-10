@@ -1,0 +1,22 @@
+.mj-odo {
+  display: inline-flex;
+  direction: ltr;
+  line-height: 1;
+}
+.mj-odo .d {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+}
+.mj-odo .s {
+  display: block;
+  transition: transform var(--dur-count) var(--ease-expo);
+}
+.mj-odo .s span {
+  display: block;
+  height: 1em;
+  text-align: center;
+}
+.mj-odo .c {
+  display: inline-block;
+}

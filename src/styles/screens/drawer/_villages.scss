@@ -1,0 +1,317 @@
+@use '../../mixins';
+@use '../../scales' as *;
+
+.dw-wpick {
+  display: flex;
+  gap: $sp-8;
+  overflow-x: auto;
+  padding: $sp-2 $sp-2 $sp-8;
+  scrollbar-width: thin;
+  scroll-snap-type: x proximity;
+}
+.dw-wc {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  height: 36px;
+  padding-block: 0;
+  padding-inline: $sp-12 $sp-10;
+  border: 0;
+  border-radius: var(--radius-pill);
+  @include mixins.glass-fill;
+  color: var(--ink-muted);
+  font: 600 #{$fs-13}/ 1 var(--font-sans);
+  cursor: pointer;
+  scroll-snap-align: center;
+  transition:
+    background $t-200,
+    box-shadow $t-200,
+    color $t-200;
+}
+.dw-wc b {
+  font: 700 #{$fs-12}/ 1 var(--font-display);
+  color: var(--band-ink);
+}
+.dw-wc:hover,
+.dw-wc.is-hot {
+  color: var(--ink);
+  background: var(--glass-fill-strong);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--band) 55%, transparent);
+}
+.dw-wc.on {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--gold) 14%, var(--glass-fill-strong));
+  box-shadow:
+    inset 0 0 0 1.5px var(--gold),
+    0 6px 18px -10px var(--gold-glow);
+}
+.dw-wc:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+.dw-whead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $sp-16;
+  padding: $sp-16 $sp-18;
+  border-radius: var(--radius-tile);
+  background:
+    radial-gradient(
+      120% 140% at 0% 0%,
+      color-mix(in srgb, var(--band) 16%, transparent),
+      transparent 60%
+    ),
+    var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.dw-whead .dw-wh-l {
+  min-width: 0;
+}
+.dw-whead .dw-wh-r {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $sp-8;
+}
+.dw-dist .dw-stack {
+  display: flex;
+  gap: $sp-4;
+  height: 26px;
+}
+.dw-stack i {
+  display: flex;
+  align-items: center;
+  padding-inline: $sp-10;
+  border-radius: $r-8;
+  background-color: var(--band);
+  min-width: 30px;
+  box-shadow: 0 0 14px -6px var(--band);
+  transform-origin: right center;
+}
+.dw-stack i.low {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--pattern-ink-30) 0 1.5px,
+    transparent 1.5px 5px
+  );
+}
+.dw-stack i.mid {
+  background-image: radial-gradient(var(--pattern-ink-30) 1px, transparent 1.3px);
+  background-size: 5px 5px;
+}
+.dw-stack i b {
+  font: 700 #{$fs-13}/ 1 var(--font-display);
+  color: var(--paper);
+  text-shadow: 0 1px 2px var(--shadow-ink-50);
+}
+.dw-dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sp-6 $sp-18;
+  margin-top: $sp-10;
+  font-size: $fs-12;
+  color: var(--ink-muted);
+}
+.dw-dl span {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+}
+.dw-dl span.none {
+  opacity: 0.45;
+}
+.dw-dl b {
+  color: var(--ink);
+  font-family: var(--font-display);
+}
+.dw-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  height: 38px;
+  padding: 0 $sp-12;
+  border-radius: $r-12;
+  @include mixins.glass-fill;
+  color: var(--ink-muted);
+  transition: box-shadow $t-200;
+}
+.dw-search:focus-within {
+  box-shadow:
+    inset 0 0 0 1.5px var(--gold),
+    0 0 0 4px color-mix(in srgb, var(--gold) 14%, transparent);
+}
+.dw-search svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.dw-search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font: 500 #{$fs-13}/ 1 var(--font-sans);
+  appearance: none;
+  font-family: var(--font-arabic);
+}
+.dw-search input::placeholder {
+  color: var(--ink-muted);
+}
+.dw-vl {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-2;
+  padding: $sp-6;
+  border-radius: var(--radius-tile);
+  @include mixins.glass-fill;
+}
+.dw-vr {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 46px;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 110px 58px 98px;
+  align-items: center;
+  gap: $sp-12;
+  padding: $sp-9 $sp-10;
+  border-radius: $r-11;
+  transition: background $t-200;
+}
+.dw-vr:hover {
+  background: var(--glass-fill-strong);
+}
+.dw-vr + .dw-vr {
+  box-shadow: 0 -1px 0 var(--hairline);
+}
+.dw-vr .ct {
+  font: 600 #{$fs-12}/ 1 var(--font-display);
+  color: var(--ink-muted);
+  text-align: end;
+  white-space: nowrap;
+}
+.dw-vr .ct i {
+  font-style: normal;
+  opacity: 0.5;
+  margin: 0 $sp-2;
+}
+.dw-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-8;
+  padding: $sp-22;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.dw-empty svg {
+  width: 16px;
+  height: 16px;
+}
+[data-theme='daylight'] .dw .dw-glow {
+  opacity: 0.7;
+}
+[data-theme='daylight'] .dw-stack i b {
+  color: var(--paper);
+}
+
+.mj-cc.cc-drill .cc-map {
+  box-shadow:
+    var(--shadow-panel),
+    0 0 0 1px color-mix(in srgb, var(--gold) 30%, transparent),
+    0 0 60px -20px var(--gold-glow);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dw-pane,
+  .dw-pane.on {
+    transition: none !important;
+    transform: none !important;
+  }
+  .dw-ink {
+    transition: none;
+  }
+  .dw-live::after,
+  .mr-head.mr-in > * {
+    animation: none;
+  }
+}
+.mr-back {
+  white-space: nowrap;
+  flex: none;
+}
+.dw-ring {
+  position: relative;
+  flex: none;
+  width: 120px;
+  height: 120px;
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--band) 35%, transparent));
+}
+.dw-ring svg {
+  display: block;
+}
+.dw-ring .arc {
+  stroke: var(--band);
+  transition: stroke-dasharray $t-1000 var(--ease-expo);
+}
+.dw-rr {
+  @include mixins.cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-1;
+}
+.dw-rr .mj-micro {
+  font-size: $fs-9-5;
+  letter-spacing: 0.14em;
+}
+.dw-rr b {
+  font: 700 #{$fs-30}/ 1 var(--font-display);
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.dw-rr .of {
+  font: 600 #{$fs-11}/ 1 var(--font-display);
+  color: var(--ink-muted);
+}
+.mj-drawer.dw-in .dw-ring .arc {
+  animation: dw-arc $t-1200 var(--ease-expo) backwards $t-200;
+}
+@keyframes dw-arc {
+  from {
+    stroke-dasharray: 0 400;
+  }
+}
+.dw-k .sub {
+  white-space: normal;
+  overflow: visible;
+}
+.dw-wpick {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 18px,
+    #000 calc(100% - 18px),
+    transparent
+  );
+  mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  padding-inline: $sp-12;
+  margin-inline: -$sp-12;
+}
+.mj-root .dw-search input:focus-visible {
+  outline: none;
+}
+.dw-search input::-webkit-search-cancel-button {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  background: currentcolor;
+  opacity: 0.55;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E")
+    center/contain no-repeat;
+}

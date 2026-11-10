@@ -1,0 +1,230 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.mj-tv {
+  @include mixins.cover;
+  z-index: $z-screen;
+  background: var(--canvas-0);
+  display: none;
+  overflow: hidden;
+}
+.mj-tv.on,
+[data-theme='daylight'] .tv-logo.day {
+  display: block;
+}
+.mj-tv:focus {
+  outline: none;
+}
+.mj-tv .tv-x {
+  position: absolute;
+  top: calc(var(--tv-title-y) + $sp-14);
+  inset-inline-end: var(--tv-action-x);
+  opacity: 0.45;
+  z-index: $z-5;
+  transition: opacity $t-450 var(--ease-std);
+}
+.tv-glow {
+  @include mixins.cover;
+  pointer-events: none;
+  background: radial-gradient(
+    48% 62% at 28% 54%,
+    color-mix(in srgb, var(--gold) 9%, transparent),
+    transparent 70%
+  );
+}
+.tv-face {
+  @include mixins.cover;
+  opacity: 0;
+  pointer-events: none;
+}
+.tv-face.on {
+  opacity: 1;
+  pointer-events: auto;
+}
+.tv-sl {
+  @include mixins.cover;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--tv-title-y) var(--tv-title-x) var(--tv-foot);
+}
+.tv-sl::before {
+  content: '';
+  @include mixins.cover;
+  pointer-events: none;
+  background: radial-gradient(
+    42% 56% at 26% 55%,
+    color-mix(in srgb, var(--band) 14%, transparent),
+    transparent 72%
+  );
+}
+
+.tv-top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $sp-20;
+  height: 64px;
+  padding-inline-end: $sp-64;
+}
+.tv-logo {
+  height: 56px;
+  width: auto;
+}
+.tv-logo.day,
+[data-theme='daylight'] .tv-logo.night {
+  display: none;
+}
+.tv-ttl {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-2;
+  padding-inline-start: $sp-20;
+  border-inline-start: 1px solid var(--hairline);
+}
+.tv-ttl b {
+  font: 600 #{$fs-22}/ 28px var(--font-sans);
+  letter-spacing: 0;
+}
+.tv-ttl span {
+  font: 500 #{$fs-15}/ 20px var(--font-sans);
+  color: var(--ink-muted);
+}
+.tv-live {
+  margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-10;
+  font: 700 #{$fs-14}/ 1 var(--font-sans);
+  letter-spacing: 0;
+  color: var(--stat-voted);
+  padding: $sp-10 $sp-16;
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--stat-voted) 40%, transparent);
+  background: color-mix(in srgb, var(--stat-voted) 8%, transparent);
+}
+.tv-live i {
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-round;
+  background: currentcolor;
+  box-shadow: 0 0 10px currentcolor;
+  animation: tv-blink $t-1600 ease-in-out infinite;
+}
+.tv-live.stale {
+  letter-spacing: 0;
+  color: var(--ink-muted);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.tv-live.stale i {
+  box-shadow: none;
+  animation: none;
+}
+.tv-count {
+  font: 600 #{$fs-18}/ 1 var(--font-display);
+  color: var(--ink-muted);
+  letter-spacing: 0.06em;
+}
+
+.tv-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 880px) minmax(0, 1fr);
+  gap: $sp-56;
+  align-items: center;
+}
+.tv-info {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-22;
+  min-width: 0;
+}
+.tv-info > * {
+  opacity: 0;
+  transform: translateY(22px);
+}
+.tv-face.on .tv-info > * {
+  animation: tv-rise $t-900 var(--ease-expo) forwards;
+  animation-delay: calc($t-250 + var(--i, 0) * $t-90);
+}
+@keyframes tv-rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes tv-blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+.tv-kick {
+  display: flex;
+  align-items: center;
+  gap: $sp-14;
+  font: 700 #{$fs-17}/ 1 var(--font-sans);
+  text-transform: uppercase;
+  color: var(--gold-ink);
+  letter-spacing: 0;
+  font-size: $fs-18;
+}
+.tv-band {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  padding: $sp-8 $sp-14;
+  border-radius: var(--radius-pill);
+  color: var(--band-ink);
+  background: color-mix(in srgb, var(--band) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--band) 40%, transparent);
+  letter-spacing: 0.06em;
+  text-transform: none;
+  font-size: $fs-15;
+}
+.tv-band::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-round;
+  background: currentcolor;
+  box-shadow: 0 0 10px currentcolor;
+}
+.tv-name {
+  margin: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font: 700 #{$fs-84}/ 1.15 var(--font-arabic);
+  letter-spacing: 0;
+}
+.tv-sub {
+  font: 500 #{$fs-22}/ 30px var(--font-sans);
+  color: var(--ink-muted);
+}
+.tv-sub b {
+  color: var(--ink);
+  font-weight: 700;
+}
+.tv-big {
+  display: flex;
+  align-items: flex-end;
+  gap: $sp-28;
+}
+.tv-pct {
+  font: 800 #{$fs-176}/ 0.86 var(--font-display);
+  background: linear-gradient(
+    180deg,
+    var(--ink) 30%,
+    color-mix(in srgb, var(--band) 75%, var(--ink))
+  );
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 28px color-mix(in srgb, var(--band) 28%, transparent));
+}
+.tv-delta {
+  font-size: $fs-17;
+  padding: $sp-9 $sp-14;
+  margin-bottom: $sp-14;
+}

@@ -1,0 +1,50 @@
+<aside class="wn-rail" (pointerenter)="hover.emit(true)" (pointerleave)="hover.emit(false)">
+  <div class="wn-rail-head">
+    <span class="wn-lbl" aria-hidden="true">{{ 'wnGovLabel' | wnT }}</span>
+    <label class="wn-gsel">
+      <span class="wn-rail-gov">{{ govName() }}</span>
+      <svg class="wn-gsel-i" [mjIcon]="'next'"></svg>
+      <select [attr.aria-label]="'wnPickTitle' | wnT" (change)="pickGov.emit(value($event))">
+        @for (g of govs(); track g.id) {<option [value]="g.id" [selected]="g.id === card().id">{{ g.name || g.n }}</option>}
+      </select>
+    </label>
+    <div class="wn-tally" [class.full]="full()">
+      <span class="wn-tally-t"><b>{{ tally().done }}<small>/{{ tally().all }}</small></b></span>
+      <span class="wn-tally-l">{{ (full() ? 'wnAllDone' : 'wnAnnouncedOf') | wnT }}</span>
+      <span class="wn-tally-i" aria-hidden="true">@if (full()) {<svg class="wn-chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>} @else {<i></i>}</span>
+    </div>
+    <i class="wn-tally-bar" aria-hidden="true" [style.--w]="done()"></i>
+    <label class="wn-find">
+      <svg [mjIcon]="'search'"></svg>
+      <input type="text" role="searchbox" enterkeyhint="search" autocomplete="off" [placeholder]="'wnSearch' | wnT" [attr.aria-label]="'wnSearch' | wnT" [value]="q()" (input)="q.set(value($event))">
+    </label>
+  </div>
+  <ol class="wn-wils" [class.hl]="spot() >= 0" [style.--hl]="spot()">
+    @for (w of wils(); track w.id; let i = $index) {
+      @if (shows(i)) {
+        <li [style.--i]="i">
+          <button type="button" class="wn-wil" [class.on]="i === cur()" [class.done]="w.published" [attr.aria-current]="i === cur() ? 'true' : null" (click)="choose.emit(i)">
+            <span class="wn-wil-dot" aria-hidden="true">@if (w.published) {<svg class="wn-chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>} @else {<i></i>}</span>
+            <span class="wn-wil-t"><b>{{ w.name }}</b><small>@if (seats(w.seats); as s) {<span>{{ s }}</span><i></i>}<span>{{ (w.published ? 'wnDeclared' : 'wnPendingShort') | wnT }}</span></small></span>
+            <svg class="wn-wil-go" [mjIcon]="'prev'"></svg>
+          </button>
+        </li>
+      }
+    }
+  </ol>
+  @if (wils().length && !matches().length) {<p class="wn-none" role="status">{{ 'wnNoMatch' | wnT }}</p>}
+  @if (walking()) {
+    <div class="wn-rail-foot">
+      <span class="wn-auto">{{ 'wnAuto' | wnT }}</span>
+      <div class="wn-ctls">
+        <button type="button" class="mj-btn icon wn-ctl" [attr.aria-label]="'wnPrev' | wnT" [title]="'wnPrev' | wnT" (click)="move.emit(-1)"><svg [mjIcon]="'next'"></svg></button>
+        <button type="button" class="mj-btn icon wn-ctl main" [attr.aria-label]="(paused() ? 'wnPlay' : 'wnPause') | wnT" [title]="(paused() ? 'wnPlay' : 'wnPause') | wnT" (click)="playPause.emit()"><svg [mjIcon]="paused() ? 'play' : 'pause'"></svg></button>
+        <button type="button" class="mj-btn icon wn-ctl" [attr.aria-label]="'wnNext' | wnT" [title]="'wnNext' | wnT" (click)="move.emit(1)"><svg [mjIcon]="'prev'"></svg></button>
+      </div>
+      <div class="wn-dots" aria-hidden="true">
+        @for (w of wils(); track w.id; let i = $index) {<i [class.on]="i === cur()" [class.past]="i < cur()">@if (i === cur()) {@for (l of [lap()]; track l) {<b class="wn-wil-prog" [style.--dur]="step() + 'ms'"></b>}}</i>}
+      </div>
+    </div>
+  }
+</aside>
+<div class="wn-stage" wnStage [wil]="wil()" [gov]="name()" [load]="load()" [empty]="load() === 'ready' && !wils().length" (retry)="retry.emit()"></div>

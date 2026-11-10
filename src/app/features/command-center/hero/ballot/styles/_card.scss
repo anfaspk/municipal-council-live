@@ -1,0 +1,339 @@
+@use '../../../../../../styles/scales' as *;
+
+.mv-cardw {
+  position: relative;
+  inline-size: 60px;
+  block-size: 38px;
+  perspective: 200px;
+  flex: none;
+}
+.mv-card3 {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+.mv-cf,
+.mv-cbk {
+  position: absolute;
+  inset: 0;
+  border-radius: $r-3-5;
+  overflow: hidden;
+  backface-visibility: hidden;
+  box-shadow:
+    0 5px 12px color-mix(in srgb, var(--mv-scr-lo) 60%, transparent),
+    inset 0 0 0 0.5px color-mix(in srgb, var(--mv-card-gold) 40%, transparent);
+}
+.mv-cf {
+  background:
+    repeating-radial-gradient(
+      circle at 85% 115%,
+      color-mix(in srgb, var(--mv-cyan) 16%, transparent) 0 0.45px,
+      transparent 0.45px 2.1px
+    ),
+    repeating-radial-gradient(
+      circle at 10% -20%,
+      color-mix(in srgb, var(--mv-gold) 16%, transparent) 0 0.45px,
+      transparent 0.45px 2.4px
+    ),
+    linear-gradient(125deg, var(--mv-card-1) 0%, var(--mv-card-2) 46%, var(--mv-card-3) 100%);
+}
+.mv-chd {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  block-size: 9px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-1-5;
+  padding-inline: $sp-2-5;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--mv-gold) 28%, transparent),
+    color-mix(in srgb, var(--mv-gold) 8%, transparent) 50%,
+    color-mix(in srgb, var(--mv-gold) 28%, transparent)
+  );
+  border-block-end: 0.4px solid color-mix(in srgb, var(--mv-card-gold) 40%, transparent);
+}
+.mv-cen {
+  font: 700 #{$fs-2-2}/ 1 var(--font-sans);
+  letter-spacing: 0.03em;
+  color: var(--mv-card-head);
+  white-space: nowrap;
+}
+.mv-car {
+  font: 700 #{$fs-2-7}/ 1 var(--font-arabic);
+  color: var(--mv-card-head);
+  white-space: nowrap;
+}
+.mv-cem {
+  display: block;
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: $radius-round;
+  background: var(--mv-card-seal);
+}
+.mv-cbody {
+  position: absolute;
+  inset: $sp-11-5 $sp-3 $sp-3;
+  display: flex;
+  gap: $sp-3-5;
+}
+.mv-cph {
+  flex: none;
+  inline-size: 15px;
+  block-size: 21px;
+  border-radius: $r-1-5;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--mv-photo-hi), var(--mv-photo-lo));
+  box-shadow: inset 0 0 0 0.4px color-mix(in srgb, var(--mv-card-ink) 25%, transparent);
+
+  svg {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    fill: var(--mv-photo-ink);
+  }
+}
+.mv-cl {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-2-3;
+  padding-block-start: $sp-1;
+
+  b {
+    display: block;
+    block-size: 1.6px;
+    border-radius: $r-1;
+    background: color-mix(in srgb, var(--mv-card-ink) 42%, transparent);
+  }
+  b:nth-child(1) {
+    inline-size: 92%;
+  }
+  b:nth-child(2) {
+    inline-size: 68%;
+  }
+  b:nth-child(3) {
+    inline-size: 80%;
+  }
+  b:nth-child(4) {
+    inline-size: 52%;
+    background: color-mix(in srgb, var(--mv-card-gold) 55%, transparent);
+  }
+}
+.mv-ovd {
+  position: absolute;
+  inset-inline-end: $sp-3;
+  bottom: $sp-3;
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: $radius-round;
+  opacity: 0.8;
+  mix-blend-mode: multiply;
+  background: conic-gradient(
+    var(--mv-ink-1),
+    var(--mv-ink-2),
+    var(--mv-ink-3),
+    var(--mv-ink-4),
+    var(--mv-ink-5),
+    var(--mv-ink-1)
+  );
+}
+.mv-cscan {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: -$sp-16;
+  inline-size: 14px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--mv-cy) 85%, transparent),
+    transparent
+  );
+  mix-blend-mode: multiply;
+  opacity: 0;
+}
+.mv-cbk {
+  transform: rotateY(180deg);
+  background:
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      color-mix(in srgb, var(--mv-cyan) 12%, transparent) 0 0.45px,
+      transparent 0.45px 2.2px
+    ),
+    linear-gradient(125deg, var(--mv-card-2), var(--mv-card-3));
+}
+.mv-chip {
+  position: absolute;
+  inset-inline-start: $sp-5;
+  top: $sp-7;
+  inline-size: 13px;
+  block-size: 10px;
+  border-radius: $r-2;
+  background: linear-gradient(135deg, var(--mv-chip-hi), var(--mv-chip-lo) 50%, var(--mv-chip-hi));
+  box-shadow: inset 0 0 0 0.5px color-mix(in srgb, var(--mv-card-head) 60%, transparent);
+  transition: box-shadow $t-600 var(--mv-e);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+  }
+  &::before {
+    inset-block: 0;
+    inset-inline: $sp-4-3;
+    border-inline: 0.4px solid color-mix(in srgb, var(--mv-card-head) 50%, transparent);
+  }
+  &::after {
+    inset-inline: 0;
+    top: $sp-4-8;
+    block-size: 0.4px;
+    background: color-mix(in srgb, var(--mv-card-head) 45%, transparent);
+  }
+}
+.mv-bc {
+  position: absolute;
+  inset-inline-end: $sp-5;
+  top: $sp-7;
+  inline-size: 24px;
+  block-size: 7px;
+  background: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--mv-card-ink) 60%, transparent) 0 0.5px,
+    transparent 0.5px 1.1px,
+    color-mix(in srgb, var(--mv-card-ink) 60%, transparent) 1.1px 2px,
+    transparent 2px 2.6px
+  );
+}
+.mv-mrz {
+  position: absolute;
+  inset-inline: $sp-4;
+  bottom: $sp-3-5;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-1-7;
+
+  b {
+    display: block;
+    block-size: 1.4px;
+    background: repeating-linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--mv-card-ink) 55%, transparent) 0 1.3px,
+      transparent 1.3px 2.1px
+    );
+  }
+}
+
+.mv-nfc {
+  position: relative;
+  inline-size: 30px;
+  block-size: 11px;
+  margin-block-start: $sp-1;
+
+  i {
+    position: absolute;
+    inset-inline: 0;
+    margin-inline: auto;
+    border: 1.2px solid transparent;
+    border-block-start-color: var(--mv-cy);
+    border-radius: $radius-round;
+    opacity: 0;
+  }
+  i:nth-child(1) {
+    inline-size: 8px;
+    block-size: 8px;
+    bottom: -$sp-4;
+  }
+  i:nth-child(2) {
+    inline-size: 16px;
+    block-size: 16px;
+    bottom: -$sp-8;
+  }
+  i:nth-child(3) {
+    inline-size: 24px;
+    block-size: 24px;
+    bottom: -$sp-12;
+  }
+}
+.mv-civil.run {
+  .mv-nfc i {
+    animation: mv-nfc $t-1400 ease-in-out $t-600 infinite;
+  }
+  .mv-nfc i:nth-child(2) {
+    animation-delay: $t-800;
+  }
+  .mv-nfc i:nth-child(3) {
+    animation-delay: $t-1000;
+  }
+  .mv-cardw {
+    animation: mv-cin $t-1000 var(--mv-e) both;
+  }
+  .mv-card3 {
+    animation: mv-flip $t-900 var(--mv-io) $t-1500 both;
+  }
+  .mv-cscan {
+    animation: mv-cscan $t-700 var(--mv-io) $t-850 both;
+  }
+  .mv-ovd {
+    animation: mv-spin $t-4000 linear infinite;
+  }
+}
+.mv-civil.ok {
+  .mv-nfc i,
+  .mv-ovd {
+    animation: none;
+  }
+  .mv-chip {
+    box-shadow:
+      inset 0 0 0 0.5px color-mix(in srgb, var(--mv-card-head) 60%, transparent),
+      0 0 0 1px var(--mv-c),
+      0 0 8px var(--mv-c);
+  }
+  .mv-cardw {
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--mv-c) 45%, transparent));
+  }
+}
+
+@keyframes mv-nfc {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+@keyframes mv-cin {
+  from {
+    opacity: 0;
+    transform: translateY(20px) rotateX(36deg) scale(0.92);
+  }
+}
+@keyframes mv-flip {
+  0% {
+    transform: rotateY(0);
+  }
+  50% {
+    transform: rotateY(90deg) scale(1.06);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+@keyframes mv-cscan {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(80px);
+    opacity: 0;
+  }
+}

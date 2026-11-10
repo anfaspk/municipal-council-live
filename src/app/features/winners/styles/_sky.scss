@@ -1,0 +1,166 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.wn-sky {
+  @include mixins.cover;
+  --wn-rose-x: 420px;
+  --wn-rose-y: 0;
+  --wn-horizon-y: 150px;
+  --wn-grid-over: -120px;
+  direction: ltr;
+  overflow: clip;
+  pointer-events: none;
+}
+.wn-sky-bg {
+  @include mixins.cover;
+  background:
+    radial-gradient(
+      70% 45% at 50% 100%,
+      color-mix(in srgb, var(--wn-amber) 16%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      60% 50% at 50% 40%,
+      color-mix(in srgb, var(--wn-sky-2) 60%, transparent),
+      transparent 75%
+    ),
+    linear-gradient(180deg, var(--wn-sky-0), var(--wn-sky-1) 62%, var(--wn-sky-2));
+}
+
+.wn-stars {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: 1px;
+  height: 1px;
+  border-radius: $radius-round;
+  color: var(--wn-star);
+  box-shadow: var(--stars);
+  opacity: calc(0.45 + var(--l) * 0.2);
+  animation:
+    wn-drift calc(#{$t-120000} - var(--l) * #{$t-30000}) linear infinite alternate,
+    wn-twinkle calc(#{$t-6000} + var(--l) * #{$t-2000}) ease-in-out infinite alternate;
+}
+.wn-sky.deep .wn-stars {
+  opacity: 0.3;
+  transition: opacity $t-1400 var(--ease-std);
+}
+
+.wn-grid {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0 var(--wn-grid-over);
+  width: calc(100% - var(--wn-grid-over));
+  height: 100%;
+  opacity: 0.14;
+  -webkit-mask-image: radial-gradient(60% 60% at 50% 45%, var(--ink), transparent 85%);
+  mask-image: radial-gradient(60% 60% at 50% 45%, var(--ink), transparent 85%);
+  animation: wn-grid $t-60000 linear infinite;
+}
+.wn-grid g,
+.wn-grid path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 0.8;
+}
+.wn-grid circle {
+  fill: var(--gold-glow);
+}
+.wn-sky-lat {
+  @include mixins.cover;
+  opacity: 0.12;
+  -webkit-mask-image: radial-gradient(55% 60% at 50% 50%, transparent 35%, var(--ink));
+  mask-image: radial-gradient(55% 60% at 50% 50%, transparent 35%, var(--ink));
+  animation: wn-fade $t-3000 var(--ease-std) $t-600 backwards;
+}
+
+.wn-rose {
+  position: absolute;
+  inset-block-start: var(--wn-rose-y);
+  inset-inline-start: var(--wn-rose-x);
+  width: 1080px;
+  height: 1080px;
+  opacity: 0.16;
+  animation:
+    wn-fade $t-2400 var(--ease-std) $t-400 backwards,
+    wn-spin $t-120000 linear infinite;
+  transition: opacity $t-1400 var(--ease-std);
+}
+.wn-sky.deep .wn-rose {
+  opacity: 0.06;
+}
+.wn-rose-c,
+.wn-rose-p {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1;
+}
+.wn-rose-c.thin {
+  stroke-dasharray: 2 10;
+}
+.wn-rose-p {
+  transform: rotate(var(--a));
+  stroke-width: 0.6;
+}
+
+.wn-horizon {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: var(--wn-horizon-y);
+  height: 220px;
+  background: radial-gradient(
+    55% 60% at 50% 100%,
+    color-mix(in srgb, var(--wn-amber) 22%, transparent),
+    transparent 75%
+  );
+  animation: wn-glow $t-9000 ease-in-out infinite alternate;
+}
+.wn-dunes {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  width: 100%;
+  height: 260px;
+}
+.wn-dune.d1 {
+  fill: var(--wn-dune-1);
+  opacity: 0.55;
+}
+.wn-dune.d2 {
+  fill: var(--wn-dune-2);
+  opacity: 0.85;
+}
+.wn-dune.d3 {
+  fill: var(--wn-dune-3);
+}
+.wn-grain {
+  @include mixins.cover;
+  opacity: 0.05;
+  background-image:
+    radial-gradient(circle at 25% 25%, var(--ink) 0.6px, transparent 1px),
+    radial-gradient(circle at 75% 75%, var(--ink) 0.5px, transparent 1px);
+  background-size:
+    5px 5px,
+    7px 7px;
+}
+
+@keyframes wn-drift {
+  to {
+    transform: translate3d(-60px, 8px, 0);
+  }
+}
+@keyframes wn-twinkle {
+  from {
+    opacity: 0.35;
+  }
+}
+@keyframes wn-grid {
+  to {
+    transform: translate3d(-120px, 0, 0);
+  }
+}
+@keyframes wn-glow {
+  from {
+    opacity: 0.6;
+  }
+}

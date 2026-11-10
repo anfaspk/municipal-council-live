@@ -1,0 +1,46 @@
+@let m = shape();
+<svg:defs>
+  <svg:path [attr.id]="ref('p')" [attr.d]="m.d"/>
+  <svg:clipPath [attr.id]="ref('c')"><svg:use [attr.href]="href('p')"/></svg:clipPath>
+  <svg:linearGradient [attr.id]="ref('f')" x1="0" y1="0" x2=".35" y2="1">
+    <svg:stop class="tv-bs" offset="0" stop-opacity=".62"/>
+    <svg:stop class="tv-bs" offset=".55" stop-opacity=".26"/>
+    <svg:stop class="tv-bs" offset="1" stop-opacity=".1"/>
+  </svg:linearGradient>
+  <svg:linearGradient [attr.id]="ref('s')" x1="0" y1="0" x2="0" y2="1">
+    <svg:stop class="tv-bs" offset="0" stop-opacity="0"/>
+    <svg:stop class="tv-bs" offset=".85" stop-opacity=".4"/>
+    <svg:stop class="tv-ws" offset="1" stop-opacity=".75"/>
+  </svg:linearGradient>
+  <svg:pattern [attr.id]="ref('g')" [attr.width]="m.pattern.step" [attr.height]="m.pattern.step" patternUnits="userSpaceOnUse">
+    <svg:path class="tv-bl" [attr.d]="m.pattern.d" fill="none" [attr.stroke-width]="m.pattern.sw" opacity=".5"/>
+  </svg:pattern>
+  <svg:filter [attr.id]="ref('b')" x="-40%" y="-40%" width="180%" height="180%"><svg:feGaussianBlur [attr.stdDeviation]="m.blur"/></svg:filter>
+</svg:defs>
+<svg:g class="tv-whole">
+  <svg:g class="tv-sh-halo" [attr.filter]="url('b')"><svg:use [attr.href]="href('p')"/></svg:g>
+  <svg:g class="tv-sh-ext">
+    @for (e of m.ext; track e.i) {<svg:use [attr.href]="href('p')" [attr.transform]="e.transform" [style.--i]="e.i"/>}
+  </svg:g>
+  <svg:g class="tv-sh-face">
+    <svg:use [attr.href]="href('p')" [attr.fill]="url('f')"/>
+    <svg:g [attr.clip-path]="url('c')">
+      <svg:rect class="tv-sh-grid" [attr.x]="m.grid.x" [attr.y]="m.grid.y" [attr.width]="m.grid.w" [attr.height]="m.grid.h" [attr.fill]="url('g')"/>
+      <svg:rect class="tv-sh-scan" [attr.x]="m.scan.x" [attr.y]="m.scan.y" [attr.width]="m.scan.w" [attr.height]="m.scan.h" [attr.fill]="url('s')" [style.--sy]="m.scan.sy"/>
+      @for (p of m.dots; track $index) {
+        <svg:g class="tv-pt" [style.--d]="p.d" [style.--p]="p.p">
+          <svg:circle class="ring" [attr.cx]="p.cx" [attr.cy]="p.cy" [attr.r]="m.dot.ring" [attr.stroke-width]="m.dot.ringSw"/>
+          <svg:circle class="core" [attr.cx]="p.cx" [attr.cy]="p.cy" [attr.r]="m.dot.core"/>
+        </svg:g>
+      }
+    </svg:g>
+  </svg:g>
+  <svg:path class="tv-sh-trace" [attr.d]="m.d" pathLength="1" [attr.stroke-width]="m.traceSw"/>
+  <svg:path class="tv-sh-comet" [attr.d]="m.d" pathLength="1" [attr.stroke-width]="m.cometSw"/>
+  <svg:g class="tv-sh-pin">
+    <svg:circle class="ring" [attr.cx]="m.pin.cx" [attr.cy]="m.pin.cy" [attr.r]="m.pin.r" [attr.stroke-width]="m.pin.sw"/>
+    <svg:circle class="ring r2" [attr.cx]="m.pin.cx" [attr.cy]="m.pin.cy" [attr.r]="m.pin.r" [attr.stroke-width]="m.pin.sw"/>
+    <svg:circle class="core" [attr.cx]="m.pin.cx" [attr.cy]="m.pin.cy" [attr.r]="m.pin.core"/>
+  </svg:g>
+</svg:g>
+@if (m.shock; as s) {<svg:circle class="tv-shock" [attr.cx]="s.cx" [attr.cy]="s.cy" [attr.r]="s.r" [attr.stroke-width]="s.sw"/>}

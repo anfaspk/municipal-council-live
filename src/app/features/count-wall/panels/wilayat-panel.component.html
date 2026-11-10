@@ -1,0 +1,56 @@
+<button
+  type="button"
+  class="mj-btn cx-bk"
+  style="--i: 0"
+  [attr.aria-label]="text('cBackL', { g: governorate().ar })"
+>
+  <svg mjIcon="prev"></svg><span>{{ text('cBack') }}</span>
+</button>
+<div
+  class="cx-whw"
+  style="--i: 1"
+  [governorate]="head().gov"
+  [wilayat]="head().wil"
+  [revision]="revision()"
+></div>
+@if (results()) {
+  <div
+    class="cxr-tabs"
+    role="tablist"
+    data-t="win"
+    style="--i: 2"
+    [attr.aria-label]="text('cxTabsL')"
+  >
+    <button type="button" class="cxr-tab" role="tab" data-t="win" aria-selected="true">
+      <svg countStar></svg>{{ text('cxTabWin') }}</button
+    ><button
+      type="button"
+      class="cxr-tab"
+      role="tab"
+      data-t="race"
+      aria-selected="false"
+      tabindex="-1"
+    >
+      <svg mjIcon="layers"></svg>{{ text('cxTabRace') }}</button
+    ><i class="ink"></i>
+  </div>
+  <div class="cx-wb cxr-panes" style="--i: 3">
+    <div
+      class="cxr-pane in"
+      role="tabpanel"
+      data-t="win"
+      countWinnersPanel
+      [wilayat]="wilayat()"
+    ></div>
+    <div
+      class="cxr-pane"
+      role="tabpanel"
+      data-t="race"
+      hidden
+      countRacePanel
+      [wilayat]="wilayat()"
+    ></div>
+  </div>
+} @else {
+  <div class="cx-wb" style="--i: 2" countRacePanel [wilayat]="wilayat()"></div>
+}

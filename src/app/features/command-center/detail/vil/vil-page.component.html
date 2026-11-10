@@ -1,0 +1,70 @@
+@let d = data();
+@let t = turnoutNow();
+<div class="dt-c-gauge" [class]="band() ?? ''">
+  @if (t !== null) {
+    <div class="gwrap" [size]="gauge" [label]="'dtKind.vil' | dtT" [sub]="row()?.ar ?? ''" [value]="t" [gid]="'dtg'" [changeMs]="1400"></div>
+  } @else {
+    <div class="dt-skel dial" aria-hidden="true"></div>
+  }
+</div>
+<div class="dt-c-cmp dt-cmpb" [model]="cmp()" [name]="row()?.ar ?? '…'"></div>
+<section class="dt-card dt-c-flow mj-glass" [style.--j]="0" aria-labelledby="dt-h-flow">
+  <h3 class="mj-sr" id="dt-h-flow">{{ 'dtFlowT' | dtT }}</h3>
+  @if (flow(); as f) {
+    <div class="dt-flow" [steps]="f"></div>
+  } @else {
+    <div class="dt-skel-cols" aria-hidden="true">@for (i of skel4; track i) {<span class="dt-skel" [style.--j]="i"></span>}</div>
+    <p class="mj-sr">{{ 'dtLoading' | dtT }}</p>
+  }
+</section>
+<section class="dt-card dt-c-place mj-glass raised" [style.--j]="1" aria-labelledby="dt-h-place">
+  <span class="mj-crenel"></span>
+  <div class="mj-panel-head dt-chd">
+    <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-place">{{ 'dtT.place' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.place' | dtT }}</p></div>
+  </div>
+  <div class="dt-place">
+    @if (villages()?.length) {
+      <div class="dt-cols" [places]="places()" [current]="vid()" [ref]="wilT()" (pick)="sibling($event)"></div>
+    } @else {
+      <div class="dt-skel dt-skel-strip" aria-hidden="true"></div>
+    }
+    @if (gov(); as g) {
+      <div class="dt-loc mini" [gid]="g.id" [gname]="g.ar" [rows]="g.wils" [wid]="wid()" (pick)="openWil($event)"></div>
+    }
+  </div>
+</section>
+<section class="dt-card dt-c-rate mj-glass" [style.--j]="2" aria-labelledby="dt-h-rate">
+  <span class="mj-crenel"></span>
+  <div class="mj-panel-head dt-chd">
+    <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-rate">{{ 'dtT.rate' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.rate' | dtT }}</p></div>
+  </div>
+  @if (d) {
+    @if (none()) {<p class="dt-cap">{{ 'dtNoVotes' | dtT }}</p>}
+    <div class="dt-rate" [rows]="ages()" [ref]="t"></div>
+  } @else {
+    <div class="dt-skel-bars" aria-hidden="true">@for (i of skel; track i) {<span class="dt-skel" [style.--j]="i"></span>}</div>
+  }
+</section>
+<section class="dt-card dt-c-ages mj-glass" [style.--j]="3" aria-labelledby="dt-h-ages">
+  <span class="mj-crenel"></span>
+  <div class="mj-panel-head dt-chd">
+    <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-ages">{{ 'dtT.ages' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.ages' | dtT }}</p></div>
+  </div>
+  @if (d) {
+    <div class="dt-ageb" [ages]="d.ages?.voted ?? null"></div>
+  } @else {
+    <div class="dt-skel-bars" aria-hidden="true">@for (i of skel; track i) {<span class="dt-skel" [style.--j]="i"></span>}</div>
+    <p class="mj-sr">{{ 'dtLoading' | dtT }}</p>
+  }
+</section>
+<section class="dt-card dt-c-gender mj-glass" [style.--j]="4" aria-labelledby="dt-h-gender">
+  <span class="mj-crenel"></span>
+  <div class="mj-panel-head dt-chd">
+    <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-gender">{{ 'dtT.gender' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.gender' | dtT }}</p></div>
+  </div>
+  @if (d) {
+    <div class="dt-gnd" [reg]="d.reg" [voted]="d.voted"></div>
+  } @else {
+    <div class="dt-skel-bars" aria-hidden="true">@for (i of skel3; track i) {<span class="dt-skel" [style.--j]="i"></span>}</div>
+  }
+</section>

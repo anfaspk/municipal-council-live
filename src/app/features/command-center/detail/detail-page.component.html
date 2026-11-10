@@ -1,0 +1,40 @@
+@if (head(); as h) {
+  <div class="dt-top mj-glass raised" [class]="h.band ?? ''">
+    <span class="mj-crenel"></span>
+    <i class="dt-top-glow" aria-hidden="true"></i>
+    <nav class="dt-crumbs" [attr.aria-label]="'dtCrumbsL' | dtT">
+      @for (c of h.crumbs; track $index; let first = $first) {
+        @if (!first) {<span class="dt-sep" aria-hidden="true"><svg [mjIcon]="'next'"></svg></span>}
+        @if (c.current) {
+          <span class="dt-cr on" aria-current="page">{{ c.label }}</span>
+        } @else {
+          <button type="button" class="dt-cr" (click)="crumbGo(c.to)">@if (first) {<svg [mjIcon]="'home'"></svg>}<span>{{ c.label }}</span></button>
+        }
+      }
+    </nav>
+    <div class="dt-ttl">
+      <span class="dt-kind mj-micro gold">{{ 'dtKind.' + h.level | dtT }}</span>
+      <h2 class="dt-title" tabindex="-1">{{ h.title ?? ('dtLoading' | dtT) }}</h2>
+    </div>
+    @if (figs(); as f) {
+      <p class="dt-sum">@for (x of f; track $index) {@if (x.bold) {<b class="mj-num">{{ x.text }}</b>} @else {{{ x.text }}}}</p>
+    }
+    <div class="dt-chips">
+      @if (h.rank !== null) {<span class="dt-chip mj-num">{{ 'dtRank' | dtT: { n: h.rank, m: h.of ?? 0 } }}</span>}
+      @if (h.band && h.t !== null) {<span class="dt-chip dt-band" [class]="h.band"><i class="mj-sw" [class]="h.band"></i>{{ 'dtBand.' + h.band | dtT }}</span>}
+      @if (stats.staleAt(); as s) {<span class="dt-chip dt-stale" role="status">{{ 'figuresAt' | dtT: { t: s } }}</span>} @else if (updated(); as u) {<span class="dt-upd mj-muted"><i class="dt-live" aria-hidden="true"></i>{{ 'dtUpdated' | dtT: { t: u } }}</span>}
+    </div>
+    <div class="dt-nav">
+      <button type="button" class="dt-navb dt-prev" [disabled]="!h.prev" [attr.aria-label]="h.prev ? ('dtPrev' | dtT: { p: h.prev.name }) : ('dtPrev0' | dtT)" [title]="h.prev ? ('dtPrev' | dtT: { p: h.prev.name }) : ''" (click)="h.prev && go(h.prev.at, true)"><svg [mjIcon]="'next'"></svg><span>{{ h.prev?.name ?? ('dtPrev0' | dtT) }}</span></button>
+      <button type="button" class="dt-navb dt-next" [disabled]="!h.next" [attr.aria-label]="h.next ? ('dtNext' | dtT: { p: h.next.name }) : ('dtNext0' | dtT)" [title]="h.next ? ('dtNext' | dtT: { p: h.next.name }) : ''" (click)="h.next && go(h.next.at, true)"><span>{{ h.next?.name ?? ('dtNext0' | dtT) }}</span><svg [mjIcon]="'prev'"></svg></button>
+    </div>
+    <button type="button" class="mj-btn icon dt-close" [attr.aria-label]="'dtClose' | dtT" [title]="('dtClose' | dtT) + ' (Esc)'" (click)="go(null)"><svg [mjIcon]="'close'"></svg></button>
+  </div>
+  @if (h.level === 'gov') {
+    <div class="dt-grid" dtGovPage [gid]="detail.at()?.gov ?? ''" [rank]="h.rank" [of]="h.of"></div>
+  } @else if (h.level === 'wil') {
+    <div class="dt-grid" dtWilPage [gid]="detail.at()?.gov ?? ''" [wid]="detail.at()?.wil ?? 0" [rank]="h.rank" [of]="h.of"></div>
+  } @else {
+    <div class="dt-grid" dtVilPage [gid]="detail.at()?.gov ?? ''" [wid]="detail.at()?.wil ?? 0" [vid]="detail.at()?.vil ?? 0" [rank]="h.rank" [of]="h.of"></div>
+  }
+}

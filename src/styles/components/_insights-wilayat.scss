@@ -1,0 +1,181 @@
+@use '../mixins';
+@use '../scales' as *;
+
+.ix-wil {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+}
+.ix-wref {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-8;
+}
+.ix-wref .mj-micro {
+  font-size: $fs-9-5;
+  letter-spacing: 0.1em;
+  @include mixins.ellipsis;
+}
+.ix-wkl {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  flex: none;
+  font: 600 #{$fs-10-5}/ 1 var(--font-display);
+  color: var(--ink);
+}
+.ix-wkl i {
+  width: 0;
+  height: 12px;
+  border-inline-start: 1.5px dashed var(--ink);
+}
+.ix-wl {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  gap: $sp-4;
+}
+.ix-wr {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 124px) minmax(0, 1fr) 108px;
+  align-items: center;
+  gap: $sp-10;
+  padding-block: 0;
+  padding-inline: $sp-10 $sp-8;
+  border-radius: $r-12;
+  background: color-mix(in srgb, var(--glass-fill) 55%, transparent);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.ix-wr.top {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 42%, transparent);
+  background:
+    radial-gradient(
+      90% 160% at 100% 50%,
+      color-mix(in srgb, var(--gold) 15%, transparent),
+      transparent 70%
+    ),
+    color-mix(in srgb, var(--glass-fill) 55%, transparent);
+}
+.ix-rk {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: $radius-round;
+  box-shadow: inset 0 0 0 1px var(--glass-stroke);
+  font: 700 #{$fs-11}/ 1 var(--font-display);
+  color: var(--ink);
+}
+.ix-wr.top .ix-rk {
+  background: var(--gold);
+  color: var(--on-gold);
+  box-shadow: var(--glow-gold);
+}
+.ix-rk svg {
+  position: absolute;
+  top: -$sp-9;
+  width: 12px;
+  height: 12px;
+  color: var(--gold);
+}
+.ix-wn {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-2;
+  min-width: 0;
+}
+.ix-wn bdi {
+  font: 600 #{$fs-13-5}/ 1.2 var(--font-sans);
+  color: var(--ink);
+  @include mixins.ellipsis;
+}
+.ix-wn span {
+  font-size: $fs-10-5;
+  line-height: 1.2;
+  color: var(--ink-muted);
+  @include mixins.ellipsis;
+  font-family: var(--font-arabic);
+}
+.ix-wt {
+  position: relative;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 9%, transparent);
+}
+.ix-wf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 0;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 0 12px -2px var(--band);
+  transition: width $t-900 var(--ease-expo);
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--band) 30%, transparent),
+    var(--band)
+  );
+  transform-origin: right;
+}
+.ix-wf::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-end: 0;
+  width: 36%;
+  background: linear-gradient(90deg, transparent, var(--shine), transparent);
+  opacity: 0.55;
+  animation: ix-sheen $t-3600 var(--ease-std) infinite;
+  animation-delay: calc(var(--i) * $t-250 + $t-1600);
+}
+@keyframes ix-sheen {
+  0% {
+    transform: translateX(-124.444%);
+  }
+  60%,
+  100% {
+    transform: translateX(302.222%);
+  }
+}
+.ix-wk {
+  position: absolute;
+  top: -$sp-5;
+  bottom: -$sp-5;
+  width: 0;
+  border-inline-start: 1.5px dashed var(--ink);
+  opacity: 0.8;
+  transition: inset-inline-start $t-900 var(--ease-expo);
+}
+.ix-wv {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $sp-3;
+  min-width: 0;
+}
+.ix-wp {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+}
+.ix-wp b {
+  font: 700 #{$fs-15}/ 1 var(--font-display);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.ix-wc {
+  font: 500 #{$fs-10}/ 1 var(--font-display);
+  color: var(--ink-muted);
+  white-space: nowrap;
+}

@@ -1,0 +1,167 @@
+@use '../mixins';
+@use '../scales' as *;
+
+.mj-omap.is-drill {
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent),
+    linear-gradient(180deg, transparent, #000 6%, #000 94%, transparent);
+  mask-composite: intersect;
+}
+.mj-omap .rg {
+  transition: opacity $t-600 var(--ease-std);
+}
+.mj-omap :is(.om-shadow, .om-leads, .om-tex, .act) {
+  transition: opacity $t-500 var(--ease-std);
+}
+.mj-omap .om-svg.is-drill .rg:not(.is-pinned) {
+  opacity: 0.14;
+}
+.mj-omap .om-svg.is-drill .rg:not(.is-pinned):hover {
+  opacity: 0.3;
+}
+.mj-omap .om-svg.is-drill :is(.om-shadow, .om-leads, .act) {
+  opacity: 0;
+}
+.mj-omap .om-halo-layer.is-drill {
+  opacity: 0 !important;
+}
+.mj-omap .om-svg.is-drill .om-tex {
+  opacity: 0.45;
+}
+.om-labels.is-drill .om-lab {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.85);
+}
+.om-wils .om-wp {
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity $t-450 var(--ease-std);
+}
+.mj-omap.wil-on .om-wils .om-wp {
+  opacity: 1;
+  transition-delay: calc(var(--j) * $t-55);
+}
+.om-wp .core {
+  fill: var(--map-point);
+  stroke: var(--band);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 4px var(--band));
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform $t-350 var(--ease-spring);
+}
+.om-wp .halo {
+  fill: var(--band);
+  opacity: 0.26;
+  transition: opacity $t-300;
+}
+.om-wp .ring {
+  fill: none;
+  stroke: var(--band);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: om-wring $t-2600 ease-out infinite;
+  animation-delay: calc(var(--j) * -1 * $t-370);
+}
+.om-wp .stem {
+  stroke: var(--band);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.55;
+}
+@keyframes om-wring {
+  0% {
+    transform: scale(0.35);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+.om-wp.is-hot .core,
+.om-wp.is-sel .core {
+  transform: scale(1.55);
+}
+.om-wp.is-hot .halo {
+  opacity: 0.5;
+}
+.om-wp.is-sel .core {
+  stroke: var(--gold);
+  filter: drop-shadow(0 0 6px var(--gold-glow));
+}
+.om-wp.is-sel .halo {
+  fill: var(--gold);
+  opacity: 0.38;
+}
+.om-wlabels {
+  @include mixins.cover;
+  pointer-events: none;
+  z-index: $z-6;
+}
+.om-wl {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  transform: translate(-50%, -100%) translateY(6px) scale(0.9);
+  display: flex;
+  align-items: baseline;
+  gap: $sp-6;
+  padding: $sp-4 $sp-9;
+  border-radius: $r-10;
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--canvas-0) 70%, transparent);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--band) 55%, transparent),
+    0 8px 18px -10px var(--shadow-ink-70);
+  opacity: 0;
+  transition:
+    opacity $t-400 var(--ease-std),
+    transform $t-500 var(--ease-spring),
+    box-shadow $t-250;
+}
+.mj-omap.wil-on .om-wl {
+  opacity: 1;
+  transform: translate(-50%, -100%);
+  transition-delay: calc(var(--j) * $t-55 + $t-80), calc(var(--j) * $t-55 + $t-80), 0s;
+}
+.om-wl .nm {
+  font: 600 #{$fs-11}/ 1.2 var(--font-sans);
+  color: var(--ink);
+}
+.om-wl b {
+  font: 700 #{$fs-12}/ 1 var(--font-display);
+  color: var(--band-ink);
+}
+.mj-omap.wil-on .om-wl.is-hot,
+.mj-omap.wil-on .om-wl.is-sel {
+  transform: translate(-50%, -100%) scale(1.12);
+  z-index: $z-2;
+  transition-delay: 0s;
+}
+.om-wl.is-hot {
+  box-shadow:
+    inset 0 0 0 1px var(--band),
+    0 0 22px color-mix(in srgb, var(--band) 60%, transparent);
+}
+.om-wl.is-sel {
+  box-shadow:
+    inset 0 0 0 1.5px var(--gold),
+    0 0 22px color-mix(in srgb, var(--gold-glow) 55%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .om-wp .ring {
+    animation: none;
+    display: none;
+  }
+  .om-wils .om-wp,
+  .om-wl {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,13 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/page');
+  @include meta.load-css('styles/card');
+  @include meta.load-css('styles/list');
+  @include meta.load-css('styles/forced-colors');
+}
+@layer motion {
+  @include meta.load-css('styles/motion');
+}

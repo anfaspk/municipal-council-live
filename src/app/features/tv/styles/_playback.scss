@@ -1,0 +1,143 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.tv-prog {
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+}
+.tv-prog .tva-seg {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: $r-6;
+  background: none;
+  cursor: pointer;
+}
+.tv-prog i {
+  position: relative;
+  flex: 1;
+  height: 4px;
+  border-radius: $r-4;
+  background: color-mix(in srgb, var(--ink-muted) 32%, transparent);
+  overflow: hidden;
+  transition: height var(--dur-micro) var(--ease-std);
+}
+.tva-seg:hover i,
+.tva-seg:focus-visible i {
+  height: 8px;
+}
+.tv-prog i::after {
+  content: '';
+  @include mixins.cover;
+  border-radius: $r-4;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: right;
+}
+.tv-prog i.done::after {
+  transform: none;
+  opacity: 0.55;
+}
+.tv-prog i.on::after {
+  animation: tv-prog var(--dur, 10s) linear forwards;
+  box-shadow: 0 0 10px var(--gold);
+}
+@keyframes tv-prog {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.tv-face {
+  filter: blur(10px);
+  transform: scale(0.975);
+  transition:
+    opacity $t-900 var(--ease-std),
+    filter $t-1000 var(--ease-std),
+    transform $t-1200 var(--ease-expo);
+}
+.tv-face.on {
+  filter: none;
+  transform: none;
+}
+
+.tv-phase {
+  position: absolute;
+  top: 2%;
+  inset-inline-end: 50%;
+  transform: translateX(-50%);
+  z-index: $z-3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: $sp-5;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--canvas-1) 62%, transparent);
+  box-shadow:
+    inset 0 0 0 1px var(--hairline),
+    0 14px 34px -20px var(--shadow-ink-70);
+  backdrop-filter: blur(12px);
+  font: 600 #{$fs-15}/ 1 var(--font-sans);
+  opacity: 0;
+  font-family: var(--font-arabic);
+  --dx: -100%;
+}
+.tv-face.on .tv-phase {
+  animation: tv-fade $t-600 var(--ease-std) $t-1000 forwards;
+}
+.tv-phase span {
+  position: relative;
+  z-index: $z-1;
+  padding: $sp-11 $sp-22;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--ink-muted);
+}
+.tv-phase .th {
+  position: absolute;
+  top: $sp-5;
+  bottom: $sp-5;
+  inset-inline-start: $sp-5;
+  width: calc(50% - 5px);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--band) 22%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--band) 60%, transparent),
+    0 0 22px -6px var(--band);
+}
+.tv-face.on .tv-phase .th {
+  animation: tv-thumb $t-800 var(--ease-spring) var(--sp) forwards;
+}
+.tv-face.on .tv-phase .a {
+  animation: tv-dim $t-400 var(--sp) forwards;
+}
+.tv-face.on .tv-phase .b {
+  animation: tv-lit $t-400 var(--sp) forwards;
+}
+@keyframes tv-thumb {
+  to {
+    transform: translateX(var(--dx, 100%));
+  }
+}
+@keyframes tv-dim {
+  to {
+    color: var(--ink-muted);
+  }
+}
+@keyframes tv-lit {
+  to {
+    color: var(--ink);
+  }
+}
+@keyframes tv-gone {
+  to {
+    opacity: 0;
+  }
+}

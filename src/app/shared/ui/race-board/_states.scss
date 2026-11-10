@@ -1,0 +1,14 @@
+.mj-tv.tva-still :is(.rs-enter *, .rs-gain *, .rs-bump, .rs-nx.tight) {
+  animation: none;
+}
+.mj-tv.tva-paused :is(.rs-enter *, .rs-gain *, .rs-bump) {
+  animation-play-state: running;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rs-enter *,
+  .rs-gain *,
+  .rs-bump,
+  .rs-nx.tight {
+    animation: none;
+  }
+}

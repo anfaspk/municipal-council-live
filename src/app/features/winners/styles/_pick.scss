@@ -1,0 +1,287 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+.wn-pick {
+  position: absolute;
+  inset-block: var(--wn-top) var(--tv-title-y);
+  inset-inline: var(--tv-title-x);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 660px;
+  gap: $sp-64;
+}
+.wn-pick-side {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  animation: wn-rise $t-900 var(--ease-expo) both;
+}
+.wn-pick-h {
+  margin: $sp-14 0 $sp-8;
+  font: 700 #{$fs-76}/ 1.15 var(--font-sans);
+  background: linear-gradient(180deg, var(--wn-g1), var(--wn-g2) 70%, var(--wn-g3));
+  background-clip: text;
+  color: transparent;
+}
+.wn-pick-lead {
+  margin: 0;
+  font: 500 #{$fs-22}/ 1.5 var(--font-sans);
+  color: var(--ink-muted);
+}
+.wn-note {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: $sp-10;
+  margin: $sp-20 0 0;
+  padding: $sp-10 $sp-18;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--stat-pending) 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--stat-pending) 40%, transparent);
+  font: 600 #{$fs-17}/ 1.3 var(--font-sans);
+}
+.wn-note svg {
+  width: 20px;
+  height: 20px;
+  color: var(--stat-pending);
+}
+
+.wn-govs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: $sp-14;
+  flex: 1;
+  min-height: 0;
+  margin: $sp-32 0 0;
+  padding: 0;
+  list-style: none;
+}
+.wn-govs li {
+  display: flex;
+  animation: wn-rise $t-700 var(--ease-expo) both;
+  animation-delay: calc(var(--i) * #{$t-45} + #{$t-200});
+}
+.wn-gov {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $sp-18;
+  width: 100%;
+  padding-inline: $sp-24;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-tile);
+  @include mixins.glass-fill;
+  color: var(--ink);
+  text-align: start;
+  cursor: pointer;
+  transition:
+    transform $t-400 var(--ease-expo),
+    box-shadow $t-400 var(--ease-std),
+    background-color $t-400 var(--ease-std);
+}
+.wn-gov::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 40%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    color-mix(in srgb, var(--gold-glow) 22%, transparent),
+    transparent
+  );
+  transform: translateX(150%);
+  opacity: 0;
+  pointer-events: none;
+}
+.wn-gov.hot {
+  transform: translate3d(0, -3px, 0);
+  background-color: color-mix(in srgb, var(--gold) 12%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--gold) 70%, transparent),
+    0 18px 44px -18px color-mix(in srgb, var(--gold) 55%, transparent);
+}
+.wn-gov.hot::after {
+  animation: wn-sheen $t-1100 var(--ease-std);
+}
+.wn-gov-n {
+  font: 700 #{$fs-28}/ 1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--gold) 70%, transparent);
+  min-width: 40px;
+}
+.wn-gov-t {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: $sp-4;
+  min-width: 0;
+}
+.wn-gov-t b {
+  @include mixins.ellipsis;
+  font: 700 #{$fs-24}/ 1.3 var(--font-sans);
+}
+.wn-gov-t small {
+  font: 500 #{$fs-15}/ 1.2 var(--font-sans);
+  color: var(--ink-muted);
+}
+.wn-gov-p {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $sp-6;
+  font: 600 #{$fs-13}/ 1 var(--font-sans);
+  color: var(--gold-ink);
+}
+.wn-gov-p i {
+  position: relative;
+  width: 96px;
+  height: 4px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--hairline);
+}
+.wn-gov-p i::after {
+  content: '';
+  @include mixins.cover;
+  background: var(--gold);
+  transform: scaleX(var(--p));
+  transform-origin: 100% 50%;
+}
+.wn-gov-p em {
+  font-style: normal;
+}
+.wn-gov-p.full {
+  color: var(--declared);
+}
+.wn-gov-p.full i::after {
+  background: var(--declared);
+}
+.wn-gov-go {
+  width: 26px;
+  height: 26px;
+  color: var(--gold);
+  opacity: 0.5;
+  transition:
+    transform $t-400 var(--ease-expo),
+    opacity $t-400 var(--ease-std);
+}
+.wn-gov.hot .wn-gov-go {
+  opacity: 1;
+  transform: translateX(-6px);
+}
+
+.wn-pick-map {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  animation: wn-map-in $t-1400 var(--ease-expo) $t-150 both;
+}
+.wn-om-box {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  aspect-ratio: 600 / 805.4;
+}
+.wn-om-box::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--gold) 14%, transparent),
+    transparent
+  );
+}
+.wn-om {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.wn-om-outline {
+  fill: none;
+  stroke: color-mix(in srgb, var(--gold) 55%, transparent);
+  stroke-width: 6;
+  opacity: 0.25;
+}
+.wn-om-gov {
+  fill: color-mix(in srgb, var(--gold) 7%, transparent);
+  stroke: color-mix(in srgb, var(--gold) 45%, transparent);
+  stroke-width: 1.2;
+  cursor: pointer;
+  transition:
+    fill $t-400 var(--ease-std),
+    stroke $t-400 var(--ease-std),
+    stroke-width $t-400 var(--ease-std);
+}
+.wn-om-gov.hot {
+  fill: color-mix(in srgb, var(--gold) 42%, transparent);
+  stroke: var(--gold-glow);
+  stroke-width: 2.4;
+}
+.wn-om-pt {
+  fill: color-mix(in srgb, var(--ink) 45%, transparent);
+  pointer-events: none;
+}
+.wn-om-tag {
+  position: absolute;
+  inset-block-start: var(--y);
+  inset-inline-start: var(--x);
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  padding: $sp-8 $sp-16;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--canvas-0) 82%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--gold) 60%, transparent),
+    0 10px 30px -10px color-mix(in srgb, var(--gold) 60%, transparent);
+  transform: translate(-50%, -140%);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: wn-tag $t-400 var(--ease-spring) both;
+}
+.wn-om-tag i {
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-round;
+  background: var(--gold);
+}
+.wn-om-tag b {
+  @include mixins.arabic;
+  direction: rtl;
+  font: 700 #{$fs-20}/ 1 var(--font-sans);
+}
+.wn-pick-hint {
+  margin: $sp-12 0 0;
+  font: 500 #{$fs-16}/ 1 var(--font-sans);
+  color: var(--ink-muted);
+}
+
+@keyframes wn-sheen {
+  from {
+    transform: translateX(150%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-260%);
+    opacity: 1;
+  }
+}
+@keyframes wn-map-in {
+  from {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+}
+@keyframes wn-tag {
+  from {
+    transform: translate(-50%, -110%) scale(0.85);
+    opacity: 0;
+  }
+}

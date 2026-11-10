@@ -1,0 +1,80 @@
+@use '../scales' as *;
+
+.mj-rail {
+  --dir: -1;
+}
+.mj-rail.rl-back {
+  --dir: 1;
+}
+.mj-rail.rl-out .mj-row {
+  animation: rl-out $t-300 var(--ease-std) both;
+  animation-delay: calc(var(--j, 0) * $t-14);
+}
+.mj-rail.rl-out .mj-row.is-pinned {
+  animation: rl-hold $t-340 var(--ease-std) both;
+}
+.mj-rail.rl-out .mj-row.is-pinned::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px var(--gold),
+    0 0 26px -5px var(--gold-glow);
+  pointer-events: none;
+}
+.mj-rail.rl-in .mj-row {
+  animation: rl-in $t-700 var(--ease-expo) both;
+  animation-delay: calc(var(--j, 0) * $t-40 + $t-40);
+}
+.mj-rail.rl-in .mj-row .mb i {
+  transform-origin: right;
+  animation: rl-bar $t-900 var(--ease-expo) both;
+  animation-delay: calc(var(--j, 0) * $t-40 + $t-200);
+}
+@keyframes rl-out {
+  to {
+    opacity: 0;
+    transform: translateX(calc(var(--dir) * -22px));
+  }
+}
+@keyframes rl-hold {
+  100% {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+}
+@keyframes rl-in {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--dir) * 26px));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes rl-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+.mj-row.wl-tot {
+  cursor: default;
+  margin-top: $sp-2;
+  background: color-mix(in srgb, var(--band) 9%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--band) 30%, transparent);
+}
+.mj-row.wl-tot .nm b {
+  color: var(--ink-muted);
+  font-weight: 600;
+  letter-spacing: 0;
+  font-size: $fs-12;
+  text-transform: none;
+}
+.mj-row.wl-tot:hover {
+  background: color-mix(in srgb, var(--band) 9%, transparent);
+}
+.map-rail .mj-rail.is-wil .mj-row.wl-tot {
+  grid-row: 11;
+}

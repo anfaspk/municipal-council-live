@@ -1,0 +1,157 @@
+@use '../../mixins';
+@use '../../scales' as *;
+
+.dw-br {
+  position: relative;
+  display: block;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--hairline);
+}
+.dw-br i {
+  position: absolute;
+  width: var(--t);
+  border-radius: inherit;
+  background: var(--band);
+  box-shadow: 0 0 10px -2px var(--band);
+  inset-block: 0;
+  inset-inline: 0 auto;
+  transform-origin: right center;
+}
+.dw-br em {
+  position: absolute;
+  top: -$sp-4;
+  bottom: -$sp-4;
+  inset-inline-start: var(--a);
+  width: 2px;
+  margin-inline-start: -$sp-1;
+  border-radius: $r-2;
+  background: var(--ink);
+  opacity: 0.75;
+}
+
+.dw-wl {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+}
+.dw-wrow {
+  display: flex;
+  align-items: stretch;
+  gap: $sp-6;
+}
+.dw-wrow > .dw-wr {
+  flex: 1;
+  min-width: 0;
+}
+.dw-wrow > .dw-wgo {
+  flex: none;
+  height: auto;
+  border-radius: $r-14;
+  color: var(--ink-muted);
+}
+.dw-wrow > .dw-wgo:hover,
+.dw-wrow > .dw-wgo:focus-visible {
+  color: var(--gold-ink);
+}
+.dw-wrow > .dw-wgo svg {
+  width: 16px;
+  height: 16px;
+}
+.dw-wr {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 128px 62px 18px;
+  align-items: center;
+  gap: $sp-12;
+  width: 100%;
+  padding: $sp-10 $sp-12;
+  border: 0;
+  border-radius: $r-14;
+  @include mixins.glass-fill;
+  color: var(--ink);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    background $t-200,
+    box-shadow $t-200,
+    transform $t-350 var(--ease-spring);
+}
+.dw-wr:hover,
+.dw-wr.is-hot {
+  background: var(--glass-fill-strong);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--band) 60%, transparent),
+    0 10px 24px -16px var(--band);
+  transform: translateX(calc(var(--rd, 1) * 3px));
+}
+.dw-wr:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+.dw-wr.is-sel {
+  box-shadow:
+    inset 0 0 0 1.5px var(--gold),
+    0 0 20px -8px var(--gold-glow);
+  background: color-mix(in srgb, var(--gold) 7%, var(--glass-fill));
+}
+.dw-wr .rk,
+.dw-vr .rk {
+  width: 28px;
+  height: 28px;
+  border-radius: $radius-round;
+  display: grid;
+  place-items: center;
+  font: 700 #{$fs-12}/ 1 var(--font-display);
+  color: var(--band-ink);
+  background: color-mix(in srgb, var(--band) 12%, transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--band) 60%, transparent);
+}
+.dw-wr .nm,
+.dw-vr .nm {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-3;
+  min-width: 0;
+}
+.dw-wr .nm b,
+.dw-vr .nm b {
+  font-weight: 600;
+  font-size: $fs-15;
+  line-height: 19px;
+  @include mixins.ellipsis;
+}
+.dw-wr .nm > span,
+.dw-vr .nm > span {
+  font-size: $fs-12;
+  line-height: 15px;
+  color: var(--ink-muted);
+  @include mixins.ellipsis;
+}
+.dw-vr .nm span[lang='ar'] {
+  font-family: var(--font-arabic);
+  text-align: start;
+}
+.dw-wr .pc,
+.dw-vr .pc {
+  font: 700 #{$fs-17}/ 1 var(--font-display);
+  color: var(--band-ink);
+  text-align: end;
+  letter-spacing: -0.01em;
+}
+.dw-wr .go {
+  display: grid;
+  place-items: center;
+  color: var(--ink-muted);
+  transition:
+    transform $t-300 var(--ease-spring),
+    color $t-200;
+}
+.dw-wr .go svg {
+  width: 16px;
+  height: 16px;
+}
+.dw-wr:hover .go {
+  color: var(--gold-ink);
+  transform: translateX(calc(var(--rd, 1) * 3px));
+}

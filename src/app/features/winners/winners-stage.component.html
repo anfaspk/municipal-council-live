@@ -1,0 +1,50 @@
+<div class="wn-scene" wnScene [ready]="ready()" (loaded)="ready.set(true)"></div>
+@if (load() === 'wait') {
+  <div class="wn-msg"><span class="wn-msg-i"><svg [mjIcon]="'ballot'"></svg></span><h3>{{ 'wnWait' | wnT }}</h3><p>{{ 'wnWaitLead' | wnT }}</p></div>
+} @else if (load() === 'failed') {
+  <div class="wn-msg"><span class="wn-msg-i warn"><svg [mjIcon]="'close'"></svg></span><h3>{{ 'wnFailed' | wnT }}</h3><p>{{ 'wnFailedLead' | wnT }}</p><button type="button" class="mj-btn wn-retry" (click)="retry.emit()">{{ 'wnRetry' | wnT }}</button></div>
+} @else if (empty()) {
+  <div class="wn-msg"><span class="wn-msg-i"><svg [mjIcon]="'layers'"></svg></span><h3>{{ 'wnEmpty' | wnT }}</h3></div>
+} @else if (load() === 'loading' || !shown().length) {
+  <div class="wn-show wn-skel" role="status">
+    <span class="mj-sr">{{ 'wnLoading' | wnT }}</span>
+    <div class="wn-head" aria-hidden="true"><i class="wn-skel-k"></i><i class="wn-skel-h"></i><i class="wn-skel-s"></i></div>
+    <div class="wn-cards two" aria-hidden="true">@for (k of skeleton; track k) {<div class="wn-card wait" [style.--k]="k"><div class="wn-lift"><div class="wn-por"><div class="wn-frame"></div></div><div class="wn-plate"><i class="wn-skel-l"></i><i class="wn-skel-l s"></i></div></div></div>}</div>
+  </div>
+} @else {
+  @for (w of shown(); track key(w)) {
+    <div class="wn-show" [class.done]="w.published" [class.wn-out]="w === gone()" [attr.aria-hidden]="w === gone() ? 'true' : null">
+      <div class="wn-fx" aria-hidden="true">
+        <i class="wn-burst"></i><i class="wn-sweep"></i>
+        @if (w.published) {@for (m of motes; track $index) {<i class="wn-motes" [class.m2]="$index === 1" [style.--motes]="m"></i>}}
+      </div>
+      <header class="wn-head">
+        @if (govTitle()) {<p class="wn-kicker"><i></i><span class="wn-gname">{{ govTitle() }}</span><i></i></p>}
+        @let t = title(w);
+        <h2 class="wn-name">@if (t.kind) {<span class="wn-name-k">{{ t.kind }}</span>&ngsp;}<span class="wn-name-n">{{ t.name }}</span></h2>
+        <p class="wn-sub">{{ (w.published && w.winners.length === 1 ? 'wnWinnerOf' : 'wnWinnersOf') | wnT }}</p>
+        <p class="wn-chips">
+          @if (w.published) {<span class="wn-badge"><svg class="wn-chk" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>{{ 'wnDeclared' | wnT }}</span>} @else {<span class="wn-badge pend"><i></i>{{ 'wnPending' | wnT }}</span>}
+          @if (w.seats) {<span class="wn-seats">{{ 'wnSeats' | wnT: { n: w.seats } }}</span>}
+        </p>
+      </header>
+      <div class="wn-cards" [class.one]="layout(w) === 'one'" [class.two]="layout(w) === 'two'" [class.many]="layout(w) === 'many'">
+        @if (w.published) {
+          @for (c of w.winners; track c.id; let i = $index) {<article class="wn-card" wnCard [cand]="c" [style.--k]="i"></article>}
+        } @else {
+          @for (k of seatsOf(w.seats); track k) {
+            <div class="wn-card wait" [style.--k]="k">
+              <div class="wn-lift">
+                <div class="wn-por"><div class="wn-frame"><svg class="wn-q" viewBox="0 0 120 150" aria-hidden="true"><circle cx="60" cy="52" r="26"/><path d="M14 150c4-34 22-52 46-52s42 18 46 52z"/></svg><i class="wn-shine"></i></div></div>
+                <span class="wn-elect"><span class="wn-medal" aria-hidden="true"><i></i></span>{{ 'wnPendingShort' | wnT }}</span>
+                <div class="wn-plate"><p class="wn-cname">{{ 'wnPendingLead' | wnT }}</p></div>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  }
+}
+<div class="wn-front" aria-hidden="true" [class.ready]="ready()"><div class="wn-set"><img class="wn-pic" [src]="img" alt="" decoding="async"><i class="wn-pool"></i></div></div>
+@if (lit()) {<p class="wn-foot"><svg class="wn-chk" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>{{ 'wnOfficial' | wnT }}</p>}

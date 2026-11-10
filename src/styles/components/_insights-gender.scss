@@ -1,0 +1,179 @@
+@use '../mixins';
+@use '../scales' as *;
+
+.ix-gen {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+}
+.ix-gsum {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: $sp-12;
+}
+.ix-gs {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  min-width: 0;
+}
+.ix-gs.f {
+  justify-content: flex-end;
+  text-align: end;
+}
+.ix-gg {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: $radius-round;
+}
+.ix-gg svg {
+  width: 18px;
+  height: 18px;
+}
+.ix-gs.m .ix-gg {
+  color: var(--male-neon);
+  background: color-mix(in srgb, var(--male) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--male) 45%, transparent);
+}
+.ix-gs.f .ix-gg {
+  color: var(--female);
+  background: color-mix(in srgb, var(--female) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--female) 45%, transparent);
+}
+.ix-gt {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-3;
+  min-width: 0;
+}
+.ix-gt .mj-micro {
+  font-size: $fs-9-5;
+  letter-spacing: 0.1em;
+  @include mixins.ellipsis;
+}
+.ix-gt b {
+  font: 700 #{$fs-18}/ 1 var(--font-display);
+  letter-spacing: -0.02em;
+}
+.ix-gs.m b,
+.ix-gpc .m {
+  color: var(--male-neon);
+}
+.ix-gs.f b,
+.ix-gpc .f {
+  color: var(--female);
+}
+.ix-gmeter {
+  display: flex;
+  gap: $sp-3;
+  height: 6px;
+}
+.ix-gmeter i {
+  border-radius: $r-3;
+  transition: flex-grow $t-900 var(--ease-expo);
+}
+.ix-gmeter .m {
+  background: var(--male);
+  transform-origin: left;
+}
+.ix-gmeter .f {
+  background: var(--female);
+  transform-origin: right;
+}
+.ix-gpc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-6;
+  margin-top: $sp-6;
+  font: 600 #{$fs-10-5}/ 1 var(--font-display);
+}
+.ix-gpc .ix-gap {
+  height: 18px;
+  padding: 0 $sp-7;
+  font-size: $fs-9-5;
+  color: var(--ink-muted);
+  font-family: var(--font-arabic);
+}
+.ix-grows {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: repeat(12, minmax(0, 1fr));
+  gap: $sp-1;
+}
+.ix-gr {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr);
+  align-items: center;
+  gap: $sp-6;
+  border-radius: $r-6;
+  transition: background $t-200;
+}
+.ix-gr.hv {
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+.ix-gb {
+  display: flex;
+  align-items: center;
+  gap: $sp-6;
+  height: 100%;
+  min-width: 0;
+}
+.ix-gb.m {
+  justify-content: flex-end;
+}
+.ix-gb i {
+  height: 62%;
+  max-height: 10px;
+  min-width: 2px;
+  border-radius: var(--radius-pill);
+  transition: width $t-900 var(--ease-expo);
+}
+.ix-gb.m i {
+  background: linear-gradient(
+    270deg,
+    var(--male-neon),
+    color-mix(in srgb, var(--male) 34%, transparent)
+  );
+  transform-origin: left;
+}
+.ix-gb.f i {
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--female) 34%, transparent),
+    var(--female)
+  );
+  transform-origin: right;
+}
+.ix-gb.m.pk i {
+  box-shadow: 0 0 10px color-mix(in srgb, var(--male-neon) 55%, transparent);
+}
+.ix-gb.f.pk i {
+  box-shadow: 0 0 10px color-mix(in srgb, var(--female) 55%, transparent);
+}
+.ix-gb .v {
+  font: 600 #{$fs-10}/ 1 var(--font-display);
+  color: var(--ink);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity $t-250;
+}
+.ix-gb.pk .v,
+.ix-gr.hv .v {
+  opacity: 1;
+}
+.ix-gh {
+  font: 600 #{$fs-10}/ 1 var(--font-display);
+  text-align: center;
+  color: var(--ink-muted);
+}
+.ix-gr.hv .ix-gh {
+  color: var(--ink);
+}

@@ -1,0 +1,36 @@
+@use '../../scales' as *;
+
+.dw-vr[data-v] {
+  cursor: pointer;
+  border-radius: $r-12;
+}
+.dw-vr[data-v]:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+.dw-vr.is-open {
+  background: var(--glass-fill-strong);
+}
+.dw-vd {
+  padding: $sp-6 $sp-12 $sp-12;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+}
+.dw-vd .dw-vgo {
+  align-self: flex-start;
+  height: 30px;
+  color: var(--gold-ink);
+  font-size: $fs-12;
+}
+.dw-vd .dw-vgo svg {
+  width: 14px;
+  height: 14px;
+}
+.dw-vdn {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: $sp-4 $sp-12;
+  font-size: $fs-12;
+}

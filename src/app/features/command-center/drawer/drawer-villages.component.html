@@ -1,0 +1,92 @@
+@let h = head();
+@let rows = drawer.snap()?.rows ?? [];
+@let cnt = drawer.bandCounts();
+<div class="dw-wpick" role="group" [attr.aria-label]="'pickWil' | t">
+  @if (h) {
+    @for (r of rows; track r.id) {
+      <button type="button" class="dw-wc" [class]="band(r.t)" [class.on]="r.name === h.w.name" [class.is-hot]="r.name === state.wilHot()" [attr.data-w]="r.name" [attr.aria-pressed]="r.name === h.w.name" (click)="pick.emit(r.name)">
+        <i class="mj-sw" [class]="band(r.t)" [title]="band(r.t) | t"></i><span>{{ r.name }}</span><b class="mj-num">{{ r.t | pct }}</b>
+      </button>
+    }
+  }
+</div>
+<div class="dw-whead">
+  @if (h) {
+    <div class="dw-wh-l" [class]="h.band">
+      <div class="mj-micro gold">{{ h.rank }}</div>
+      <h3>{{ h.w.name }}</h3>
+      <div class="dw-alt">@if (h.countText) {<ng-container>{{ h.countText }} · </ng-container>}<span class="mj-num">{{ h.w.voted | fmt }} / {{ h.w.reg | fmt }}</span></div>
+    </div>
+    <div class="dw-wh-r" [class]="h.band">
+      <div class="dw-big sm"><b class="mj-num" [mjCountUp]="h.w.t" [countFormat]="'pctNum'" [countDuration]="1000" [countGroup]="'vil'"></b><small>%</small></div>
+      <span class="mj-chip sm" [class.up]="h.delta >= 0" [class.down]="h.delta < 0">{{ h.deltaText }}</span>
+    </div>
+  }
+</div>
+<div class="dw-kpis dw-vk">
+  @if (h) {
+    <div class="dw-k" [label]="'villages' | t" [value]="h.count" [sub]="h.w.name" [group]="'vil'"></div>
+    <div class="dw-k" [label]="'registered' | t" [value]="h.w.reg" [sub]="'fixedRoll' | t" [group]="'vil'"></div>
+    <div class="dw-k voted" [label]="'votesCast' | t" [value]="h.w.voted" [sub]="h.votedSub" [live]="true" [group]="'vil'"></div>
+    <div class="dw-k yet" [label]="'yetToVote' | t" [value]="h.w.reg - h.w.voted" [sub]="h.yetSub" [live]="true" [group]="'vil'"></div>
+  }
+</div>
+<div class="dw-card dw-dist">
+  @if (h) {
+    <div class="dw-ch">
+      <h4>{{ 'vilBands' | t }}</h4><span class="mj-micro">{{ h.countText }}</span>
+    </div>
+    <div class="dw-stack">
+      @for (b of bands; track b) {
+        @if (cnt[b]) {
+          <i [class]="b" [style.flex]="cnt[b]"><b class="mj-num">{{ cnt[b] }}</b></i>
+        }
+      }
+    </div>
+    <div class="dw-dl">
+      @for (b of bands; track b) {
+        <span [class]="b" [class.none]="!cnt[b]"><i class="mj-sw" [class]="b"></i>{{ b | t }} <b class="mj-num">{{ cnt[b] }}</b></span>
+      }
+    </div>
+  }
+</div>
+<div class="dw-vtools">
+  <label class="dw-search">
+    <svg [mjIcon]="'search'"></svg>
+    <input type="search" autocomplete="off" spellcheck="false" [placeholder]="'searchVil' | t" [attr.aria-label]="'searchVil' | t" [value]="drawer.q()" (input)="input($event)" />
+  </label>
+  <div class="dw-vsort mj-seg" [items]="sortItems" [value]="drawer.vSort()" (valueChange)="sort.emit($any($event))"></div>
+</div>
+<div class="dw-vl" role="list">
+  @if (h) {
+    @if (drawer.villages(); as list) {
+      @for (v of list; track v.id; let i = $index) {
+        @let open = v.id === drawer.vOpen();
+        <div class="dw-vr" [class]="band(v.t)" [class.is-open]="open" role="listitem" [style.--j]="i" [attr.data-v]="v.id" tabindex="0" [attr.aria-expanded]="open" [attr.aria-label]="openLabel(v.ar)" (click)="openVil.emit(v.id)" (keydown)="key($event, v.id)">
+          <span class="rk mj-num">{{ v.rank }}</span><span class="nm"><b>{{ v.ar }}</b><span></span></span>
+          <span class="dw-br" [style.--t]="bar(v.t)" [style.--a]="bar(h.w.t)"><i></i><em></em></span>
+          <span class="pc mj-num">{{ v.t | pct }}</span><span class="ct mj-num">{{ v.voted | fmt }}<i>/</i>{{ v.reg | fmt }}</span>
+        </div>
+        @if (open) {
+          <div class="dw-vd" role="listitem">
+            @if (detail(); as x) {
+              <div class="mj-gender dw-gen" [m]="x.d.voted.m" [f]="x.d.voted.f"></div>
+              <div class="dw-vdn mj-muted">
+                <span>{{ 'notVoted' | t }} <b class="mj-num">{{ x.d.notVoted.t | fmt }}</b> · {{ 'male' | t }} <span class="mj-num">{{ x.d.notVoted.m | fmt }}</span> · {{ 'female' | t }} <span class="mj-num">{{ x.d.notVoted.f | fmt }}</span></span>
+                <span>@for (p of x.turnoutBy; track $index) {@if (p.key === 'm') {<b class="m-t mj-num">{{ p.text }}</b>} @else if (p.key === 'f') {<b class="f-t mj-num">{{ p.text }}</b>} @else {<ng-container>{{ p.text }}</ng-container>}}</span>
+              </div>
+              <button type="button" class="mj-btn dw-vgo" (click)="page.emit(v.id)"><svg [mjIcon]="'expand'"></svg><span>{{ 'vilDetails' | t }}</span></button>
+            } @else {
+              <span class="mj-muted">{{ str.loadingV }}</span>
+            }
+          </div>
+        }
+      } @empty {
+        <div class="dw-empty"><svg [mjIcon]="'search'"></svg><span>{{ none() }}</span></div>
+      }
+    } @else {
+      <div class="dw-empty"><svg [mjIcon]="'village'"></svg><span>{{ str.loading }}</span></div>
+    }
+  }
+</div>
+<p class="dw-note">{{ 'tickNote' | t: { what: ('tickWil' | t) } }}.</p>

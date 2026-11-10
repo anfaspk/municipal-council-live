@@ -1,0 +1,314 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+@use 'status';
+
+.cx-stage {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent),
+    linear-gradient(180deg, transparent, #000 5%, #000 95%, transparent);
+  mask-composite: intersect;
+}
+.cx-grid {
+  @include mixins.cover;
+  pointer-events: none;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--data-cyan) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--data-cyan) 7%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 44px 44px;
+  mask-image: radial-gradient(70% 70% at 50% 50%, #000, transparent);
+}
+.cx-geo,
+.cx-ov {
+  @include mixins.cover;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.cx-geo {
+  transition: opacity $t-600 var(--ease-std);
+}
+.cx-ov {
+  pointer-events: none;
+}
+.cx-g {
+  fill: color-mix(in srgb, var(--canvas-1) 72%, transparent);
+  stroke: color-mix(in srgb, var(--data-cyan) 36%, transparent);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  transition:
+    fill $t-600,
+    stroke $t-600,
+    opacity $t-600;
+}
+.m-gov .cx-g:not(.on) {
+  fill: color-mix(in srgb, var(--canvas-1) 55%, transparent);
+  stroke: color-mix(in srgb, var(--data-cyan) 24%, transparent);
+  opacity: 0.8;
+  cursor: pointer;
+}
+.m-gov .cx-g:not(.on):hover {
+  fill: color-mix(in srgb, var(--data-cyan) 14%, var(--canvas-1));
+  stroke: color-mix(in srgb, var(--data-cyan) 75%, transparent);
+  opacity: 1;
+}
+.cx-g.on {
+  fill: color-mix(in srgb, var(--canvas-1) 30%, transparent);
+  stroke: none;
+  cursor: default;
+}
+.cx-geo .s0 {
+  stop-color: var(--data-cyan);
+  stop-opacity: 0.26;
+}
+.cx-geo .s1 {
+  stop-color: var(--data-cyan);
+  stop-opacity: 0.04;
+}
+.cx-geo pattern circle {
+  fill: var(--data-cyan);
+  opacity: 0.42;
+}
+.cx-area,
+.cx-dots {
+  opacity: 0;
+  transition: opacity $t-700;
+}
+.m-gov .cx-area,
+.m-gov .cx-dots {
+  opacity: 1;
+}
+.cx-edge {
+  fill: none;
+  stroke: var(--data-cyan);
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+.cx-edgeg {
+  fill: none;
+  stroke: color-mix(in srgb, var(--data-cyan) 40%, transparent);
+  stroke-width: 10;
+  stroke-linejoin: round;
+  opacity: 0.45;
+}
+.cx-edge.trace {
+  stroke-dasharray: 1 1;
+  animation: cx-trace $t-1700 cubic-bezier(0.65, 0, 0.35, 1) backwards;
+}
+@keyframes cx-trace {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.m-nat .cx-edge,
+.m-nat .cx-edgeg {
+  opacity: 0;
+}
+
+
+@keyframes cx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cx-hb .hx {
+  fill: color-mix(in srgb, var(--gold) 22%, transparent);
+  stroke: var(--gold);
+  stroke-width: 1.5;
+}
+.cx-hb .c {
+  fill: var(--gold-glow);
+}
+.cx-hb .p1,
+.cx-hb .p2 {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.2;
+  animation: cx-ping $t-2800 ease-out infinite;
+}
+.cx-hb .p2 {
+  animation-delay: $t-1400;
+}
+@keyframes cx-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(3.4);
+    opacity: 0;
+  }
+}
+.landed:not(.now) .cx-hb .hx {
+  animation: cx-pop $t-800 cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+.cx-s {
+  --c: var(--ink-muted);
+  transition: opacity $t-500;
+  @include status.c;
+}
+.cx-s path {
+  fill: none;
+}
+.cx-s .b {
+  stroke: color-mix(in srgb, var(--c) 32%, transparent);
+  stroke-width: 1.2;
+  stroke-dasharray: 1 1;
+}
+.cx-s .k {
+  stroke: var(--c);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 3 97;
+  opacity: 0.95;
+  animation: cx-flow $t-2800 linear infinite;
+  animation-delay: calc(var(--j, 0) * -1 * $t-410);
+}
+.cx-s.await .k {
+  display: none;
+}
+@keyframes cx-flow {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.landed:not(.now) .cx-s .b {
+  animation: cx-trace $t-1100 cubic-bezier(0.65, 0, 0.35, 1) backwards;
+  animation-delay: calc($t-50 + var(--j, 0) * $t-70);
+}
+.has-sel .cx-s:not(.sel):not(.hov) {
+  opacity: 0.16;
+}
+.cx-s.sel {
+  --c: var(--gold);
+}
+.cx-s.sel .b {
+  stroke-width: 1.8;
+}
+
+.cx-n {
+  --c: var(--ink-muted);
+  pointer-events: auto;
+  cursor: pointer;
+  outline: none;
+  transition: opacity $t-500;
+  @include status.c;
+}
+.cx-n .in {
+  transition: transform $t-600 cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.landed:not(.now) .cx-n .in {
+  animation: cx-pop $t-900 cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc($t-150 + var(--j, 0) * $t-80);
+}
+@keyframes cx-pop {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+.cx-n .hit {
+  fill: transparent;
+}
+.cx-n .halo {
+  fill: color-mix(in srgb, var(--c) 15%, transparent);
+  opacity: 0.75;
+}
+.cx-n.count .halo {
+  animation: cx-breath $t-2400 ease-in-out infinite;
+}
+@keyframes cx-breath {
+  50% {
+    opacity: 0.22;
+  }
+}
+.cx-n .tk circle {
+  fill: none;
+  stroke: color-mix(in srgb, var(--c) 65%, transparent);
+  stroke-width: 1.2;
+  stroke-dasharray: 1.4 3.6;
+}
+.cx-n .tk {
+  animation: cx-spin $t-18000 linear infinite;
+}
+.cx-n .trk {
+  fill: none;
+  stroke: color-mix(in srgb, var(--c) 22%, transparent);
+  stroke-width: 3.2;
+}
+.cx-n .arc {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  transition: stroke-dasharray $t-1000 var(--ease-expo);
+}
+.cx-n .core {
+  fill: color-mix(in srgb, var(--canvas-0) 72%, var(--c));
+  stroke: var(--c);
+  stroke-width: 1;
+}
+.cx-n .ini {
+  font: 700 $fs-9-5 var(--font-sans);
+  fill: var(--ink);
+  text-anchor: middle;
+  letter-spacing: 0.02em;
+}
+.cx-n .dot {
+  fill: var(--c);
+}
+.cx-n.decl .core {
+  fill: var(--gold);
+  stroke: var(--gold-glow);
+}
+.cx-n.decl .ini {
+  fill: var(--on-gold);
+}
+.cx-n .ln {
+  fill: none;
+  stroke: color-mix(in srgb, var(--c) 55%, transparent);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.cx-n.hov .in {
+  transform: scale(1.18);
+}
+.cx-n.sel .in {
+  transform: scale(1.42);
+}
+.cx-n.sel {
+  --c: var(--gold);
+}
+.cx-n.sel .halo {
+  fill: color-mix(in srgb, var(--gold) 20%, transparent);
+  animation: cx-breath $t-1600 ease-in-out infinite;
+}
+.has-sel .cx-n:not(.sel):not(.hov) {
+  opacity: 0.34;
+}
+.cx-n:focus-visible .trk {
+  stroke: var(--focus-ring);
+}
+.cx-rip {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: 1.5;
+}

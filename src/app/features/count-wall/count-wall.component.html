@@ -1,0 +1,41 @@
+@for (mount of mounts(); track mount) {
+    <div class="mj-tv ct-tv" [view]="chrome()" (action)="act($event)">
+      <div class="cx-panel">
+        @for (views of panels(); track $index) {
+          <div class="cx-pv">
+            @for (view of views; track view.key) {
+              @switch (view.kind) {
+                @case ('national') {
+                  <div
+                    class="cx-pin cx-natp"
+                    [national]="view.national!"
+                    [governors]="view.governors!"
+                  ></div>
+                }
+                @case ('governorate') {
+                  <div
+                    class="cx-pin cx-gov"
+                    [class.cxr-gov]="view.results"
+                    [governorate]="view.governorate!"
+                    [results]="view.results"
+                  ></div>
+                }
+                @case ('wilayat') {
+                  <div
+                    class="cx-pin cx-wil"
+                    [governorate]="view.governorate!"
+                    [wilayat]="view.wilayat!"
+                    [results]="view.results"
+                  ></div>
+                }
+              }
+            }
+          </div>
+        }
+      </div>
+      <div class="cx-stage" [context]="state" [actions]="stageActions"></div>
+      @for (banner of banners(); track banner.id) {
+        <div class="ctv-banner" [class.out]="banner.out" [event]="banner.event" countBanner></div>
+      }
+    </div>
+  }

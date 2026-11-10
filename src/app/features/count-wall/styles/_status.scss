@@ -1,0 +1,14 @@
+
+$status: (
+  count: var(--data-cyan),
+  pend: var(--stat-pending),
+  decl: var(--declared),
+);
+
+@mixin c {
+  @each $st, $c in $status {
+    &.#{$st} {
+      --c: #{$c};
+    }
+  }
+}

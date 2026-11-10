@@ -1,0 +1,33 @@
+@let m = map();
+<svg:defs>
+  <svg:filter [attr.id]="m.id + '-b'" x="-30%" y="-30%" width="160%" height="160%"><svg:feGaussianBlur stdDeviation="16"/></svg:filter>
+</svg:defs>
+<svg:g class="tv-xg">
+  <svg:g class="tv-sh-halo nat" [attr.filter]="'url(#' + m.id + '-b)'"><svg:path [attr.d]="m.outline"/></svg:g>
+  <svg:g class="tv-sh-ext">
+    @for (e of m.ext; track e.i) {<svg:path [attr.d]="m.outline" [attr.transform]="e.transform" [style.--i]="e.i"/>}
+  </svg:g>
+  @for (r of m.regions; track r.id) {
+    <svg:g class="tv-rg" [class]="r.band" [style.--k]="r.k">
+      <svg:path class="fill" [attr.d]="r.d"/>
+      <svg:g class="tv-wd">
+        @for (w of r.wil; track w.q) {<svg:circle [attr.cx]="w.cx" [attr.cy]="w.cy" r="2.4" [style.--q]="w.q" [attr.class]="dots()?.get(w.id) ?? null"/>}
+      </svg:g>
+      <svg:path class="tv-sh-trace" [attr.d]="r.d" pathLength="1" stroke-width="1.3"/>
+      @for (p of r.pts; track $index) {
+        <svg:g class="tv-pt" [style.--d]="p.d" [style.--p]="p.p">
+          <svg:circle class="ring" [attr.cx]="p.cx" [attr.cy]="p.cy" r="7" stroke-width="1"/>
+          <svg:circle class="core" [attr.cx]="p.cx" [attr.cy]="p.cy" r="2.2"/>
+        </svg:g>
+      }
+    </svg:g>
+  }
+  <svg:path class="tv-sh-comet" [attr.d]="m.outline" pathLength="1" stroke-width="2.6"/>
+  @for (l of m.labels; track l.id) {
+    <svg:g class="tv-lab" [style.--k]="l.k">
+      <svg:text [attr.x]="l.x" [attr.y]="l.y" class="v">{{ l.t | pct }}</svg:text>
+      <svg:text [attr.x]="l.x" [attr.y]="l.y2" class="n">{{ l.name }}</svg:text>
+      <svg:text [attr.x]="l.x" [attr.y]="l.y3" class="w">{{ 'wilCount' | t: { n: l.wilCount } }}</svg:text>
+    </svg:g>
+  }
+</svg:g>

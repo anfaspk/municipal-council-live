@@ -1,0 +1,142 @@
+<div class="mj-ambient">
+  <div class="mj-breathe"></div>
+  <svg mjLattice></svg>
+</div>
+<div class="mj-horizon"></div>
+<div class="ctv-glow"></div>
+<div class="cx" [class.cxr-on]="view().results">
+  <div class="cx-top">
+    <div class="tv-top">
+      <img class="tv-logo night" [src]="darkLogo" alt="" /><img
+        class="tv-logo day"
+        [src]="logo"
+        alt=""
+      />
+      <div class="tv-ttl">
+        <b>{{ text('cTitle') }}</b
+        ><span>{{ view().subtitle }}</span>
+      </div>
+      <span class="ctv-pill" [class.done]="view().done"
+        ><i></i>{{ text(view().done ? 'cDone' : 'cPhCount') }}</span
+      >
+      @if (!view().results) {
+        @if (staleAt(); as at) {
+          <span class="ctv-live stale"><i></i>{{ text('figuresAt', { t: at }) }}</span>
+        } @else {
+          <span class="ctv-live"><i></i>{{ text('live') }}</span>
+        }
+      }
+      <span class="tv-count mj-num"
+        >{{ number(view().index + 1) }} / {{ number(view().slides.length) }}</span
+      >
+    </div>
+  </div>
+  <div class="cx-body"><ng-content /></div>
+</div>
+<div class="tv-next cx-next">
+  <span class="mj-micro">{{ text('tvNext') }}</span
+  ><b>{{ view().next }}</b
+  ><i></i>
+</div>
+<div class="tva-state" aria-hidden="true">
+  <svg mjIcon="pause"></svg><b>{{ text('tvPaused') }}</b
+  ><span>{{ text('tvResume') }}</span>
+</div>
+<div class="tva-dock" role="group" [attr.aria-label]="text('tvCtl')">
+  <div class="tva-ctl">
+    <button
+      type="button"
+      class="mj-btn icon tva-prev"
+      [attr.aria-label]="text('tvPrev')"
+      [title]="text('tvPrev')"
+      (click)="action.emit({ type: 'previous' })"
+    >
+      <svg mjIcon="prev"></svg></button
+    ><button
+      type="button"
+      class="mj-btn tva-play"
+      [attr.data-st]="view().paused"
+      [attr.aria-label]="text(view().paused ? 'tvPlayL' : 'tvPauseL')"
+      [title]="text(view().paused ? 'tvPlayL' : 'tvPauseL')"
+      (click)="action.emit({ type: 'pause' })"
+    >
+      <svg [mjIcon]="view().paused ? 'play' : 'pause'"></svg
+      ><span>{{ text(view().paused ? 'tvPlay' : 'tvPause') }}</span></button
+    ><button
+      type="button"
+      class="mj-btn icon tva-next"
+      [attr.aria-label]="text('tvNextSl')"
+      [title]="text('tvNextSl')"
+      (click)="action.emit({ type: 'next' })"
+    >
+      <svg mjIcon="next"></svg>
+    </button>
+  </div>
+  <div class="tv-prog" role="group" [attr.aria-label]="text('tvSlides')">
+    @for (label of view().slides; track $index) {
+      <button
+        type="button"
+        class="tva-seg"
+        [attr.data-k]="$index"
+        [tabIndex]="$index === view().index ? 0 : -1"
+        [attr.aria-current]="$index === view().index ? 'step' : null"
+        [attr.aria-label]="label"
+        [title]="label"
+        (click)="action.emit({ type: 'slide', index: $index })"
+      >
+        <i [class.cur]="$index === view().index"></i>
+      </button>
+    }
+  </div>
+  <div class="tva-opts">
+    <span class="tva-lbl" [id]="timeId">{{ text('cxWilTime') }}</span>
+    <div
+      class="tva-time mj-seg"
+      [items]="seconds"
+      [value]="'' + view().seconds"
+      (valueChange)="secondsChanged($event)"
+      [attr.aria-labelledby]="timeId"
+    ></div>
+    <button
+      type="button"
+      class="mj-btn tva-motion"
+      role="switch"
+      [attr.aria-checked]="view().still"
+      [attr.aria-disabled]="view().osMotion ? 'true' : null"
+      (click)="action.emit({ type: 'motion' })"
+    >
+      <i class="tva-sw" aria-hidden="true"></i><span>{{ text('tvStill') }}</span></button
+    ><i class="tva-sep" aria-hidden="true"></i
+    ><button
+      type="button"
+      class="mj-btn icon tva-theme"
+      [attr.aria-label]="text('theme')"
+      [title]="text('theme')"
+      (click)="action.emit({ type: 'theme' })"
+    >
+      <svg [mjIcon]="view().theme === 'night' ? 'sun' : 'moon'"></svg></button
+    ><button
+      type="button"
+      class="mj-btn icon tva-full"
+      [attr.aria-label]="text('full')"
+      [title]="text('full') + ' (F)'"
+      (click)="action.emit({ type: 'fullscreen' })"
+    >
+      <svg mjIcon="expand"></svg>
+    </button>
+  </div>
+</div>
+<div class="tva-live" aria-live="off" aria-atomic="true"></div>
+<button type="button" class="mj-btn tv-dash" (click)="action.emit({ type: 'close' })">
+  <svg mjIcon="prev"></svg><span>{{ text('cDashboard') }}</span></button
+><button
+  type="button"
+  class="mj-btn icon tv-x"
+  [attr.aria-label]="text('close')"
+  [title]="text('close') + ' (Esc)'"
+  (click)="action.emit({ type: 'close' })"
+>
+  <svg mjIcon="close"></svg>
+</button>
+
+<ng-content select="[countBanner]" />

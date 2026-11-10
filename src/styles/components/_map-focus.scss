@@ -1,0 +1,249 @@
+@use '../mixins';
+@use '../scales' as *;
+
+.mj-focus {
+  position: relative;
+  border-radius: var(--radius-tile);
+  padding: $sp-18;
+  @include mixins.glass-fill;
+  overflow: hidden;
+  min-height: 0;
+}
+.mj-focus::after {
+  content: '';
+  @include mixins.cover;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--data-cyan) 7%, transparent),
+    transparent 40%
+  );
+}
+.fc-in.swap {
+  animation: fc-swap $t-550 var(--ease-expo);
+}
+@keyframes fc-swap {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.fc-name {
+  font: 600 #{$fs-20}/ 26px var(--font-sans);
+  margin-top: $sp-6;
+  font-family: var(--font-arabic);
+}
+.fc-alt {
+  font-size: $fs-13;
+}
+.fc-big {
+  display: flex;
+  align-items: center;
+  gap: $sp-4;
+  margin: $sp-14 0 $sp-10;
+}
+.fc-big .n {
+  font: 700 #{$fs-54}/ 1 var(--font-display);
+  letter-spacing: -0.03em;
+  text-shadow: 0 0 30px color-mix(in srgb, var(--band) 60%, transparent);
+}
+.fc-big small {
+  font: 700 $fs-22 var(--font-display);
+  color: var(--ink-muted);
+  align-self: flex-end;
+  margin-bottom: $sp-6;
+}
+.fc-big .mj-ring {
+  margin-inline-start: auto;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--band) 60%, transparent));
+}
+.fc-band {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  flex-wrap: wrap;
+}
+.mj-chip.up {
+  color: var(--declared);
+  box-shadow: inset 0 0 0 1px var(--declared);
+}
+.mj-chip.down {
+  color: var(--ink-muted);
+}
+.fc-rows {
+  display: grid;
+  gap: $sp-8;
+  margin-top: $sp-16;
+}
+.fc-rows div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: $fs-13;
+  color: var(--ink-muted);
+  padding-bottom: $sp-8;
+  border-bottom: 1px solid var(--hairline);
+}
+.fc-rows b {
+  color: var(--ink);
+  font-size: $fs-16;
+}
+.fc-bar {
+  direction: ltr;
+  position: relative;
+  height: 8px;
+  border-radius: $r-8;
+  background: var(--hairline);
+  margin-top: $sp-16;
+}
+.fc-bar i {
+  display: block;
+  height: 100%;
+  border-radius: $r-8;
+  background: linear-gradient(90deg, var(--gold), var(--band));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--band) 55%, transparent);
+}
+.fc-in.swap .fc-bar i {
+  transform-origin: left;
+  animation: fc-grow $t-1000 var(--ease-expo);
+}
+@keyframes fc-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+.fc-bar em {
+  position: absolute;
+  top: -$sp-4;
+  width: 2px;
+  height: 16px;
+  margin-inline-start: -$sp-1;
+  background: var(--ink);
+  border-radius: $r-2;
+}
+.mj-omap.compact .om-lab {
+  padding: $sp-1 $sp-5 $sp-2;
+  border-radius: $r-7;
+}
+.mj-omap.compact .om-lab .nm {
+  display: none;
+}
+.mj-omap.compact .om-lab b,
+.fc-gt .glyph {
+  font-size: $fs-11;
+}
+.mj-omap.compact .om-lab.is-hot .nm {
+  display: block;
+}
+
+.mj-omap .act {
+  pointer-events: none;
+}
+.mj-omap .pc {
+  fill: var(--gold-glow);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: om-pc $t-2600 ease-in-out infinite;
+}
+@keyframes om-pc {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.mj-omap .vp {
+  fill: var(--map-point);
+  filter: drop-shadow(0 0 3px var(--gold-glow));
+}
+.mj-omap .vr {
+  fill: none;
+  stroke: var(--gold-glow);
+  stroke-width: 1.2;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.mj-focus .fc-big {
+  margin: $sp-8 0 $sp-6;
+}
+.mj-focus .fc-rows {
+  margin-top: $sp-10;
+}
+.mj-focus .fc-bar {
+  margin-top: $sp-12;
+}
+.fc-gt {
+  margin-top: $sp-14;
+}
+.fc-gt-h {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $sp-4;
+}
+.fc-gt .glyphs {
+  margin-bottom: $sp-2;
+}
+.fc-gt .glyph svg {
+  filter: drop-shadow(0 0 6px color-mix(in srgb, currentcolor 40%, transparent));
+}
+.fc-gt .glyph.m {
+  color: var(--male-neon);
+}
+.fc-gt .glyph.f {
+  color: var(--female);
+}
+.fc-gt .mj-chip.sm {
+  height: 20px;
+}
+.fg-row {
+  margin-top: $sp-9;
+}
+.fg-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.fg-top .mj-micro {
+  font-size: $fs-10;
+  letter-spacing: 0.14em;
+}
+.fg-tot {
+  font-size: $fs-13;
+  color: var(--ink);
+}
+.fg-vals {
+  display: flex;
+  justify-content: space-between;
+  font-size: $fs-11;
+  margin: $sp-2 0 $sp-4;
+  color: var(--ink-muted);
+}
+.fg-vals b {
+  font-size: $fs-12-5;
+}
+.fc-gt .bars {
+  height: 10px;
+}
+.fc-gt .axis {
+  height: 16px;
+}
+.fg-row.nv .bar {
+  opacity: 0.55;
+}
+.fg-row.nv .fg-vals,
+.fg-row.nv .fg-tot {
+  opacity: 0.85;
+}
+.fg-turn {
+  font-size: $fs-11-5;
+  margin-top: $sp-10;
+}
+.fc-in.swap .fc-gt .bar {
+  transform-origin: left;
+  animation: fc-grow $t-1100 var(--ease-expo);
+}

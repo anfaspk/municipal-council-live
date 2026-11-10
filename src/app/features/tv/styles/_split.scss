@@ -1,0 +1,236 @@
+@use '../../../../styles/scales' as *;
+
+
+.tv-face.on .tv-whole {
+  animation: tv-plinth $t-800 var(--ease-std) var(--sp) forwards;
+}
+@keyframes tv-plinth {
+  to {
+    opacity: 0.42;
+  }
+}
+.tv-face.on .tv-sh-pin {
+  animation: tv-gone $t-500 var(--sp) forwards;
+}
+
+.tv-col .gl {
+  fill: var(--band);
+  opacity: 0;
+  filter: blur(6px);
+}
+.tv-col .ar {
+  fill: none;
+  stroke: var(--band);
+  stroke-width: 1.4;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.tv-col .bd {
+  stroke: color-mix(in srgb, var(--band) 70%, var(--paper));
+  stroke-width: 0.8;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: scaleY(0);
+  opacity: 0;
+}
+.tv-col .cp {
+  fill: color-mix(in srgb, var(--band) 75%, var(--paper));
+  stroke: color-mix(in srgb, var(--band) 40%, var(--paper));
+  stroke-width: 0.8;
+  transform: translateY(var(--h));
+  opacity: 0;
+}
+.tv-col .pt {
+  fill: var(--paper);
+  opacity: 0;
+  filter: drop-shadow(0 0 3px var(--band));
+}
+.tv-face.on .tv-col .pt {
+  animation: tv-fade $t-300 var(--ease-std) calc(var(--sp) + $t-200 + var(--j) * $t-50) forwards;
+}
+.tv-face.on .tv-col .gl {
+  animation: tv-glow $t-800 var(--ease-std) calc(var(--sp) + $t-400 + var(--j) * $t-90) forwards;
+}
+@keyframes tv-glow {
+  to {
+    opacity: 0.35;
+  }
+}
+.tv-face.on .tv-col .ar {
+  animation: tv-ping $t-2600 var(--ease-std) calc(var(--sp) + $t-300 + var(--j) * $t-200) infinite;
+}
+.tv-face.on .tv-col .bd {
+  animation: tv-grow $t-1200 var(--ease-spring) calc(var(--sp) + $t-450 + var(--j) * $t-90) forwards;
+}
+.tv-face.on .tv-col .cp {
+  animation: tv-cap $t-1200 var(--ease-spring) calc(var(--sp) + $t-450 + var(--j) * $t-90) forwards;
+}
+@keyframes tv-grow {
+  0% {
+    opacity: 1;
+    transform: scaleY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+@keyframes tv-cap {
+  0% {
+    opacity: 1;
+    transform: translateY(var(--h));
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.tv-col .bd,
+.tv-col .cp {
+  transition: filter $t-450 var(--ease-std);
+}
+.tv-col {
+  transition: opacity $t-450 var(--ease-std);
+}
+.tv-sl.spot .tv-col {
+  opacity: 0.45;
+}
+.tv-sl.spot .tv-col.hi {
+  opacity: 1;
+}
+.tv-col.hi .bd,
+.tv-col.hi .cp {
+  filter: brightness(1.25) drop-shadow(0 0 10px var(--band));
+}
+
+.tv-wd circle {
+  fill: color-mix(in srgb, var(--ink) 85%, transparent);
+  opacity: 0;
+}
+.tv-face.on .tv-wd circle {
+  animation: tv-pop $t-500 var(--ease-expo)
+    calc(var(--sp) + $t-800 + var(--k) * $t-60 + var(--q) * $t-30) forwards;
+}
+.tv-shock {
+  fill: none;
+  stroke: var(--band);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.tv-face.on .tv-shock {
+  animation: tv-shock $t-1500 var(--ease-expo) calc(var(--sp) + $t-300) forwards;
+}
+@keyframes tv-shock {
+  0% {
+    opacity: 0.85;
+    transform: scale(0.08);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.tv-wl {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.tv-face.on .tv-wl {
+  animation: tv-lpop $t-700 var(--ease-spring) calc(var(--sp) + $t-1300 + var(--j) * $t-90) forwards;
+}
+@keyframes tv-lpop {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.tv-wlc {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform $t-500 var(--ease-spring),
+    opacity $t-400 var(--ease-std);
+}
+.tv-sl.spot .tv-wl .tv-wlc {
+  opacity: 0.72;
+}
+.tv-sl.spot .tv-wl.hi .tv-wlc {
+  opacity: 1;
+  transform: scale(1.12);
+}
+.tv-wl .bg {
+  fill: color-mix(in srgb, var(--canvas-1) 88%, transparent);
+  stroke: color-mix(in srgb, var(--band) 50%, transparent);
+  transition: stroke $t-400;
+}
+.tv-wl.hi .bg {
+  stroke: var(--band);
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--band) 70%, transparent));
+}
+.tv-wl .tp {
+  fill: var(--band);
+  opacity: 0.9;
+}
+.tv-wl text {
+  text-anchor: middle;
+  direction: ltr;
+}
+.tv-wl .nm {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  fill: var(--ink);
+}
+.tv-wl .pc {
+  font-family: var(--font-display);
+  font-weight: 700;
+  fill: var(--band);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.tv-wl .ct {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  fill: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+.tv-wl .ar {
+  fill: none;
+  stroke: var(--band);
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+.tv-face.on .tv-wl .ar {
+  animation: tv-ping $t-2600 var(--ease-std) calc(var(--sp) + $t-2000 + var(--j) * $t-200) infinite;
+}
+.tv-wl .ld {
+  fill: none;
+  stroke: color-mix(in srgb, var(--band) 70%, var(--ink));
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.tv-face.on .tv-wl .ld {
+  animation: tv-draw $t-600 var(--ease-std) calc(var(--sp) + $t-1350 + var(--j) * $t-90) forwards;
+}
+.tv-wkey {
+  position: absolute;
+  bottom: 5.5%;
+  inset-inline-start: 5%;
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  font: 500 #{$fs-13}/ 1 var(--font-sans);
+  color: var(--ink-muted);
+  opacity: 0;
+  font-family: var(--font-arabic);
+}
+.tv-face.on .tv-wkey {
+  animation: tv-fade $t-600 calc(var(--sp) + $t-1400) forwards;
+}

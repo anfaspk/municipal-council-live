@@ -1,0 +1,20 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/ring');
+  @include meta.load-css('styles/phone');
+  @include meta.load-css('styles/home');
+  @include meta.load-css('styles/card');
+  @include meta.load-css('styles/verify');
+  @include meta.load-css('styles/vote');
+  @include meta.load-css('styles/fx');
+}
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .mv .mv-view {
+      filter: none;
+    }
+  }
+}

@@ -75,6 +75,12 @@
 [data-theme='daylight'] .tv-logo.night {
   display: none;
 }
+.tv-sep {
+  flex: none;
+  width: 1px;
+  height: 36px;
+  background: var(--hairline);
+}
 .tv-ttl {
   display: flex;
   flex-direction: column;

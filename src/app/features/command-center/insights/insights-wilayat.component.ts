@@ -29,7 +29,7 @@ import { WilView } from './insights.model';
           [class.top]="i === 0"
           [style.--i]="i"
           [style.display]="r ? null : 'none'"
-          [attr.aria-label]="r ? r.name + ', ' + r.sub + ': ' + (r.t | pct) : null"
+          [attr.aria-label]="r ? r.name + '، ' + r.sub + ': ' + (r.t | pct) : null"
         >
           <span class="ix-rk">
             @if (i === 0) {

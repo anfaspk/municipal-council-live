@@ -13,16 +13,14 @@
   }
 }
 .mj-tv.tva-still .cx-n .tk,
-.mj-tv.tva-still .cx-s .k,
+.mj-tv.tva-still .cx-n .pg,
 .mj-tv.tva-still .cx-sweep,
 .mj-tv.tva-still .cx-wd {
   animation: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .cx-n .tk,
-  .cx-s .k,
-  .cx-hb .p1,
-  .cx-hb .p2,
+  .cx-n .pg,
   .cx-sweep,
   .cx-wd {
     animation: none;

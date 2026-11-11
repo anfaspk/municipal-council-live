@@ -188,9 +188,6 @@
 .fc-gt .glyphs {
   margin-bottom: $sp-2;
 }
-.fc-gt .glyph svg {
-  filter: drop-shadow(0 0 6px color-mix(in srgb, currentcolor 40%, transparent));
-}
 .fc-gt .glyph.m {
   color: var(--male-neon);
 }

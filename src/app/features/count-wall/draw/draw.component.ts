@@ -20,7 +20,7 @@ import { ConflictStore } from '../../../data/conflict.store';
 import { CountStore } from '../../../data/count.store';
 import { FRAME_SCOPE } from '../../../shared/motion/frame-loop.service';
 import { reducedMotion } from '../../../shared/motion/reduced-motion';
-import { LOGO, LOGO_DARK } from '../../../shared/ui/brand';
+import { LOGO, LOGO_DARK, MOI_LOGO, MOI_LOGO_DARK } from '../../../shared/ui/brand';
 import { trapTab } from '../../../shared/ui/focus-trap';
 import { HorizonComponent } from '../../../shared/ui/horizon.component';
 import { IconComponent } from '../../../shared/ui/icon.component';
@@ -64,6 +64,8 @@ export class DrawComponent {
   protected readonly stageRow = STAGE_ROW;
   protected readonly logo = LOGO;
   protected readonly darkLogo = LOGO_DARK;
+  protected readonly moi = MOI_LOGO;
+  protected readonly moiDark = MOI_LOGO_DARK;
   protected readonly isOpen = signal(false);
   protected readonly still = signal(false);
   protected readonly items = computed(() =>

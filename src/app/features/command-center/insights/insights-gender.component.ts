@@ -18,7 +18,7 @@ import { GenView } from './insights.model';
   template: `@let v = view();
     <div class="ix-gsum">
       <div class="ix-gs m">
-        <span class="ix-gg"><svg mjGlyph="m"></svg></span>
+        <span class="ix-gg"><span mjGlyph="m"></span></span>
         <div class="ix-gt">
           <span class="mj-micro"
             >{{ 'male' | t }} · <span class="pk">{{ v.mPeak }}</span></span
@@ -41,7 +41,7 @@ import { GenView } from './insights.model';
             >{{ 'female' | t }} · <span class="pk">{{ v.fPeak }}</span></span
           ><b class="mj-num">{{ v.f | fmt }}</b>
         </div>
-        <span class="ix-gg"><svg mjGlyph="f"></svg></span>
+        <span class="ix-gg"><span mjGlyph="f"></span></span>
       </div>
     </div>
     <div class="ix-grows">

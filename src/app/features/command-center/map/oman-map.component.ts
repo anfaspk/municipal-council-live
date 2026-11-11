@@ -196,7 +196,7 @@ export class OmanMapComponent implements AfterViewInit {
     n.lab.className = M.labelClass(b, hot, pinned, !!M.LABEL_OFFSET[g.id]);
     n.nm.textContent = g.ar;
     n.pc.textContent = pct(p);
-    n.g.setAttribute('aria-label', name(g) + ', ' + pct(p) + ', ' + t(b));
+    n.g.setAttribute('aria-label', name(g) + '، ' + pct(p) + '، ' + t(b));
   }
 
   private layout(): void {

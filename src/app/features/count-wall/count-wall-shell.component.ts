@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { ct } from '../../core/i18n/count-strings';
 import { CountStore } from '../../data/count.store';
-import { LOGO, LOGO_DARK } from '../../shared/ui/brand';
+import { LOGO, LOGO_DARK, MOI_LOGO, MOI_LOGO_DARK } from '../../shared/ui/brand';
 import { HorizonComponent } from '../../shared/ui/horizon.component';
 import { IconComponent } from '../../shared/ui/icon.component';
 import { LatticeComponent } from '../../shared/ui/lattice.component';
@@ -49,6 +49,8 @@ export class CountWallShell {
   protected readonly staleAt = inject(CountStore).staleAt;
   protected readonly logo = LOGO;
   protected readonly darkLogo = LOGO_DARK;
+  protected readonly moi = MOI_LOGO;
+  protected readonly moiDark = MOI_LOGO_DARK;
   protected readonly timeId = uid('ctva');
   protected readonly seconds = COUNT_TV_PREFS.seconds.map((n) => ({
     v: String(n),

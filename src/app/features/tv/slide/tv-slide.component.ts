@@ -9,7 +9,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { t } from '../../../shared/ui/tv-strings';
-import { LOGO, LOGO_DARK } from '../../../shared/ui/brand';
+import { LOGO, LOGO_DARK, MOI_LOGO, MOI_LOGO_DARK } from '../../../shared/ui/brand';
 import { CountUpDirective, CountUpGroup } from '../../../shared/motion/count-up.directive';
 import { FmtPipe, PctPipe } from '../../../shared/ui/format.pipes';
 import { TvTPipe as TPipe } from '../../../shared/ui/tv-t.pipe';
@@ -87,6 +87,8 @@ export class TvSlideComponent {
   });
   protected readonly logo = LOGO;
   protected readonly logoDark = LOGO_DARK;
+  protected readonly moi = MOI_LOGO;
+  protected readonly moiDark = MOI_LOGO_DARK;
   protected readonly bands = BANDS;
   protected readonly registeredLower = t('registered').toLowerCase();
 

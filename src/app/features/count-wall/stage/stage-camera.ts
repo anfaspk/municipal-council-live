@@ -151,18 +151,5 @@ export function connectorPath(dx: number, dy: number, lw: number, lh: number): s
     ? 'M' + f1(ex * 22) + ' ' + f1(ey * 22) + 'L' + f1(ex * end) + ' ' + f1(ey * end)
     : '';
 }
-export function streamPath(hc: Pt, p: Pt): string {
-  const [x, y] = p,
-    mx = (hc[0] + x) / 2,
-    my = (hc[1] + y) / 2,
-    vx = x - hc[0],
-    vy = y - hc[1],
-    len = Math.hypot(vx, vy) || 1;
-  const cx2 = mx - (vy / len) * len * 0.16,
-    cy2 = my + (vx / len) * len * 0.16;
-  return len < 30
-    ? ''
-    : 'M' + f1(hc[0]) + ' ' + f1(hc[1]) + 'Q' + f1(cx2) + ' ' + f1(cy2) + ' ' + f1(x) + ' ' + f1(y);
-}
 export const labelAt = (x: number, y: number): string =>
   'translate(' + f1(x) + 'px,' + f1(y) + 'px) translate(-50%,-50%)';

@@ -47,7 +47,7 @@ interface Row {
       <div class="gp-sexes">
         @for (s of [v.m, v.f]; track s.sex) {
           <div class="gp-sex" [class]="s.sex">
-            <span class="gp-g"><svg [mjGlyph]="s.sex"></svg></span>
+            <span class="gp-g"><span [mjGlyph]="s.sex"></span></span>
             <div class="gp-sl">
               <span class="gp-l">{{ s.label }}</span
               ><span class="gp-tn">{{ 'gpTurnout' | t }} <b class="mj-num">{{ s.turnout }}</b></span>

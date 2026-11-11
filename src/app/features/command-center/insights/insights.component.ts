@@ -27,13 +27,25 @@ import { TPipe } from '../../../shared/ui/t.pipe';
 import { uid } from '../../../shared/ui/uid';
 import { name } from '../../../domain/format';
 import { CommandCenterState } from '../command-center.state';
+import { InsightsAgesComponent } from './insights-ages.component';
+import { moveInk, replayAges } from './insights-dom';
 import { InsightsGenderComponent } from './insights-gender.component';
-import { GenView, genView, Scope, WilView, wilView } from './insights.model';
+import {
+  AgeView,
+  ageView,
+  agesOf,
+  GenView,
+  genView,
+  Scope,
+  WilView,
+  wilView,
+} from './insights.model';
 import { InsightsWilayatComponent } from './insights-wilayat.component';
 
 const SLIDES = [
   { k: 'gen', t: 'ixGenT', s: 'ixGenS', tag: 'live' },
   { k: 'wil', t: 'ixWilT', s: 'ixWilS', tag: 'live' },
+  { k: 'age', t: 'ixAgeT', s: 'ixAgeS', tag: 'live' },
 ] as const;
 const SLIDE_COUNT = SLIDES.length,
   EVERY = 10000,
@@ -41,7 +53,13 @@ const SLIDE_COUNT = SLIDES.length,
 
 @Component({
   selector: 'div.ixw',
-  imports: [IconComponent, InsightsGenderComponent, InsightsWilayatComponent, TPipe],
+  imports: [
+    IconComponent,
+    InsightsAgesComponent,
+    InsightsGenderComponent,
+    InsightsWilayatComponent,
+    TPipe,
+  ],
   host: { class: 'ix' },
   templateUrl: './insights.component.html',
   encapsulation: ViewEncapsulation.None,
@@ -63,8 +81,11 @@ export class InsightsComponent implements AfterViewInit {
     return g ? name(g) : t('ixOman');
   });
   private readonly state = inject(CommandCenterState);
+
   protected readonly paused = this.state.held;
   protected readonly ppLabel = computed(() => t(this.paused() ? 'ixPlay' : 'ixPause'));
+
+  protected readonly age = signal<AgeView | null>(null);
   protected readonly gen = signal<GenView | null>(null);
   protected readonly wil = signal<WilView | null>(null);
 
@@ -84,6 +105,7 @@ export class InsightsComponent implements AfterViewInit {
   private clock: FrameHandle | null = null;
   private ro?: ResizeObserver;
   private onVis = () => this.sync();
+
   private bar: Animation | null = null;
   private covered = false;
   private hover = false;
@@ -103,6 +125,7 @@ export class InsightsComponent implements AfterViewInit {
         if (this.ready) this.setGov(g);
       });
     });
+
     this.destroyRef.onDestroy(() => {
       this.dead = true;
       this.ro?.disconnect();
@@ -159,6 +182,7 @@ export class InsightsComponent implements AfterViewInit {
           if (this.animate) this.buildIn(0);
           this.ink(0, true);
           if (!this.animate) this.slideEls[0]!.classList.add('ix-still');
+
           this.covered = this.frames.isPaused('dashboard');
           this.clock = this.frames.add(
             {
@@ -184,16 +208,28 @@ export class InsightsComponent implements AfterViewInit {
       id = this.scopeId(),
       g = id !== 'all' ? this.stats.gov(id) : null;
     return g
-      ? { g, total: g.voted, m: g.votedM, f: g.votedF, hours: g.hours }
-      : { g: null, total: this.base, m: n.votedM, f: n.votedF, hours: n.hours };
+      ? { g, total: g.voted, m: g.votedM, f: g.votedF, hours: g.hours, ages: g.ages }
+      : {
+          g: null,
+          total: this.base,
+          m: n.votedM,
+          f: n.votedF,
+          hours: n.hours,
+          ages: agesOf(this.stats.govs()),
+        };
   }
+
   private take(i: number): void {
-    if (SLIDES[i]!.k === 'gen') this.gen.set(genView(this.scope()));
+    const k = SLIDES[i]!.k;
+    if (k === 'age') this.age.set(ageView(this.scope()));
+    else if (k === 'gen') this.gen.set(genView(this.scope()));
     else this.wil.set(wilView(this.scope(), this.stats.govs()));
   }
   private taken(i: number): boolean {
-    return (SLIDES[i]!.k === 'gen' ? this.gen() : this.wil()) !== null;
+    const k = SLIDES[i]!.k;
+    return (k === 'age' ? this.age() : k === 'gen' ? this.gen() : this.wil()) !== null;
   }
+
   private rendered(fn: () => void): void {
     afterNextRender(
       () => {
@@ -208,48 +244,19 @@ export class InsightsComponent implements AfterViewInit {
     slide.classList.remove('ix-build', 'ix-still');
     flushStyle(slide);
     slide.classList.add(reducedMotion() ? 'ix-still' : 'ix-build');
+
     clearTimeout(this.bT[i]);
     this.bT[i] = setTimeout(() => slide.classList.remove('ix-build'), 2600);
-    if (SLIDES[i]!.k === 'wil' && !reducedMotion()) this.wilSlide()?.countUp();
+    if (reducedMotion()) return;
+    if (SLIDES[i]!.k === 'wil') this.wilSlide()?.countUp();
+    else if (SLIDES[i]!.k === 'age') {
+      const age = slide.querySelector<HTMLElement>('.ix-age');
+      if (age) replayAges(age);
+    }
   }
 
   private ink(k: number, instant?: boolean): void {
-    const dock = this.dock,
-      tb = this.tabEls[k]!,
-      ink0 = dock.querySelector<HTMLElement>('.ix-ink')!,
-      d0 = dock.querySelector<HTMLElement>('.ix-drop.d1')!,
-      d1 = dock.querySelector<HTMLElement>('.ix-drop.d2')!;
-    const Wd = dock.clientWidth,
-      l = tb.offsetLeft,
-      w = tb.offsetWidth,
-      r = Wd - l - w,
-      cx = l + w / 2;
-    const prev = this.inkK < 0 ? null : this.tabEls[this.inkK],
-      right = prev ? tb.offsetLeft > prev.offsetLeft : true;
-    const all = [ink0, d0, d1];
-    if (instant || reducedMotion() || !prev)
-      all.forEach((e) => {
-        e.style.transition = 'none';
-      });
-    else {
-      ink0.style.transition =
-        'left .62s cubic-bezier(.7,0,.25,1) ' +
-        (right ? '.14s' : '0s') +
-        ',right .62s cubic-bezier(.7,0,.25,1) ' +
-        (right ? '0s' : '.14s');
-      d0.style.transition = 'left .8s cubic-bezier(.6,0,.2,1) .06s';
-      d1.style.transition = 'left .95s cubic-bezier(.6,0,.2,1) .12s';
-    }
-    ink0.style.left = l + 'px';
-    ink0.style.right = r + 'px';
-    d0.style.left = cx - 7 + 'px';
-    d1.style.left = cx - 5 + 'px';
-    if (instant || !prev) {
-      flushStyle(ink0);
-      all.forEach((e) => {
-        e.style.transition = '';
-      });
-    }
+    moveInk(this.dock, this.tabEls[k]!, this.inkK < 0 ? null : this.tabEls[this.inkK]!, !!instant);
     this.inkK = k;
   }
 
@@ -370,6 +377,7 @@ export class InsightsComponent implements AfterViewInit {
     if (!reducedMotion()) restartAnimation(this.scopeEl().nativeElement, 'ix-pop');
     this.take(this.cur);
   }
+
   private update(total: number): void {
     this.base = total;
     if (this.taken(this.cur)) this.take(this.cur);

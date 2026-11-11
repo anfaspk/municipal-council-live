@@ -7,22 +7,13 @@ import { restartAnimation } from '../../../shared/motion/restart-animation';
 import { setMarkup, svgEl } from '../../../shared/ui/markup';
 import * as C from './stage-camera';
 import { StageContext } from './stage-context';
-import {
-  HUB,
-  labelInner,
-  lockReadout,
-  nodeInner,
-  nodeMarkup,
-  STATUS_LABEL,
-  STREAM,
-} from './stage-markup';
+import { labelInner, lockReadout, nodeInner, nodeMarkup, STATUS_LABEL } from './stage-markup';
 
 interface Node {
   wid: number;
   n: string;
   pt: Pt;
   g: SVGGElement;
-  s: SVGGElement;
   lb: HTMLElement;
   dx: number;
   dy: number;
@@ -30,27 +21,25 @@ interface Node {
 
 export class GovernorateOverlay {
   private nodes: Node[] = [];
-  private hub: { c: Pt; g: SVGGElement } | null = null;
+  private centre: Pt | null = null;
 
   constructor(private readonly x: StageContext) {}
 
   get length(): number {
     return this.nodes.length;
   }
-  get hasHub(): boolean {
-    return !!this.hub;
+  get built(): boolean {
+    return !!this.centre;
   }
   clear(): void {
     this.nodes = [];
-    this.hub = null;
+    this.centre = null;
   }
   build(gv: CGov): void {
     const els = this.x.els,
       c = GEO.g[gv.id]?.c;
     if (!c) return;
-    const hg = svgEl('g', { class: 'cx-hb' }, els.hub) as SVGGElement;
-    setMarkup(hg, HUB);
-    this.hub = { c, g: hg };
+    this.centre = c;
     gv.wil.forEach((w, i) => {
       if (!w.pt) return;
       const g = svgEl(
@@ -60,22 +49,19 @@ export class GovernorateOverlay {
           'data-w': w.n,
           tabindex: '0',
           role: 'button',
-          'aria-label': w.n + ', ' + ct(STATUS_LABEL[w.st]),
+          'aria-label': w.n + '، ' + ct(STATUS_LABEL[w.st]),
         },
         els.nodes,
       ) as SVGGElement;
       g.style.setProperty('--j', String(i));
       setMarkup(g, nodeMarkup(w));
-      const st = svgEl('g', { class: 'cx-s ' + w.st, 'data-w': w.n }, els.streams) as SVGGElement;
-      st.style.setProperty('--j', String(i));
-      setMarkup(st, STREAM);
       const lb = document.createElement('div');
       lb.className = 'cx-lb ' + w.st;
       lb.setAttribute('data-w', w.n);
       lb.style.setProperty('--j', String(i));
       setMarkup(lb, labelInner(w));
       els.labels.appendChild(lb);
-      this.nodes.push({ wid: w.id, n: w.n, pt: w.pt, g, s: st, lb, dx: 0, dy: -46 });
+      this.nodes.push({ wid: w.id, n: w.n, pt: w.pt, g, lb, dx: 0, dy: -46 });
       const pick = () => {
         const cur = this.x.feed.wilById(w.id);
         if (cur) this.x.actions().selectWil(cur, true);
@@ -91,7 +77,6 @@ export class GovernorateOverlay {
       const hov = (on: boolean) => {
         g.classList.toggle('hov', on);
         lb.classList.toggle('hov', on);
-        st.classList.toggle('hov', on);
       };
       [g, lb].forEach((e) => {
         e.addEventListener('pointerenter', () => hov(true));
@@ -100,9 +85,9 @@ export class GovernorateOverlay {
     });
   }
   layout(): void {
-    if (!this.nodes.length || !this.hub) return;
+    if (!this.nodes.length || !this.centre) return;
     const { width: W, height: H } = this.x.size(),
-      hc = this.x.proj(this.hub.c),
+      hc = this.x.proj(this.centre),
       items: (Box & { nd: Node; X: number; Y: number })[] = [];
     this.nodes.forEach((nd) => {
       const p = this.x.proj(nd.pt),
@@ -128,7 +113,6 @@ export class GovernorateOverlay {
       const p = this.x.proj(nd.pt);
       return { fixed: 1, soft: 1, x: p[0], y: p[1], w: 52, h: 52 };
     });
-    obst.push({ fixed: 1, x: hc[0], y: hc[1], w: 30, h: 30 });
     obst.push({ fixed: 1, x: 140, y: 42, w: 270, h: 70 });
     const lr = this.lockRect(this.x.state().gov!),
       rw = Math.min(420, lr[2] - lr[0] + 120);
@@ -142,9 +126,7 @@ export class GovernorateOverlay {
     });
   }
   place(): void {
-    if (!this.hub) return;
-    const hc = this.x.proj(this.hub.c);
-    this.hub.g.setAttribute('transform', 'translate(' + C.f1(hc[0]) + ' ' + C.f1(hc[1]) + ')');
+    if (!this.centre) return;
     this.nodes.forEach((nd) => {
       const p = this.x.proj(nd.pt);
       nd.g.setAttribute('transform', 'translate(' + C.f1(p[0]) + ' ' + C.f1(p[1]) + ')');
@@ -155,9 +137,6 @@ export class GovernorateOverlay {
           'd',
           C.connectorPath(nd.dx, nd.dy, nd.lb.offsetWidth / 2, nd.lb.offsetHeight / 2),
         );
-      const sd = C.streamPath(hc, p);
-      (nd.s.firstChild as Element).setAttribute('d', sd);
-      (nd.s.lastChild as Element).setAttribute('d', sd);
     });
   }
   private lockRect(id: string): Rect {
@@ -203,7 +182,6 @@ export class GovernorateOverlay {
       const on = nd.n === wn;
       nd.g.classList.toggle('sel', on);
       nd.lb.classList.toggle('sel', on);
-      nd.s.classList.toggle('sel', on);
     });
   }
   update(w: CWil): void {
@@ -216,7 +194,6 @@ export class GovernorateOverlay {
     nd.lb.className = 'cx-lb ' + w.st + has(nd.lb, 'sel');
     setMarkup(nd.lb, labelInner(w));
     this.x.relayout();
-    nd.s.setAttribute('class', 'cx-s ' + w.st + has(nd.s, 'sel'));
     if (this.x.still()) return;
     const rp = svgEl('circle', { class: 'cx-rip ' + w.st, r: '16' }, inner);
     rp.animate(
@@ -229,6 +206,6 @@ export class GovernorateOverlay {
   }
   hover(name: string | null, on: boolean): void {
     const node = this.nodeOf(name);
-    if (node) [node.g, node.lb, node.s].forEach((element) => element.classList.toggle('hov', on));
+    if (node) [node.g, node.lb].forEach((element) => element.classList.toggle('hov', on));
   }
 }

@@ -19,7 +19,7 @@ import { WinnersStore } from '../../data/winners.store';
 import { GEO } from '../../domain/geo/geo.data';
 import { FRAME_SCOPE } from '../../shared/motion/frame-loop.service';
 import { SlideClock } from '../../shared/motion/slide-clock';
-import { LOGO_DARK } from '../../shared/ui/brand';
+import { LOGO_DARK, MOI_LOGO_DARK } from '../../shared/ui/brand';
 import { trapTab } from '../../shared/ui/focus-trap';
 import { IconComponent } from '../../shared/ui/icon.component';
 import { WinnerPhotos } from './winner-photos';
@@ -66,6 +66,7 @@ export class WinnersComponent {
   protected readonly counting = inject(ServerClock).counting;
 
   protected readonly logoDark = LOGO_DARK;
+  protected readonly moiDark = MOI_LOGO_DARK;
   protected readonly step = WIL_STEP;
 
   protected readonly isOpen = signal(false);

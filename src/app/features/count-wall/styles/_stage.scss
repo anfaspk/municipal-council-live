@@ -125,85 +125,6 @@
   }
 }
 
-.cx-hb .hx {
-  fill: color-mix(in srgb, var(--gold) 22%, transparent);
-  stroke: var(--gold);
-  stroke-width: 1.5;
-}
-.cx-hb .c {
-  fill: var(--gold-glow);
-}
-.cx-hb .p1,
-.cx-hb .p2 {
-  fill: none;
-  stroke: var(--gold);
-  stroke-width: 1.2;
-  animation: cx-ping $t-2800 ease-out infinite;
-}
-.cx-hb .p2 {
-  animation-delay: $t-1400;
-}
-@keyframes cx-ping {
-  from {
-    transform: scale(1);
-    opacity: 0.85;
-  }
-  to {
-    transform: scale(3.4);
-    opacity: 0;
-  }
-}
-.landed:not(.now) .cx-hb .hx {
-  animation: cx-pop $t-800 cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
-}
-
-.cx-s {
-  --c: var(--ink-muted);
-  transition: opacity $t-500;
-  @include status.c;
-}
-.cx-s path {
-  fill: none;
-}
-.cx-s .b {
-  stroke: color-mix(in srgb, var(--c) 32%, transparent);
-  stroke-width: 1.2;
-  stroke-dasharray: 1 1;
-}
-.cx-s .k {
-  stroke: var(--c);
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-dasharray: 3 97;
-  opacity: 0.95;
-  animation: cx-flow $t-2800 linear infinite;
-  animation-delay: calc(var(--j, 0) * -1 * $t-410);
-}
-.cx-s.await .k {
-  display: none;
-}
-@keyframes cx-flow {
-  from {
-    stroke-dashoffset: 100;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-.landed:not(.now) .cx-s .b {
-  animation: cx-trace $t-1100 cubic-bezier(0.65, 0, 0.35, 1) backwards;
-  animation-delay: calc($t-50 + var(--j, 0) * $t-70);
-}
-.has-sel .cx-s:not(.sel):not(.hov) {
-  opacity: 0.16;
-}
-.cx-s.sel {
-  --c: var(--gold);
-}
-.cx-s.sel .b {
-  stroke-width: 1.8;
-}
-
 .cx-n {
   --c: var(--ink-muted);
   pointer-events: auto;
@@ -227,6 +148,32 @@
 }
 .cx-n .hit {
   fill: transparent;
+}
+.cx-n .pg {
+  fill: none;
+  stroke: color-mix(in srgb, var(--c) 70%, transparent);
+  stroke-width: 1.2;
+  opacity: 0;
+  animation: cx-ping $t-3600 cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation-delay: calc(var(--j, 0) * -1 * $t-410);
+}
+.cx-n.await .pg {
+  stroke: color-mix(in srgb, var(--c) 45%, transparent);
+}
+.cx-n.sel .pg {
+  stroke: var(--gold);
+  stroke-width: 1.6;
+}
+@keyframes cx-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70%,
+  100% {
+    transform: scale(2.3);
+    opacity: 0;
+  }
 }
 .cx-n .halo {
   fill: color-mix(in srgb, var(--c) 15%, transparent);

@@ -4,6 +4,7 @@
 <div class="ix-stage" [attr.aria-roledescription]="'ixRole' | t" role="region" [attr.aria-label]="'ixMicro' | t"
   ><div class="ix-slide ix-s-gen on" [id]="u + 's0'" role="tabpanel" aria-roledescription="slide" [attr.aria-label]="slideLabel(0)"><div class="ix-in">@if (gen(); as v) {<div class="ix-gen" [view]="v"></div>}</div></div
   ><div class="ix-slide ix-s-wil" [id]="u + 's1'" role="tabpanel" aria-roledescription="slide" [attr.aria-label]="slideLabel(1)" inert aria-hidden="true"><div class="ix-in">@if (wil(); as v) {<div class="ix-wil" [view]="v"></div>}</div></div
+  ><div class="ix-slide ix-s-age" [id]="u + 's2'" role="tabpanel" aria-roledescription="slide" [attr.aria-label]="slideLabel(2)" inert aria-hidden="true"><div class="ix-in">@defer (on idle) {@if (age(); as v) {<div class="ix-age" [view]="v"></div>}}</div></div
 ></div>
 <div class="ix-dock" role="tablist" tabindex="-1" [attr.aria-label]="'ixTabs' | t" (click)="tabClick($event)" (keydown)="tabKey($event)"><div class="ix-inks" [style.filter]="'url(#' + u + '-goo)'" aria-hidden="true"><i class="ix-ink"></i><i class="ix-drop d1"></i><i class="ix-drop d2"></i></div
 >@for (s of slides; track s.k; let i = $index) {<button type="button" role="tab" class="ix-tab" [class.on]="i === 0" [id]="u + 't' + i" [attr.aria-controls]="u + 's' + i" [attr.aria-selected]="i === 0" [tabIndex]="i === 0 ? 0 : -1"><span class="ix-n">0{{ i + 1 }}</span><span class="ix-tl">{{ s.s | t }}</span><i class="ix-prog"><b></b></i></button>}</div>

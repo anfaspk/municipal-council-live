@@ -114,9 +114,7 @@
     0 0 26px -8px var(--c);
 }
 .cx-lb.out,
-.cx-n.out,
-.cx-s.out,
-.cx-hb.out {
+.cx-n.out {
   opacity: 0 !important;
   transition: opacity $t-350;
 }

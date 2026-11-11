@@ -20,8 +20,31 @@
   align-content: start;
   min-height: 0;
   overflow-y: auto;
+  padding-inline-end: $sp-8;
   overscroll-behavior: contain;
-  scrollbar-width: thin;
+}
+.cx-race .rs-grid::-webkit-scrollbar {
+  width: 8px;
+}
+.cx-race .rs-grid::-webkit-scrollbar-track {
+  margin-block: $sp-6;
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  border-radius: $r-4;
+}
+.cx-race .rs-grid::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--gold-glow), var(--gold)) padding-box;
+  border: $sp-1-5 solid transparent;
+  border-radius: $r-4;
+}
+.cx-race .rs-grid::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-glow) padding-box;
+}
+@supports not selector(::-webkit-scrollbar) {
+  .cx-race .rs-grid {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--gold) 70%, transparent)
+      color-mix(in srgb, var(--ink) 6%, transparent);
+  }
 }
 .cx-race.rs-dense .rs-grid {
   row-gap: $sp-6;

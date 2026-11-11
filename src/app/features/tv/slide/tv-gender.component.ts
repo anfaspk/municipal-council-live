@@ -13,12 +13,12 @@ import { Gender } from '../tv-slide.model';
     <div class="tv-ch"><span class="mj-micro">{{ 'gender' | t }} · {{ 'votesCast' | t }}</span></div>
     <div class="tv-gv">
       <div class="gm">
-        <span class="glyph m"><svg mjGlyph="m"></svg></span>
+        <span class="glyph m"><span mjGlyph="m"></span></span>
         <div><b class="mj-num" [mjCountUp]="g.votedM" [countDuration]="1800" countGroup="show"></b><span>{{ 'male' | t }} · {{ g.turnoutM | pct }} {{ 'turnoutWord' | t }}</span></div>
       </div>
       <div class="gf">
         <div><b class="mj-num" [mjCountUp]="g.votedF" [countDuration]="1800" countGroup="show"></b><span>{{ 'female' | t }} · {{ g.turnoutF | pct }} {{ 'turnoutWord' | t }}</span></div>
-        <span class="glyph f"><svg mjGlyph="f"></svg></span>
+        <span class="glyph f"><span mjGlyph="f"></span></span>
       </div>
     </div>
     <div class="tv-gbar" dir="ltr"><i class="m" [style.--w]="g.widthM"></i><i class="f" [style.--w]="g.widthF"></i></div>

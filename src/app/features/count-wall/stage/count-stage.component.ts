@@ -215,9 +215,7 @@ export class CountStage implements AfterViewInit {
   }
   private clearOverlay(instant?: boolean): void {
     const els = this.els;
-    const old = [els.nodes, els.labels, els.streams, els.hub, els.natg].flatMap((e) =>
-      Array.from(e.children),
-    );
+    const old = [els.nodes, els.labels, els.natg].flatMap((e) => Array.from(e.children));
     this.gov.clear();
     this.nat.clear();
     els.el.classList.remove('landed', 'has-sel');
@@ -254,7 +252,7 @@ export class CountStage implements AfterViewInit {
         write: () => {
           this.relayout = null;
           if (this.state.mode === 'nat') this.nat.place();
-          else if (this.state.mode === 'gov' && this.gov.hasHub) this.gov.place();
+          else if (this.state.mode === 'gov' && this.gov.built) this.gov.place();
         },
       },
       'wall',

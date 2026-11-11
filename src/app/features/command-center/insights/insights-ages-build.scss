@@ -1,0 +1,105 @@
+@use '../../../../styles/scales' as *;
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  .ix-age:not(.ix-ain) :is(.ix-apill, .ix-aleg, .ix-aaxis span, .ix-alift b) {
+    opacity: 0;
+    transition: none;
+  }
+  .ix-age:not(.ix-ain) .ix-apill {
+    transform: translateY(6px) scale(0.94);
+  }
+  .ix-age:not(.ix-ain) .ix-apill::after {
+    transform: translateX(100%);
+    transition: none;
+  }
+  .ix-age:not(.ix-ain) .ix-agrid i {
+    transform: scaleX(0);
+    transition: none;
+  }
+  .ix-age:not(.ix-ain) :is(.ix-abar, .ix-alift) {
+    transform: translateY(100%);
+    transition: none;
+  }
+  .ix-age:not(.ix-ain) .ix-abar::after {
+    transform: translateY(100%);
+    transition: none;
+  }
+  .ix-age:not(.ix-ain) .ix-alift b {
+    transform: translateX(50%) translateY(6px);
+  }
+  .ix-age:not(.ix-ain) .ix-aspot {
+    opacity: 0;
+    transform: translateX(calc(var(--top) * -100%)) scaleY(0);
+    transition: none;
+  }
+  .ix-age:not(.ix-ain) .ix-aspot i {
+    transform: translateY(260%);
+    transition: none;
+  }
+  .ix-age:not(.ix-ain) :is(.ix-axs span, .ix-acell) {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+    transition: none;
+  }
+  .ix-age:not(.ix-ain) .ix-acell i {
+    transform: scaleX(0);
+    transition: none;
+  }
+
+  .ix-build .ix-apill {
+    transition-delay: $t-200;
+  }
+  .ix-build .ix-apill::after {
+    transition-delay: $t-1000;
+  }
+  .ix-build .ix-aleg {
+    transition-delay: $t-350;
+  }
+  .ix-build .ix-agrid i {
+    transition-delay: calc(var(--j) * $t-50 + $t-150);
+  }
+  .ix-build .ix-aaxis span {
+    transition-delay: calc(var(--j) * $t-50 + $t-300);
+  }
+  .ix-build :is(.ix-abar, .ix-alift) {
+    transition: transform $t-1100 var(--ease-spring);
+    transition-delay: calc(var(--i) * $t-80 + $t-350);
+  }
+  .ix-build .ix-ac.f :is(.ix-abar, .ix-alift) {
+    transition-delay: calc(var(--i) * $t-80 + $t-450);
+  }
+  .ix-build .ix-abar::after {
+    transition-delay: calc(var(--i) * $t-80 + $t-1100);
+  }
+  .ix-build .ix-alift b {
+    transition-delay: calc(var(--i) * $t-80 + $t-900);
+  }
+  .ix-build .ix-aspot {
+    transition:
+      transform $t-800 var(--ease-expo) $t-1000,
+      opacity $t-400 var(--ease-std) $t-1000;
+  }
+  .ix-build .ix-aspot i {
+    transition-delay: $t-1500;
+  }
+  .ix-build .ix-axs span {
+    transition-delay: calc(var(--i) * $t-60 + $t-450);
+  }
+  .ix-build .ix-acell {
+    transition-delay: calc(var(--i) * $t-60 + $t-800);
+  }
+  .ix-build .ix-acell i {
+    transition-delay: calc(var(--i) * $t-60 + $t-1100);
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .ix-age *,
+    .ix-age *::after {
+      transition: none;
+    }
+  }
+}

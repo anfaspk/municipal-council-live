@@ -75,19 +75,30 @@
   font-size: $fs-12;
   font-weight: 600;
 }
-.mj-gender .glyph svg {
+.mj-sex {
+  display: block;
+  flex: none;
+  background: currentcolor;
+  -webkit-mask: center / contain no-repeat;
+  mask: center / contain no-repeat;
+}
+.mj-sex[data-sex='m'] {
+  -webkit-mask-image: url('/assets/gender/male.png');
+  mask-image: url('/assets/gender/male.png');
+}
+.mj-sex[data-sex='f'] {
+  -webkit-mask-image: url('/assets/gender/female.png');
+  mask-image: url('/assets/gender/female.png');
+}
+.mj-gender .glyph .mj-sex {
   width: 34px;
   height: 34px;
-  fill: none;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
-.mj-gender .glyph.m svg {
-  stroke: var(--male-neon);
+.mj-gender .glyph.m .mj-sex {
+  color: var(--male-neon);
 }
-.mj-gender .glyph.f svg {
-  stroke: var(--female);
+.mj-gender .glyph.f .mj-sex {
+  color: var(--female);
 }
 .mj-gender .m-t {
   color: var(--male-neon);

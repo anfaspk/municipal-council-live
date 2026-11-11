@@ -52,13 +52,13 @@ function genderRow(
     fmt(m) +
     ' (' +
     pct(pm) +
-    '), ' +
+    ')، ' +
     t('female') +
     ' ' +
     fmt(f) +
     ' (' +
     pct(100 - pm) +
-    '), ' +
+    ')، ' +
     t('total') +
     ' ' +
     fmt(total);

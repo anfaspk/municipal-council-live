@@ -1,6 +1,6 @@
 @let at = toAt();
 @if (gov(); as g) {
-  <div class="tv-int-sub" style="--i:1">{{ 'intSub' | t: { n: g.rows.length } }} · {{ 'intVotes' | t: votes(g.votes) }}@if (at) {<span class="tv-int-win">{{ 'intUntil' | t: { t: at } }}</span>}</div>
+  <div class="tv-int-sub" style="--i:1">{{ 'intSub' | t: { n: g.rows.length } }} · {{ 'intVotes' | t: votes(g.votes) }}@if (at) {&ngsp;<span class="tv-int-win">{{ 'intUntil' | t: { t: at } }}</span>}</div>
   <div class="tv-ih" style="--i:3">
     @if (featured(); as f) {
         <div class="tv-ih-in" #hero>

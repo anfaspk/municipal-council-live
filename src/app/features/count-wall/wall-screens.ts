@@ -112,7 +112,7 @@ export class WallScreens {
     const view = this.h.faces.view('wilayat', gv, w);
     this.live.wireWil(this.h.faces.swap(view, origin || WallFaces.origin(face)));
     this.h.stage().showWilayat(w);
-    this.h.say(w.n + ', ' + ct(STATUS_LABEL[w.st]), !!user);
+    this.h.say(w.n + '، ' + ct(STATUS_LABEL[w.st]), !!user);
   }
   backToList(user?: boolean): void {
     const state = this.h.state;

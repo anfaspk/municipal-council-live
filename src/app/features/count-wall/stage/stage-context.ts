@@ -24,8 +24,6 @@ export interface StageEls {
   clipP: HTMLElement;
   ov: HTMLElement;
   nodes: HTMLElement;
-  streams: HTMLElement;
-  hub: HTMLElement;
   labels: HTMLElement;
   scan: HTMLElement;
   comet: HTMLElement;
@@ -59,8 +57,6 @@ const ELS: Record<keyof StageEls, string> = {
   clipP: '.cx-clipp',
   ov: '.cx-ov',
   nodes: '.cx-nodes',
-  streams: '.cx-streams',
-  hub: '.cx-hub',
   labels: '.cx-labels',
   scan: '.cx-scan',
   comet: '.cx-comet',

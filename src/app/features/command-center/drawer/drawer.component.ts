@@ -53,6 +53,7 @@ const SETTLE_MS = 1100;
     '[class.high]': 'drawer.snap() && drawer.band() === "high"',
   },
   templateUrl: './drawer.component.html',
+  styleUrl: './drawer.scss',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

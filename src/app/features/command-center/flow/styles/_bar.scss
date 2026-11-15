@@ -1,0 +1,94 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.fl-bar {
+  position: fixed;
+  inset-block-end: 0;
+  inset-inline: 0;
+  z-index: $z-drawer;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding-block: $sp-6 calc(#{$sp-6} + var(--safe-bottom));
+  padding-inline: max(#{$sp-8}, var(--safe-right)) max(#{$sp-8}, var(--safe-left));
+  border-block-start: 1px solid var(--hairline);
+  background: var(--canvas-1);
+}
+.fl-bar-i {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-2;
+  min-block-size: 56px;
+  padding: 0;
+  border: 0;
+  border-radius: $r-14;
+  color: var(--ink-muted);
+  background: none;
+  font: inherit;
+  font-size: $fs-12;
+  cursor: pointer;
+
+  @include mixins.touch-control;
+}
+.fl-bar-ic {
+  display: grid;
+  place-items: center;
+  margin-block-start: $sp-4;
+  padding-block: $sp-2;
+  padding-inline: $sp-16;
+  border-radius: $r-14;
+}
+.fl-bar-ic .fl-ic {
+  inline-size: 24px;
+  block-size: 24px;
+}
+.fl-bar-i.on {
+  color: var(--gold-ink);
+  font-weight: 700;
+}
+.fl-bar-i.on .fl-bar-ic {
+  background: color-mix(in srgb, var(--gold-ink) 16%, transparent);
+}
+.fl-bar-i.later {
+  opacity: 0.6;
+}
+.fl-bar-i:active {
+  scale: var(--press);
+}
+.fl-toast {
+  position: fixed;
+  inset-block-end: calc(#{$sp-88} + var(--safe-bottom));
+  inset-inline: max(#{$sp-16}, var(--safe-right)) max(#{$sp-16}, var(--safe-left));
+  z-index: $z-toast;
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  max-inline-size: 528px;
+  margin-inline: auto;
+  padding-block: $sp-12;
+  padding-inline: $sp-14;
+  border: 1px solid var(--glass-stroke);
+  border-radius: $r-16;
+  color: var(--ink);
+  background: var(--canvas-1);
+  box-shadow: var(--shadow-panel);
+  animation: fl-toast-in var(--dur-card) var(--ease-sheet) both;
+}
+.fl-toast .fl-ic {
+  color: var(--gold-ink);
+}
+.fl-toast span {
+  display: flex;
+  flex-direction: column;
+}
+.fl-toast small {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+@keyframes fl-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}

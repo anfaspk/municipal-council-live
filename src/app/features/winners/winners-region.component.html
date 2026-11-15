@@ -1,4 +1,4 @@
-<aside class="wn-rail" (pointerenter)="hover.emit(true)" (pointerleave)="hover.emit(false)">
+<aside class="wn-rail" (pointerenter)="railHold.on()" (pointerleave)="railHold.off($event)">
   <div class="wn-rail-head">
     <span class="wn-lbl" aria-hidden="true">{{ 'wnGovLabel' | wnT }}</span>
     <label class="wn-gsel">
@@ -8,7 +8,7 @@
         @for (g of govs(); track g.id) {<option [value]="g.id" [selected]="g.id === card().id">{{ g.name || g.n }}</option>}
       </select>
     </label>
-    <div class="wn-tally" [class.full]="full()">
+    <div class="wn-tally" [class.full]="full()" [attr.data-fig]="'win.' + card().id + '.tally'">
       <span class="wn-tally-t"><b>{{ tally().done }}<small>/{{ tally().all }}</small></b></span>
       <span class="wn-tally-l">{{ (full() ? 'wnAllDone' : 'wnAnnouncedOf') | wnT }}</span>
       <span class="wn-tally-i" aria-hidden="true">@if (full()) {<svg class="wn-chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>} @else {<i></i>}</span>
@@ -16,7 +16,7 @@
     <i class="wn-tally-bar" aria-hidden="true" [style.--w]="done()"></i>
     <label class="wn-find">
       <svg [mjIcon]="'search'"></svg>
-      <input type="text" role="searchbox" enterkeyhint="search" autocomplete="off" [placeholder]="'wnSearch' | wnT" [attr.aria-label]="'wnSearch' | wnT" [value]="q()" (input)="q.set(value($event))">
+      <input type="search" inputmode="search" enterkeyhint="search" autocomplete="off" [placeholder]="'wnSearch' | wnT" [attr.aria-label]="'wnSearch' | wnT" [value]="q()" (input)="q.set(value($event))">
     </label>
   </div>
   <ol class="wn-wils" [class.hl]="spot() >= 0" [style.--hl]="spot()">

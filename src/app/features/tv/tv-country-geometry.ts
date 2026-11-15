@@ -13,6 +13,7 @@ import {
   Lift,
   Ping,
   Spot,
+  TvBox,
 } from './tv-geometry-primitives';
 export interface CountryRegion {
   id: string;
@@ -40,17 +41,29 @@ export interface CountryMap {
   ext: Lift[];
   regions: CountryRegion[];
   labels: CountryLabel[];
+  text?: number;
 }
 
-const LAB_LINE2 = 17,
+export const LAB_LINE2 = 17,
   LAB_LINE3 = 32,
-  labBox = (name: string): { w: number; h: number } => ({
-    w: Math.max(56, name.length * 7.8) + 12,
-    h: LAB_LINE3 + 18,
+  LAB_TEXT = 12,
+  labelBox = (name: string, m: number): { w: number; h: number } => ({
+    w: (Math.max(56, name.length * 7.8) + 12) * m,
+    h: (LAB_LINE3 + 18) * m,
   });
+const DEPTH = 14;
+export const COUNTRY_STAGE: TvBox = {
+  w: 640,
+  h: GEO.h + 40 + DEPTH,
+  text: LAB_TEXT,
+  hit: 0,
+  bleed: 14,
+};
 
-export function countryMap(ranked: readonly Gov[]): CountryMap {
-  const depth = 14,
+export function countryMap(ranked: readonly Gov[], box: TvBox = COUNTRY_STAGE): CountryMap {
+  const depth = DEPTH,
+    u = Math.min(box.w / COUNTRY_STAGE.w, box.h / COUNTRY_STAGE.h),
+    m = Math.max(1, box.text / (LAB_TEXT * u)),
     regions: CountryRegion[] = [],
     labels: CountryLabel[] = [],
     boxes: LayoutItem[] = [];
@@ -83,16 +96,17 @@ export function countryMap(ranked: readonly Gov[]): CountryMap {
       name: g.ar,
       wilCount: g.wil.length,
     });
-    boxes.push({ x: geo.c[0], y: geo.c[1] - 13 + labBox(g.ar).h / 2, ...labBox(g.ar) });
+    const lb = labelBox(g.ar, m);
+    boxes.push({ x: geo.c[0], y: geo.c[1] - 13 * m + lb.h / 2, ...lb });
   });
-  layoutLabels(boxes, GEO.w, GEO.h);
+  layoutLabels(boxes, GEO.w, GEO.h, box.bleed / u);
   labels.forEach((l, i) => {
     const b = boxes[i]!,
-      y = b.py! - b.h / 2 + 13;
+      y = b.py! - b.h / 2 + 13 * m;
     l.x = f2(b.px!);
     l.y = f2(y);
-    l.y2 = f2(y + LAB_LINE2);
-    l.y3 = f2(y + LAB_LINE3);
+    l.y2 = f2(y + LAB_LINE2 * m);
+    l.y3 = f2(y + LAB_LINE3 * m);
   });
   return {
     id: uid('tvo'),
@@ -101,6 +115,7 @@ export function countryMap(ranked: readonly Gov[]): CountryMap {
     ext: lifts(6, depth),
     regions,
     labels,
+    ...(m !== 1 && { text: m }),
   };
 }
 

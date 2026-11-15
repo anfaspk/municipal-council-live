@@ -5,9 +5,7 @@ import {
   output,
   ViewEncapsulation,
 } from '@angular/core';
-import { starfield } from './winners.model';
-
-export const SCENE_IMG = 'assets/winners/stage-night.avif';
+import { SCENE_IMG, starfield } from './winners.model';
 
 const STARS = [starfield(110, 41, 0.7, 1180, 620, 1.3), starfield(34, 53, 1.4, 1180, 620, 1.6)];
 

@@ -2,7 +2,7 @@
 <div class="cx-nh" style="--i: 1">
   <h2 class="ctv-name">{{ text('cTvNat') }}</h2>
   <div class="cx-np">
-    <b class="mj-num cx-xpp" [attr.data-pct]="n.p">{{ percent(n.p) }}</b
+    <b class="mj-num cx-xpp" [attr.data-pct]="n.p" data-fig="count.nat.p">{{ percent(n.p) }}</b
     ><span
       >{{ text('cBallotsCounted') }}<br /><em class="mj-num cx-nd">{{
         text('cxDeclN', { d: n.decl, t: n.wil })
@@ -18,6 +18,7 @@
   [cast]="n.cast"
   [gender]="n"
   prefix="x"
+  fig="count.nat"
 ></div>
 <div class="cx-tbl" style="--i: 3">
   <div class="cx-th" [first]="text('cxGov')" [last]="text('stDecl')"></div>
@@ -33,9 +34,9 @@
         <span class="nm"
           ><span class="t"
             ><b>{{ row.gov.ar }}</b
-            ><em class="pc mj-num">{{ percent(s.p) }}</em></span
+            ><em class="pc mj-num" [attr.data-fig]="'count.gov.' + row.gov.id + '.p'">{{ percent(s.p) }}</em></span
           ><span class="pg"><i [style.width]="decimal(s.p) + '%'"></i></span></span
-        ><b class="n c mj-num">{{ number(s.counted) }}</b
+        ><b class="n c mj-num" [attr.data-fig]="'count.gov.' + row.gov.id + '.counted'">{{ number(s.counted) }}</b
         ><b class="n l mj-num">{{ number(s.cast - s.counted) }}</b
         ><b class="n m mj-num">{{ number(row.gender.m) }}</b
         ><b class="n f mj-num">{{ number(row.gender.f) }}</b

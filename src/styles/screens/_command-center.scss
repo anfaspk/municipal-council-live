@@ -59,7 +59,34 @@ html.mj-fit body {
   overflow: hidden;
   background: var(--canvas-0);
 }
+@include mixins.coarse {
+  html.mj-fit:not([data-form='flow'], .mj-zoomed) {
+    overscroll-behavior: none;
+  }
+}
+html.mj-fit:is([data-form='flow'], .mj-zoomed) {
+  height: auto;
+  overflow: auto;
+}
+html.mj-fit:is([data-form='flow'], .mj-zoomed) body {
+  height: auto;
+}
+html.mj-fit[data-form='flow'] body {
+  overflow: clip visible;
+}
+html.mj-fit.mj-zoomed body {
+  overflow: visible;
+}
+.mj-cc[data-form='flow'] {
+  width: auto;
+  height: auto;
+  overflow: visible;
+  padding-block: var(--safe-top) var(--safe-bottom);
+  padding-inline: var(--safe-right) var(--safe-left);
+}
 .cc-grid {
+  @include mixins.frame;
+
   position: relative;
   z-index: $z-1;
   display: grid;
@@ -216,6 +243,10 @@ html.mj-fit body {
   @include mixins.cover;
   z-index: $z-screen;
   background: var(--canvas-0);
+
+  @include mixins.form(flow) {
+    position: fixed;
+  }
 }
 
 .mj-cc.cc-paged .cc-grid > :not(.cc-bar),
@@ -223,9 +254,6 @@ html.mj-fit body {
 .mj-cc.cc-paged .mj-scrim {
   visibility: hidden;
   content-visibility: hidden;
-}
-.mj-fluid.cc-paged .cc-grid > :not(.cc-bar) {
-  display: none;
 }
 .cc-fly {
   position: absolute;

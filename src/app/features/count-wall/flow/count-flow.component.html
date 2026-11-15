@@ -1,0 +1,84 @@
+@if (isOpen()) {
+  @let p = place();
+  @let c = comp();
+  @if (c !== 'phone') {@defer (on immediate) {<i cfWide></i>} @error {}}
+  <div class="cf-scroll" #scroll mjSwipe="x" (swipeNext)="sibling(1)" (swipePrev)="sibling(-1)" (holdStart)="walk.hold(true)" (holdEnd)="walk.hold(false)">
+    @if (walk.on()) {
+      @let s = walk.segs();
+      <header class="cf-story" [class.held]="walk.paused() || walk.held()">
+        <ol class="cf-prog" aria-hidden="true">@for (c of segList(); track $index) {<li [class]="c"><i [style.--seg-ms]="s.ms + 'ms'"></i></li>}</ol>
+        <div class="cf-story-row">
+          <span class="cf-live"><i aria-hidden="true"></i>{{ 'cfLive' | cfT }}</span>
+          <b class="cf-story-at">{{ 'cfWalk' | cfT }} · {{ crumbs().here || ('cfOman' | cfT) }}</b>
+          <button type="button" class="cf-btn icon" [attr.aria-label]="(walk.paused() ? 'cfResume' : 'cfPause') | cfT" [attr.aria-pressed]="walk.paused()" (click)="walk.toggle()"><svg [cfIcon]="walk.paused() ? 'play' : 'pause'"></svg></button>
+          <button type="button" class="cf-btn icon" [attr.aria-label]="'cfWalkStop' | cfT" (click)="walk.stop()"><svg cfIcon="close"></svg></button>
+        </div>
+      </header>
+    }
+    @if (p.k === 'nat') {
+      @if (!walk.on()) {
+        <div mjAppbar [heading]="'cfTitle' | cfT" [sub]="'cfSub' | cfT" [liveL]="'cfLive' | cfT" [stamp]="stamp()" [stale]="!!view.staleAt()" [fig]="view.nat().p" [theme]="look()" (menu)="sheet.set('set')"></div>
+      }
+    } @else if (!walk.on()) {
+      <div class="cf-top">
+        <button type="button" class="cf-btn icon" [attr.aria-label]="'cfUp' | cfT: { p: crumbs().up }" (click)="up()"><svg cfIcon="back"></svg></button>
+        <span class="cf-crumb">{{ crumbs().up }} › <b>{{ crumbs().here }}</b></span>
+        @if (p.k === 'wil') {<button type="button" class="cf-btn icon" [attr.aria-label]="'cfShare' | cfT" (click)="share()"><svg cfIcon="share"></svg></button>}
+        <button type="button" class="cf-btn icon" [attr.aria-label]="'cfMenu' | cfT" (click)="sheet.set('set')"><svg cfIcon="menu"></svg></button>
+      </div>
+    }
+    <main class="cf-main">
+      @if (!counting()) {
+        <p class="cf-empty"><b>{{ 'cxdBefore' | cfT }}</b></p>
+      } @else if (!view.ready()) {
+        <p class="cf-empty" aria-busy="true">{{ 'cxdLoadingC' | cfT }}</p>
+      } @else if (c === 'tab') {
+        <div class="cf-split">
+          <div class="cf-pane-s">
+            @if (p.k === 'nat') {<section cfGovs (pick)="toGov($event)"></section>} @else {<section cfGov [lit]="p.k === 'wil' ? p.wid : null" (pick)="pickWil($event)"></section>}
+          </div>
+          <div class="cf-pane-e">
+            @if (p.k === 'nat') {
+              <h1 class="cf-name cf-sr-only" tabindex="-1">{{ 'cfOman' | cfT }}</h1>
+              <button type="button" class="cf-play" [attr.aria-label]="'cfPlayL' | cfT" (click)="play()"><svg cfIcon="play"></svg>{{ 'cfPlay' | cfT }}</button>
+              <section cfNat></section>
+              <section class="cf-card cf-feed" [attr.aria-label]="'cfAct' | cfT"><p class="cf-micro">{{ 'cfAct' | cfT }}</p>
+                <ol class="cf-lines">@for (l of lines().slice(0, 8); track l.id) {<li><time class="mj-num">{{ l.t }}</time><span>{{ l.text }}</span></li>} @empty {<li><span>{{ 'cfActNone' | cfT }}</span></li>}</ol></section>
+            } @else if (p.k === 'wil') {
+              <section cfWil (draw)="toDraw()"></section>
+            } @else {
+              <p class="cf-empty cf-pick-hint">{{ 'cfPickWil' | cfT }}</p>
+            }
+          </div>
+        </div>
+      } @else if (p.k === 'nat') {
+        <div class="cf-acts">
+          @if (!walk.on()) {<button type="button" class="cf-play" [attr.aria-label]="'cfPlayL' | cfT" (click)="play()"><svg cfIcon="play"></svg>{{ 'cfPlay' | cfT }}</button>}
+          <button type="button" class="cf-act" (click)="sheet.set('act')">
+            @if (lines()[0]; as l) {<i [class]="'cf-dot cf-st ' + l.st" aria-hidden="true"></i><span>{{ l.text }}</span><time class="mj-num">{{ l.t }}</time>} @else {<span>{{ 'cfAct' | cfT }}</span>}
+            <svg cfIcon="go"></svg>
+          </button>
+        </div>
+        <h1 class="cf-name cf-sr-only" tabindex="-1">{{ 'cfOman' | cfT }}</h1>
+        <section cfNat></section>
+        <section cfGovs (pick)="toGov($event)"></section>
+      } @else if (p.k === 'gov') {
+        @if (!walk.on()) {<button type="button" class="cf-play" [attr.aria-label]="'cfPlayL' | cfT" (click)="play()"><svg cfIcon="play"></svg>{{ 'cfPlay' | cfT }}</button>}
+        <section cfGov (pick)="toWil($event)"></section>
+      } @else {
+        @if (c === 'sign') {<div class="cf-card cf-signmap"><div cfMap [govs]="view.store.govs" [gid]="p.gid" [lit]="p.wid"></div></div>}
+        <section cfWil (draw)="toDraw()"></section>
+      }
+    </main>
+    @if (c === 'sign') {
+      <footer class="cf-banner" aria-hidden="true"><b><svg cfIcon="bell"></svg>{{ 'cfAct' | cfT }}</b>@for (l of lines().slice(0, 2); track l.id) {<span><time class="mj-num">{{ l.t }}</time>{{ l.text }}</span>}</footer>
+    }
+  </div>
+  <nav class="cf-bar" [attr.aria-label]="'cfBar' | cfT">
+    @for (b of bar; track b.s) {
+      <button type="button" class="cf-bar-i" [class.on]="b.s === 'wall'" [attr.aria-current]="b.s === 'wall' ? 'page' : null" (click)="show(b.s)"><svg [cfIcon]="b.icon"></svg><span>{{ b.key | cfT }}</span></button>
+    }
+  </nav>
+  <dialog mjSheet [label]="sheetLabel()" [open]="!!sheet()" (closed)="sheet.set(null)">@if (sheet(); as k) {<div cfSheets [kind]="k" [lines]="lines()" [sec]="secs()" [secsList]="secsList" [still]="still()" [osStill]="osStill()" [theme]="look()" (secChange)="setSecs($event)" (stillChange)="setStill($event)" (themeChange)="flipTheme()" (go)="show($event)"></div>}</dialog>
+  <div class="mj-sr" aria-live="polite" aria-atomic="true">{{ say() }}</div>
+}

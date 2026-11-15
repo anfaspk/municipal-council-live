@@ -1,3 +1,4 @@
+@use '../../../../styles/mixins';
 @use '../../../../styles/scales' as *;
 
 .tva-dock {
@@ -24,6 +25,10 @@
     0 14px 34px -20px var(--shadow-ink-70);
   backdrop-filter: blur(12px);
   transition: opacity $t-450 var(--ease-std);
+
+  @include mixins.lite {
+    backdrop-filter: none;
+  }
 }
 .tva-ctl .mj-btn,
 .tva-opts .tva-motion {
@@ -35,9 +40,11 @@
 .tva-ctl .mj-btn.icon {
   width: 40px;
 }
-.tva-ctl .mj-btn:hover,
-.tva-opts .tva-motion:hover {
-  background: var(--glass-fill);
+@include mixins.hover {
+  .tva-ctl .mj-btn:hover,
+  .tva-opts .tva-motion:hover {
+    background: var(--glass-fill);
+  }
 }
 .tva-ctl svg {
   width: 20px;
@@ -153,6 +160,10 @@
     opacity $t-300 var(--ease-std),
     transform $t-400 var(--ease-expo);
   pointer-events: none;
+
+  @include mixins.lite {
+    backdrop-filter: none;
+  }
 }
 .tva-state svg {
   width: 16px;

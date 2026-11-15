@@ -22,7 +22,7 @@ import {
   parseAcceptLink,
 } from '../../domain/conflict/accept';
 import { AmbientComponent } from '../../shared/ui/ambient.component';
-import { LOGO_DARK } from '../../shared/ui/brand';
+import { LOGO_DARK, logoFor } from '../../shared/ui/brand';
 import { HorizonComponent } from '../../shared/ui/horizon.component';
 import { AcceptAvatarComponent } from './accept-avatar.component';
 import { AcceptGlyphComponent, CaGlyph } from './accept-glyph.component';
@@ -99,7 +99,7 @@ function msgOf(s: AcceptState, v: AcceptView, fresh: boolean): Msg | null {
 export class AcceptComponent {
   protected readonly store = inject(AcceptStore);
   private readonly clock = inject(ServerClock);
-  protected readonly logo = LOGO_DARK;
+  protected readonly logo = logoFor(LOGO_DARK, true);
   private readonly now = signal(this.clock.now());
   private readonly msgEl = viewChild<ElementRef<HTMLElement>>('msg');
 
@@ -144,6 +144,7 @@ export class AcceptComponent {
     const doc = inject(DOCUMENT);
     doc.title = at('caDocTitle');
     doc.documentElement.setAttribute('data-theme', 'night');
+    doc.documentElement.setAttribute('data-form', 'flow');
     this.store.open(parseAcceptLink(doc.location.search));
     const tick = setInterval(() => this.now.set(this.clock.now()), 1000);
     inject(DestroyRef).onDestroy(() => clearInterval(tick));

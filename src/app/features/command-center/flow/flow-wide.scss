@@ -1,0 +1,16 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/tablet');
+  @include meta.load-css('styles/sign');
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .fl-tour {
+      animation: none;
+    }
+  }
+}

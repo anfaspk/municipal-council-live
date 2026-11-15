@@ -1,0 +1,10 @@
+@media (forced-colors: active) {
+  .mj-row .mb i,
+  .mj-runner .rr .sb i {
+    forced-color-adjust: none;
+  }
+  .mj-row:is(.is-pinned, .is-hot) {
+    outline: 2px solid highlight;
+    outline-offset: -2px;
+  }
+}

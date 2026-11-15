@@ -16,6 +16,9 @@
     gap: $sp-14;
     min-height: 0;
   }
+  .dt-page {
+    @include mixins.frame;
+  }
   .dt-page .dt-grid {
     display: contents;
   }
@@ -109,23 +112,6 @@
     margin: 0;
     color: var(--ink-muted);
     font-size: $fs-12;
-  }
-
-  .mj-fluid .dt-page {
-    position: relative;
-    inset: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 0 $sp-16 $sp-12;
-  }
-  .mj-fluid .dt-page .dt-top {
-    padding-inline-end: $sp-64;
-  }
-  .mj-fluid .dt-page .dt-card {
-    min-height: 260px;
-  }
-  .mj-fluid .dt-page :is(.dt-c-region, .dt-c-locator, .dt-c-villages, .dt-c-wilayat, .dt-c-rate) {
-    min-height: 460px;
   }
 
   @keyframes dt-in {
@@ -261,6 +247,9 @@
 
 @layer states {
   .dt-page.dt-still {
+    @include region-still;
+  }
+  :where([data-fx='lite']) .dt-page {
     @include region-still;
   }
 }

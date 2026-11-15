@@ -17,7 +17,7 @@
       <h2 class="dt-title" tabindex="-1">{{ h.title ?? ('dtLoading' | dtT) }}</h2>
     </div>
     @if (figs(); as f) {
-      <p class="dt-sum">@for (x of f; track $index) {@if (x.bold) {<b class="mj-num">{{ x.text }}</b>} @else {{{ x.text }}}}</p>
+      <p class="dt-sum">@for (x of f; track $index) {@if (x.bold) {<b class="mj-num" [attr.data-fig]="x.key === 'v' ? 'place.voted' : 'place.registered'">{{ x.text }}</b>} @else {{{ x.text }}}}</p>
     }
     <div class="dt-chips">
       @if (h.rank !== null) {<span class="dt-chip mj-num">{{ 'dtRank' | dtT: { n: h.rank, m: h.of ?? 0 } }}</span>}

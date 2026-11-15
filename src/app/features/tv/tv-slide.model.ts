@@ -10,6 +10,7 @@ import {
   locator,
   RegionShape,
   regionShape,
+  TvBox,
   WilayatStat,
   wilayatStats,
 } from './tv-geometry';
@@ -96,12 +97,18 @@ export function genderOf(d: {
 const two = (n: number): string => String(n).padStart(2, '0');
 let seq = 0;
 
+export interface SlideBoxes {
+  region?: TvBox;
+  country?: TvBox;
+}
+
 export function buildSlide(
   keys: string[],
   k: number,
   index: GovIndex<Gov>,
   nat: National,
   done: boolean,
+  boxes: SlideBoxes = {},
 ): TvSlide {
   const key = keys[k]!,
     nk = keys[(k + 1) % keys.length]!;
@@ -128,7 +135,7 @@ export function buildSlide(
         const tg = turnout(g);
         return { rank: index.rankOf(g.id), name: g.ar, t: tg, band: band(tg) };
       }),
-      map: countryMap(index.ranked),
+      map: countryMap(index.ranked, boxes.country),
     };
   }
   const g = index.get(key)!,
@@ -152,7 +159,7 @@ export function buildSlide(
     curve: curve(cv.vals, t),
     hours: hourLabels(cv.from, cv.to, 3),
     wilayat,
-    region: regionShape(key, wilayat),
+    region: regionShape(key, wilayat, boxes.region),
     locator: locator(key),
   };
 }

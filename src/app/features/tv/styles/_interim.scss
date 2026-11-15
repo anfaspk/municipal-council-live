@@ -72,6 +72,9 @@
 .tv-body > .off {
   display: none;
 }
+.tv-body.tabbed > .tv-info > .tv-name {
+  display: none;
+}
 .tv-int-bar {
   grid-column: 1;
   grid-row: 1;
@@ -115,9 +118,12 @@
     color $t-300 var(--ease-std),
     background $t-300 var(--ease-std),
     box-shadow $t-300 var(--ease-std);
+  @include mixins.hit;
 }
-.tv-tab:hover {
-  color: var(--ink);
+@include mixins.hover {
+  .tv-tab:hover {
+    color: var(--ink);
+  }
 }
 .tv-tab[aria-selected='true'] {
   color: var(--canvas-0);

@@ -14,21 +14,12 @@ import {
 } from '@angular/core';
 import { ScreenState } from '../../../core/screen/screen.state';
 import { reducedMotion } from '../../../shared/motion/reduced-motion';
-import { t, TextPart, tParts } from '../../../core/i18n/i18n';
+import { TextPart } from '../../../core/i18n/i18n';
 import { Tick, TickerStore } from '../../../data/ticker.store';
-import { fmt, pct } from '../../../domain/format';
 import { IconComponent } from '../../../shared/ui/icon.component';
 import { starPoints } from '../../../shared/ui/ornament';
 import { TPipe } from '../../../shared/ui/t.pipe';
-
-function partsOf(tick: Tick): TextPart[] {
-  if (tick.kind === 'counted') return tParts('counted', { g: tick.gov, v: fmt(tick.votes) }, ['v']);
-  if (tick.kind === 'passes') return tParts('passes', { g: tick.gov, p: tick.p + '%' }, ['g']);
-  return [
-    { text: t('finalCount'), bold: true },
-    { text: ' · ' + pct(tick.turnout), bold: false },
-  ];
-}
+import { tickWords } from './tick-words';
 
 const SPEED = 40;
 
@@ -52,7 +43,7 @@ export class TickerComponent {
   readonly items = computed(() =>
     this.shown().map((tick) => {
       let parts = this.words.get(tick);
-      if (!parts) this.words.set(tick, (parts = partsOf(tick)));
+      if (!parts) this.words.set(tick, (parts = tickWords(tick)));
       return { tick, parts };
     }),
   );

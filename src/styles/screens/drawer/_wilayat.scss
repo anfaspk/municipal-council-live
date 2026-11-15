@@ -50,9 +50,13 @@
   border-radius: $r-14;
   color: var(--ink-muted);
 }
-.dw-wrow > .dw-wgo:hover,
 .dw-wrow > .dw-wgo:focus-visible {
   color: var(--gold-ink);
+}
+@include mixins.hover {
+  .dw-wrow > .dw-wgo:hover {
+    color: var(--gold-ink);
+  }
 }
 .dw-wrow > .dw-wgo svg {
   width: 16px;
@@ -77,13 +81,21 @@
     box-shadow $t-200,
     transform $t-350 var(--ease-spring);
 }
-.dw-wr:hover,
 .dw-wr.is-hot {
   background: var(--glass-fill-strong);
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--band) 60%, transparent),
     0 10px 24px -16px var(--band);
   transform: translateX(calc(var(--rd, 1) * 3px));
+}
+@include mixins.hover {
+  .dw-wr:hover {
+    background: var(--glass-fill-strong);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--band) 60%, transparent),
+      0 10px 24px -16px var(--band);
+    transform: translateX(calc(var(--rd, 1) * 3px));
+  }
 }
 .dw-wr:focus-visible {
   outline: 2px solid var(--focus-ring);
@@ -151,7 +163,9 @@
   width: 16px;
   height: 16px;
 }
-.dw-wr:hover .go {
-  color: var(--gold-ink);
-  transform: translateX(calc(var(--rd, 1) * 3px));
+@include mixins.hover {
+  .dw-wr:hover .go {
+    color: var(--gold-ink);
+    transform: translateX(calc(var(--rd, 1) * 3px));
+  }
 }

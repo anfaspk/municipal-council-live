@@ -1,0 +1,273 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.fl-gs {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-14;
+  padding-block-end: $sp-16;
+}
+.fl-gs-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $sp-12;
+}
+.fl-gs-name {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+  min-inline-size: 0;
+}
+.fl-gs-name small {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.fl-gs-name h2 {
+  margin: 0;
+  font-size: $fs-display-3;
+  line-height: $lh-head;
+}
+.fl-gs-pct {
+  flex: none;
+  font-size: $fs-display-2;
+  line-height: $lh-figure;
+}
+.fl-gs-acts {
+  display: flex;
+  gap: $sp-10;
+}
+.fl-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-8;
+  min-block-size: 48px;
+  padding-inline: $sp-16;
+  border: 1px solid var(--glass-stroke);
+  border-radius: $r-14;
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  font-size: $fs-15;
+  font-weight: 600;
+  cursor: pointer;
+
+  @include mixins.touch-control;
+}
+.fl-btn:active {
+  scale: var(--press);
+}
+.fl-btn.gold {
+  flex: 1;
+  border-color: transparent;
+  color: var(--on-gold);
+  background: var(--gold);
+}
+.fl-btn.icon {
+  flex: none;
+  inline-size: 48px;
+  padding: 0;
+}
+.fl-btn.icon.quiet {
+  inline-size: 44px;
+  min-block-size: 44px;
+  border-color: transparent;
+  color: var(--gold-ink);
+}
+.fl-btn.ghost {
+  inline-size: 100%;
+  border-color: transparent;
+}
+.fl-tabs {
+  display: flex;
+  gap: $sp-4;
+  border-block-end: 1px solid var(--hairline);
+}
+.fl-tab {
+  flex: 1;
+  min-block-size: 48px;
+  padding: 0;
+  border: 0;
+  border-block-end: 3px solid transparent;
+  color: var(--ink-muted);
+  background: none;
+  font: inherit;
+  font-size: $fs-15;
+  cursor: pointer;
+
+  @include mixins.touch-control;
+}
+.fl-tab[aria-selected='true'] {
+  border-block-end-color: var(--gold);
+  color: var(--ink);
+  font-weight: 700;
+}
+.fl-gs-pane {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-12;
+}
+.fl-cmp {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  margin: 0;
+  padding-block: $sp-8;
+  padding-inline: $sp-14;
+  border-radius: $r-14;
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  font-size: $fs-15;
+}
+.fl-cmp .fl-ic {
+  inline-size: 18px;
+  block-size: 18px;
+  color: var(--band-mid-ink);
+}
+.fl-gs-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $sp-10;
+}
+.fl-gs-tile {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-2;
+  padding: $sp-12;
+  border-radius: $r-16;
+  background: var(--glass-solid);
+}
+.fl-gs-tile p,
+.fl-gs-tile small {
+  display: flex;
+  align-items: center;
+  gap: $sp-4;
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.fl-gs-tile small {
+  font-size: $fs-12;
+}
+.fl-gs-tile b {
+  font-size: $fs-display-2;
+  line-height: $lh-head;
+}
+.fl-gs-tile .fl-sex {
+  inline-size: 18px;
+  block-size: 18px;
+}
+.fl-gs-tile .fl-m {
+  color: var(--male-neon);
+}
+.fl-gs-tile .fl-f {
+  color: var(--female);
+}
+.fl-gs-note {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.fl-pick {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  min-block-size: 52px;
+  padding-inline: $sp-14;
+  border: 1px solid var(--glass-stroke);
+  border-radius: $r-16;
+}
+.fl-pick span {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.fl-pick select {
+  flex: 1;
+  min-block-size: 48px;
+  border: 0;
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  appearance: none;
+
+  @include mixins.field;
+}
+.fl-pick .fl-ic {
+  position: absolute;
+  inset-inline-end: $sp-14;
+  pointer-events: none;
+}
+.fl-vil-more {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+  padding-block-end: $sp-12;
+}
+.fl-skel-rows {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+}
+.fl-skel-rows i {
+  display: block;
+  block-size: 52px;
+  border-radius: $r-14;
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+
+.fl-menu {
+  display: flex;
+  flex-direction: column;
+  padding-block-end: $sp-16;
+}
+.fl-menu-h {
+  margin-block: 0 $sp-12;
+  font-size: $fs-display-3;
+}
+.fl-menu-sub {
+  margin-block: $sp-16 $sp-4;
+  color: var(--ink-muted);
+  font-size: $fs-14;
+}
+.fl-menu-row {
+  display: flex;
+  align-items: center;
+  gap: $sp-14;
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: 56px;
+  padding-block: $sp-8;
+  padding-inline: 0;
+  border: 0;
+  border-block-end: 1px solid var(--hairline);
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  font-size: $fs-16;
+  text-align: start;
+  cursor: pointer;
+
+  @include mixins.touch-control;
+}
+.fl-menu-l {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.fl-menu-l small {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.fl-menu-row .fl-seg {
+  flex: none;
+  min-inline-size: 150px;
+}
+.fl-follow-t.on {
+  color: var(--gold-ink);
+}
+.fl-follow-t.on .fl-ic {
+  fill: currentcolor;
+}

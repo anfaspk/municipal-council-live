@@ -1,0 +1,123 @@
+@use '../../../../../styles/scales' as *;
+
+.wf:where([data-comp='tab'], [data-comp='sign']) .wf-govs {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.wf:where([data-comp='tab'], [data-comp='sign']) .wf-main {
+  max-inline-size: 960px;
+}
+
+.wf[data-comp='tab'] {
+  --wf-rail: 300px;
+
+  .wf-rail {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    box-sizing: border-box;
+    inline-size: var(--wf-rail);
+    padding: max(#{$sp-16}, var(--safe-top)) $sp-16 $sp-16;
+    overflow: hidden auto;
+    border-inline-end: 1px solid color-mix(in srgb, var(--gold-ink) 25%, transparent);
+    background: color-mix(in srgb, var(--wn-sky-0) 85%, transparent);
+  }
+  .wf-story {
+    inset-inline-start: var(--wf-rail);
+  }
+  .wf-listbtn {
+    display: none;
+  }
+}
+
+.wf[data-comp='sign'] {
+  --wf-strip: 128px;
+
+  .wf-story {
+    zoom: 1.6;
+    inset-block-end: calc(var(--wf-strip) / 1.6);
+  }
+  .wf-page {
+    zoom: 1.4;
+  }
+  .wf-row .wf-btn,
+  .wf-bar,
+  .wf-lead,
+  .wf-page .mj-appbar button,
+  .wf-share,
+  .wf-cshare,
+  .wf-next {
+    display: none;
+  }
+  .wf-omap {
+    block-size: 400px;
+    margin-block: $sp-12;
+  }
+  .wf-omap svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+  .wf-omap path {
+    fill: color-mix(in srgb, var(--gold-ink) calc(var(--p) * 60%), var(--wn-sky-0));
+    stroke: var(--gold-ink);
+    stroke-width: 1.2;
+  }
+  .wf-omap path.none {
+    fill: color-mix(in srgb, var(--ink) 6%, transparent);
+  }
+  .wf-omap text {
+    fill: var(--ink);
+    font-size: $fs-15;
+    font-weight: 600;
+    paint-order: stroke;
+    stroke: var(--wn-sky-0);
+    stroke-width: 3px;
+    text-anchor: middle;
+  }
+}
+
+.wf-strip {
+  position: absolute;
+  inset: auto 0 0;
+  box-sizing: border-box;
+  block-size: var(--wf-strip);
+  padding: $sp-14 $sp-36 max(#{$sp-18}, var(--safe-bottom));
+  border-block-start: 1px solid color-mix(in srgb, var(--gold-ink) 30%, transparent);
+  background: var(--wn-sky-0);
+}
+.wf-strip p {
+  margin: 0 0 $sp-10;
+  color: var(--gold-ink);
+  font-size: $fs-20;
+  font-weight: 700;
+}
+.wf-strip ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sp-10 $sp-12;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.wf-strip li {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  min-block-size: 40px;
+  padding-inline: $sp-14;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-pill);
+  color: var(--ink-muted);
+  font-size: $fs-18;
+}
+.wf-strip li.done {
+  color: var(--ink);
+}
+.wf-strip li.on {
+  border-color: var(--gold-ink);
+  color: var(--gold-ink);
+  background: color-mix(in srgb, var(--gold-ink) 12%, transparent);
+}
+.wf-strip .wf-ic {
+  inline-size: 18px;
+  block-size: 18px;
+}

@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { reducedMotion } from '../motion/reduced-motion';
+import { liteFx } from '../motion/effects-tier';
 
 export interface ToastOpts {
   icon?: string;
@@ -30,6 +31,7 @@ export class FxService {
   readonly toasts = signal<Toast[]>([]);
   readonly bursts = signal<ConfettiBurst[]>([]);
   private id = 0;
+  private burst = false;
 
   toast(o: ToastOpts): void {
     const t: Toast = { ...o, id: ++this.id };
@@ -42,7 +44,8 @@ export class FxService {
   }
 
   confetti(host: HTMLElement, o: { x?: number; y?: number; count?: number } = {}): void {
-    if (reducedMotion()) return;
+    if (reducedMotion() || (liteFx() && this.burst)) return;
+    this.burst = true;
     const n = o.count || 36,
       ox = o.x ?? host.offsetWidth / 2,
       oy = o.y ?? host.offsetHeight * 0.3;

@@ -22,7 +22,7 @@ const ICON: Record<FlowKey, IconName> = {
     <li class="dt-step" [class]="s.key" [attr.aria-label]="say(s)">
       <span class="dt-step-ic" aria-hidden="true"><svg [mjIcon]="icon[s.key]"></svg></span>
       <span class="dt-step-l">{{ 'dtFlow.' + s.key | dtT }}</span>
-      @if (s.t !== null) {<b class="dt-step-n mj-num" [mjCountUp]="s.t"></b>} @else {<b class="dt-step-n mj-num">{{ dash }}</b>}
+      @if (s.t !== null) {<b class="dt-step-n mj-num" [attr.data-fig]="'place.flow.' + s.key" [mjCountUp]="s.t"></b>} @else {<b class="dt-step-n mj-num" [attr.data-fig]="'place.flow.' + s.key">{{ dash }}</b>}
       <span class="dt-step-of mj-num">@if (s.of) {{{ 'dtFlowOf.' + s.key | dtT: { p: s.of } }}}</span>
       <span class="dt-step-bar" [class.none]="s.km === null" aria-hidden="true"><i class="m" [style.--k]="s.km ?? 0"></i><i class="f" [style.--k]="s.km === null ? 0 : 1 - s.km"></i></span>
       <span class="dt-step-mf mj-num" aria-hidden="true"><span class="m"><i class="dt-sw m"></i>{{ num(s.m) }}</span><span class="f"><i class="dt-sw f"></i>{{ num(s.f) }}</span></span>

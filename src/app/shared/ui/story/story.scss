@@ -1,0 +1,85 @@
+@use '../../../../styles/scales' as *;
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  .mj-story {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $sp-8;
+    min-block-size: 0;
+  }
+  .mj-story-top {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-8;
+  }
+  .mj-story-segs {
+    display: flex;
+    gap: $sp-4;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .mj-story-seg {
+    flex: 1;
+    block-size: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--glass-stroke);
+    overflow: hidden;
+  }
+  .mj-story-seg i {
+    display: block;
+    block-size: 100%;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+  .mj-story-seg.done i {
+    transform: none;
+  }
+  .mj-story-seg.on i {
+    animation: mj-story-fill var(--story-ms, 8000ms) linear both;
+  }
+  .mj-story.paused .mj-story-seg.on i {
+    animation-play-state: paused;
+  }
+  .mj-story-ctl {
+    display: flex;
+    align-items: center;
+    gap: $sp-6;
+  }
+  .mj-story-at {
+    flex: 1;
+    color: var(--ink-muted);
+    font-size: $fs-12;
+  }
+  .mj-story-surface {
+    position: relative;
+    flex: 1;
+    min-block-size: 0;
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+  .mj-story-surface.mj-swipe-x {
+    touch-action: pinch-zoom;
+  }
+  @keyframes mj-story-fill {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: none;
+    }
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .mj-story-seg.on i {
+      animation: none;
+      transform: none;
+    }
+  }
+}

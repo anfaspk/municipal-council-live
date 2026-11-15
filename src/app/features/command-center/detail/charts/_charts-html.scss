@@ -73,10 +73,15 @@
     background-color $t-200 var(--ease-std),
     box-shadow $t-200 var(--ease-std);
 }
-.dt-ranked .dt-row:hover,
 .dt-ranked .dt-row.hot {
   background: var(--glass-fill-strong);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--band) 60%, transparent);
+}
+@include mixins.hover {
+  .dt-ranked .dt-row:hover {
+    background: var(--glass-fill-strong);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--band) 60%, transparent);
+  }
 }
 .dt-ranked .dt-row:focus-visible {
   outline: 2px solid var(--focus-ring);
@@ -162,11 +167,17 @@
     opacity $t-200 var(--ease-std),
     transform $t-200 var(--ease-std);
 }
-.dt-ranked .dt-row:hover .dt-go,
 .dt-ranked .dt-row.hot .dt-go {
   color: var(--gold-ink);
   opacity: 1;
   transform: translateX(-3px);
+}
+@include mixins.hover {
+  .dt-ranked .dt-row:hover .dt-go {
+    color: var(--gold-ink);
+    opacity: 1;
+    transform: translateX(-3px);
+  }
 }
 .dt-ranked .dt-ranked-key {
   flex: none;
@@ -252,12 +263,15 @@
   @include mixins.arabic;
   text-align: start;
   cursor: pointer;
+  @include mixins.hit-min;
 }
 .dt-strip .dt-mini span {
   @include mixins.ellipsis;
 }
-.dt-strip .dt-mini:hover {
-  background: var(--glass-fill-strong);
+@include mixins.hover {
+  .dt-strip .dt-mini:hover {
+    background: var(--glass-fill-strong);
+  }
 }
 .dt-strip .dt-mini:focus-visible {
   outline: 2px solid var(--focus-ring);

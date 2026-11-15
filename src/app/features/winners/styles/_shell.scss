@@ -20,6 +20,7 @@
   overflow: clip;
   background: var(--wn-sky-0);
   color: var(--ink);
+  @include mixins.frame;
 }
 .wn-root.on {
   display: block;
@@ -135,9 +136,11 @@
     background-color var(--dur-micro),
     box-shadow var(--dur-micro);
 }
-.wn-top .mj-btn:hover {
-  background: color-mix(in srgb, var(--gold) 16%, var(--wn-sky-1));
-  box-shadow: inset 0 0 0 1px var(--gold);
+@include mixins.hover {
+  .wn-top .mj-btn:hover {
+    background: color-mix(in srgb, var(--gold) 16%, var(--wn-sky-1));
+    box-shadow: inset 0 0 0 1px var(--gold);
+  }
 }
 .wn-top .wn-back {
   gap: $sp-10;

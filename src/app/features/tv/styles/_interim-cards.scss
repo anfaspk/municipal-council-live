@@ -185,9 +185,11 @@
 }
 .tv-ih-rest {
   display: grid;
-  grid-auto-rows: minmax(28px, 54px);
-  gap: $sp-3;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 68px;
+  gap: $sp-8 $sp-20;
   min-height: 0;
+  padding-inline-end: $sp-6;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
@@ -197,38 +199,20 @@
   outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
-.tv-ih-rest.cols {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: repeat(var(--rows), 48px);
-  grid-auto-flow: column;
-  gap: $sp-6 $sp-24;
-}
-.tv-ih-rest:not(.cols) .tv-iav.sm {
-  width: auto;
-  height: min(40px, 100%);
-  aspect-ratio: 1;
-}
-.tv-ih-rest.cols .tv-ir {
-  gap: $sp-10;
-  padding: 0;
-}
-.tv-ih-rest.cols .tv-iav {
-  width: 30px;
-  height: 30px;
-}
-.tv-ih-rest.cols .tv-ir .pc {
-  display: none;
+.tv-ih-rest .tv-iav.sm {
+  width: 52px;
+  height: 52px;
 }
 .tv-ir {
   display: flex;
   align-items: center;
-  gap: $sp-12;
+  gap: $sp-10;
   padding: 0 $sp-4;
   animation: tv-int-in $t-700 var(--ease-expo) calc($t-250 + var(--k) * $t-80) backwards;
 }
 .tv-ir .p {
-  width: 22px;
-  font: 700 #{$fs-15}/ 1 var(--font-display);
+  width: 24px;
+  font: 700 #{$fs-16}/ 1 var(--font-display);
   color: var(--ink-muted);
   text-align: center;
 }
@@ -254,21 +238,14 @@
   animation: tv-int-bar $t-1200 var(--ease-expo) $t-300 both;
   transition: transform $t-600 var(--ease-std);
 }
-.lined .tv-ir-t::after {
-  content: '';
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: calc(var(--line) * 100%);
-  border-inline-start: 2px dashed var(--gold);
-}
 .tv-ir .nm {
   position: relative;
   min-width: 0;
-  font: 600 #{$fs-20}/ 1.3 var(--font-arabic);
+  font: 600 #{$fs-18}/ 1.3 var(--font-arabic);
   @include mixins.ellipsis;
 }
-.lined .tv-ir.other .tv-ir-t::after {
-  display: none;
+.tv-ir.other {
+  grid-column: 1 / -1;
 }
 .tv-ir.other .nm {
   color: var(--ink-muted);
@@ -276,16 +253,20 @@
 .tv-ir.other .tv-ir-t i {
   background: color-mix(in srgb, var(--ink) 12%, transparent);
 }
+.tv-ir .vp {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $sp-6;
+  min-width: 64px;
+}
 .tv-ir .v {
-  width: 68px;
   font: 700 #{$fs-20}/ 1 var(--font-display);
-  text-align: end;
 }
 .tv-ir .pc {
-  width: 72px;
-  font: 600 #{$fs-15}/ 1 var(--font-sans);
+  font: 600 #{$fs-14}/ 1 var(--font-sans);
   color: var(--ink-muted);
-  text-align: end;
 }
 .tv-ih-wait {
   display: flex;

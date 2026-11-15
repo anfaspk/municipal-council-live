@@ -1,0 +1,184 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.tvf-frame {
+  @include mixins.landscape-short {
+    gap: $sp-4;
+    max-inline-size: none;
+    padding-block: max(#{$sp-8}, var(--safe-top)) max(#{$sp-8}, var(--safe-bottom));
+    padding-inline: max(#{$sp-24}, var(--safe-right)) max(#{$sp-24}, var(--safe-left));
+  }
+}
+.tvf-story {
+  @include mixins.landscape-short {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-content: start;
+    gap: $sp-6 $sp-24;
+  }
+}
+.tvf-all {
+  @include mixins.landscape-short {
+    min-block-size: 44px;
+  }
+}
+.tvf-story > * {
+  @include mixins.landscape-short {
+    grid-column: 1;
+  }
+}
+.tvf-story > :is(.tvf-natmap, .tvf-aside) {
+  @include mixins.landscape-short {
+    grid-column: 2;
+    grid-row: 1 / span 6;
+    align-self: start;
+  }
+}
+.tvf-natmap {
+  @include mixins.landscape-short {
+    block-size: 236px;
+  }
+}
+.tvf-top li {
+  @include mixins.landscape-short {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding-block: $sp-4;
+  }
+}
+.tvf-top .tvf-ink {
+  @include mixins.landscape-short {
+    grid-column: 3;
+  }
+}
+.tvf-aside {
+  display: contents;
+  @include mixins.landscape-short {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-8;
+  }
+}
+.tvf-h1 {
+  @include mixins.landscape-short {
+    font-size: $fs-22;
+  }
+}
+.tvf-h1.big {
+  @include mixins.landscape-short {
+    font-size: $fs-28;
+  }
+}
+.tvf-hero,
+.tvf-pair {
+  @include mixins.landscape-short {
+    gap: $sp-12;
+  }
+}
+.tvf-res {
+  @include mixins.landscape-short {
+    grid-template-areas: 'tabs chips' 'card card';
+  }
+}
+.tvf-res > .tvf-tabbar {
+  @include mixins.landscape-short {
+    grid-area: tabs;
+  }
+}
+.tvf-res > .tvf-sub {
+  @include mixins.landscape-short {
+    display: none;
+  }
+}
+.tvf-res > .tvf-chips-row {
+  @include mixins.landscape-short {
+    grid-area: chips;
+    align-self: center;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
+.tvf-res > .tvf-card {
+  @include mixins.landscape-short {
+    display: grid;
+    grid-area: card;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-areas: 'seats wh' 'seats line' 'seats nx' 'seats other';
+    align-items: start;
+    gap: $sp-8 $sp-16;
+    padding-block: $sp-10;
+  }
+}
+.tvf-card > .tvf-wh {
+  @include mixins.landscape-short {
+    grid-area: wh;
+  }
+}
+.tvf-card > .tvf-seats {
+  @include mixins.landscape-short {
+    grid-area: seats;
+  }
+}
+.tvf-card > .tvf-line {
+  @include mixins.landscape-short {
+    grid-area: line;
+    align-self: center;
+  }
+}
+.tvf-card > .tvf-nx {
+  @include mixins.landscape-short {
+    grid-area: nx;
+  }
+}
+.tvf-card > .tvf-other {
+  @include mixins.landscape-short {
+    grid-area: other;
+  }
+}
+.tvf-card > .tvf-wait {
+  @include mixins.landscape-short {
+    grid-column: 1 / -1;
+  }
+}
+.tvf-res > .tvf-all {
+  @include mixins.landscape-short {
+    grid-area: card;
+    place-self: end start;
+    inline-size: calc(52% - #{$sp-24});
+    margin-block-end: $sp-10;
+    margin-inline-start: $sp-12;
+  }
+}
+.tvf-pair .tvf-ring {
+  @include mixins.landscape-short {
+    inline-size: 100px;
+    block-size: 100px;
+  }
+}
+.tvf-row {
+  @include mixins.landscape-short {
+    min-block-size: 40px;
+    padding-block: $sp-2;
+  }
+}
+.tvf-seat {
+  @include mixins.landscape-short {
+    padding-block: $sp-6;
+  }
+}
+.tvf-av.md,
+.tvf-av.lg {
+  @include mixins.landscape-short {
+    inline-size: 44px;
+    block-size: 44px;
+  }
+}
+.tvf-vp b {
+  @include mixins.landscape-short {
+    font-size: $fs-20;
+  }
+}
+.tvf-region svg {
+  @include mixins.landscape-short {
+    max-block-size: 124px;
+  }
+}

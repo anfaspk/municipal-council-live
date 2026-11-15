@@ -1,0 +1,77 @@
+@if (isOpen()) {
+  @let c = comp();
+  @if (c !== 'phone') {@defer (on immediate) {<i cfdWide></i>} @error {}}
+  <div class="cf-scroll">
+    @if (c !== 'phone' && counting() && store.ready() && items().length) {
+      <div class="cf-top">
+        <button type="button" class="cf-btn icon" [attr.aria-label]="'cfdWallL' | cfT" (click)="toWall()"><svg cfIcon="back"></svg></button>
+        <span class="cf-crumb">{{ 'cxdWall' | cfT }} › <b>{{ 'cxTossTitle' | cfT }}</b></span>
+        @if (store.staleAt(); as at) {<span class="cf-live stale"><i aria-hidden="true"></i>{{ 'figuresAt' | cfT: { t: at } }}</span>} @else {<span class="cf-live"><i aria-hidden="true"></i>{{ 'cfLive' | cfT }}</span>}
+        <button type="button" class="cf-btn icon" [attr.aria-label]="'close' | cfT" (click)="close()"><svg cfIcon="close"></svg></button>
+      </div>
+      <div class="cfd-split">
+        <nav class="cfd-side" [attr.aria-label]="'cxdList' | cfT">
+          <h1 class="cf-name cfd-list-h" tabindex="-1">{{ 'cxdList' | cfT }}</h1>
+          <ol class="cfd-list">
+            @for (t of items(); track t.id) {
+              <li><button type="button" class="cfd-card" [class.on]="t.id === item()?.id" [attr.aria-current]="t.id === item()?.id ? 'true' : null" [attr.data-w]="t.id" (click)="pickTie(t.id)">
+                <span class="cfd-card-h"><span class="cfd-card-w"><small>{{ t.gov }} · {{ 'cxdSeats' | cfT: { n: t.seats } }}</small><b>{{ t.name }}</b></span>
+                  <span class="cf-chip cfd-state" [class.drawn]="t.state === 'drawn'"><i class="cf-dot" aria-hidden="true"></i>{{ (t.state === 'drawn' ? 'cxdDrawnS' : stageRow[t.stage]) | cfT }}</span></span>
+                <span class="cfd-names">
+                  @for (c of t.tied; track c.id) {<span class="cfd-nrow"><span class="cfd-hav" mjRaceAv [cand]="c"></span><span class="cfd-hn">{{ c.name }}</span>@if (seatOf(t, c.id); as s) {<em class="cfd-won"><svg cfIcon="crown"></svg>{{ 'cxdSeatN' | cfT: { n: s } }}</em>}</span>}
+                </span>
+              </button></li>
+            }
+          </ol>
+        </nav>
+        <main class="cf-main">
+          @if (item(); as it) {<section [cfdReveal]="it" [still]="still()" [play]="playN()" [hold]="pending() === it.id" [active]="isOpen()" (ask)="play()"></section>}
+        </main>
+      </div>
+    } @else if (tie() && item(); as it) {
+      <div class="cf-top">
+        <button type="button" class="cf-btn icon" [attr.aria-label]="'cfdBackList' | cfT" (click)="toList()"><svg cfIcon="back"></svg></button>
+        <span class="cf-crumb">{{ 'cxdList' | cfT }} · {{ 'cfdPos' | cfT: { i: index() + 1, n: items().length } }}</span>
+        @if (counting()) {@if (store.staleAt(); as at) {<span class="cf-live stale"><i aria-hidden="true"></i>{{ 'figuresAt' | cfT: { t: at } }}</span>} @else {<span class="cf-live"><i aria-hidden="true"></i>{{ 'cfLive' | cfT }}</span>}}
+        <button type="button" class="cf-btn icon" [attr.aria-label]="'close' | cfT" (click)="close()"><svg cfIcon="close"></svg></button>
+      </div>
+      <main class="cf-main" mjSwipe="x" (swipeNext)="swipe(1)" (swipePrev)="swipe(-1)">
+        <section [cfdReveal]="it" [still]="still()" [play]="playN()" [hold]="pending() === it.id" [active]="isOpen()" (ask)="play()"></section>
+      </main>
+    } @else {
+      <div class="cf-top">
+        <button type="button" class="cf-btn icon" [attr.aria-label]="'cfdWallL' | cfT" (click)="toWall()"><svg cfIcon="back"></svg></button>
+        <span class="cf-crumb">{{ 'cxdWall' | cfT }} › <b>{{ 'cxTossTitle' | cfT }}</b></span>
+        @if (counting()) {@if (store.staleAt(); as at) {<span class="cf-live stale"><i aria-hidden="true"></i>{{ 'figuresAt' | cfT: { t: at } }}</span>} @else {<span class="cf-live"><i aria-hidden="true"></i>{{ 'cfLive' | cfT }}</span>}}
+        <button type="button" class="cf-btn icon" [attr.aria-label]="'close' | cfT" (click)="close()"><svg cfIcon="close"></svg></button>
+      </div>
+      <main class="cf-main">
+        <header class="cf-ph"><p class="cf-kind">{{ 'cxdSub' | cfT }}</p><h1 class="cf-name cfd-list-h" tabindex="-1">{{ 'cxdList' | cfT }}</h1>
+          @let n = counts();
+          @if (items().length) {<div class="cf-chips"><span class="cf-chip cfd-state"><i class="cf-dot" aria-hidden="true"></i>{{ 'cxdOpenN' | cfT: { n: n.o } }}</span><span class="cf-chip cfd-state drawn"><i class="cf-dot" aria-hidden="true"></i>{{ 'cxdDrawnN' | cfT: { n: n.d } }}</span></div>}
+        </header>
+        @if (!counting()) {
+          <p class="cf-empty"><b>{{ 'cxdBefore' | cfT }}</b><br />{{ 'cxdBeforeSub' | cfT }}</p>
+        } @else if (!store.ready()) {
+          <p class="cf-empty" aria-busy="true"><b>{{ 'cxdLoadingC' | cfT }}</b><br />{{ 'cxdLoadingSub' | cfT }}</p>
+        } @else if (!items().length) {
+          <p class="cf-empty"><b>{{ 'cxdNone' | cfT }}</b><br />{{ 'cxdNoneSub' | cfT }}</p>
+        } @else {
+          <ol class="cfd-list">
+            @for (t of items(); track t.id) {
+              <li><button type="button" class="cfd-card" [attr.data-w]="t.id" (click)="openTie(t.id)">
+                <span class="cfd-card-h"><span class="cfd-card-w"><small>{{ t.gov }} · {{ 'cxdSeats' | cfT: { n: t.seats } }}</small><b>{{ t.name }}</b></span>
+                  <span class="cf-chip cfd-state" [class.drawn]="t.state === 'drawn'"><i class="cf-dot" aria-hidden="true"></i>{{ (t.state === 'drawn' ? 'cxdDrawnS' : stageRow[t.stage]) | cfT }}</span></span>
+                <span class="cfd-names">
+                  @for (c of t.tied; track c.id) {<span class="cfd-nrow"><span class="cfd-hav" mjRaceAv [cand]="c"></span><span class="cfd-hn">{{ c.name }}</span>@if (seatOf(t, c.id); as s) {<em class="cfd-won"><svg cfIcon="crown"></svg>{{ 'cxdSeatN' | cfT: { n: s } }}</em>}</span>}
+                </span>
+                @if (t.votes !== null && t.tied.length) {<small class="cfd-card-v">{{ 'cxTossTied' | cfT: { n: t.tied.length, v: number(t.votes) } }}</small>}
+              </button></li>
+            }
+          </ol>
+        }
+      </main>
+    }
+  </div>
+  <div class="mj-sr" aria-live="polite" aria-atomic="true">{{ say() }}</div>
+}

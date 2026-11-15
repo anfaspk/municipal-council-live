@@ -1,0 +1,27 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/feed');
+  @include meta.load-css('styles/govs');
+  @include meta.load-css('styles/ins');
+  @include meta.load-css('styles/sheet');
+  @include meta.load-css('styles/bar');
+  @include meta.load-css('styles/land');
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .fl-shell .fl-fill,
+    .fl-shell .fl-split-bar i,
+    .fl-shell .fl-bf i,
+    .fl-shell .fl-age i,
+    .fl-ring .arc {
+      transition: none;
+    }
+    .fl-toast {
+      animation: none;
+    }
+  }
+}

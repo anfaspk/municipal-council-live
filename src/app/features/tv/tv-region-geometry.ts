@@ -17,6 +17,7 @@ import {
   Rect,
   Ellipse,
   Spot,
+  TvBox,
 } from './tv-geometry-primitives';
 export interface WilayatStat {
   id: number;
@@ -52,6 +53,7 @@ export interface RegionColumn {
   body: string;
   cap: Ellipse;
   pt: Spot;
+  hit?: Spot & { r: string };
 }
 export interface RegionLabel {
   i: number;
@@ -71,6 +73,7 @@ export interface RegionColumns {
   viewBox: string;
   cols: RegionColumn[];
   labels: RegionLabel[];
+  text?: number;
 }
 export interface RegionShape {
   id: string;
@@ -93,20 +96,40 @@ export interface RegionShape {
 export const STAGE_W = 727,
   STAGE_H = 732;
 const COLUMN_MAX = 140,
-  HEADROOM = 170;
+  HEADROOM = 170,
+  LABEL_TEXT = 12.5;
+export const REGION_STAGE: TvBox = {
+  w: STAGE_W,
+  h: STAGE_H,
+  text: LABEL_TEXT,
+  hit: 0,
+  bleed: 14,
+  keep: { x: 62, y: 82, w: 150, h: 210 },
+};
+const fitOf = (box: TvBox): { s: number; m: number } => ({
+  s: Math.min(box.w / STAGE_W, box.h / STAGE_H),
+  m: Math.max(1, box.text / LABEL_TEXT),
+});
 
 export interface RegionPoint {
   id: number;
   at: Pt;
 }
 
-export function regionShape(id: string, wil: WilayatStat[]): RegionShape {
+export function regionShape(
+  id: string,
+  wil: WilayatStat[],
+  box: TvBox = REGION_STAGE,
+): RegionShape {
   const by = new Map(wil.map((w) => [w.id, w] as const)),
-    { shape, points } = regionBase(id, new Set(by.keys()));
+    { shape, points } = regionBase(id, new Set(by.keys()), box);
   return {
     ...shape,
     columns: points.length
-      ? regionColumns(points.map((p) => ({ at: p.at, r: by.get(p.id)! })))
+      ? regionColumns(
+          points.map((p) => ({ at: p.at, r: by.get(p.id)! })),
+          box,
+        )
       : null,
   };
 }
@@ -114,7 +137,12 @@ export function regionShape(id: string, wil: WilayatStat[]): RegionShape {
 export function regionBase(
   id: string,
   ids: ReadonlySet<number>,
+  box: TvBox = REGION_STAGE,
 ): { shape: RegionShape; points: RegionPoint[] } {
+  const W = box.w,
+    H = box.h,
+    fit = fitOf(box),
+    room = box.labels === false ? 0 : COLUMN_MAX * fit.s + (HEADROOM - COLUMN_MAX) * fit.m;
   const geo = (GEO.wilPt[id] || []).filter((x) => ids.has(x.i));
   const g0 = GEO.g[id]!,
     r0 = geoRings(g0.d),
@@ -128,15 +156,15 @@ export function regionBase(
     b0[3] - b0[1] + pad0 * 2 + s0 * 0.045,
   ];
   if (geo.length) {
-    const k0 = Math.min(STAGE_W / vb[2], STAGE_H / vb[3]);
-    let e = HEADROOM / k0;
-    if (STAGE_H / (vb[3] + e) < STAGE_W / vb[2]) e = (HEADROOM * vb[3]) / (STAGE_H - HEADROOM);
+    const k0 = Math.min(W / vb[2], H / vb[3]);
+    let e = room / k0;
+    if (H / (vb[3] + e) < W / vb[2]) e = (room * vb[3]) / (H - room);
     vb[1] -= e;
     vb[3] += e;
   }
-  const k = Math.min(STAGE_W / vb[2], STAGE_H / vb[3]),
-    ex = (STAGE_W - vb[2] * k) / 2 - vb[0] * k,
-    ey = (STAGE_H - vb[3] * k) / 2 - vb[1] * k;
+  const k = Math.min(W / vb[2], H / vb[3]),
+    ex = (W - vb[2] * k) / 2 - vb[0] * k,
+    ey = (H - vb[3] * k) / 2 - vb[1] * k;
   const px = (p: Pt): Pt => [p[0] * k + ex, p[1] * k + ey];
   const d = r0
     .map(
@@ -167,7 +195,7 @@ export function regionBase(
   }));
   const shape: RegionShape = {
     id: uid('tvs'),
-    viewBox: [0, 0, STAGE_W, STAGE_H].map(f2).join(' '),
+    viewBox: [0, 0, W, H].map(f2).join(' '),
     d,
     ext: lifts(9, s * 0.045),
     dots,
@@ -193,13 +221,15 @@ export function regionBase(
   return { shape, points: geo.map((x) => ({ id: x.i, at: px(x.c) })) };
 }
 
-function regionColumns(pts: { at: Pt; r: WilayatStat }[]): RegionColumns {
+function regionColumns(pts: { at: Pt; r: WilayatStat }[], box: TvBox): RegionColumns {
+  const { s: fs, m } = fitOf(box),
+    top = COLUMN_MAX * fs;
   const cl = pts.map((x) => ({
     r: x.r,
     X: x.at[0],
     Y: x.at[1],
-    h: (COLUMN_MAX * x.r.t) / 100,
-    T: x.at[1] - (COLUMN_MAX * x.r.t) / 100,
+    h: (top * x.r.t) / 100,
+    T: x.at[1] - (top * x.r.t) / 100,
   }));
   let dmin = 1e9;
   cl.forEach((a, i) => {
@@ -246,12 +276,26 @@ function regionColumns(pts: { at: Pt; r: WilayatStat }[]): RegionColumns {
         'Z',
       cap: { cx: f2(X), cy: f2(T), rx: f2(cw), ry: f2(ry) },
       pt: { cx: f2(X), cy: f2(Y) },
+      ...(box.hit > 0 && {
+        hit: { cx: f2(X), cy: f2((T + Y) / 2), r: f2(Math.max(box.hit, Y - T + ry * 2) / 2) },
+      }),
     }));
+  if (box.labels === false)
+    return { id: uid('tvk'), viewBox: '0 0 ' + box.w + ' ' + box.h, cols, labels: [] };
   const lab = cl.map((o) => {
     const count = fmt(o.r.voted) + ' / ' + fmt(o.r.reg),
-      w = Math.max(o.r.name.length * 8, 84, count.length * 7.4) + 30,
-      h = 76;
-    return { r: o.r, X: o.X, Y: o.T, count, w, h, x: o.X, y: o.T - h / 2 - 18 } as LayoutItem & {
+      w = (Math.max(o.r.name.length * 8, 84, count.length * 7.4) + 30) * m,
+      h = 76 * m;
+    return {
+      r: o.r,
+      X: o.X,
+      Y: o.T,
+      count,
+      w,
+      h,
+      x: o.X,
+      y: o.T - h / 2 - 18 * m,
+    } as LayoutItem & {
       r: WilayatStat;
       X: number;
       Y: number;
@@ -266,8 +310,8 @@ function regionColumns(pts: { at: Pt; r: WilayatStat }[]): RegionColumns {
     w: cw * 2 + 6,
     h: o.Y - o.T + ry * 2 + 6,
   }));
-  obstacles.push({ fixed: 1, x: 62, y: 82, w: 150, h: 210 });
-  layoutLabels([...lab, ...obstacles], STAGE_W, STAGE_H);
+  if (box.keep) obstacles.push({ fixed: 1, ...box.keep });
+  layoutLabels([...lab, ...obstacles], box.w, box.h, box.bleed);
   const labels = lab
     .sort((a, o) => a.r.i - o.r.i)
     .map((L): RegionLabel => {
@@ -288,11 +332,17 @@ function regionColumns(pts: { at: Pt; r: WilayatStat }[]): RegionColumns {
             ? 'M' + f2(L.X) + ' ' + f2(L.Y) + 'L' + f2(qx) + ' ' + f2(qy)
             : null,
         bg: { x: f2(cx - hw), y: f2(cy - hh), w: f2(hw * 2), h: f2(hh * 2) },
-        top: { x: f2(cx - hw + 14), y: f2(cy - hh), w: f2(hw * 2 - 28), h: '2' },
-        nm: { cx: f2(cx), cy: f2(cy - hh + 22) },
-        pc: { cx: f2(cx), cy: f2(cy + 13) },
-        ct: { cx: f2(cx), cy: f2(cy + hh - 11) },
+        top: { x: f2(cx - hw + 14 * m), y: f2(cy - hh), w: f2(hw * 2 - 28 * m), h: '2' },
+        nm: { cx: f2(cx), cy: f2(cy - hh + 22 * m) },
+        pc: { cx: f2(cx), cy: f2(cy + 13 * m) },
+        ct: { cx: f2(cx), cy: f2(cy + hh - 11 * m) },
       };
     });
-  return { id: uid('tvk'), viewBox: '0 0 ' + STAGE_W + ' ' + STAGE_H, cols, labels };
+  return {
+    id: uid('tvk'),
+    viewBox: '0 0 ' + box.w + ' ' + box.h,
+    cols,
+    labels,
+    ...(m !== 1 && { text: m }),
+  };
 }

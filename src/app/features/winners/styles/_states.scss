@@ -1,3 +1,27 @@
 .wn-root.wn-held .wn-wil-prog {
   animation-play-state: paused;
 }
+
+:where([data-fx='lite']) .wn-root {
+  :is(
+    .wn-stars,
+    .wn-grid,
+    .wn-horizon,
+    .wn-set,
+    .wn-sstars,
+    .wn-meteor,
+    .wn-hglow,
+    .wn-mist,
+    .wn-lamps,
+    .wn-motes,
+    .wn-shine,
+    .wn-badge.pend i,
+    .wn-card.wait .wn-medal i
+  ),
+  .wn-aura::before {
+    animation-play-state: paused;
+  }
+  :is(.wn-rose, .wn-rays, .wn-beam) {
+    animation-play-state: running, paused;
+  }
+}

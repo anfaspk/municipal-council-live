@@ -1,0 +1,332 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.wf-story {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+  box-sizing: border-box;
+  padding-block: calc(#{$sp-10} + var(--safe-top)) calc(#{$sp-12} + var(--safe-bottom));
+  padding-inline: max(#{$sp-16}, var(--safe-right)) max(#{$sp-16}, var(--safe-left));
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  background:
+    radial-gradient(1.2px 1.2px at 14% 14%, var(--wn-star), transparent),
+    radial-gradient(1px 1px at 36% 9%, var(--wn-star), transparent),
+    radial-gradient(1.4px 1.4px at 74% 18%, var(--wn-star), transparent),
+    radial-gradient(1px 1px at 88% 34%, var(--wn-star), transparent),
+    radial-gradient(1.2px 1.2px at 58% 30%, var(--wn-star), transparent),
+    radial-gradient(1px 1px at 20% 44%, var(--wn-star), transparent),
+    radial-gradient(120% 60% at 50% 0%, var(--wn-sky-1), var(--wn-sky-0) 70%);
+}
+.wf-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.wf-scene img {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 0;
+  inline-size: 160%;
+  block-size: auto;
+  translate: 50% 0;
+  -webkit-mask-image: linear-gradient(180deg, transparent, var(--ink) 6%);
+  mask-image: linear-gradient(180deg, transparent, var(--ink) 6%);
+}
+.wf-chrome,
+.wf-body,
+.wf-foot {
+  position: relative;
+}
+.wf-chrome {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+}
+.wf-prog {
+  display: flex;
+  gap: $sp-4;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.wf-prog li {
+  flex: 1;
+  block-size: 3px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 20%, transparent);
+  overflow: hidden;
+}
+.wf-prog i {
+  display: block;
+  block-size: 100%;
+  background: var(--gold-ink);
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+.wf-prog li.done i {
+  transform: none;
+}
+.wf-prog li.on i {
+  animation: wf-fill var(--seg-ms, 14000ms) linear both;
+}
+@keyframes wf-fill {
+  to {
+    transform: none;
+  }
+}
+.wf-row {
+  display: flex;
+  align-items: center;
+  gap: $sp-4;
+  min-block-size: 44px;
+}
+.wf-where {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+.wf-where b {
+  color: var(--gold-glow);
+  font-size: $fs-15;
+  @include mixins.ellipsis;
+}
+.wf-st {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+  font-weight: 600;
+  @include mixins.ellipsis;
+}
+.wf-st.stale {
+  color: var(--stat-pending);
+}
+.wf-st.held {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-4;
+  color: var(--gold-ink);
+}
+.wf-st.held .wf-ic {
+  inline-size: 14px;
+  block-size: 14px;
+}
+
+.wf-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-block-size: 0;
+}
+.wf-show {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  animation: wf-in $t-600 var(--ease-std) both;
+}
+@keyframes wf-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+.wf-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-8;
+  margin-block: auto;
+  padding-block-start: $sp-10;
+  text-align: center;
+}
+.wf-name {
+  margin: 0;
+  font-size: $fs-36;
+  line-height: $lh-head;
+  font-weight: 700;
+}
+.wf-name-n {
+  color: var(--gold-glow);
+}
+.wf-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-8;
+  margin: 0;
+}
+.wf-badge,
+.wf-seats {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  block-size: 30px;
+  padding-inline: $sp-12;
+  border-radius: var(--radius-pill);
+  font-size: $fs-13;
+  font-weight: 600;
+}
+.wf-badge {
+  color: var(--declared);
+  background: color-mix(in srgb, var(--declared) 14%, var(--wn-sky-0));
+  box-shadow: inset 0 0 0 1.5px var(--declared);
+}
+.wf-badge .wf-ic {
+  inline-size: 16px;
+  block-size: 16px;
+  stroke-width: 2.6;
+}
+.wf-badge.pend {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--stat-pending) 12%, var(--wn-sky-0));
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--stat-pending) 70%, transparent);
+}
+.wf-badge.pend i {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: $radius-round;
+  background: var(--stat-pending);
+}
+.wf-seats {
+  color: var(--gold-glow);
+  background: color-mix(in srgb, var(--wn-sky-0) 70%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold-ink) 50%, transparent);
+}
+.wf-share {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: $radius-round;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--wn-sky-0) 70%, transparent);
+  box-shadow: inset 0 0 0 1px var(--glass-stroke);
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+
+.wf-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-8;
+  min-block-size: 44px;
+}
+.wf-official {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  margin: 0;
+  font-size: $fs-12;
+}
+.wf-official .wf-ic {
+  inline-size: 16px;
+  block-size: 16px;
+  color: var(--declared);
+  stroke-width: 2.6;
+}
+.wf-next {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  min-block-size: 44px;
+  padding: 0;
+  border: 0;
+  color: var(--ink-muted);
+  background: none;
+  font: inherit;
+  font-size: $fs-13;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.wf-next b {
+  color: var(--ink);
+}
+.wf-next .wf-ic {
+  inline-size: 16px;
+  block-size: 16px;
+}
+
+.wf-body:has(> .wf-msg) {
+  justify-content: center;
+  align-items: center;
+}
+.wf-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-8;
+  box-sizing: border-box;
+  max-inline-size: 320px;
+  padding: $sp-24 $sp-20;
+  border-radius: $r-20;
+  background: color-mix(in srgb, var(--wn-sky-0) 85%, transparent);
+  box-shadow: inset 0 0 0 1px var(--glass-stroke);
+  text-align: center;
+}
+.wf-msg .wf-name {
+  font-size: $fs-19;
+}
+.wf-msg p {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: $fs-14;
+}
+.wf-msg-i {
+  display: grid;
+  place-items: center;
+  inline-size: 56px;
+  block-size: 56px;
+  border-radius: $radius-round;
+  color: var(--gold-ink);
+  box-shadow: inset 0 0 0 1.5px var(--gold-ink);
+}
+.wf-msg-i.warn {
+  color: var(--stat-pending);
+  box-shadow: inset 0 0 0 1.5px var(--stat-pending);
+}
+.wf-retry {
+  min-block-size: 48px;
+  margin-block-start: $sp-8;
+  padding-inline: $sp-24;
+  border: 0;
+  border-radius: $r-14;
+  color: var(--on-gold);
+  background: var(--gold);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.wf-sk {
+  display: block;
+  block-size: 12px;
+  border-radius: $r-6;
+  background: color-mix(in srgb, var(--ink) 14%, transparent);
+}
+.wf-sk.h {
+  inline-size: 220px;
+  block-size: 40px;
+  border-radius: $r-10;
+}
+.wf-sk.s {
+  inline-size: 140px;
+  block-size: 28px;
+  border-radius: $r-14;
+}
+.wf-sk.l {
+  inline-size: 80%;
+  margin: $sp-6 auto;
+}
+.wf-sk.l.s {
+  inline-size: 50%;
+  block-size: 12px;
+}

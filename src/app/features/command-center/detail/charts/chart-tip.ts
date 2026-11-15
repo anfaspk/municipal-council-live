@@ -74,7 +74,8 @@ export class ChartTip {
     tabindex: '0',
     '[attr.aria-label]': 'dtChart()',
     '(pointermove)': 'over($event)',
-    '(pointerleave)': 'leave()',
+    '(pointerdown)': 'down($event)',
+    '(pointerleave)': 'out($event)',
     '(focus)': 'step(0)',
     '(blur)': 'leave()',
     '(keydown)': 'key($event)',
@@ -92,6 +93,12 @@ export class ChartDirective {
     if (!t || !this.host.contains(t)) return this.leave();
     const i = Number(t.getAttribute('data-i'));
     if (i !== this.active()) this.to(i, t);
+  }
+  protected down(e: PointerEvent): void {
+    if (e.pointerType !== 'mouse') this.over(e);
+  }
+  protected out(e: PointerEvent): void {
+    if (e.pointerType === 'mouse') this.leave();
   }
   protected leave(): void {
     this.active.set(null);

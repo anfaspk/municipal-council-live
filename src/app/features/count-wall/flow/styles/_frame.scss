@@ -1,0 +1,244 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.cf {
+  position: fixed;
+  inset: 0;
+  z-index: $z-screen;
+  display: none;
+  color: var(--ink);
+  background: var(--canvas-0);
+  font-size: $fs-15;
+  line-height: $lh-body;
+}
+.cf.on {
+  display: block;
+}
+.cf:focus {
+  outline: none;
+}
+.cf-scroll {
+  box-sizing: border-box;
+  block-size: 100%;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: calc(56px + var(--safe-top)) calc(#{$sp-88} + var(--safe-bottom));
+  padding-block-end: calc(#{$sp-88} + var(--safe-bottom));
+  touch-action: pan-y pinch-zoom;
+}
+.cf-main {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-16;
+  box-sizing: border-box;
+  max-inline-size: 560px;
+  margin-inline: auto;
+  padding-block: $sp-8 $sp-24;
+  padding-inline: max(#{$sp-16}, var(--safe-right)) max(#{$sp-16}, var(--safe-left));
+}
+.cf-sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.cf-empty {
+  margin: 0;
+  padding-block: $sp-40;
+  color: var(--ink-muted);
+  text-align: center;
+}
+.cf-empty b {
+  color: var(--ink);
+  font-size: $fs-18;
+}
+
+.cf-top {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: $z-scrim;
+  display: flex;
+  align-items: center;
+  gap: $sp-6;
+  box-sizing: border-box;
+  block-size: calc(56px + var(--safe-top));
+  padding-block-start: var(--safe-top);
+  padding-inline: max(#{$sp-8}, var(--safe-right)) max(#{$sp-8}, var(--safe-left));
+  background: var(--glass-solid);
+  box-shadow: 0 1px 0 var(--hairline);
+}
+.cf-crumb {
+  flex: 1;
+  min-inline-size: 0;
+  color: var(--ink-muted);
+  font-size: $fs-14;
+  @include mixins.ellipsis;
+}
+.cf-crumb b {
+  color: var(--ink);
+}
+.cf-btn {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-8;
+  min-block-size: 44px;
+  padding-inline: $sp-14;
+  border: 1px solid var(--hairline);
+  border-radius: $r-14;
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.cf-btn.icon {
+  inline-size: 44px;
+  padding: 0;
+  border-color: transparent;
+}
+.cf-btn.gold {
+  border-color: transparent;
+  color: var(--on-gold);
+  background: var(--gold);
+  font-weight: 700;
+}
+.cf-ic {
+  flex: none;
+  inline-size: 22px;
+  block-size: 22px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cf-ic.fill {
+  fill: currentcolor;
+  stroke: none;
+}
+
+.cf-story {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: $z-scrim;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+  padding-block: calc(#{$sp-10} + var(--safe-top)) $sp-6;
+  padding-inline: max(#{$sp-16}, var(--safe-right)) max(#{$sp-16}, var(--safe-left));
+  background: var(--glass-solid);
+  box-shadow: 0 1px 0 var(--hairline);
+}
+.cf-prog {
+  display: flex;
+  gap: $sp-4;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cf-prog li {
+  flex: 1;
+  block-size: 4px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+  overflow: hidden;
+}
+.cf-prog i {
+  display: block;
+  block-size: 100%;
+  background: var(--gold-ink);
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+.cf-prog li.done i {
+  transform: none;
+}
+.cf-prog li.on i {
+  animation: cf-fill var(--seg-ms, 6000ms) linear both;
+}
+@keyframes cf-fill {
+  to {
+    transform: none;
+  }
+}
+.cf-story-row {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+}
+.cf-story-at {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: $fs-14;
+  @include mixins.ellipsis;
+}
+.cf-live {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: $sp-6;
+  padding-inline: $sp-10;
+  border-radius: var(--radius-pill);
+  color: var(--live);
+  background: color-mix(in srgb, var(--live) 14%, transparent);
+  font-size: $fs-12;
+  font-weight: 600;
+  line-height: 2;
+}
+.cf-live.stale {
+  color: var(--stat-pending);
+  background: color-mix(in srgb, var(--stat-pending) 14%, transparent);
+}
+.cf-live i {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: $radius-round;
+  background: currentcolor;
+}
+
+.cf-bar {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: $z-scrim;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding-block: $sp-4 calc(#{$sp-4} + var(--safe-bottom));
+  padding-inline: max(#{$sp-8}, var(--safe-right)) max(#{$sp-8}, var(--safe-left));
+  background: var(--glass-solid);
+  box-shadow: 0 -1px 0 var(--hairline);
+}
+.cf-bar-i {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-2;
+  min-block-size: 56px;
+  border: 0;
+  color: var(--ink-muted);
+  background: none;
+  font: inherit;
+  font-size: $fs-12;
+  font-weight: 500;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.cf-bar-i .cf-ic {
+  box-sizing: content-box;
+  padding-inline: $sp-16;
+  padding-block: $sp-3;
+  border-radius: $r-14;
+}
+.cf-bar-i.on {
+  color: var(--gold-ink);
+  font-weight: 700;
+}
+.cf-bar-i.on .cf-ic {
+  background: color-mix(in srgb, var(--gold-ink) 16%, transparent);
+}

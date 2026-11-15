@@ -1,0 +1,1 @@
+function n(t){getComputedStyle(t).animationName}function o(t,e,i=!0){t.classList.remove(e),n(t),i&&t.classList.add(e)}export{o as n,n as t};

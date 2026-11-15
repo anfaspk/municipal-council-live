@@ -122,6 +122,7 @@
   transition:
     background var(--dur-micro),
     color var(--dur-micro);
+  @include mixins.hit;
 }
 .dw-crumbs .cr {
   font-family: var(--font-arabic);
@@ -131,9 +132,11 @@
   width: 14px;
   height: 14px;
 }
-.dw-crumbs button.cr:hover {
-  background: var(--glass-fill-strong);
-  color: var(--ink);
+@include mixins.hover {
+  .dw-crumbs button.cr:hover {
+    background: var(--glass-fill-strong);
+    color: var(--ink);
+  }
 }
 .dw-crumbs button.cr:focus-visible {
   outline: 2px solid var(--focus-ring);
@@ -195,17 +198,19 @@
   font-family: var(--font-arabic);
   cursor: pointer;
   transition: color $t-300;
+  @include mixins.hit;
 }
 .dw-tab svg {
   width: 18px;
   height: 18px;
 }
-.dw-tab:hover,
 .dw-tab[aria-selected='true'] {
   color: var(--ink);
 }
-.dw-tab[aria-selected='true'] svg {
-  color: var(--gold-ink);
+@include mixins.hover {
+  .dw-tab:hover {
+    color: var(--ink);
+  }
 }
 .dw-tab:focus-visible {
   outline: 2px solid var(--focus-ring);

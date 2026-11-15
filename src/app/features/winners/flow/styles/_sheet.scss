@@ -1,0 +1,241 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.wf-wils {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-12;
+}
+.wf-gsel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-2;
+}
+.wf-gsel-k {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}
+.wf-gsel-v {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  box-sizing: border-box;
+  min-block-size: 48px;
+  padding-inline: $sp-12;
+  border: 1px solid var(--glass-stroke);
+  border-radius: $r-12;
+  font-size: $fs-20;
+}
+.wf-gsel-v b {
+  flex: 1;
+}
+.wf-gsel-v .wf-ic {
+  color: var(--gold-ink);
+}
+.wf-gsel select {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  opacity: 0;
+  font-size: $fs-field;
+  cursor: pointer;
+}
+.wf-gsel:focus-within .wf-gsel-v {
+  outline: 2px solid var(--gold-ink);
+  outline-offset: 2px;
+}
+.wf-tally {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: $sp-4 $sp-10;
+}
+.wf-tally b {
+  color: var(--gold-ink);
+  font-size: $fs-24;
+}
+.wf-tally b small {
+  color: var(--ink-muted);
+  font-size: $fs-15;
+}
+.wf-tally span {
+  font-size: $fs-14;
+}
+.wf-tally-bar {
+  position: relative;
+  grid-column: 1 / -1;
+  block-size: 6px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+  overflow: hidden;
+}
+.wf-tally-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--wf-g3), var(--wf-g1));
+  transform: scaleX(var(--w));
+  transform-origin: right center;
+}
+.wf-tally.full :is(b, span) {
+  color: var(--declared);
+}
+.wf-tally.full .wf-tally-bar::after {
+  background: var(--declared);
+}
+.wf-find {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  min-block-size: 48px;
+  padding-inline: $sp-12 $sp-2;
+  border: 1px solid var(--glass-stroke);
+  border-radius: $r-14;
+  background: var(--canvas-0);
+}
+.wf-find.typed {
+  border-color: var(--gold-ink);
+}
+.wf-find > .wf-ic {
+  color: var(--ink-muted);
+}
+.wf-find input {
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 44px;
+  border: 0;
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  outline: none;
+  @include mixins.field;
+}
+.wf-find input::-webkit-search-cancel-button {
+  appearance: none;
+}
+.wf-find input:focus-visible {
+  outline: none;
+}
+.wf-find:focus-within {
+  outline: 2px solid var(--gold-ink);
+  outline-offset: 2px;
+}
+.wf-clear {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 0;
+  color: var(--ink-muted);
+  background: none;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.wf-rows {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.wf-wil {
+  display: flex;
+  align-items: center;
+  gap: $sp-12;
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: 60px;
+  padding: $sp-8 $sp-12;
+  border: 0;
+  border-radius: $r-14;
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.wf-wil.on {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--gold) 22%, transparent),
+    color-mix(in srgb, var(--gold) 8%, transparent)
+  );
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--gold) 70%, transparent);
+}
+.wf-wil-dot {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: 26px;
+  block-size: 26px;
+  border-radius: $radius-round;
+  box-shadow: inset 0 0 0 1.5px var(--stat-pending);
+}
+.wf-wil-dot i {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: $radius-round;
+  background: var(--stat-pending);
+}
+.wf-wil.done .wf-wil-dot {
+  color: var(--wn-sky-0);
+  background: var(--declared);
+  box-shadow: none;
+}
+.wf-wil-dot .wf-ic {
+  inline-size: 16px;
+  block-size: 16px;
+  stroke-width: 2.8;
+}
+.wf-wil-t {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+.wf-wil-t b {
+  font-size: $fs-16;
+}
+.wf-wil-t small {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.wf-faces {
+  display: flex;
+  flex: none;
+}
+.wf-faces > * {
+  display: grid;
+  place-items: center;
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: $radius-round;
+  object-fit: cover;
+  object-position: 50% 22%;
+  color: var(--gold-glow);
+  background: var(--wn-sky-1);
+  box-shadow:
+    0 0 0 2px var(--canvas-1),
+    0 0 0 3px var(--gold);
+  font-size: $fs-12;
+  font-weight: 700;
+}
+.wf-faces > * + * {
+  margin-inline-start: -$sp-8;
+}
+.wf-go {
+  inline-size: 18px;
+  block-size: 18px;
+  color: var(--ink-muted);
+}
+.wf-none {
+  margin: 0;
+  padding: $sp-16;
+  color: var(--ink-muted);
+  text-align: center;
+}

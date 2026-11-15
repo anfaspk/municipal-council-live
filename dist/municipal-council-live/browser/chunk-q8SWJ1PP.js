@@ -1,0 +1,1 @@
+import{S as Iy}from"./chunk-CGHekI2G.js";import{t as d}from"./chunk-B9GMe3r_.js";var m=class t{transform(i,r){return d(i,r)}static ɵfac=function(r){return new(r||t)};static ɵpipe=Iy({name:`t`,type:t,pure:!0})};export{m as t};

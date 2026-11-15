@@ -9,7 +9,8 @@ import { flushStyle } from '../../shared/motion/restart-animation';
 import { SegItem } from '../../shared/ui/seg.component';
 
 import { uid } from '../../shared/ui/uid';
-import { ClockJob, SlideClock } from '../../shared/motion/slide-clock';
+import { ClockJob } from '../../shared/motion/slide-clock';
+import { TvWalk } from './tv-walk';
 
 import { loadTvPrefs, saveTvPrefs, TV_SECS } from '../../shared/ui/tv-prefs';
 import type { TvSlide } from './tv-slide.model';
@@ -20,11 +21,13 @@ import { slideLabel } from './tv-label';
 import { trapTab } from '../../shared/ui/focus-trap';
 import { ServerClock } from '../../core/clock/server-clock.service';
 import { ScreenState } from '../../core/screen/screen.state';
+
 interface Face {
   slides: TvSlide[];
   settled: boolean;
 }
 export const EMPTY_FACE: Face = { slides: [], settled: false };
+
 const IDLE_MS = 4000;
 
 export abstract class TvControls {
@@ -33,21 +36,27 @@ export abstract class TvControls {
   protected readonly injector = inject(Injector);
   protected readonly stats = inject(TurnoutStore);
   protected readonly serverClock = inject(ServerClock);
-  protected readonly clock = new SlideClock();
+
+  protected readonly walkHooks = inject(TvWalk);
+  protected readonly clock = this.walkHooks.clock;
   protected readonly prefs = loadTvPrefs();
 
   protected readonly isOpen = signal(false);
+
   protected readonly keys = signal<string[]>([]);
   protected readonly k = signal(0);
   protected readonly faces = [signal<Face>(EMPTY_FACE), signal<Face>(EMPTY_FACE)] as const;
+
   protected readonly active = signal<-1 | 0 | 1>(-1);
   protected readonly paused = signal(false);
+
   protected readonly still = signal(false);
   protected readonly osReduced = signal(false);
   protected readonly idle = signal(false);
   protected readonly secs = signal(this.prefs.sec);
   protected readonly announce = signal({ text: '', polite: false });
   protected readonly optsWidth = signal<string | null>(null);
+
   protected readonly hover = signal(false);
   protected readonly held = computed(() => this.isOpen() && !this.paused() && this.hover());
   protected readonly secValue = computed(() => String(this.secs()));
@@ -56,14 +65,18 @@ export abstract class TvControls {
     label: t('tvSec', { n }),
   }));
   protected readonly timeLabelId = uid('tva');
+
   protected readonly region = this.screen.region;
   protected readonly pinned = computed(() => this.screen.rotation() === 'pinned');
   protected readonly regions = this.stats.govs;
 
   protected endJob: ClockJob | null = null;
+
   protected walkEnd: number | null = null;
   protected idleTimer?: ReturnType<typeof setTimeout>;
+
   protected opener: Element | null = null;
+
   protected hold(held: WritableSignal<boolean>, on: boolean): void {
     if (held() === on) return;
     held.set(on);
@@ -113,6 +126,7 @@ export abstract class TvControls {
     this.secs.set(sec);
     this.prefs.sec = sec;
     saveTvPrefs(this.prefs);
+
     if (this.walkEnd !== null) return;
     const f = this.active(),
       cur = f === -1 ? null : this.faces[f]().slides[0],
@@ -122,7 +136,6 @@ export abstract class TvControls {
       ?.style.setProperty('--dur', dur + 'ms');
     if (this.endJob) this.clock.retime(this.endJob, dur);
   }
-
 
   protected label(k: number, full = false): string {
     return slideLabel({
@@ -137,7 +150,6 @@ export abstract class TvControls {
   protected say(text: string, polite: boolean): void {
     this.announce.set({ text, polite });
   }
-
 
   protected wake(): void {
     this.idle.set(false);
@@ -163,11 +175,13 @@ export abstract class TvControls {
       onField: !!el?.closest?.('select, input'),
     });
     if (!a) return;
+
     if (a.type === 'tab') return trapTab(this.host, e, 'button, select, .tv-ih-rest');
     if (a.type === 'wil') {
       if (this.stepWil(a.step)) e.preventDefault();
       return;
     }
+
     if (a.type === 'play' && this.pinned()) return;
     if (a.type !== 'play' || a.pause === undefined) e.preventDefault();
     if (a.type === 'close') this.close();
@@ -179,6 +193,7 @@ export abstract class TvControls {
       this.show(to, true);
     }
   }
+
   protected afterOpen(): void {
     const r = this.opener as HTMLElement | null,
       keyboard = !!r && r !== document.body && !!r.matches?.(':focus-visible');
@@ -196,6 +211,7 @@ export abstract class TvControls {
   protected abstract show(k: number, user?: boolean): void;
   protected abstract keyIndex(key: string): number;
   protected abstract duration(slide: TvSlide): number;
+
   protected abstract stepWil(step: 1 | -1): boolean;
   protected close(): void {
     this.screen.leave('tv');

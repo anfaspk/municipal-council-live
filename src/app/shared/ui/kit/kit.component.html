@@ -1,0 +1,54 @@
+<div class="mj-icons"></div>
+<div mjAppbar [heading]="k.heading" [stamp]="stale() ? k.stale : k.stamp" [stale]="stale()" (menu)="sheetOpen.set(true)"></div>
+<main class="mj-kit">
+  <h2 class="mj-kit-h">{{ k.title }}</h2>
+
+  <section class="mj-kit-sec" aria-labelledby="kit-seg"><h3 class="mj-kit-st" id="kit-seg">{{ k.section.seg }}</h3>
+    <div class="mj-seg" [attr.aria-label]="k.seg" [items]="views" [value]="view()" (valueChange)="view.set($event)"></div>
+    <p class="mj-kit-p">{{ view() === 'list' ? k.listPane : k.mapPane }}</p>
+  </section>
+
+  <section class="mj-kit-sec" aria-labelledby="kit-sum"><h3 class="mj-kit-st" id="kit-sum">{{ k.section.summary }}</h3>
+    <article mjSummary [heading]="k.sumTurnout" [value]="50.4289" kind="pct" fig="kit.turnout" [sentence]="k.sumTurnoutLine">
+      <div class="mj-kit-bars" role="img" [attr.aria-label]="k.chart">@for (b of bars; track $index) {<i [style.--k]="b / 100"></i>}</div>
+    </article>
+    <article mjSummary [heading]="k.sumVoters" [value]="null" fig="kit.registered" [sentence]="k.sumVotersLine" [chart]="false"></article>
+  </section>
+
+  <section class="mj-kit-sec" aria-labelledby="kit-snap"><h3 class="mj-kit-st" id="kit-snap">{{ k.section.snap }}</h3>
+    <div mjSnapRow [label]="k.row">@for (c of kpis; track c.label) {<div mjSnapItem class="mj-kit-card" [attr.aria-label]="c.label"><span class="mj-kit-cl">{{ c.label }}</span><b class="mj-kit-cv">{{ c.value }}</b></div>}</div>
+  </section>
+
+  <section class="mj-kit-sec" aria-labelledby="kit-story"><h3 class="mj-kit-st" id="kit-story">{{ k.section.story }}</h3>
+    <section mjStory class="mj-kit-story" [label]="k.story" [count]="govs.length" [ms]="6000" [(index)]="story" [(paused)]="storyPaused">
+      @if (govs[story()]; as g) {<div class="mj-kit-slide"><span class="mj-kit-cl">{{ g.ar }}</span><b class="mj-kit-cv">{{ g.turnout }}%</b></div>}
+    </section>
+  </section>
+
+  <section class="mj-kit-sec" aria-labelledby="kit-split"><h3 class="mj-kit-st" id="kit-split">{{ k.section.split }}</h3>
+    <div mjSplit [label]="pickedGov()?.ar ?? k.split" [(open)]="splitOpen">
+      <ul mjSplitList class="mj-kit-list">@for (g of govs; track g.id) {<li><button type="button" class="mj-kit-row" [attr.aria-current]="g.id === picked() ? 'true' : null" (click)="pick(g.id)"><span>{{ g.ar }}</span><b>{{ g.turnout }}%</b></button></li>}</ul>
+      <div mjSplitDetail class="mj-kit-detail">@if (pickedGov(); as g) {<h4 class="mj-kit-dh">{{ g.ar }}</h4><p class="mj-kit-p">{{ g.voted }}</p>} @else {<p class="mj-kit-p">{{ k.pick }}</p>}</div>
+    </div>
+  </section>
+
+  <section class="mj-kit-sec" aria-labelledby="kit-sheet"><h3 class="mj-kit-st" id="kit-sheet">{{ k.section.sheet }}</h3>
+    <div class="mj-kit-btns"><button type="button" class="mj-btn mj-kit-open" (click)="sheetOpen.set(true)">{{ k.sheet }}</button><button type="button" class="mj-btn mj-kit-open-d" (click)="openDetents()">{{ k.sheetDetents }}</button></div>
+  </section>
+
+  <section class="mj-kit-sec" aria-labelledby="kit-share"><h3 class="mj-kit-st" id="kit-share">{{ k.section.share }}</h3>
+    <button type="button" class="mj-btn mj-kit-share" (click)="share()">{{ k.share }}</button>
+    <p class="mj-kit-p mj-kit-shared" role="status">{{ shared() ? k.shared[shared()!] : '' }}</p>
+  </section>
+
+  <section class="mj-kit-sec" aria-labelledby="kit-live"><h3 class="mj-kit-st" id="kit-live">{{ k.section.live }}</h3>
+    <p class="mj-kit-live"><b class="mj-kit-fig" data-fig="kit.live">{{ liveText() }}</b><button type="button" class="mj-btn mj-kit-bump" (click)="bump()">{{ k.update }}</button><button type="button" class="mj-btn" (click)="stale.set(!stale())">{{ stale() ? k.stamp : k.stale }}</button></p>
+  </section>
+
+  <section class="mj-kit-sec" aria-labelledby="kit-type"><h3 class="mj-kit-st" id="kit-type">{{ k.section.type }}</h3>
+    <table class="mj-kit-type"><tbody>@for (w of weights; track w) {<tr>@for (s of sizes; track s) {<td [style.--kit-fs.px]="s" [style.--kit-fw]="w">{{ k.sample }}<small>{{ s }}/{{ w }}</small></td>}</tr>}</tbody></table>
+  </section>
+</main>
+
+<dialog mjSheet [label]="k.sheet" [(open)]="sheetOpen"><p class="mj-kit-p">{{ k.sheetBody }}</p>@for (g of govs; track g.id) {<p class="mj-kit-p">{{ g.ar }} · {{ g.turnout }}%</p>}</dialog>
+<dialog mjSheet class="mj-kit-dsheet" [label]="k.sheetDetents" [detents]="true" [(detent)]="detent" [(open)]="detentOpen"><p class="mj-kit-p">{{ k.sheetBody }}</p>@for (r of rounds; track r) {@for (g of govs; track g.id) {<p class="mj-kit-p">{{ r }} · {{ g.ar }} · {{ g.voted }}</p>}}</dialog>

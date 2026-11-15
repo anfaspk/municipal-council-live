@@ -1,0 +1,46 @@
+@use '../../../styles/scales' as *;
+@use '../../../styles/mixins';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  .mj-autotoast {
+    position: fixed;
+    inset-inline: max(#{$sp-16}, var(--safe-left)) max(#{$sp-16}, var(--safe-right));
+    inset-block-end: calc(#{$sp-88} + var(--safe-bottom));
+    z-index: $z-screen-over;
+    display: none;
+    align-items: center;
+    gap: $sp-10;
+    max-inline-size: 528px;
+    margin-inline: auto;
+    padding: $sp-12 $sp-16;
+    border: 1px solid var(--gold-ink);
+    border-radius: $r-16;
+    color: var(--ink);
+    background: var(--canvas-1);
+    box-shadow: var(--shadow-raised);
+    font-size: $fs-14;
+    font-weight: 600;
+    line-height: $lh-body;
+  }
+  .mj-autotoast.on {
+    display: flex;
+  }
+  .mj-autotoast-t {
+    flex: 1;
+  }
+  .mj-autotoast-b {
+    flex: none;
+    min-block-size: 44px;
+    padding-inline: $sp-14;
+    border: 0;
+    border-radius: $r-12;
+    color: var(--on-gold);
+    background: var(--gold);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    @include mixins.touch-control;
+  }
+}

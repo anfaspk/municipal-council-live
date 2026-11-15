@@ -1,0 +1,86 @@
+@use '../../../../../../styles/scales' as *;
+@use '../../../../../../styles/mixins';
+
+
+.fl-shell:where([data-comp='port'], [data-comp='split'], [data-comp='sign']) .fl-pg {
+  max-inline-size: 1240px;
+  padding-inline: max(#{$sp-24}, var(--safe-right)) max(#{$sp-24}, var(--safe-left));
+}
+.fl-shell[data-comp='port'] .fl-pg-top {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.fl-shell[data-comp='port'] .fl-pg-top > .fl-pg-notyet {
+  grid-column: 1 / -1;
+}
+.fl-shell[data-comp='split'] .fl-pg {
+  display: grid;
+  grid-template:
+    'slim slim' auto
+    'head head' auto
+    'sent sent' auto
+    'top tabs' auto
+    'top sec' 1fr / 360px minmax(0, 1fr);
+  align-items: start;
+  column-gap: $sp-20;
+}
+.fl-shell[data-comp='split'] .fl-pg:has(> .fl-pg-sibs) {
+  grid-template-columns: 260px 340px minmax(0, 1fr);
+  grid-template-areas:
+    'slim slim slim'
+    'head head head'
+    'sent sent sent'
+    'sibs top tabs'
+    'sibs top sec';
+}
+.fl-shell[data-comp='split'] .fl-pg-slim {
+  grid-area: slim;
+}
+.fl-shell[data-comp='split'] .fl-pg-head {
+  grid-area: head;
+}
+.fl-shell[data-comp='split'] .fl-pg-sent {
+  grid-area: sent;
+}
+.fl-shell[data-comp='split'] .fl-pg-top {
+  position: sticky;
+  inset-block-start: calc(var(--fl-pg-stick) + #{$sp-12});
+  grid-area: top;
+}
+.fl-shell[data-comp='split'] .fl-pg-tabs {
+  grid-area: tabs;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+.fl-shell[data-comp='split'] .fl-pg-sec {
+  grid-area: sec;
+  padding-block-start: $sp-14;
+}
+.fl-shell[data-comp='split'] .fl-pg-pills {
+  max-inline-size: 520px;
+}
+.fl-pg-sibs {
+  position: sticky;
+  inset-block-start: calc(var(--fl-pg-stick) + #{$sp-12});
+  grid-area: sibs;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+  max-block-size: calc(100svh - var(--fl-pg-stick) - #{$sp-96});
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.fl-pg-sibs .fl-prow.lit {
+  background: color-mix(in srgb, var(--gold-ink) 14%, transparent);
+  box-shadow: inset 3px 0 0 var(--gold-ink);
+}
+.fl-shell[data-comp='split'] .fl-pg-sec:has(> .fl-pg-region:where(:not(.loc))) {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  column-gap: $sp-16;
+}
+.fl-shell[data-comp='split'] .fl-pg-sec > .fl-pg-region {
+  grid-row: span 2;
+}

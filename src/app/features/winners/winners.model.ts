@@ -5,6 +5,10 @@ import { KeyInfo, screenKey } from '../../shared/motion/screen-keys';
 
 export type MapSource = Pick<Geo, 'w' | 'h' | 'g' | 'wilPt' | 'outline'>;
 
+export const SCENE_IMG = 'assets/winners/stage-night.avif';
+
+export const WIL_STEP = 14000;
+
 export interface GovCard {
   id: string;
   apiId: number;

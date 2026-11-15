@@ -1,0 +1,129 @@
+@use '../../../../../styles/scales' as *;
+
+.cf[data-comp='sign'] {
+  font-size: $fs-20;
+
+  .cf-scroll {
+    display: flex;
+    flex-direction: column;
+    padding-block-end: 0;
+    overflow: hidden;
+  }
+  .cf-bar,
+  .cf-story .cf-btn,
+  .cf-top,
+  .cf-acts,
+  .cf-play {
+    display: none;
+  }
+  .cf-main {
+    flex: 1;
+    max-inline-size: none;
+    min-block-size: 0;
+    overflow: hidden;
+    padding-inline: max(#{$sp-36}, var(--safe-right)) max(#{$sp-36}, var(--safe-left));
+    padding-block-end: $sp-96;
+  }
+  .cf-story {
+    padding-inline: $sp-36;
+  }
+  .cf-story-row,
+  .cf-live {
+    font-size: $fs-22;
+  }
+  .cf-name {
+    font-size: $fs-48;
+  }
+  .cf-kind,
+  .cf-chip,
+  .cf-micro,
+  .cf-say,
+  .cf-fig span,
+  .cf-fig small {
+    font-size: $fs-20;
+  }
+  .cf-fig b {
+    font-size: $fs-30;
+  }
+  .cf-row-n,
+  .cf-row-e b {
+    font-size: $fs-22;
+  }
+  .cf-signmap svg {
+    block-size: 420px;
+  }
+  .cf-map-lit {
+    fill: none;
+    stroke: var(--gold-ink);
+  }
+  .cf-main > .cf-wil {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-block-size: 0;
+  }
+  .cf-wil .cf-board {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-block-size: 0;
+  }
+  .cf-seats {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    gap: $sp-16;
+  }
+  .cf-seat .cf-nm {
+    font-size: $fs-24;
+  }
+  .cf-seat .cf-vp b {
+    font-size: $fs-36;
+  }
+  .cf-rest {
+    display: grid;
+    flex: 1 1 0;
+    grid-template-columns: 1fr 1fr;
+    align-content: start;
+    column-gap: $sp-20;
+    min-block-size: 0;
+    overflow: hidden;
+  }
+  .cf-cr {
+    min-block-size: 92px;
+  }
+  .cf-cr .cf-av {
+    inline-size: 56px;
+    block-size: 56px;
+  }
+  .cf-cr .cf-nm {
+    font-size: $fs-19;
+  }
+  .cf-cr .cf-vp b {
+    font-size: $fs-22;
+  }
+}
+
+.cf-banner {
+  position: fixed;
+  inset: auto 0 0;
+  display: flex;
+  align-items: center;
+  gap: $sp-24;
+  padding: $sp-18 $sp-36 max(#{$sp-18}, var(--safe-bottom));
+  overflow: hidden;
+  border-block-start: 1px solid var(--hairline);
+  background: var(--canvas-1);
+  font-size: $fs-20;
+  white-space: nowrap;
+}
+.cf-banner b {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-8;
+  color: var(--gold-ink);
+}
+.cf-banner time {
+  margin-inline-end: $sp-10;
+  color: var(--ink-muted);
+}

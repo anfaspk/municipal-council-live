@@ -1,0 +1,365 @@
+@use '../../../../../../styles/scales' as *;
+@use '../../../../../../styles/mixins';
+
+
+.fl-pg-chart {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-12;
+}
+.fl-pg-h2 {
+  margin-block-start: $sp-16;
+}
+.fl-pg-list {
+  margin: 0;
+}
+
+.fl-pg-region {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+}
+.fl-pg-region svg {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+.fl-pg-region .face {
+  fill: color-mix(in srgb, var(--gold-ink) 8%, transparent);
+  stroke: var(--gold-ink);
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+.fl-pg-region .pin {
+  cursor: pointer;
+  outline: none;
+
+  @include mixins.touch-control;
+}
+.fl-pg-region .hit {
+  fill: transparent;
+}
+.fl-pg-region .dot {
+  fill: var(--band);
+  stroke: var(--canvas-0);
+  stroke-width: 2;
+}
+.fl-pg-region .pin:focus-visible .dot {
+  stroke: var(--focus-ring);
+  stroke-width: 4;
+}
+.fl-pg-region.loc .pin .dot {
+  fill: color-mix(in srgb, var(--band) 35%, var(--canvas-1));
+}
+.fl-pg-region .pin.me {
+  cursor: default;
+}
+.fl-pg-region .pin.me .dot {
+  stroke: var(--gold-ink);
+  stroke-width: 4;
+}
+
+.fl-pg-cols {
+  display: flex;
+  align-items: flex-end;
+  gap: $sp-4;
+  block-size: 240px;
+  padding-block-end: $sp-4;
+  border-block-end: 1px solid var(--hairline);
+}
+.fl-pg-col {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-4;
+  min-inline-size: 0;
+  block-size: 100%;
+  padding: 0;
+  border: 0;
+  color: var(--ink-muted);
+  background: none;
+  font: inherit;
+  cursor: pointer;
+
+  @include mixins.touch-control;
+}
+.fl-pg-col small {
+  min-block-size: 1.4em;
+  color: var(--gold-ink);
+  font-size: $fs-12;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.fl-pg-col .bar {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  inline-size: 100%;
+  max-inline-size: 36px;
+}
+.fl-pg-col .bar i {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: $r-6 $r-6 0 0;
+  background: color-mix(in srgb, var(--gold-ink) 40%, var(--canvas-1));
+  transform: scaleY(var(--k));
+  transform-origin: bottom center;
+  transition: transform var(--dur-card) var(--ease-std);
+}
+.fl-pg-col.peak .bar i,
+.fl-pg-col.on .bar i {
+  background: var(--gold-ink);
+}
+.fl-pg-col.on em {
+  color: var(--ink);
+  font-weight: 700;
+}
+.fl-pg-col em {
+  font-size: $fs-12;
+  font-style: normal;
+}
+
+.fl-pg-bfh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-8;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.fl-pg-bfh > span {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-4;
+}
+.fl-pg-bfh em {
+  font-style: normal;
+  text-align: center;
+}
+.fl-pg-bfh .fl-sex {
+  inline-size: 20px;
+  block-size: 20px;
+}
+.fl-pg-bf {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fl-pg-bf li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px minmax(0, 1fr);
+  align-items: center;
+  gap: $sp-8;
+  min-block-size: 52px;
+  padding-inline: $sp-6;
+  border-radius: $r-14;
+}
+.fl-pg-bf li.top {
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+.fl-pg-bf :is(.m, .f) {
+  display: flex;
+  align-items: center;
+  gap: $sp-6;
+  min-inline-size: 0;
+}
+.fl-pg-bf .m {
+  justify-content: flex-start;
+}
+.fl-pg-bf .f {
+  justify-content: flex-start;
+}
+.fl-pg-bf i {
+  display: block;
+  flex: 1;
+  block-size: 14px;
+  border-radius: $r-4;
+  transition: transform var(--dur-card) var(--ease-std);
+}
+.fl-pg-bf .m i {
+  background: var(--male);
+  transform: scaleX(var(--k));
+  transform-origin: left center;
+}
+.fl-pg-bf .f i {
+  background: var(--female);
+  transform: scaleX(var(--k));
+  transform-origin: right center;
+}
+.fl-pg-bf small {
+  flex: none;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.fl-pg-bf em {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-style: normal;
+  line-height: $lh-label;
+}
+.fl-pg-bf em b {
+  font-size: $fs-15;
+}
+.fl-pg-bf em small {
+  font-size: $fs-12;
+}
+.fl-pg-bf li.top em small {
+  color: var(--gold-ink);
+  font-weight: 700;
+}
+
+.fl-pg-rate {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fl-pg-rate li {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: $sp-8 $sp-10;
+  padding-block: $sp-12;
+}
+.fl-pg-rate li + li {
+  border-block-start: 1px solid var(--hairline);
+}
+.fl-pg-rate em {
+  grid-row: 1 / 3;
+  font-size: $fs-15;
+  font-style: normal;
+  font-weight: 700;
+  text-align: center;
+}
+.fl-pg-rate li.hi em {
+  color: var(--band-high-ink);
+}
+.fl-pg-rate li.lo em {
+  color: var(--band-low-ink);
+}
+.fl-pg-rate small {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+  text-align: end;
+}
+.fl-pg-rate .fl-track.m .fl-fill {
+  background: var(--male);
+}
+.fl-pg-rate .fl-track.f .fl-fill {
+  background: var(--female);
+}
+
+.fl-pg-vcols {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: $sp-2;
+  block-size: 200px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  border-block-end: 1px solid var(--hairline);
+}
+.fl-pg-vcols.ref::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: calc(var(--ref) * 100%);
+  block-size: 2px;
+  background: var(--gold-ink);
+  pointer-events: none;
+}
+.fl-pg-vcol {
+  display: flex;
+  flex: 1 0 24px;
+  align-items: flex-end;
+  block-size: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  @include mixins.touch-control;
+}
+.fl-pg-vcol i {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: $r-4 $r-4 0 0;
+  background: color-mix(in srgb, var(--band) 45%, var(--canvas-1));
+  transform: scaleY(var(--k));
+  transform-origin: bottom center;
+  transition: transform var(--dur-card) var(--ease-std);
+}
+.fl-pg-vcol.me {
+  cursor: default;
+}
+.fl-pg-vcol.me i {
+  background: var(--band);
+  box-shadow: 0 0 0 2px var(--gold-ink);
+}
+
+.fl-pg-vils {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-12;
+}
+.fl-pg-q {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  min-block-size: 52px;
+  padding-inline: $sp-14 $sp-4;
+  border: 1px solid var(--glass-stroke);
+  border-radius: $r-16;
+  background: var(--glass-solid);
+}
+.fl-pg-q input {
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 48px;
+  border: 0;
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  outline: none;
+
+  @include mixins.field;
+}
+.fl-pg .fl-pg-q input:focus-visible {
+  outline: none;
+}
+.fl-pg-q input::-webkit-search-cancel-button {
+  appearance: none;
+}
+.fl-pg-q:focus-within {
+  border-color: var(--gold-ink);
+  box-shadow: 0 0 0 1px var(--gold-ink);
+}
+.fl-pg-q .fl-ic {
+  color: var(--ink-muted);
+}
+.fl-pg-vils .fl-chip:disabled {
+  opacity: 0.5;
+}
+.fl-pg-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-10;
+}
+
+.fl-pg-crumbs button:active,
+.fl-pg-col:active,
+.fl-pg-vcol:active,
+.fl-pg-region .pin:active {
+  scale: var(--press);
+}
+.fl-pg-region .pin {
+  transform-box: fill-box;
+  transform-origin: center;
+}

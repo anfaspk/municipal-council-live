@@ -39,12 +39,6 @@
       opacity $t-600 var(--ease-std),
       transform $t-700 var(--ease-expo);
   }
-  .ix-apill.on {
-    background: linear-gradient(90deg, var(--gold), var(--gold-glow) 50%, var(--gold));
-    box-shadow: 0 0 18px color-mix(in srgb, var(--gold) 30%, transparent);
-    color: var(--on-gold);
-    font-weight: 700;
-  }
   .ix-apill span {
     @include mixins.ellipsis;
   }
@@ -53,7 +47,6 @@
     height: 14px;
     flex: none;
   }
-
   .ix-apill::after {
     content: '';
     position: absolute;
@@ -242,7 +235,6 @@
   .ix-ag.top .f .ix-abar {
     box-shadow: 0 0 14px color-mix(in srgb, var(--female) 50%, transparent);
   }
-
   .ix-abar::after {
     content: '';
     position: absolute;

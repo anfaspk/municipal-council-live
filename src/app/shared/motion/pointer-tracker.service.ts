@@ -65,6 +65,7 @@ export class PointerTracker {
     };
     const record = (e: Event) => {
       const p = e as PointerEvent;
+      if (p.pointerType === 'touch' || p.pointerType === 'pen') return;
       if (p.type === 'pointermove') root.move = p;
       root.last = p;
       root.frame ??= this.frames.once(frame);

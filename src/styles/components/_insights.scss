@@ -240,10 +240,15 @@
   transition: color $t-400 var(--ease-std);
   font-family: var(--font-arabic);
   font-size: $fs-11;
+  @include mixins.hit;
 }
-.ix-tab:hover,
 .ix-tab.on {
   color: var(--ink);
+}
+@include mixins.hover {
+  .ix-tab:hover {
+    color: var(--ink);
+  }
 }
 .ix-n {
   font: 700 #{$fs-10}/ 1 var(--font-display);

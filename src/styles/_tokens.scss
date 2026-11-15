@@ -1,9 +1,15 @@
+@use 'sass:math';
+@use 'scales' as *;
+@use 'mixins';
+
 :root,
 [data-theme='night'] {
+  color-scheme: dark;
   --canvas-0: var(--c-navy-950);
   --canvas-1: var(--c-navy-900);
   --glass-fill: rgba(255, 255, 255, 0.12);
   --glass-fill-strong: rgba(255, 255, 255, 0.2);
+  --glass-solid: color-mix(in srgb, var(--c-white) 12%, var(--canvas-1));
   --glass-stroke: rgba(255, 255, 255, 0.3);
   --hairline: rgba(255, 255, 255, 0.1);
   --specular: rgba(255, 255, 255, 0.1);
@@ -58,10 +64,12 @@
 }
 
 [data-theme='daylight'] {
+  color-scheme: light;
   --canvas-0: var(--c-sand-100);
   --canvas-1: var(--c-sand-200);
   --glass-fill: rgba(255, 255, 255, 0.62);
   --glass-fill-strong: rgba(255, 255, 255, 0.82);
+  --glass-solid: color-mix(in srgb, var(--c-white) 62%, var(--canvas-1));
   --glass-stroke: rgba(122, 88, 34, 0.28);
   --hairline: rgba(40, 32, 18, 0.1);
   --specular: rgba(255, 233, 196, 0.55);
@@ -293,6 +301,10 @@
   --tv-title-y: 54px;
   --tv-dock-h: 48px;
   --tv-foot: calc(var(--tv-action-y) + var(--tv-dock-h) + var(--space-2));
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
   --radius-panel: 24px;
   --radius-tile: 16px;
   --radius-pill: 999px;
@@ -306,7 +318,39 @@
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-std: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-sheet: 380ms;
+  --dur-card: 280ms;
+  --dur-segment: 220ms;
+  --press: 0.98;
   --font-display: var(--font-sans);
   --font-sans: 'IBM Plex Sans Arabic', sans-serif;
   --font-arabic: var(--font-sans);
+}
+
+:root {
+  @each $k, $v in $fs-design {
+    --fs-#{$k}: #{$v};
+  }
+}
+
+[data-form='flow'] {
+  @each $k, $v in $fs-design {
+    --fs-#{$k}: #{math.div(math.max($v, $fs-floor), 16px)}rem;
+  }
+}
+
+:root {
+  --hit: 0px;
+}
+
+@include mixins.coarse {
+  :root,
+  [data-form='flow'] {
+    --hit: 44px;
+  }
+
+  [data-form='stage'] {
+    --hit: calc(44px / max(var(--fit-scale, 1), 0.46));
+  }
 }

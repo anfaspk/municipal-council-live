@@ -1,0 +1,43 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/frame');
+  @include meta.load-css('styles/story');
+  @include meta.load-css('styles/rows');
+  @include meta.load-css('styles/results');
+  @include meta.load-css('styles/sheets');
+  @include meta.load-css('styles/land');
+}
+
+@layer states {
+  .tvf.still .tvf-prog li.on i,
+  .tvf .tvf-prog.held li.on i {
+    animation-play-state: paused;
+  }
+  .tvf.still .tvf-prog li.on i {
+    animation: none;
+    transform: none;
+  }
+  .tvf.still .tvf-story {
+    animation: none;
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .tvf .tvf-prog li.on i,
+    .tvf .tvf-story {
+      animation: none;
+    }
+    .tvf .tvf-prog li.on i {
+      transform: none;
+    }
+    .tvf .tvf-ring .arc,
+    .tvf .tvf-bar i,
+    .tvf .tvf-chrome {
+      transition: none;
+    }
+  }
+}

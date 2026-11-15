@@ -1,0 +1,140 @@
+@use '../../../../../styles/scales' as *;
+
+.tvf[data-comp='sign'] {
+  font-size: $fs-20;
+
+  .tvf-frame {
+    gap: $sp-22;
+    padding-block: max(#{$sp-28}, var(--safe-top)) max(#{$sp-28}, var(--safe-bottom));
+    padding-inline: max(#{$sp-44}, var(--safe-right)) max(#{$sp-44}, var(--safe-left));
+  }
+  .tvf-tools {
+    display: none;
+  }
+  .tvf-prog i {
+    block-size: 6px;
+  }
+  .tvf-live,
+  .tvf-count,
+  .tvf-int,
+  .tvf-next {
+    font-size: $fs-22;
+  }
+  .tvf-kick,
+  .tvf-micro,
+  .tvf-chip,
+  .tvf-sub,
+  .tvf-other,
+  .tvf-honest {
+    font-size: $fs-20;
+  }
+  .tvf-h1 {
+    font-size: $fs-44;
+  }
+  .tvf-h1.big {
+    font-size: $fs-54;
+  }
+  .tvf-say {
+    font-size: $fs-26;
+  }
+  .tvf-big {
+    font-size: $fs-60;
+  }
+  .tvf-ring-in small {
+    font-size: $fs-20;
+  }
+  .tvf-hero .tvf-ring {
+    inline-size: 300px;
+    block-size: 300px;
+  }
+  .tvf-mapbox {
+    inline-size: 470px;
+  }
+  .tvf-mark {
+    inline-size: 34px;
+    block-size: 34px;
+    font-size: $fs-18;
+  }
+  .tvf-rank-all .tvf-row,
+  .tvf-gov .tvf-row {
+    min-block-size: 72px;
+  }
+  .tvf-row-m b,
+  .tvf-row-e b {
+    font-size: $fs-24;
+  }
+  .tvf-row-e small,
+  .tvf-yet {
+    font-size: $fs-18;
+  }
+  .tvf-row .tvf-rank {
+    inline-size: 40px;
+    block-size: 40px;
+    font-size: $fs-18;
+  }
+  .tvf-gs b {
+    font-size: $fs-34;
+  }
+  .tvf-gs span:not(.mj-sex),
+  .tvf-gs small,
+  .tvf-gl,
+  .tvf-spark p {
+    font-size: $fs-18;
+  }
+  .tvf-pair .tvf-ring {
+    inline-size: 260px;
+    block-size: 260px;
+  }
+  .tvf-pair .tvf-region {
+    max-inline-size: 620px;
+  }
+  .tvf-region svg {
+    max-block-size: 440px;
+  }
+  .tvf-tgov {
+    font-size: $fs-34;
+  }
+  .tvf-seg button,
+  .tvf-wchip {
+    font-size: $fs-22;
+  }
+  .tvf-wh > div b {
+    font-size: $fs-34;
+  }
+  .tvf-seat .tvf-av {
+    inline-size: 150px;
+    block-size: 150px;
+  }
+  .tvf-seat .tvf-nm {
+    font-size: $fs-28;
+  }
+  .tvf-seat .tvf-vp b {
+    font-size: $fs-44;
+  }
+  .tvf-badge,
+  .tvf-line,
+  .tvf-seat .tvf-vp span {
+    font-size: $fs-20;
+  }
+  .tvf-rest .tvf-cr {
+    min-block-size: 112px;
+    gap: $sp-14;
+  }
+  .tvf-rest .tvf-av {
+    inline-size: 76px;
+    block-size: 76px;
+  }
+  .tvf-rest .tvf-nm {
+    font-size: $fs-22;
+  }
+  .tvf-rest .tvf-vp b {
+    font-size: $fs-26;
+  }
+  .tvf-rest .tvf-vp span,
+  .tvf-rest .tvf-pos {
+    font-size: $fs-18;
+  }
+  .tvf-rest {
+    overflow: hidden;
+  }
+}

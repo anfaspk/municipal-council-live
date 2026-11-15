@@ -1,0 +1,25 @@
+@if (isOpen()) {
+  @let s = view.slide();
+  @if (comp() !== 'phone') {@defer (on immediate) {<i tvfWide></i>} @error {}}
+  <div class="tvf-frame" mjSwipe="x" (swipeNext)="swipe(1)" (swipePrev)="swipe(-1)" (swipeDown)="close()" (holdStart)="hold(true)" (holdEnd)="hold(false)">
+    <header tvfChrome [segs]="segs()" [segMs]="segMs()" [round]="segRound()" [pinned]="pinned()" [paused]="paused()" [held]="held() || paused() || !!sheet()" (settings)="openSheet('set')" (playPause)="toggle()" (leave)="close()"></header>
+    <main class="tvf-body" role="group" [attr.aria-roledescription]="'tvSlideRole' | tvfT" [attr.aria-label]="label()"><div class="tvf-in" #body>
+      @if (view.nat()) {
+        <section tvfNat (more)="openSheet('more')"></section>
+      } @else if (view.gov()) {
+        @if (view.inter() && tab() === 'inter') {
+          <section tvfRes (all)="openSheet('cands')" (picked)="light($event)"></section>
+        } @else {
+          <section tvfGov (all)="openSheet('wils')" (picked)="light($event)"></section>
+        }
+      }
+    </div></main>
+    @if (view.inter() && view.gov()) {
+      <p class="tvf-honest"><i></i>{{ 'intNote' | tvfT }}</p>
+    } @else if (!pinned() && s?.next; as nx) {
+      <button type="button" class="tvf-next" [attr.aria-label]="'tvfNextL' | tvfT: { s: nx.name ?? ('tvOman' | tvfT) }" (click)="show(k() + 1, true)"><span>{{ 'tvNext' | tvfT }}</span><b>{{ nx.name ?? ('tvOman' | tvfT) }}</b><svg tvfIcon="back"></svg></button>
+    }
+  </div>
+  <dialog mjSheet [label]="sheetLabel()" [open]="!!sheet()" (closed)="sheet.set(null)">@if (sheet(); as k) {<div tvfSheets [kind]="k" [sec]="secs()" [still]="still()" [osStill]="osReduced()" (secChange)="setSecs($event)" (stillChange)="setStill($event)"></div>}</dialog>
+  <div class="mj-sr" [attr.aria-live]="announce().polite ? 'polite' : 'off'" aria-atomic="true">{{ announce().text }}</div>
+}

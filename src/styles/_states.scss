@@ -21,3 +21,18 @@
     animation: none;
   }
 }
+:where([data-fx='lite']) .mj-ambient .mj-breathe,
+:where([data-fx='lite']) .mj-lattice,
+:where([data-fx='lite']) .mj-horizon .drift {
+  animation-play-state: paused;
+}
+:where([data-fx='lite']) .mj-boot .mj-lattice {
+  animation-play-state: running, paused;
+}
+:where([data-fx='lite']) .mj-gauge .sparks circle,
+:where([data-fx='lite']) .mj-kpi :is(.holo, .ghost),
+:where([data-fx='lite']) .mj-kpi .holo::before,
+:where([data-fx='lite']) .mj-omap :is(.om-halo-layer, .om-scan),
+:where([data-fx='lite']) .mj-pod .pd-sh::after {
+  animation-play-state: paused;
+}

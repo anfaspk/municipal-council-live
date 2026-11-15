@@ -232,9 +232,12 @@
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 35%, transparent);
   transition: background var(--dur-micro);
   font-family: var(--font-arabic);
+  @include mixins.hit;
 }
-.dw-more:hover {
-  background: color-mix(in srgb, var(--gold) 12%, transparent);
+@include mixins.hover {
+  .dw-more:hover {
+    background: color-mix(in srgb, var(--gold) 12%, transparent);
+  }
 }
 .dw-more svg {
   width: 16px;

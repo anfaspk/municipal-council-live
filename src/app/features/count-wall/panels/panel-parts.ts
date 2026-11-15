@@ -79,24 +79,24 @@ export class CountStatus {
   selector: 'div[countStats]',
   template: `<div class="cx-st c">
       <span>{{ text('cCounted') }}</span
-      ><b [class]="'mj-num cx-' + prefix() + 'c'">{{ number(counted()) }}</b
-      ><em [class]="'mj-num cx-' + prefix() + 'p'">{{
+      ><b [class]="'mj-num cx-' + prefix() + 'c'" [attr.data-fig]="key('counted')">{{ number(counted()) }}</b
+      ><em [class]="'mj-num cx-' + prefix() + 'p'" [attr.data-fig]="key('cP')">{{
         percentOf(counted(), cast())
       }}</em>
     </div>
     <div class="cx-st l">
       <span>{{ text('cxUncounted') }}</span
-      ><b [class]="'mj-num cx-' + prefix() + 'l'">{{ number(cast() - counted()) }}</b
+      ><b [class]="'mj-num cx-' + prefix() + 'l'" [attr.data-fig]="key('left')">{{ number(cast() - counted()) }}</b
       ><em>{{ text('cOfCast', { v: number(cast()) }) }}</em>
     </div>
     <div class="cx-st m">
       <span>{{ text('cxMaleV') }}</span
-      ><b class="mj-num">{{ number(gender().m) }}</b
+      ><b class="mj-num" [attr.data-fig]="key('m')">{{ number(gender().m) }}</b
       ><em>{{ percentOf(gender().m, cast()) }}</em>
     </div>
     <div class="cx-st f">
       <span>{{ text('cxFemaleV') }}</span
-      ><b class="mj-num">{{ number(gender().f) }}</b
+      ><b class="mj-num" [attr.data-fig]="key('f')">{{ number(gender().f) }}</b
       ><em>{{ percentOf(gender().f, cast()) }}</em>
     </div>`,
   encapsulation: ViewEncapsulation.None,
@@ -107,9 +107,13 @@ export class CountStats {
   readonly cast = input.required<number>();
   readonly gender = input.required<{ m: number; f: number }>();
   readonly prefix = input('x');
+  readonly fig = input('');
   protected readonly text = ct;
   protected readonly number = fmt;
   protected readonly percentOf = pctOf;
+  protected key(k: string): string | null {
+    return this.fig() ? this.fig() + '.' + k : null;
+  }
 }
 
 @Component({

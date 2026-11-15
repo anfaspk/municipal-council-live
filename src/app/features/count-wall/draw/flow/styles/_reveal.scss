@@ -1,0 +1,244 @@
+@use '../../../../../../styles/scales' as *;
+@use '../../../../../../styles/mixins';
+
+.cfd-reveal {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-14;
+}
+.cfd-where {
+  display: flex;
+  flex-direction: column;
+}
+.cfd-where small {
+  color: var(--ink-muted);
+  font-size: $fs-14;
+}
+.cfd-name {
+  margin: 0;
+  font-size: $fs-32;
+  line-height: $lh-head;
+}
+.cfd-name:focus {
+  outline: none;
+}
+.cfd-line {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  color: var(--gold-ink);
+  font-size: $fs-15;
+  line-height: $lh-body;
+}
+.cfd-line span {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.cfd-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: $sp-6;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cfd-steps li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-6;
+  color: var(--ink-muted);
+  font-size: $fs-12;
+  line-height: $lh-label;
+  text-align: center;
+}
+.cfd-steps i {
+  display: grid;
+  place-items: center;
+  inline-size: 28px;
+  block-size: 28px;
+  border: 1px solid var(--glass-stroke);
+  border-radius: $radius-round;
+  font-size: $fs-13;
+  font-style: normal;
+  font-weight: 700;
+}
+.cfd-steps li.done i {
+  border-color: var(--declared);
+  color: var(--declared);
+  background: color-mix(in srgb, var(--declared) 20%, transparent);
+}
+.cfd-steps li.on {
+  color: var(--ink);
+  font-weight: 700;
+}
+.cfd-steps li.on i {
+  border-color: var(--gold);
+  color: var(--on-gold);
+  background: var(--gold);
+}
+.cfd-coinrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-12;
+  min-block-size: 56px;
+}
+.cfd-coin {
+  flex: none;
+  inline-size: 44px;
+  block-size: 44px;
+  perspective: 200px;
+}
+.cfd-coin i {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: $radius-round;
+  background: radial-gradient(
+    circle at 35% 30%,
+    color-mix(in srgb, var(--gold) 60%, var(--ink)),
+    var(--gold) 60%,
+    var(--gold-ink)
+  );
+  box-shadow: 0 0 24px color-mix(in srgb, var(--gold) 55%, transparent);
+  transform: rotateY(calc(var(--turn, 0) * 180deg));
+  transition: transform $t-300 var(--ease-std);
+}
+.cfd-st {
+  font-size: $fs-16;
+}
+.cfd-cands {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $sp-12;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cfd-c {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-8;
+  padding: $sp-14 $sp-10;
+  border: 1px solid var(--hairline);
+  border-radius: $r-20;
+  background: var(--glass-solid);
+  text-align: center;
+  transition:
+    box-shadow $t-150 var(--ease-std),
+    opacity $t-400 var(--ease-std),
+    border-color $t-150 var(--ease-std);
+}
+.cfd-av {
+  display: grid;
+  place-items: center;
+  inline-size: 96px;
+  block-size: 96px;
+  border-radius: $r-18;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+  font-size: $fs-24;
+  font-weight: 700;
+}
+.cfd-av img {
+  aspect-ratio: 1;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+.cfd-nm {
+  font-size: $fs-15;
+  line-height: $lh-head;
+}
+.cfd-c small {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.cfd-c.lit {
+  border-color: var(--gold);
+  box-shadow:
+    0 0 0 2px var(--gold),
+    0 0 32px color-mix(in srgb, var(--gold) 45%, transparent);
+}
+.cfd-c.won {
+  border-color: var(--gold);
+  background: color-mix(in srgb, var(--gold) 12%, var(--glass-solid));
+}
+.cfd-c.lost {
+  border-style: dashed;
+}
+.cfd-c.lost .cfd-av {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+.cfd-c.lost .cfd-nm {
+  color: var(--ink-muted);
+}
+.cfd-ack {
+  --c: var(--stat-pending);
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  padding-inline: $sp-10;
+  border-radius: var(--radius-pill);
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 14%, transparent);
+  font-size: $fs-12;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.9;
+}
+.cfd-ack i {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: $radius-round;
+  background: var(--c);
+}
+.cfd-ack.ok {
+  --c: var(--declared);
+}
+.cfd-ack.off {
+  --c: var(--live);
+}
+.cfd-held {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+  padding: $sp-10 $sp-12;
+  border-radius: $r-14;
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+  font-size: $fs-13;
+}
+.cfd-held > span {
+  color: var(--ink-muted);
+}
+.cfd-held b {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+}
+.cfd-held em {
+  color: var(--declared);
+  font-style: normal;
+  font-weight: 700;
+}
+.cfd-go {
+  min-block-size: 52px;
+  border-color: var(--gold-ink);
+  color: var(--gold-ink);
+}
+.cfd-prog {
+  margin: 0;
+  font-weight: 600;
+  text-align: center;
+}
+.cfd-note,
+.cfd-wait {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+  text-align: center;
+}

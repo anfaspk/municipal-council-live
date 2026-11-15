@@ -1,0 +1,152 @@
+@use '../../../../styles/scales' as *;
+@use '../../../../styles/mixins';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  .mj-kit-page {
+    display: block;
+    min-block-size: 100svh;
+    background: var(--canvas-0);
+    color: var(--ink);
+  }
+  .mj-kit {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-24;
+    max-inline-size: 1200px;
+    margin-inline: auto;
+    padding-block: $sp-16 calc(#{$sp-40} + var(--safe-bottom));
+    padding-inline: max(#{$sp-16}, var(--safe-right)) max(#{$sp-16}, var(--safe-left));
+
+    @include mixins.frame;
+  }
+  .mj-kit-h {
+    margin: 0;
+    font-size: $fs-display-2;
+
+    @include mixins.arabic;
+  }
+  .mj-kit-sec {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-12;
+  }
+  .mj-kit-st {
+    margin: 0;
+    color: var(--gold-ink);
+    font-size: $fs-14;
+
+    @include mixins.arabic;
+  }
+  .mj-kit-p {
+    margin: 0;
+    font-size: $fs-14;
+    line-height: 1.6;
+
+    @include mixins.arabic;
+  }
+  .mj-kit-btns,
+  .mj-kit-live {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $sp-12;
+    margin: 0;
+  }
+  .mj-kit-fig {
+    font-size: $fs-display-1;
+    font-variant-numeric: tabular-nums;
+  }
+  .mj-kit-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: $sp-6;
+    block-size: 96px;
+  }
+  .mj-kit-bars i {
+    flex: 1;
+    block-size: 100%;
+    border-radius: $r-4;
+    background: var(--gold);
+    transform: scaleY(var(--k, 0));
+    transform-origin: bottom;
+  }
+  .mj-kit-card,
+  .mj-kit-slide {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-6;
+    padding: $sp-16;
+    border-radius: $r-16;
+
+    @include mixins.glass-fill;
+  }
+  .mj-kit-slide {
+    min-block-size: 200px;
+    justify-content: flex-end;
+  }
+  .mj-kit-cl {
+    color: var(--ink-muted);
+    font-size: $fs-13;
+
+    @include mixins.arabic;
+  }
+  .mj-kit-cv {
+    font-size: $fs-display-2;
+  }
+  .mj-kit-list {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-4;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .mj-kit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    inline-size: 100%;
+    min-block-size: 48px;
+    padding-inline: $sp-12;
+    border: 0;
+    border-radius: $r-10;
+    background: var(--glass-fill);
+    color: var(--ink);
+    font-size: $fs-14;
+    cursor: pointer;
+
+    @include mixins.arabic;
+    @include mixins.hit-min;
+  }
+  .mj-kit-row[aria-current] {
+    box-shadow: inset 0 0 0 1px var(--gold);
+  }
+  .mj-kit-row:focus-visible {
+    outline: 2px solid var(--focus-ring);
+  }
+  .mj-kit-dh {
+    margin: 0;
+    font-size: $fs-display-3;
+  }
+  .mj-kit-type {
+    inline-size: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  .mj-kit-type td {
+    padding: $sp-6;
+    font-size: var(--kit-fs);
+    font-weight: var(--kit-fw);
+    vertical-align: top;
+    overflow-wrap: anywhere;
+
+    @include mixins.arabic;
+  }
+  .mj-kit-type small {
+    display: block;
+    color: var(--ink-muted);
+    font-size: $fs-12;
+  }
+}

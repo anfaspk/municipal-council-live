@@ -1,4 +1,5 @@
 @use '../../../../styles/scales' as *;
+@use '../../../../styles/mixins';
 
 .cx-race {
   flex: 1;
@@ -36,8 +37,10 @@
   border: $sp-1-5 solid transparent;
   border-radius: $r-4;
 }
-.cx-race .rs-grid::-webkit-scrollbar-thumb:hover {
-  background: var(--gold-glow) padding-box;
+@include mixins.hover {
+  .cx-race .rs-grid::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-glow) padding-box;
+  }
 }
 @supports not selector(::-webkit-scrollbar) {
   .cx-race .rs-grid {
@@ -68,7 +71,7 @@
 .cx-race .rs-fig .rs-sh {
   font-size: clamp($fs-11, 18cqh, $fs-14);
 }
-@container (height >= 64px) {
+@include mixins.box-h($min: $bp-row-tall) {
   .cx-race .rs-row .rs-nm {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -77,7 +80,7 @@
     white-space: normal;
   }
 }
-@container (height < 54px) {
+@include mixins.box-h($max: $bp-row-short) {
   .cx-race .rs-fig .rs-sh {
     display: none;
   }

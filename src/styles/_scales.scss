@@ -53,51 +53,109 @@ $fs-5-8: 5.8px;
 $fs-6: 6px;
 $fs-6-3: 6.3px;
 $fs-7: 7px;
-$fs-8-5: 8.5px;
-$fs-9: 9px;
-$fs-9-5: 9.5px;
-$fs-10: 10px;
-$fs-10-5: 10.5px;
-$fs-11: 11px;
-$fs-11-5: 11.5px;
-$fs-12: 12px;
-$fs-12-5: 12.5px;
-$fs-13: 13px;
-$fs-13-5: 13.5px;
-$fs-14: 14px;
-$fs-15: 15px;
-$fs-15-5: 15.5px;
-$fs-16: 16px;
-$fs-17: 17px;
-$fs-18: 18px;
-$fs-19: 19px;
-$fs-20: 20px;
-$fs-21: 21px;
-$fs-22: 22px;
-$fs-24: 24px;
-$fs-26: 26px;
-$fs-27: 27px;
-$fs-28: 28px;
-$fs-30: 30px;
-$fs-32: 32px;
-$fs-34: 34px;
-$fs-36: 36px;
-$fs-38: 38px;
-$fs-44: 44px;
-$fs-48: 48px;
-$fs-52: 52px;
-$fs-54: 54px;
-$fs-60: 60px;
-$fs-62: 62px;
-$fs-64: 64px;
-$fs-66: 66px;
-$fs-72: 72px;
-$fs-74: 74px;
-$fs-76: 76px;
-$fs-78: 78px;
-$fs-84: 84px;
-$fs-112: 112px;
-$fs-176: 176px;
+$fs-8-5: var(--fs-8-5);
+$fs-9: var(--fs-9);
+$fs-9-5: var(--fs-9-5);
+$fs-10: var(--fs-10);
+$fs-10-5: var(--fs-10-5);
+$fs-11: var(--fs-11);
+$fs-11-5: var(--fs-11-5);
+$fs-12: var(--fs-12);
+$fs-12-5: var(--fs-12-5);
+$fs-13: var(--fs-13);
+$fs-13-5: var(--fs-13-5);
+$fs-14: var(--fs-14);
+$fs-15: var(--fs-15);
+$fs-15-5: var(--fs-15-5);
+$fs-16: var(--fs-16);
+$fs-17: var(--fs-17);
+$fs-18: var(--fs-18);
+$fs-19: var(--fs-19);
+$fs-20: var(--fs-20);
+$fs-21: var(--fs-21);
+$fs-22: var(--fs-22);
+$fs-24: var(--fs-24);
+$fs-26: var(--fs-26);
+$fs-27: var(--fs-27);
+$fs-28: var(--fs-28);
+$fs-30: var(--fs-30);
+$fs-32: var(--fs-32);
+$fs-34: var(--fs-34);
+$fs-36: var(--fs-36);
+$fs-38: var(--fs-38);
+$fs-44: var(--fs-44);
+$fs-48: var(--fs-48);
+$fs-52: var(--fs-52);
+$fs-54: var(--fs-54);
+$fs-60: var(--fs-60);
+$fs-62: var(--fs-62);
+$fs-64: var(--fs-64);
+$fs-66: var(--fs-66);
+$fs-72: var(--fs-72);
+$fs-74: var(--fs-74);
+$fs-76: var(--fs-76);
+$fs-78: var(--fs-78);
+$fs-84: var(--fs-84);
+$fs-112: var(--fs-112);
+$fs-176: var(--fs-176);
+$fs-design: (
+  '8-5': 8.5px,
+  '9': 9px,
+  '9-5': 9.5px,
+  '10': 10px,
+  '10-5': 10.5px,
+  '11': 11px,
+  '11-5': 11.5px,
+  '12': 12px,
+  '12-5': 12.5px,
+  '13': 13px,
+  '13-5': 13.5px,
+  '14': 14px,
+  '15': 15px,
+  '15-5': 15.5px,
+  '16': 16px,
+  '17': 17px,
+  '18': 18px,
+  '19': 19px,
+  '20': 20px,
+  '21': 21px,
+  '22': 22px,
+  '24': 24px,
+  '26': 26px,
+  '27': 27px,
+  '28': 28px,
+  '30': 30px,
+  '32': 32px,
+  '34': 34px,
+  '36': 36px,
+  '38': 38px,
+  '44': 44px,
+  '48': 48px,
+  '52': 52px,
+  '54': 54px,
+  '60': 60px,
+  '62': 62px,
+  '64': 64px,
+  '66': 66px,
+  '72': 72px,
+  '74': 74px,
+  '76': 76px,
+  '78': 78px,
+  '84': 84px,
+  '112': 112px,
+  '176': 176px,
+);
+$fs-floor: 12px;
+$fs-field: 1rem;
+$fs-display-0: clamp(2.5rem, 10cqi, 5rem);
+$fs-display-0-narrow: clamp(2.5rem, 22cqi, 5rem);
+$fs-display-1: clamp(1.75rem, 9cqi, 2.75rem);
+$fs-display-2: clamp(1.375rem, 6.5cqi, 2rem);
+$fs-display-3: clamp(1.125rem, 4.5cqi, 1.5rem);
+$lh-figure: 1;
+$lh-head: 1.3;
+$lh-label: 1.4;
+$lh-body: 1.6;
 $radius-round: 50%;
 $r-1: 1px;
 $r-1-5: 1.5px;
@@ -135,6 +193,7 @@ $z-drawer: 50;
 $z-toast: 60;
 $z-confetti: 70;
 $z-screen: 80;
+$z-screen-over: 90;
 $t-1: 1ms;
 $t-14: 14ms;
 $t-30: 30ms;
@@ -214,3 +273,18 @@ $t-30000: 30000ms;
 $t-36000: 36000ms;
 $t-60000: 60000ms;
 $t-120000: 120000ms;
+$bp-xs: 600px;
+$bp-sm: 900px;
+$bp-lg: 1440px;
+$bp-xl: 1920px;
+$bp-xxl: 2400px;
+$bp-stage-w: 900px;
+$bp-stage-h: 500px;
+$bp-dash-w: 1152px;
+$bp-dash-h: 648px;
+$bp-row-tall: 64px;
+$bp-row-short: 54px;
+$bp-short-h: 500px;
+$bp-ages-narrow: 264px;
+$bp-768: 768px;
+$bp-1024: 1024px;

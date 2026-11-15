@@ -1,0 +1,356 @@
+@use '../../../../../../styles/scales' as *;
+@use '../../../../../../styles/mixins';
+
+
+.fl-pg {
+  --fl-pg-slim: 60px;
+  --fl-pg-stick: calc(var(--fl-pg-slim) + var(--safe-top));
+
+  display: flex;
+  flex-direction: column;
+  gap: $sp-16;
+  box-sizing: border-box;
+  inline-size: 100%;
+  max-inline-size: 560px;
+  margin-inline: auto;
+  padding-block: 0 calc(#{$sp-96} + var(--safe-bottom));
+  padding-inline: max(#{$sp-16}, var(--safe-right)) max(#{$sp-16}, var(--safe-left));
+  color: var(--ink);
+  font-size: $fs-15;
+  line-height: $lh-body;
+}
+
+.fl-pg-slim {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: $z-scrim;
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  box-sizing: border-box;
+  block-size: var(--fl-pg-stick);
+  margin-block-end: calc(-1 * var(--fl-pg-stick) - #{$sp-16});
+  margin-inline: calc(-1 * max(#{$sp-16}, var(--safe-right)))
+    calc(-1 * max(#{$sp-16}, var(--safe-left)));
+  padding-block-start: var(--safe-top);
+  padding-inline: max(#{$sp-8}, var(--safe-right)) max(#{$sp-8}, var(--safe-left));
+  background: var(--canvas-1);
+  box-shadow: 0 1px 0 var(--hairline);
+  opacity: 0;
+  translate: 0 -100%;
+  visibility: hidden;
+  transition:
+    opacity var(--dur-card) var(--ease-std),
+    translate var(--dur-card) var(--ease-sheet),
+    visibility 0s linear var(--dur-card);
+}
+.fl-pg-slim.on {
+  opacity: 1;
+  translate: 0 0;
+  visibility: visible;
+  transition-delay: 0s;
+}
+.fl-pg-slim-t {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+  line-height: $lh-label;
+}
+.fl-pg-slim-t small {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+
+  @include mixins.ellipsis;
+}
+.fl-pg-slim-t b {
+  font-size: $fs-17;
+
+  @include mixins.ellipsis;
+}
+.fl-pg-slim-f {
+  flex: none;
+  font-size: $fs-18;
+}
+
+.fl-pg-head {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+  padding-block-start: calc(#{$sp-8} + var(--safe-top));
+}
+.fl-pg-bar {
+  display: flex;
+  align-items: center;
+  gap: $sp-4;
+}
+.fl-pg-crumbs {
+  flex: 1;
+  min-inline-size: 0;
+}
+.fl-pg-crumbs ol {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+  white-space: nowrap;
+}
+.fl-pg-crumbs li {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  min-inline-size: 0;
+}
+.fl-pg-crumbs li:first-child {
+  flex: none;
+}
+.fl-pg-crumbs :is(button, span[aria-current]) {
+  font-size: $fs-15;
+
+  @include mixins.ellipsis;
+}
+.fl-pg-crumbs li:has(> .sep + button) {
+  min-inline-size: calc(14px + 44px);
+}
+.fl-pg-crumbs button {
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  padding-inline: $sp-4;
+  border: 0;
+  color: var(--ink-muted);
+  background: none;
+  font: inherit;
+  cursor: pointer;
+
+  @include mixins.touch-control;
+}
+.fl-pg-crumbs span[aria-current] {
+  min-inline-size: 0;
+  padding-inline: $sp-4;
+  font-weight: 700;
+}
+.fl-pg-crumbs .sep {
+  inline-size: 14px;
+  block-size: 14px;
+  color: var(--ink-muted);
+}
+.fl-pg-kind {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: $fs-14;
+}
+.fl-pg-name {
+  margin: 0;
+  font-size: $fs-display-2;
+  line-height: $lh-head;
+}
+.fl-pg .fl-pg-name:focus {
+  outline: none;
+}
+.fl-pg-head .fl-chip.stale {
+  border-color: var(--band-low);
+  color: var(--ink);
+}
+.fl-pg-pills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $sp-10;
+}
+.fl-pg-pill {
+  display: flex;
+  align-items: center;
+  gap: $sp-6;
+  min-inline-size: 0;
+  min-block-size: 52px;
+  padding-inline: $sp-6;
+  border: 0;
+  border-radius: $r-14;
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+
+  @include mixins.touch-control;
+}
+.fl-pg-pill.end {
+  justify-content: flex-end;
+  text-align: end;
+}
+.fl-pg-pill:active {
+  scale: var(--press);
+}
+.fl-pg-pill:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.fl-pg-pill span {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  line-height: $lh-label;
+}
+.fl-pg-pill small {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.fl-pg-pill b {
+  font-size: $fs-16;
+
+  @include mixins.ellipsis;
+}
+.fl-pg-sent {
+  display: block;
+  block-size: 0;
+}
+
+.fl-pg-top {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-16;
+  transition: opacity var(--dur-card) var(--ease-std);
+}
+.fl-pg :is(.fl-pg-top, .fl-pg-sec).busy {
+  opacity: 0.55;
+}
+.fl-pg-sum {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: $sp-16;
+}
+.fl-pg-sum .fl-ring {
+  inline-size: 148px;
+  block-size: 148px;
+}
+.fl-pg-sum .fl-ring .arc {
+  stroke: var(--band-ink);
+}
+.fl-pg-sum .fl-big {
+  font-size: $fs-display-2;
+}
+.fl-pg-skring {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 7px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  border-radius: $radius-round;
+  box-sizing: border-box;
+}
+.fl-pg-cmp {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+}
+.fl-pg-cmpc {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  margin: 0;
+  padding: $sp-10;
+  border-radius: $r-14;
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  font-size: $fs-14;
+  line-height: $lh-label;
+}
+.fl-pg-cmpc .fl-ic {
+  inline-size: 18px;
+  block-size: 18px;
+}
+.fl-pg-cmpc.up .fl-ic {
+  color: var(--band-high-ink);
+}
+.fl-pg-cmpc.down .fl-ic {
+  color: var(--band-low-ink);
+}
+
+.fl-pg-flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: $sp-4;
+  text-align: center;
+}
+.fl-pg-fig p,
+.fl-pg-fig small {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+  line-height: $lh-label;
+}
+.fl-pg-fig small {
+  display: block;
+  font-size: $fs-12;
+}
+.fl-pg-fig b {
+  display: block;
+  font-size: $fs-20;
+  line-height: $lh-head;
+}
+.fl-pg-step {
+  inline-size: 16px;
+  block-size: 16px;
+  color: var(--gold-ink);
+}
+.fl-pg-skel {
+  grid-template-columns: repeat(3, 1fr);
+  gap: $sp-12;
+}
+.fl-pg-skel i {
+  display: block;
+  block-size: 64px;
+  border-radius: $r-12;
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+.fl-pg-notyet {
+  margin-block-start: -$sp-6;
+  text-align: center;
+}
+.fl-pg-notyet .fl-sex {
+  display: inline-block;
+  inline-size: 18px;
+  block-size: 18px;
+  vertical-align: middle;
+}
+
+.fl-pg-tabs {
+  position: sticky;
+  inset-block-start: var(--fl-pg-stick);
+  z-index: $z-3;
+  display: flex;
+  margin-inline: calc(-1 * max(#{$sp-16}, var(--safe-right)))
+    calc(-1 * max(#{$sp-16}, var(--safe-left)));
+  padding-inline: max(#{$sp-8}, var(--safe-right)) max(#{$sp-8}, var(--safe-left));
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  border-block-end: 1px solid var(--hairline);
+  background: var(--canvas-0);
+  scrollbar-width: none;
+}
+.fl-pg-tabs .fl-tab {
+  flex: 1 0 auto;
+  padding-inline: $sp-12;
+  white-space: nowrap;
+}
+.fl-pg-tabs .fl-tab:active {
+  scale: var(--press);
+}
+.fl-pg-sec {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-14;
+  min-block-size: calc(100svh - var(--fl-pg-stick) - 49px);
+  transition: opacity var(--dur-card) var(--ease-std);
+}
+
+.dt-vt .fl-pg .fl-pg-crumbs {
+  view-transition-name: fl-pg-crumbs;
+}
+.dt-vt .fl-pg .fl-pg-name {
+  view-transition-name: fl-pg-name;
+}
+.dt-vt .fl-pg .fl-pg-sum {
+  view-transition-name: fl-pg-sum;
+}

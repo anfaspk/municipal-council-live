@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@a
   host: { 'aria-hidden': 'true' },
   template: `@let c = cand();
     @if (c.photo) {
-      <img [src]="c.photo" alt="" loading="lazy" />
+      <img [src]="c.photo" alt="" loading="lazy" decoding="async" />
     } @else {
       <b>{{ c.ini }}</b>
     }`,

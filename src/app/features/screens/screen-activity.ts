@@ -31,7 +31,8 @@ export class ScreenActivity {
     });
     afterEveryRender(() => this.sync());
     const observer = new MutationObserver((records) => {
-      if (records.some((r) => (r.target as Element).matches('.mj-tv, .wn-root'))) this.sync();
+      if (records.some((r) => (r.target as Element).matches('.mj-tv, .tvf, .cf, .wn-root')))
+        this.sync();
     });
     observer.observe(this.root, {
       subtree: true,
@@ -76,12 +77,12 @@ export class ScreenActivity {
       on !== 'dashboard' &&
       !!this.root.querySelector(
         on === 'tv'
-          ? ':scope > .mj-tv.on'
+          ? ':scope > :is(.mj-tv, .tvf).on'
           : on === 'winners'
-            ? ':scope > .wn-root.on'
+            ? ':scope > :is(.wn-root, .wf).on'
             : on === 'draw'
-              ? '.cxd-root .ct-tv.on'
-              : '.ct-root .ct-tv.on',
+              ? ':is(.cxd-root .ct-tv, :scope > .cfd).on'
+              : ':is(.ct-root .ct-tv, :scope > .cf:not(.cfd)).on',
       )
     );
   }

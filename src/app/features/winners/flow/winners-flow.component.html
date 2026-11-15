@@ -1,0 +1,91 @@
+@if (isOpen()) {
+  @if (comp() !== 'phone') {@defer (on immediate) {<i wfWide></i>} @error {}}
+  @if (card(); as c) {
+    @if (comp() === 'tab') {
+      <aside class="wf-rail" [attr.aria-label]="'wfWils' | wfT"><div wfWils [card]="c" [govs]="view.cards()" [wils]="wils()" [cur]="cur()" [tally]="view.tally()" (choose)="choose($event)" (pickGov)="pick($event, 'side')"></div></aside>
+    }
+    <div class="wf-story" mjSwipe="x" (swipeNext)="move(1)" (swipePrev)="move(-1)" (swipeDown)="back()" (holdStart)="hold(true)" (holdEnd)="hold(false)">
+      <div class="wf-scene" aria-hidden="true"><img [src]="scene" alt="" decoding="async" width="1448" height="1086"></div>
+      <header class="wf-chrome" [class.held]="stopped()">
+        @if (walking()) {<ol class="wf-prog" aria-hidden="true">@for (s of segs(); track $index) {<li [class]="s">@if (s === 'on') {@for (l of [lap()]; track l) {<i [style.--seg-ms]="step + 'ms'"></i>}} @else {<i></i>}</li>}</ol>}
+        <div class="wf-row">
+          <button type="button" class="wf-btn" [attr.aria-label]="'wnBack' | wfT" (click)="back()"><svg wfIcon="back"></svg></button>
+          <span class="wf-where"><b>{{ govTitle() }}</b>@if (paused()) {<small class="wf-st held"><svg wfIcon="pause"></svg>{{ 'wfPaused' | wfT }}</small>} @else if (view.stamp(); as s) {<small class="wf-st" [class.stale]="view.stale()">{{ s }}</small>}</span>
+          <button type="button" class="wf-btn wf-listbtn" [attr.aria-label]="'wfWils' | wfT" (click)="sheet.set('wils')"><svg wfIcon="list"></svg></button>
+          @if (walking()) {<button type="button" class="wf-btn wf-pause" [class.on]="paused()" [attr.aria-label]="(paused() ? 'wfResume' : 'wfPause') | wfT" [attr.aria-pressed]="paused()" (click)="togglePlay()"><svg [wfIcon]="paused() ? 'play' : 'pause'"></svg></button>}
+          <button type="button" class="wf-btn" [attr.aria-label]="'close' | wfT" (click)="close()"><svg wfIcon="close"></svg></button>
+        </div>
+      </header>
+      <main class="wf-body">
+        @if (view.load() === 'wait') {
+          <div class="wf-msg"><span class="wf-msg-i"><svg wfIcon="box"></svg></span><h1 class="wf-name" tabindex="-1">{{ 'wnWait' | wfT }}</h1><p>{{ 'wnWaitLead' | wfT }}</p></div>
+        } @else if (view.load() === 'failed') {
+          <div class="wf-msg"><span class="wf-msg-i warn"><svg wfIcon="warn"></svg></span><h1 class="wf-name" tabindex="-1">{{ 'wnFailed' | wfT }}</h1><p>{{ 'wnFailedLead' | wfT }}</p><button type="button" class="wf-retry" (click)="store.retry()">{{ 'wnRetry' | wfT }}</button></div>
+        } @else if (view.load() === 'ready' && !wils().length) {
+          <div class="wf-msg"><span class="wf-msg-i"><svg wfIcon="grid"></svg></span><h1 class="wf-name" tabindex="-1">{{ 'wnEmpty' | wfT }}</h1></div>
+        } @else if (wil(); as w) {
+          @for (k of [w.id]; track k) {
+            @let t = title(w);
+            <div class="wf-show" role="group" [attr.aria-label]="'wfStory' | wfT: { w: w.name, i: cur() + 1, n: wils().length }">
+              <div class="wf-title">
+                <h1 class="wf-name" tabindex="-1">@if (t.kind) {<span class="wf-name-k">{{ t.kind }}</span>&ngsp;}<span class="wf-name-n">{{ t.name }}</span></h1>
+                <p class="wf-chips">
+                  @if (w.published) {<span class="wf-badge"><svg wfIcon="check"></svg>{{ 'wnDeclared' | wfT }}</span>} @else {<span class="wf-badge pend"><i aria-hidden="true"></i>{{ 'wnPending' | wfT }}</span>}
+                  @if (w.seats) {<span class="wf-seats">{{ 'wnSeats' | wfT: { n: w.seats } }}</span>}
+                  @if (w.published) {<button type="button" class="wf-share" [attr.aria-label]="'wfShareWil' | wfT" (click)="share(null)"><svg wfIcon="share"></svg></button>}
+                </p>
+              </div>
+              <div class="wf-cards" [class]="size(w)">
+                @if (w.published) {
+                  @for (c of w.winners; track c.id; let i = $index) {<article wfCard [cand]="c" [size]="size(w)" [first]="i === 0" [still]="still" (shared)="share(c)"></article>}
+                } @else {
+                  @for (k of seatsOf(w); track k) {
+                    <div class="wf-card wait" [class]="size(w)">
+                      <div class="wf-por"><div class="wf-frame"><svg class="wf-q" viewBox="0 0 120 150" aria-hidden="true"><circle cx="60" cy="52" r="26"/><path d="M14 150c4-34 22-52 46-52s42 18 46 52z"/></svg></div><span class="wf-seal"><span class="wf-medal" aria-hidden="true"><i></i></span>{{ 'wnPendingShort' | wfT }}</span></div>
+                      <div class="wf-plate"><p class="wf-cname">{{ 'wnPendingLead' | wfT }}</p></div>
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+          }
+        } @else {
+          <div class="wf-show wf-skel" role="status">
+            <span class="mj-sr">{{ 'wnLoading' | wfT }}</span>
+            <div class="wf-title" aria-hidden="true"><i class="wf-sk h"></i><i class="wf-sk s"></i></div>
+            <div class="wf-cards two" aria-hidden="true">@for (k of [0, 1]; track k) {<div class="wf-card wait two sk"><div class="wf-por"><div class="wf-frame"></div></div><div class="wf-plate"><i class="wf-sk l"></i><i class="wf-sk l s"></i></div></div>}</div>
+          </div>
+        }
+      </main>
+      <footer class="wf-foot">
+        @if (wil()?.published) {<p class="wf-official"><svg wfIcon="check"></svg>{{ 'wnOfficial' | wfT }}</p>} @else {<span></span>}
+        @if (next(); as n) {<button type="button" class="wf-next" [attr.aria-label]="'wfNextL' | wfT: { w: n.name }" (click)="move(1)"><span>{{ 'wfNext' | wfT }}</span><b>{{ n.name }}</b><svg wfIcon="go"></svg></button>}
+      </footer>
+    </div>
+    @if (comp() === 'sign') {
+      <footer class="wf-strip" aria-hidden="true"><p>{{ govTitle() }}</p><ol>@for (w of wils(); track w.id; let i = $index) {<li [class.on]="i === cur()" [class.done]="w.published">@if (w.published) {<svg wfIcon="check"></svg>}<b>{{ w.name }}</b></li>}</ol></footer>
+    }
+  } @else {
+    <div class="wf-page">
+      <div mjAppbar [heading]="'wnTitle' | wfT" [sub]="'wnSub' | wfT" [stamp]="view.stamp() ?? ('wnOfficial' | wfT)" [stale]="view.stale()" (menu)="sheet.set('menu')"></div>
+      <main class="wf-main"><section wfPick [cards]="view.cards()" [sums]="view.sums()" [wait]="!counting()" [map]="comp() === 'sign'" (pick)="pick($event)"></section></main>
+    </div>
+    <nav class="wf-bar" [attr.aria-label]="'wfBar' | wfT">
+      @for (b of bar; track b.s) {
+        <button type="button" class="wf-bar-i" [class.on]="b.s === 'winners'" [attr.aria-current]="b.s === 'winners' ? 'page' : null" (click)="show(b.s)"><svg [wfIcon]="b.icon"></svg><span>{{ b.key | wfT }}</span></button>
+      }
+    </nav>
+  }
+  <dialog mjSheet [label]="sheetLabel()" [open]="!!sheet()" (closed)="sheet.set(null)">
+    @if (sheet() === 'wils' && card(); as c) {
+      <div wfWils [card]="c" [govs]="view.cards()" [wils]="wils()" [cur]="cur()" [tally]="view.tally()" (choose)="choose($event, true)" (pickGov)="pick($event, 'side')"></div>
+    } @else if (sheet() === 'menu') {
+      <div class="wf-menu">
+        @if (canFull) {<button type="button" class="wf-opt" (click)="fullscreen()"><svg wfIcon="full"></svg><b>{{ 'wnFull' | wfT }}</b></button>}
+        <button type="button" class="wf-opt" (click)="show('dashboard')"><svg wfIcon="grid"></svg><b>{{ 'wfDash' | wfT }}</b></button>
+      </div>
+    }
+  </dialog>
+  @if (toast()) {<p class="wf-toast" role="status">{{ toast() }}</p>}
+  <div class="mj-sr" aria-live="polite" aria-atomic="true">{{ say() }}</div>
+}

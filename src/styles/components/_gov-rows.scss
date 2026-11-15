@@ -19,10 +19,15 @@
     transform var(--dur-ui) var(--ease-spring);
   position: relative;
   outline: none;
+  @include mixins.hit-min;
 }
-.mj-row:hover,
 .mj-row.is-hot {
   background: var(--glass-fill-strong);
+}
+@include mixins.hover {
+  .mj-row:hover {
+    background: var(--glass-fill-strong);
+  }
 }
 .mj-row.is-pinned {
   box-shadow: inset 0 0 0 1px var(--gold);

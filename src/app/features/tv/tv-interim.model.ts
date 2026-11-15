@@ -24,6 +24,13 @@ export interface InterimGov {
   loaded: number;
   votes: number;
 }
+export const INT_CARD_W = 1040,
+  SEAT_MIN_W = 240;
+export function seatCols(n: number, w = INT_CARD_W): number {
+  const fit = Math.max(1, Math.floor(w / SEAT_MIN_W));
+  return Math.min(fit, n <= 3 ? n : n === 4 ? 2 : 3);
+}
+
 const bar = (votes: number, most: number): number =>
   most > 0 ? Math.min(1, Math.max(0, votes / most)) : 0;
 

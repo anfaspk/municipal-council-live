@@ -23,6 +23,10 @@
   overflow: hidden;
   padding-block: $sp-14;
   padding-inline: $sp-14 $sp-26;
+
+  @include mixins.lite {
+    backdrop-filter: none;
+  }
 }
 .ctv-banner.out {
   animation: ctv-ban-out $t-800 var(--ease-std) forwards;

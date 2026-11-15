@@ -1,5 +1,5 @@
 import { uid } from '../../shared/ui/uid';
-import { f2, Pt, Spot } from './tv-geometry-primitives';
+import { f2, Pt, Spot, TvBox } from './tv-geometry-primitives';
 export interface Curve {
   id: string;
   grid: string[];
@@ -10,9 +10,13 @@ export interface Curve {
 export const CURVE_W = 360,
   CURVE_H = 104;
 
-export function curve(vals: number[], t: number): Curve {
-  const W = CURVE_W,
-    H = CURVE_H,
+export function curve(
+  vals: number[],
+  t: number,
+  box: Pick<TvBox, 'w' | 'h'> = { w: CURVE_W, h: CURVE_H },
+): Curve {
+  const W = box.w,
+    H = box.h,
     mx = Math.max(100, t),
     n = vals.length - 1;
   const p = vals.map((y, i): Pt => [(i / n) * W, H - (y / mx) * H]);

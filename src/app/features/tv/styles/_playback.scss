@@ -20,6 +20,7 @@
   border-radius: $r-6;
   background: none;
   cursor: pointer;
+  @include mixins.hit;
 }
 .tv-prog i {
   position: relative;
@@ -30,9 +31,13 @@
   overflow: hidden;
   transition: height var(--dur-micro) var(--ease-std);
 }
-.tva-seg:hover i,
 .tva-seg:focus-visible i {
   height: 8px;
+}
+@include mixins.hover {
+  .tva-seg:hover i {
+    height: 8px;
+  }
 }
 .tv-prog i::after {
   content: '';
@@ -88,6 +93,10 @@
   opacity: 0;
   font-family: var(--font-arabic);
   --dx: -100%;
+
+  @include mixins.lite {
+    backdrop-filter: none;
+  }
 }
 .tv-face.on .tv-phase {
   animation: tv-fade $t-600 var(--ease-std) $t-1000 forwards;

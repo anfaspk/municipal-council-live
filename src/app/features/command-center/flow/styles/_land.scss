@@ -1,0 +1,98 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.fl-shell .mj-appbar-full {
+  @include mixins.landscape-short {
+    flex-wrap: nowrap;
+    max-inline-size: none;
+  }
+}
+.fl-shell .mj-appbar-head {
+  @include mixins.landscape-short {
+    flex: 1 1 auto;
+    order: 1;
+  }
+}
+.fl-shell .mj-appbar-menu {
+  @include mixins.landscape-short {
+    order: 2;
+  }
+}
+.fl-feed {
+  @include mixins.landscape-short {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    max-inline-size: none;
+  }
+}
+.fl-feed > * {
+  @include mixins.landscape-short {
+    grid-column: 1 / -1;
+  }
+}
+.fl-feed > .fl-hero,
+.fl-feed > .fl-kpis {
+  @include mixins.landscape-short {
+    grid-column: auto;
+  }
+}
+.fl-hero {
+  @include mixins.landscape-short {
+    flex-flow: row wrap;
+    justify-content: center;
+    text-align: start;
+  }
+}
+.fl-hero .fl-ring {
+  @include mixins.landscape-short {
+    inline-size: 150px;
+    block-size: 150px;
+  }
+}
+.fl-hero .fl-say {
+  @include mixins.landscape-short {
+    flex: 1 1 180px;
+  }
+}
+.fl-hero .fl-spark {
+  @include mixins.landscape-short {
+    display: none;
+  }
+}
+.fl-kpis .mj-snaprow-track {
+  @include mixins.landscape-short {
+    grid-auto-columns: auto;
+    grid-auto-flow: row;
+    margin-inline: 0;
+    padding: 0;
+    overflow: visible;
+  }
+}
+.fl-kpis .mj-snaprow-dots {
+  @include mixins.landscape-short {
+    display: none;
+  }
+}
+.fl-tile {
+  @include mixins.landscape-short {
+    min-block-size: 0;
+    padding-block: $sp-10;
+  }
+}
+.fl-bar-i span:not(.fl-bar-ic) {
+  @include mixins.landscape-short {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+.fl-bar-i {
+  @include mixins.landscape-short {
+    min-block-size: 44px;
+    justify-content: center;
+  }
+}

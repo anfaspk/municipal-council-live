@@ -1,0 +1,33 @@
+@if (head(); as h) {
+<div class="fl-gs-head"><div class="fl-gs-name"><small>{{ 'flGov' | flT }}</small><h2>{{ h.ar }}</h2><div class="fl-chips"><span class="fl-chip">{{ 'flRankOf' | flT: { r: h.rank, n: h.n } }}</span><span class="fl-chip band" [class]="h.band"><i aria-hidden="true"></i>{{ 'flBand-' + h.band | flT }}</span></div></div><b class="fl-gs-pct fl-ink" [class]="h.band">{{ h.pct }}</b></div>
+<div class="fl-gs-acts"><button type="button" class="fl-btn gold" (click)="openPage()">{{ 'fullDetails' | t }}<svg flIcon="back"></svg></button><button type="button" class="fl-btn icon" [attr.aria-label]="'flShareGov' | flT" [title]="'flShareGov' | flT" (click)="share()"><svg flIcon="share"></svg></button><button type="button" class="fl-btn icon fl-follow-t" [class.on]="followed()" [attr.aria-pressed]="followed()" [attr.aria-label]="'flFollow' | flT" [title]="(followed() ? 'flFollowing' : 'flFollow') | flT" (click)="toggleFollow()"><svg flIcon="star"></svg></button></div>
+<div class="fl-tabs" role="tablist" [attr.aria-label]="'flTabs' | flT">@for (x of tabs; track x.tab) {<button type="button" role="tab" class="fl-tab" [id]="'fl-gs-t-' + x.tab" [attr.aria-selected]="tab() === x.tab" [attr.aria-controls]="'fl-gs-p'" [tabIndex]="tab() === x.tab ? 0 : -1" (click)="tab.set(x.tab)">{{ x.key | flT }}</button>}</div>
+<div class="fl-gs-pane" id="fl-gs-p" role="tabpanel" [attr.aria-labelledby]="'fl-gs-t-' + tab()">
+@switch (tab()) {
+@case ('ov') {
+  <p class="fl-cmp"><svg [flIcon]="h.above ? 'up' : 'down'"></svg>{{ h.cmp }}</p>
+  <div class="fl-gs-tiles">
+    <div class="fl-gs-tile"><p>{{ 'flVotedL' | flT }}</p><b>{{ h.voted }}</b><small>{{ 'flOfAll' | flT: { n: h.reg } }}</small></div>
+    <div class="fl-gs-tile"><p>{{ 'yetToVote' | t }}</p><b>{{ h.yet }}</b><small>{{ 'flShareOf' | flT: { p: h.yetShare } }}</small></div>
+    <div class="fl-gs-tile"><p><span class="fl-sex m" mjGlyph="m"></span>{{ 'male' | t }}</p><b class="fl-m">{{ h.m }}</b><small>{{ 'flTurnoutL' | flT }}</small></div>
+    <div class="fl-gs-tile"><p><span class="fl-sex f" mjGlyph="f"></span>{{ 'female' | t }}</p><b class="fl-f">{{ h.f }}</b><small>{{ 'flTurnoutL' | flT }}</small></div>
+  </div>
+}
+@case ('wil') {
+  @if (read()) {
+  <p class="fl-gs-note">{{ 'flWilHead' | flT: { n: wils().length } }}@if (asOf(); as at) { · {{ 'figuresAt' | t: { t: at } }}}</p>
+  <ol class="fl-plain">@for (w of wils(); track w.id) {<li class="fl-prow"><span class="fl-rank" [class]="w.band">{{ w.rank }}</span><span class="fl-row-main"><b>{{ w.ar }}</b><span class="fl-track" aria-hidden="true"><span class="fl-fill" [class]="w.band" [style.--k]="w.t / 100"></span></span></span><span class="fl-row-end"><b class="fl-ink" [class]="w.band">{{ w.pct }}</b><small>{{ 'flVoteN' | flT: { n: w.votes } }}</small></span><button type="button" class="fl-btn icon quiet" [attr.aria-label]="'flWilOpen' | flT: { w: w.ar }" [title]="'flWilOpen' | flT: { w: w.ar }" (click)="openPage(w.id)"><svg flIcon="out"></svg></button></li>}</ol>
+  } @else {<div class="fl-skel-rows" role="status" aria-busy="true" [attr.aria-label]="'flLoading' | flT">@for (i of [1, 2, 3, 4]; track i) {<i></i>}</div>}
+}
+@case ('vil') {
+  @if (read()) {
+  <label class="fl-pick"><span>{{ 'flPickWil' | flT }}</span><select [attr.aria-label]="'flPickWilL' | flT" (change)="pickWil($event)">@for (w of wils(); track w.id) {<option [value]="w.id" [selected]="w.id === vilWid()">{{ w.ar }}</option>}</select><svg flIcon="down"></svg></label>
+  @if (villages(); as list) {
+  <ol class="fl-plain">@for (v of list; track v.id) {<li class="fl-vil" [class.open]="vid() === v.id"><button type="button" class="fl-prow" [attr.aria-expanded]="vid() === v.id" (click)="toggleVil(v.id)"><span class="fl-rank" [class]="v.band">{{ v.rank }}</span><span class="fl-row-main"><b>{{ v.ar }}</b><span class="fl-track" aria-hidden="true"><span class="fl-fill" [class]="v.band" [style.--k]="v.t / 100"></span></span></span><span class="fl-row-end"><b class="fl-ink" [class]="v.band">{{ v.pct }}</b><small>{{ 'flVilOf' | flT: { v: fmt(v.voted), r: fmt(v.reg) } }}</small></span><svg class="fl-go" [flIcon]="vid() === v.id ? 'up' : 'down'"></svg></button>
+    @if (vid() === v.id) {<div class="fl-vil-more">@if (village(); as d) {@if (d.none) {<p class="fl-gs-note">{{ 'flVilNone' | flT }}</p>}<div class="fl-gs-tiles"><div class="fl-gs-tile"><p>{{ 'flVotedL' | flT }}</p><b>{{ d.voted }}</b><small><span class="fl-sex m" mjGlyph="m"></span>{{ d.vm }} · <span class="fl-sex f" mjGlyph="f"></span>{{ d.vf }}</small></div><div class="fl-gs-tile"><p>{{ 'notVoted' | t }}</p><b>{{ d.not }}</b><small><span class="fl-sex m" mjGlyph="m"></span>{{ d.nm }} · <span class="fl-sex f" mjGlyph="f"></span>{{ d.nf }}</small></div></div>} @else {<div class="fl-skel-rows" role="status" aria-busy="true" [attr.aria-label]="'flLoading' | flT"><i></i></div>}<button type="button" class="fl-btn ghost" (click)="openPage(vilWid() ?? undefined, v.id)">{{ 'flVilOpen' | flT }}<svg flIcon="back"></svg></button></div>}</li>}</ol>
+  } @else {<div class="fl-skel-rows" role="status" aria-busy="true" [attr.aria-label]="'flLoading' | flT">@for (i of [1, 2, 3, 4]; track i) {<i></i>}</div>}
+  } @else {<div class="fl-skel-rows" role="status" aria-busy="true" [attr.aria-label]="'flLoading' | flT">@for (i of [1, 2, 3, 4]; track i) {<i></i>}</div>}
+}
+}
+</div>
+}

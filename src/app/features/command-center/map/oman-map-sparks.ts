@@ -2,7 +2,7 @@ import { GEO } from '../../../domain/geo/geo.data';
 import { insideRings, Pt, randomIn } from '../../../domain/geo/shapes';
 import { Gov } from '../../../domain/stats/stats';
 import { FrameLoop } from '../../../shared/motion/frame-loop.service';
-import { reducedMotion } from '../../../shared/motion/reduced-motion';
+import { ornaments } from '../../../shared/motion/effects-tier';
 import { svgEl } from '../../../shared/ui/markup';
 
 export interface SparkTarget {
@@ -42,7 +42,8 @@ export class MapSparks {
   burst(gid: string): void {
     const n = this.host.targets[gid],
       b = GEO.g[gid]?.b;
-    if (!n || !b || !this.host.visible() || this.host.frames.isPaused('dashboard')) return;
+    if (!ornaments() || !n || !b || !this.host.visible() || this.host.frames.isPaused('dashboard'))
+      return;
     for (let i = 0; i < 3; i++) {
       const q = randomIn(n.rs, b);
       if (!q) continue;
@@ -81,7 +82,7 @@ export class MapSparks {
   activity(): void {
     const h = this.host;
     if (h.dead()) return;
-    if (!reducedMotion() && !document.hidden && h.visible() && !h.frames.isPaused('dashboard')) {
+    if (ornaments() && !document.hidden && h.visible() && !h.frames.isPaused('dashboard')) {
       let tot = 0;
       h.govs().forEach((g) => {
         tot += g.voted;

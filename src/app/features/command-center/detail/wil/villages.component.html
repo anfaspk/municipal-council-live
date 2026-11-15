@@ -1,7 +1,7 @@
 <div class="dt-vtools">
   <label class="dt-q">
     <svg [mjIcon]="'search'"></svg>
-    <input type="search" [value]="q()" (input)="q.set($any($event.target).value)" (keydown.arrowdown)="down($event)" [placeholder]="'dtSearchP' | dtT" [attr.aria-label]="'dtSearchL' | dtT" aria-keyshortcuts="/" autocomplete="off" spellcheck="false"/>
+    <input type="search" inputmode="search" enterkeyhint="search" autocomplete="off" [value]="q()" (input)="q.set($any($event.target).value)" (keydown.arrowdown)="down($event)" [placeholder]="'dtSearchP' | dtT" [attr.aria-label]="'dtSearchL' | dtT" aria-keyshortcuts="/" autocomplete="off" spellcheck="false"/>
   </label>
   <div class="dt-sort mj-seg" [items]="sorts" [value]="sort()" (valueChange)="sort.set($any($event))" [attr.aria-label]="'dtSortVL' | dtT"></div>
 </div>

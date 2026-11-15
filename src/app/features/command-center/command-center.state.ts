@@ -1,14 +1,29 @@
-import { computed, DestroyRef, effect, inject, Injectable, signal, untracked } from '@angular/core';
+import {
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  Injectable,
+  linkedSignal,
+  signal,
+  untracked,
+} from '@angular/core';
 import { Subject } from 'rxjs';
+import { ViewportState } from '../../core/screen/viewport.state';
 import { TurnoutStore } from '../../data/turnout.store';
+import { loadTheme, saveTheme, themeOf, type Theme } from './theme-pref';
 
-export type Theme = 'night' | 'daylight';
+export type { Theme } from './theme-pref';
 
 @Injectable()
 export class CommandCenterState {
   private readonly stats = inject(TurnoutStore);
+  private readonly viewport = inject(ViewportState);
+  private readonly savedTheme = signal<Theme | null>(loadTheme());
 
-  readonly theme = signal<Theme>('night');
+  readonly theme = linkedSignal<Theme>(() =>
+    themeOf(this.savedTheme(), this.viewport.form(), this.viewport.scheme()),
+  );
   readonly sort = signal('turnout');
   readonly hot = signal<string | null>(null);
   readonly pinned = signal<string | null>(null);
@@ -52,7 +67,12 @@ export class CommandCenterState {
     this.wilPicked.next(name);
   }
   toggleTheme(): void {
-    this.theme.update((t) => (t === 'night' ? 'daylight' : 'night'));
+    this.setTheme(this.theme() === 'night' ? 'daylight' : 'night');
+  }
+  setTheme(t: Theme): void {
+    saveTheme(t);
+    this.savedTheme.set(t);
+    this.theme.set(t);
   }
 
   private follow(k: string | null): void {

@@ -230,5 +230,22 @@
   "vilOpen": "عرض من صوّت ومن لم يصوّت في {v}",
   "fullDetails": "التفاصيل الكاملة",
   "fullDetailsOf": "التفاصيل الكاملة: {p}",
-  "vilDetails": "تفاصيل القرية"
+  "vilDetails": "تفاصيل القرية",
+  "shareCopied": "تم نسخ الرابط",
+  "shareShown": "انسخ الرابط",
+  "sheetMore": "عرض المزيد",
+  "sheetFull": "ملء الشاشة",
+  "appbarMenu": "القائمة",
+  "storyPause": "إيقاف مؤقت",
+  "storyPlay": "تشغيل",
+  "storyNext": "التالي",
+  "storyPrev": "السابق",
+  "storyStep": "{i} من {n}",
+  "snapCard": "البطاقة {i} من {n}",
+  "splitBack": "رجوع",
+  "summaryMore": "عرض الرسم كاملًا",
+  "summaryLess": "إخفاء الرسم",
+  "autoWall": "بدأ فرز الأصوات · انتقلت الشاشة إلى الفرز المباشر",
+  "autoWinners": "اكتمل إعلان النتائج · انتقلت الشاشة إلى الفائزين",
+  "autoBack": "رجوع"
 }

@@ -29,7 +29,7 @@
           <span class="mv-isl"></span>
           <span class="mv-steps">@for (k of steps; track k) {<i></i>}</span>
           <div class="mv-view mv-home">
-            <img class="mv-logo" [src]="logo" alt="" />
+            <img class="mv-logo" [attr.src]="logo().src" [attr.srcset]="logo().srcset" alt="" decoding="async" width="1000" height="1082" />
             <span class="mv-ttl">{{ s.election }}</span>
             <span class="mv-cta">{{ s.start }}<span class="mv-tap"></span></span>
           </div>

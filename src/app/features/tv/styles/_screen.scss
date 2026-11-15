@@ -1,3 +1,4 @@
+@use '../../../../styles/mixins';
 @use '../../../../styles/scales' as *;
 
 .tva-region {
@@ -11,9 +12,12 @@
   color: var(--ink);
   font: 600 #{$fs-14}/ 1 var(--font-arabic);
   cursor: pointer;
+  @include mixins.hit-min;
 }
-.tva-region:hover {
-  background: var(--glass-fill-strong);
+@include mixins.hover {
+  .tva-region:hover {
+    background: var(--glass-fill-strong);
+  }
 }
 .tva-region option {
   background: var(--canvas-1);

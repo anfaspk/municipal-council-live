@@ -125,9 +125,15 @@
   animation: dt-rg-ping $t-2800 var(--ease-std) infinite;
   animation-delay: calc(#{$t-2000} + var(--j, 0) * #{$t-350});
 }
-.dt-page .dt-rg-pin:is(:hover, .hot, :focus-visible) .dot {
+.dt-page .dt-rg-pin:is(.hot, :focus-visible) .dot {
   stroke: var(--gold);
   stroke-width: 3;
+}
+@include mixins.hover {
+  .dt-page .dt-rg-pin:hover .dot {
+    stroke: var(--gold);
+    stroke-width: 3;
+  }
 }
 .dt-page .dt-rg-pin:focus-visible .hit {
   stroke: var(--focus-ring);

@@ -1,0 +1,163 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.wf {
+  position: fixed;
+  inset: 0;
+  z-index: $z-screen;
+  display: none;
+  color: var(--ink);
+  background: var(--wn-sky-0);
+  font-size: $fs-15;
+  line-height: $lh-body;
+  --wf-g1: var(--gold-pale);
+  --wf-g2: var(--gold);
+  --wf-g3: var(--gold-ink);
+}
+.wf.on {
+  display: block;
+}
+.wf:focus,
+.wf .wf-name:focus {
+  outline: none;
+}
+.wf-page {
+  box-sizing: border-box;
+  block-size: 100%;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: calc(56px + var(--safe-top)) calc(#{$sp-88} + var(--safe-bottom));
+  padding-block-end: calc(#{$sp-88} + var(--safe-bottom));
+  background:
+    radial-gradient(
+      110% 40% at 50% 100%,
+      color-mix(in srgb, var(--wn-amber) 12%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(120% 60% at 50% 0%, var(--wn-sky-1), var(--wn-sky-0) 70%);
+  background-attachment: fixed;
+}
+.wf-main {
+  box-sizing: border-box;
+  max-inline-size: 640px;
+  margin-inline: auto;
+  padding-block: $sp-8 $sp-24;
+  padding-inline: max(#{$sp-16}, var(--safe-right)) max(#{$sp-16}, var(--safe-left));
+}
+.wf-ic {
+  flex: none;
+  inline-size: 22px;
+  block-size: 22px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.wf-ic.fill {
+  fill: currentcolor;
+  stroke: none;
+}
+
+.wf-btn {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: $radius-round;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--wn-sky-0) 55%, transparent);
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.wf-btn.wf-pause.on {
+  color: var(--on-gold);
+  background: var(--gold);
+}
+
+.wf-bar {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: $z-scrim;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding-block: $sp-4 calc(#{$sp-4} + var(--safe-bottom));
+  padding-inline: max(#{$sp-8}, var(--safe-right)) max(#{$sp-8}, var(--safe-left));
+  background: var(--glass-solid);
+  box-shadow: 0 -1px 0 var(--hairline);
+}
+.wf-bar-i {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-2;
+  min-block-size: 56px;
+  border: 0;
+  color: var(--ink-muted);
+  background: none;
+  font: inherit;
+  font-size: $fs-12;
+  font-weight: 500;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.wf-bar-i .wf-ic {
+  box-sizing: content-box;
+  padding-inline: $sp-16;
+  padding-block: $sp-3;
+  border-radius: $r-14;
+}
+.wf-bar-i.on {
+  color: var(--gold-ink);
+  font-weight: 700;
+}
+.wf-bar-i.on .wf-ic {
+  background: color-mix(in srgb, var(--gold-ink) 16%, transparent);
+}
+
+.wf-menu {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+}
+.wf-opt {
+  display: flex;
+  align-items: center;
+  gap: $sp-12;
+  min-block-size: 52px;
+  padding-inline: $sp-12;
+  border: 0;
+  border-radius: $r-14;
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.wf-opt .wf-ic {
+  color: var(--gold-ink);
+}
+
+.wf-toast {
+  position: fixed;
+  inset-inline: $sp-16;
+  inset-block-end: calc(#{$sp-88} + var(--safe-bottom));
+  z-index: $z-toast;
+  margin: 0;
+  padding: $sp-14 $sp-16;
+  border-radius: $r-16;
+  border: 1px solid var(--gold-ink);
+  background: var(--canvas-1);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  box-shadow: var(--shadow-raised);
+}
+.wf-story ~ .wf-toast {
+  inset-block: calc(#{$sp-64} + var(--safe-top)) auto;
+}

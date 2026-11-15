@@ -1,0 +1,143 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.wf-pick {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+}
+.wf-kicker {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  margin: $sp-8 0 0;
+  color: var(--gold-ink);
+  font-size: $fs-13;
+  font-weight: 600;
+}
+.wf-kicker i {
+  inline-size: 22px;
+  block-size: 1px;
+  background: currentcolor;
+  opacity: 0.6;
+}
+.wf-h1 {
+  margin: 0;
+  color: var(--gold-glow);
+  font-size: $fs-30;
+  line-height: $lh-head;
+  font-weight: 700;
+}
+.wf-lead {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: $fs-15;
+}
+.wf-note {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  margin: $sp-8 0 0;
+  padding: $sp-12 $sp-14;
+  border-radius: $r-14;
+  border: 1px solid color-mix(in srgb, var(--gold-ink) 40%, transparent);
+  background: color-mix(in srgb, var(--gold-ink) 8%, transparent);
+  font-size: $fs-14;
+}
+.wf-note .wf-ic {
+  color: var(--gold-ink);
+}
+.wf-govs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $sp-10;
+  margin: $sp-12 0 0;
+  padding: 0;
+  list-style: none;
+}
+.wf-gov {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: $sp-4 $sp-10;
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 104px;
+  padding: $sp-12;
+  border: 1px solid var(--glass-stroke);
+  border-radius: $r-16;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--wn-sky-2) 70%, transparent);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.wf-gov.full {
+  border-color: color-mix(in srgb, var(--declared) 50%, transparent);
+}
+.wf-gov-n {
+  color: var(--gold-ink);
+  font-size: $fs-20;
+  font-weight: 700;
+  line-height: $lh-head;
+}
+.wf-gov-t {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+.wf-gov-t b {
+  font-size: $fs-17;
+  line-height: $lh-head;
+}
+.wf-gov-t small {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.wf-gov-p {
+  grid-column: 1 / -1;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+}
+.wf-gov-p i {
+  position: relative;
+  block-size: 4px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 14%, transparent);
+  overflow: hidden;
+}
+.wf-gov-p i::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--wf-g3), var(--wf-g1));
+  transform: scaleX(var(--p));
+  transform-origin: right center;
+}
+.wf-gov-p em {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-4;
+  color: var(--gold-ink);
+  font-size: $fs-12;
+  font-style: normal;
+  font-weight: 600;
+}
+.wf-gov-p em .wf-ic {
+  inline-size: 16px;
+  block-size: 16px;
+  stroke-width: 2.6;
+}
+.wf-gov-p.none em {
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+.wf-gov.full .wf-gov-p em {
+  color: var(--declared);
+}
+.wf-gov.full .wf-gov-p i::after {
+  background: var(--declared);
+}

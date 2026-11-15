@@ -1,0 +1,37 @@
+@use '../../../../../styles/scales' as *;
+
+.cf[data-comp='tab'] {
+  .cf-main {
+    max-inline-size: none;
+    padding-inline: max(#{$sp-20}, var(--safe-right)) max(#{$sp-20}, var(--safe-left));
+  }
+  .cf-split {
+    display: grid;
+    grid-template-columns: minmax(300px, 42%) 1fr;
+    align-items: start;
+    gap: $sp-20;
+  }
+  .cf-pane-s,
+  .cf-pane-e {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-16;
+    min-inline-size: 0;
+  }
+  .cf-pane-e .cf-play {
+    align-self: flex-start;
+  }
+  .cf-row.on {
+    border-radius: $r-12;
+    background: color-mix(in srgb, var(--gold-ink) 12%, transparent);
+    box-shadow: inset (-$sp-3) 0 0 var(--gold-ink);
+  }
+  .cf-feed {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-8;
+  }
+  .cf-pick-hint {
+    padding-block: $sp-60;
+  }
+}

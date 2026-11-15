@@ -7,11 +7,15 @@ import {
 } from '@angular/core';
 import { ServerClock } from '../../core/clock/server-clock.service';
 import { t } from '../../core/i18n/i18n';
+import { ViewportState } from '../../core/screen/viewport.state';
 import { AmbientComponent } from '../../shared/ui/ambient.component';
+import { LOGO, LOGO_DARK, logoFor, MOI_LOGO, MOI_LOGO_DARK } from '../../shared/ui/brand';
 import { HorizonComponent } from '../../shared/ui/horizon.component';
+import { loadTheme, themeOf } from '../command-center/theme-pref';
 
 const STR = {
   title: t('cdnTitle'),
+  moi: t('moiLogoAlt'),
   sub: t('sub'),
   opens: t('cdnOpens'),
   d: t('cdnD'),
@@ -31,12 +35,24 @@ const two = (n: number) => (n < 10 ? '0' : '') + n;
 @Component({
   selector: 'app-countdown',
   imports: [AmbientComponent, HorizonComponent],
-  host: { class: 'mj-root mj-countdown', 'data-theme': 'night', dir: 'rtl', lang: 'ar' },
+  host: {
+    class: 'mj-root mj-countdown',
+    '[class.cdn-flow]': 'flow()',
+    '[attr.data-form]': 'flow() ? "flow" : null',
+    '[attr.data-fx]': 'flow() ? viewport.fx() : null',
+    '[attr.data-theme]': 'theme()',
+    dir: 'rtl',
+    lang: 'ar',
+  },
   template: `
     <div class="mj-ambient"></div>
     <div class="mj-horizon"></div>
     <main class="cdn-in">
-      <img class="cdn-logo" src="assets/logos/election-logo-2026-dark.png" [alt]="s().title">
+      @if (flow()) {
+        <span class="cdn-logos"><img [attr.src]="logos().moi.src" [attr.srcset]="logos().moi.srcset" [alt]="s().moi" decoding="async" width="790" height="875"><i aria-hidden="true"></i><img [attr.src]="logos().el.src" [attr.srcset]="logos().el.srcset" [alt]="s().title" decoding="async" width="1000" height="1082"></span>
+      } @else {
+        <img class="cdn-logo" src="assets/logos/election-logo-2026-dark.png" [alt]="s().title" decoding="async" width="1000" height="1082">
+      }
       <h1 class="cdn-title">{{ s().title }}</h1>
       <div class="mj-micro cdn-sub">{{ s().sub }}</div>
       <div class="cdn-opens mj-micro gold">{{ s().opens }}</div>
@@ -55,7 +71,19 @@ const two = (n: number) => (n < 10 ? '0' : '') + n;
 })
 export class CountdownComponent {
   private readonly clock = inject(ServerClock);
+  protected readonly viewport = inject(ViewportState);
   readonly s = (): typeof STR => STR;
+  protected readonly flow = computed(() => this.viewport.dashForm() === 'flow');
+  protected readonly theme = computed(() =>
+    this.flow() ? themeOf(loadTheme(), 'flow', this.viewport.scheme()) : 'night',
+  );
+  protected readonly logos = computed(() => {
+    const night = this.theme() === 'night';
+    return {
+      moi: logoFor(night ? MOI_LOGO_DARK : MOI_LOGO, true),
+      el: logoFor(night ? LOGO_DARK : LOGO, true),
+    };
+  });
 
   readonly parts = computed(() => {
     const t = Math.max(0, Math.ceil((this.clock.left() ?? 0) / 1000));

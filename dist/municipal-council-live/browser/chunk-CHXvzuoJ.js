@@ -1,0 +1,1 @@
+function u(e,t,r,n){return(n?e<t+r/2:e>=t+r/2)?`next`:`prev`}export{u as t};

@@ -39,8 +39,10 @@
 .mj-ticker .tk-run {
   display: flex;
 }
-.mj-ticker:hover .track {
-  animation-play-state: paused;
+@include mixins.hover {
+  .mj-ticker:hover .track {
+    animation-play-state: paused;
+  }
 }
 .mj-tk {
   display: inline-flex;

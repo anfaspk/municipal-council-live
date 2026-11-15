@@ -221,7 +221,7 @@ export class CountWallComponent implements AfterViewInit {
     }
     this.state.done = this.feed.done();
     this.state.res = this.feed.done() && SHOW_WINNERS;
-    this.mount(this.regionK(this.screens.fromDraw()));
+    this.mount(this.regionK(this.screens.fromDraw() ?? this.screens.fromLink()));
     this.feed.start(this);
   }
   private closeWall(): void {
@@ -243,7 +243,7 @@ export class CountWallComponent implements AfterViewInit {
     return this.feed.gov(id)!;
   }
   private regionK(gid?: string | null): number {
-    return Math.max(0, ['nat'].concat(this.govOrder()).indexOf(gid || this.screen.region()));
+    return Math.max(0, ['nat'].concat(this.govOrder()).indexOf(this.screens.regionOf(gid)));
   }
   private govOrder(): string[] {
     return this.feed.govs.map((g) => g.id);

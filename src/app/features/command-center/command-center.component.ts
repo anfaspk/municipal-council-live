@@ -70,6 +70,7 @@ import { TickerComponent } from './ticker/ticker.component';
     '(window:resize)': 'resized()',
   },
   templateUrl: './command-center.component.html',
+  styleUrl: './command-center.scss',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

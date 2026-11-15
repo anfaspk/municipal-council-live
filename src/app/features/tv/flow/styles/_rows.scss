@@ -1,0 +1,104 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.tvf-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tvf-row {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  min-block-size: 46px;
+  padding-block: $sp-4;
+  padding-inline: $sp-6;
+  border-block-end: 1px solid var(--hairline);
+}
+.tvf-row.lit {
+  border-radius: $r-12;
+  background: color-mix(in srgb, var(--gold-ink) 10%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--gold-ink) 50%, transparent);
+}
+.tvf-row-m {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: $sp-6;
+  min-inline-size: 0;
+}
+.tvf-row-m b {
+  @include mixins.ellipsis;
+  font-size: $fs-15;
+}
+.tvf-row-e {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: $lh-label;
+}
+.tvf-row-e small {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}
+.tvf-bar {
+  display: block;
+  block-size: 5px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+  overflow: hidden;
+}
+.tvf-bar i {
+  display: block;
+  block-size: 100%;
+  background: var(--band);
+  transform: scaleX(var(--k));
+  transform-origin: right center;
+  transition: transform var(--dur-card) var(--ease-std);
+}
+
+.tvf-more,
+.tvf-all {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-8;
+  min-block-size: 46px;
+  border: 1px solid var(--glass-stroke);
+  border-radius: $r-14;
+  color: var(--ink);
+  background: var(--glass-solid);
+  font: inherit;
+  font-size: $fs-14;
+  font-weight: 600;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.tvf-more .tvf-ic,
+.tvf-all .tvf-ic {
+  inline-size: 18px;
+  block-size: 18px;
+  color: var(--gold-ink);
+}
+.tvf-more .mj-sex {
+  inline-size: 20px;
+  block-size: 20px;
+}
+.tvf .mj-sex.m {
+  color: var(--male);
+}
+.tvf .mj-sex.f {
+  color: var(--female);
+}
+.tvf-wait {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: $fs-14;
+}

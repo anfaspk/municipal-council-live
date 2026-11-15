@@ -1,0 +1,21 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/head');
+  @include meta.load-css('styles/parts');
+  @include meta.load-css('styles/tablet');
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .fl-pg-slim,
+    .fl-pg-col .bar i,
+    .fl-pg-bf i,
+    .fl-pg-vcol i,
+    .fl-pg :is(.fl-pg-top, .fl-pg-sec) {
+      transition: none;
+    }
+  }
+}

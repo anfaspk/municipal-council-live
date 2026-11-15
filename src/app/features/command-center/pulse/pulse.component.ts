@@ -50,12 +50,12 @@ interface Row {
             <span class="gp-g"><span [mjGlyph]="s.sex"></span></span>
             <div class="gp-sl">
               <span class="gp-l">{{ s.label }}</span
-              ><span class="gp-tn">{{ 'gpTurnout' | t }} <b class="mj-num">{{ s.turnout }}</b></span>
+              ><span class="gp-tn">{{ 'gpTurnout' | t }} <b class="mj-num" [attr.data-fig]="'pulse.' + s.sex + '.turnout'">{{ s.turnout }}</b></span>
             </div>
           </div>
           @if ($first) {
             <div class="gp-gap">
-              <span>{{ 'gpGapL' | t }}</span><b>{{ v.gap ?? '—' }}</b>
+              <span>{{ 'gpGapL' | t }}</span><b data-fig="pulse.gap">{{ v.gap ?? '—' }}</b>
             </div>
           }
         }

@@ -53,6 +53,16 @@ export function geoPts(rs: Rings, b: Box, want: number, rand: () => number = Mat
   return pts;
 }
 
+export interface TvBox {
+  w: number;
+  h: number;
+  text: number;
+  hit: number;
+  bleed: number;
+  keep?: { x: number; y: number; w: number; h: number };
+  labels?: false;
+}
+
 export interface LayoutItem {
   x: number;
   y: number;
@@ -63,9 +73,9 @@ export interface LayoutItem {
   fixed?: number;
   soft?: number;
 }
-export function layoutLabels(items: LayoutItem[], width: number, height: number): void {
+export function layoutLabels(items: LayoutItem[], width: number, height: number, bleed = 14): void {
   const gap = 8,
-    M2 = 14;
+    M2 = bleed;
   items.forEach((it) => {
     it.px = it.x;
     it.py = it.y;

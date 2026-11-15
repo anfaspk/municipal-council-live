@@ -1,6 +1,7 @@
 import { AfterViewInit, DestroyRef, Directive, ElementRef, inject } from '@angular/core';
 import { FrameLoop } from './frame-loop.service';
-import { reducedMotion } from './reduced-motion';
+import { ornaments } from './effects-tier';
+import { backingScale, type Mote, rise, stepOf } from './incense.model';
 
 @Directive({ selector: 'canvas.incense' })
 export class IncenseDirective implements AfterViewInit {
@@ -9,19 +10,34 @@ export class IncenseDirective implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
 
   ngAfterViewInit(): void {
-    if (reducedMotion()) return;
+    if (!ornaments()) return;
     const canvas = this.canvas,
       ctx = canvas.getContext('2d')!,
-      parts: { x: number; y: number; s: number; v: number; p: number }[] = [];
+      parts: Mote[] = [];
     let W = 0,
       H = 0,
+      k = 1,
+      last: number | null = null,
       col = '255,210,122',
       resized: [number, number] | null = null,
+      rescale = true,
       recolour = true;
     const size = (w: number, h: number) => {
-      W = canvas.width = w;
-      H = canvas.height = h;
+      W = w;
+      H = h;
+      canvas.width = Math.round(w * k);
+      canvas.height = Math.round(h * k);
+      ctx.setTransform(k, 0, 0, k, 0, 0);
     };
+    const scale = () => {
+      rescale = false;
+      const w = canvas.offsetWidth;
+      k = backingScale(
+        window.devicePixelRatio || 1,
+        w ? canvas.getBoundingClientRect().width / w : 1,
+      );
+    };
+    scale();
     size(canvas.offsetWidth, canvas.offsetHeight);
     for (let i = 0; i < 70; i++)
       parts.push({
@@ -42,7 +58,16 @@ export class IncenseDirective implements AfterViewInit {
       if (w !== W) resized = [w, Math.round(box.blockSize)];
     });
     sizes.observe(canvas);
+    const restale = () => {
+      rescale = true;
+    };
+    window.addEventListener('resize', restale, { passive: true });
     const read = () => {
+      if (rescale) {
+        const was = k;
+        scale();
+        if (k !== was) resized ??= [W, H];
+      }
       if (!recolour) return;
       recolour = false;
       const c = getComputedStyle(canvas).getPropertyValue('--gold-glow').trim();
@@ -58,12 +83,9 @@ export class IncenseDirective implements AfterViewInit {
       if (resized) size(resized[0], resized[1]);
       resized = null;
       ctx.clearRect(0, 0, W, H);
+      rise(parts, stepOf(last, now), Math.random);
+      last = now;
       parts.forEach((q) => {
-        q.y -= q.v;
-        if (q.y < -0.05) {
-          q.y = 1.05;
-          q.x = Math.random();
-        }
         const x = (q.x + Math.sin(now / 1800 + q.p + q.y * 6) * 0.03) * W,
           y = q.y * H,
           a = Math.sin(q.y * Math.PI) * 0.45;
@@ -82,6 +104,7 @@ export class IncenseDirective implements AfterViewInit {
           if (canvas.isConnected) draw(now);
           else stop();
         },
+        paused: () => (last = null),
       },
       'dashboard',
     );
@@ -89,6 +112,7 @@ export class IncenseDirective implements AfterViewInit {
       loop.stop();
       themes.disconnect();
       sizes.disconnect();
+      window.removeEventListener('resize', restale);
     };
     this.destroyRef.onDestroy(stop);
   }

@@ -1,3 +1,4 @@
+@use '../../../../styles/mixins';
 @use '../../../../styles/scales' as *;
 
 .ca-kicker {
@@ -276,8 +277,10 @@
   font-size: $fs-20;
   stroke-width: 2.4;
 }
-.ca-go:hover {
-  filter: brightness(1.06);
+@include mixins.hover {
+  .ca-go:hover {
+    filter: brightness(1.06);
+  }
 }
 .ca-go:active {
   transform: scale(0.985);
@@ -319,8 +322,10 @@
   font-weight: 600;
   cursor: pointer;
 }
-.ca-retry:hover {
-  background: var(--glass-fill-strong);
+@include mixins.hover {
+  .ca-retry:hover {
+    background: var(--glass-fill-strong);
+  }
 }
 .ca-err {
   margin: 0;

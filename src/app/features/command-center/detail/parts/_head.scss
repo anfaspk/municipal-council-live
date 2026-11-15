@@ -51,10 +51,13 @@
   font: 500 #{$fs-13}/ 1.2 var(--font-sans);
   @include mixins.arabic;
   cursor: pointer;
+  @include mixins.hit;
 }
-.dt-page button.dt-cr:hover {
-  color: var(--ink);
-  background: var(--glass-fill);
+@include mixins.hover {
+  .dt-page button.dt-cr:hover {
+    color: var(--ink);
+    background: var(--glass-fill);
+  }
 }
 .dt-page .dt-cr.on {
   color: var(--gold-ink);
@@ -166,6 +169,7 @@
   @include mixins.arabic;
   cursor: pointer;
   transition: background-color $t-200 var(--ease-std);
+  @include mixins.hit-min;
 }
 .dt-page .dt-navb span {
   @include mixins.ellipsis;
@@ -176,8 +180,10 @@
   height: 14px;
   color: var(--gold-ink);
 }
-.dt-page .dt-navb:hover:not(:disabled) {
-  background: var(--glass-fill-strong);
+@include mixins.hover {
+  .dt-page .dt-navb:hover:not(:disabled) {
+    background: var(--glass-fill-strong);
+  }
 }
 .dt-page .dt-navb:disabled {
   opacity: 0.4;

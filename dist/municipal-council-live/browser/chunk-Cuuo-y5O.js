@@ -1,1 +1,0 @@
-var o=`assets/logos/election-logo-2026.png`;var s=`assets/logos/election-logo-2026-dark.png`;export{s as n,o as t};

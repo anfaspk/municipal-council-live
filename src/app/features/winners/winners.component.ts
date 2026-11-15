@@ -14,7 +14,6 @@ import {
 } from '@angular/core';
 import { ServerClock } from '../../core/clock/server-clock.service';
 import { ScreenState } from '../../core/screen/screen.state';
-import { TurnoutStore } from '../../data/turnout.store';
 import { WinnersStore } from '../../data/winners.store';
 import { GEO } from '../../domain/geo/geo.data';
 import { FRAME_SCOPE } from '../../shared/motion/frame-loop.service';
@@ -25,13 +24,11 @@ import { IconComponent } from '../../shared/ui/icon.component';
 import { WinnerPhotos } from './winner-photos';
 import { WinnersPickerComponent } from './winners-picker.component';
 import { WinnersRegionComponent } from './winners-region.component';
-import { SCENE_IMG } from './winners-scene.component';
 import { WinnersSkyComponent } from './winners-sky.component';
 import { wt } from './winners-strings';
-import { govCards, stepIndex, winnersKey } from './winners.model';
+import { SCENE_IMG, stepIndex, WIL_STEP, winnersKey } from './winners.model';
+import { WinnersView } from './winners.view';
 import { WnTPipe } from './wn-t.pipe';
-
-export const WIL_STEP = 14000;
 
 @Component({
   selector: 'div.wn-root',
@@ -42,7 +39,7 @@ export const WIL_STEP = 14000;
     WinnersSkyComponent,
     WnTPipe,
   ],
-  providers: [{ provide: FRAME_SCOPE, useValue: 'winners' }, WinnerPhotos],
+  providers: [{ provide: FRAME_SCOPE, useValue: 'winners' }, WinnerPhotos, WinnersView],
   host: {
     tabindex: '-1',
     'data-theme': 'night',
@@ -59,7 +56,6 @@ export const WIL_STEP = 14000;
 export class WinnersComponent {
   protected readonly screen = inject(ScreenState);
   protected readonly store = inject(WinnersStore);
-  private readonly stats = inject(TurnoutStore);
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
   private readonly injector = inject(Injector);
   private readonly walk = new SlideClock();
@@ -78,18 +74,15 @@ export class WinnersComponent {
   protected readonly held = computed(() => this.paused() || this.hover());
   protected readonly say = signal('');
 
-  protected readonly cards = computed(() =>
-    govCards(new Map(this.stats.govs().map((g) => [g.id, { name: g.ar, wils: g.wils.length }]))),
-  );
+  protected readonly view = inject(WinnersView);
+  protected readonly cards = this.view.cards;
   protected readonly card = computed(() => this.cards().find((c) => c.id === this.gov()) ?? null);
-  protected readonly wils = computed(() => this.store.data()?.wils ?? []);
+  protected readonly wils = this.view.wils;
   protected readonly walking = computed(() => this.wils().length > 1);
-  protected readonly stamp = computed(() => {
-    const at = this.store.updatedAt();
-    return at ? wt(this.store.stale() ? 'wnStale' : 'wnUpdated', { at }) : null;
-  });
+  protected readonly stamp = this.view.stamp;
 
   private opened = false;
+  private pendWil: number | null = null;
   private stepSet = false;
 
   constructor() {
@@ -102,8 +95,14 @@ export class WinnersComponent {
       untracked(() => this.store.watch(c ? c.apiId : null));
     });
     effect(() => {
-      const n = this.wils().length;
+      const ws = this.wils(),
+        n = ws.length;
       untracked(() => {
+        if (this.pendWil !== null && n) {
+          const i = ws.findIndex((w) => w.id === this.pendWil);
+          this.pendWil = null;
+          if (i >= 0) this.cur.set(i);
+        }
         if (this.cur() >= n) this.cur.set(0);
         if (n && !this.stepSet) this.schedule();
       });
@@ -132,11 +131,14 @@ export class WinnersComponent {
 
   private open(): void {
     this.isOpen.set(true);
-    const boot = this.screen.takeHandoff() ?? (this.opened ? null : this.screen.bootRegion);
+    const handoff = this.screen.takeHandoff(),
+      link = this.opened && !handoff ? null : this.screen.takeBootWil(),
+      boot = handoff ?? link?.gov ?? (this.opened ? null : this.screen.bootRegion);
     this.opened = true;
     this.gov.set(boot && Object.hasOwn(GEO.g, boot) ? boot : null);
     this.cur.set(0);
-    this.paused.set(false);
+    this.pendWil = link?.wil ?? null;
+    this.paused.set(!!link);
     afterNextRender(() => this.focusFirst(), { injector: this.injector });
   }
   private shut(): void {

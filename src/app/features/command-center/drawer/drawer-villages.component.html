@@ -53,7 +53,7 @@
 <div class="dw-vtools">
   <label class="dw-search">
     <svg [mjIcon]="'search'"></svg>
-    <input type="search" autocomplete="off" spellcheck="false" [placeholder]="'searchVil' | t" [attr.aria-label]="'searchVil' | t" [value]="drawer.q()" (input)="input($event)" />
+    <input type="search" inputmode="search" enterkeyhint="search" autocomplete="off" spellcheck="false" [placeholder]="'searchVil' | t" [attr.aria-label]="'searchVil' | t" [value]="drawer.q()" (input)="input($event)" />
   </label>
   <div class="dw-vsort mj-seg" [items]="sortItems" [value]="drawer.vSort()" (valueChange)="sort.emit($any($event))"></div>
 </div>

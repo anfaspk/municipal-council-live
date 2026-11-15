@@ -1,0 +1,68 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+@include mixins.landscape-short {
+  .wf-govs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .wf-story {
+    padding-block: calc(#{$sp-6} + var(--safe-top)) calc(#{$sp-8} + var(--safe-bottom));
+  }
+  .wf-scene img {
+    inline-size: 100%;
+  }
+  .wf-show {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: $sp-20;
+  }
+  .wf-title {
+    flex: none;
+    align-self: center;
+    align-items: flex-start;
+    inline-size: 38%;
+    text-align: start;
+  }
+  .wf-chips {
+    justify-content: flex-start;
+  }
+  .wf-name {
+    font-size: $fs-30;
+  }
+  .wf-cards {
+    flex: 1;
+  }
+  .wf-card.two {
+    inline-size: 150px;
+  }
+  .wf-card.one {
+    inline-size: 176px;
+  }
+  .wf-por {
+    aspect-ratio: 1;
+  }
+  .wf-plate {
+    margin-block-start: $sp-16;
+    padding: $sp-8;
+  }
+  .wf-cname {
+    min-block-size: 0;
+    font-size: $fs-14;
+  }
+  .wf-card.one .wf-cname {
+    padding-inline: $sp-18;
+  }
+  .wf-fig {
+    flex-direction: column;
+    align-items: center;
+    gap: $sp-2;
+    margin: $sp-4 0;
+    padding-block-start: $sp-4;
+  }
+  .wf-card.one .wf-votes b {
+    font-size: $fs-20;
+  }
+  .wf-foot {
+    display: none;
+  }
+}

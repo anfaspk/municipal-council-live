@@ -14,6 +14,7 @@ export class SlideClock {
   get isRunning(): boolean {
     return this.running;
   }
+
   now(): number {
     return this.elapsed + (this.running ? performance.now() - this.startedAt : 0);
   }
@@ -25,10 +26,20 @@ export class SlideClock {
     if (this.running) this.arm(job);
     return job;
   }
+
   retime(job: ClockJob, ms: number): void {
     job.at = ms;
     if (this.running && !job.done) this.arm(job);
   }
+
+  shift(after: number, by: number): void {
+    for (const job of this.jobs)
+      if (!job.done && job.at > after) {
+        job.at += by;
+        if (this.running) this.arm(job);
+      }
+  }
+
   cancel(job: ClockJob): void {
     job.done = true;
     clearTimeout(job.handle);
@@ -47,6 +58,7 @@ export class SlideClock {
     this.running = false;
     this.jobs.forEach((j) => clearTimeout(j.handle));
   }
+
   reset(): void {
     this.jobs.forEach((j) => clearTimeout(j.handle));
     this.jobs = [];

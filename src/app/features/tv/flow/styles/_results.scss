@@ -1,0 +1,274 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.tvf-tabbar {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+}
+.tvf-tgov {
+  margin: 0;
+  font-size: $fs-18;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.tvf-seg {
+  display: grid;
+  flex: 1;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  gap: $sp-4;
+  padding: $sp-4;
+  border-radius: $r-14;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.tvf-seg button {
+  min-block-size: 44px;
+  padding-inline: $sp-8;
+  border: 0;
+  border-radius: $r-10;
+  color: var(--ink-muted);
+  background: none;
+  font: inherit;
+  font-size: $fs-14;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.tvf-seg button.on {
+  color: var(--ink);
+  background: var(--canvas-0);
+  font-weight: 700;
+}
+.tvf-sub {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: $fs-12;
+  line-height: $lh-body;
+}
+.tvf-until {
+  color: var(--gold-ink);
+}
+.tvf-chips-row {
+  display: flex;
+  flex: none;
+  gap: $sp-6;
+  margin-inline: (-$sp-16);
+  padding-inline: $sp-16;
+  overflow-x: auto;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+}
+.tvf-wchip {
+  flex: none;
+  min-block-size: 44px;
+  padding-inline: $sp-14;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  font: inherit;
+  font-size: $fs-14;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.tvf-wchip.on {
+  border-color: transparent;
+  color: var(--on-gold);
+  background: var(--gold);
+  font-weight: 700;
+}
+.tvf-card {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+  padding: $sp-12;
+  border: 1px solid var(--glass-stroke);
+  border-radius: $r-18;
+  background: var(--glass-solid);
+}
+.tvf-wh {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $sp-8;
+}
+.tvf-wh > .tvf-ic {
+  inline-size: 34px;
+  block-size: 34px;
+  padding: $sp-7;
+  box-sizing: border-box;
+  border-radius: $r-10;
+  color: var(--gold-ink);
+  background: color-mix(in srgb, var(--gold-ink) 14%, transparent);
+}
+.tvf-wh > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  line-height: $lh-label;
+}
+.tvf-wh > div b {
+  font-size: $fs-20;
+}
+.tvf-seats {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+}
+.tvf-seat {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  padding: $sp-10;
+  border: 1px solid color-mix(in srgb, var(--gold-ink) 55%, transparent);
+  border-radius: $r-14;
+  background: linear-gradient(
+    to left,
+    color-mix(in srgb, var(--gold-ink) 16%, transparent),
+    color-mix(in srgb, var(--gold-ink) 4%, transparent)
+  );
+}
+.tvf-who {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $sp-4;
+  min-inline-size: 0;
+}
+.tvf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-4;
+  padding-inline: $sp-8;
+  border-radius: var(--radius-pill);
+  color: var(--on-gold);
+  background: var(--gold);
+  font-size: $fs-12;
+  font-weight: 700;
+}
+.tvf-badge .tvf-ic {
+  inline-size: 13px;
+  block-size: 13px;
+}
+.tvf-nm {
+  display: -webkit-box;
+  font-size: $fs-15;
+  line-height: $lh-label;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.tvf-seat.one .tvf-nm {
+  font-size: $fs-17;
+}
+.tvf-vp {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: $lh-label;
+}
+.tvf-vp b {
+  color: var(--gold-ink);
+  font-size: $fs-24;
+}
+.tvf-vp span {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+  direction: ltr;
+}
+.tvf-vp.sm b {
+  color: var(--ink);
+  font-size: $fs-17;
+}
+
+.tvf-av {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border-radius: $radius-round;
+  background: color-mix(in srgb, var(--ink) 12%, var(--canvas-1));
+  font-size: $fs-15;
+  overflow: hidden;
+}
+.tvf-av img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+.tvf-av.md {
+  inline-size: 56px;
+  block-size: 56px;
+  box-shadow: 0 0 0 2px var(--gold-ink);
+}
+.tvf-av.lg {
+  inline-size: 72px;
+  block-size: 72px;
+  box-shadow: 0 0 0 2px var(--gold-ink);
+}
+.tvf-av.sm {
+  inline-size: 40px;
+  block-size: 40px;
+}
+.tvf-av.none {
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+}
+.tvf-line {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  margin: 0;
+  color: var(--gold-ink);
+  font-size: $fs-13;
+  font-weight: 600;
+}
+.tvf-line i {
+  flex: none;
+  inline-size: 22px;
+  border-block-start: 2px dashed var(--gold-ink);
+}
+.tvf-nx {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+}
+.tvf-nrow,
+.tvf-cr {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+}
+.tvf-nrow .tvf-nm {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: $fs-14;
+}
+.tvf-pos {
+  flex: none;
+  inline-size: 20px;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+  font-weight: 700;
+  text-align: center;
+}
+.tvf-other {
+  display: flex;
+  align-items: baseline;
+  gap: $sp-8;
+  margin: 0;
+  padding-block-start: $sp-8;
+  border-block-start: 1px solid var(--hairline);
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.tvf-other span:first-child {
+  flex: 1;
+}
+.tvf-other b {
+  color: var(--ink);
+  font-size: $fs-15;
+}

@@ -17,7 +17,7 @@ import { Compare } from './place.model';
     <li class="dt-cmp-row" [class]="r.key + ' ' + (r.band ?? '')">
       <span class="dt-cmp-nm">{{ r.label }}</span>
       <span class="dt-cmp-track" aria-hidden="true"><i class="dt-cmp-fill" [style.--k]="r.k"></i></span>
-      <b class="dt-cmp-v mj-num">{{ r.t === null ? dash : pct(r.t) }}</b>
+      <b class="dt-cmp-v mj-num" [attr.data-fig]="r.key === 'self' ? 'place.turnout' : null">{{ r.t === null ? dash : pct(r.t) }}</b>
     </li>
   }
   <li class="dt-cmp-row dt-cmp-scale" aria-hidden="true">

@@ -177,6 +177,10 @@
     transform var(--dur-ui) var(--ease-spring),
     opacity var(--dur-ui),
     box-shadow var(--dur-ui);
+
+  @include mixins.lite {
+    backdrop-filter: none;
+  }
 }
 .om-lab .nm {
   font: 600 #{$fs-9}/ 1.25 var(--font-sans);

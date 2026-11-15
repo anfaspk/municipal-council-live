@@ -1,3 +1,4 @@
+@use 'scales' as *;
 
 @mixin arabic {
   font-family: var(--font-arabic);
@@ -10,6 +11,15 @@
   text-overflow: ellipsis;
 }
 
+@mixin lines($n: 2) {
+  display: -webkit-box;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $n;
+}
+
 @mixin cover {
   position: absolute;
   inset: 0;
@@ -18,4 +28,156 @@
 @mixin glass-fill {
   background: var(--glass-fill);
   box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+@mixin frame {
+  container: frame / inline-size;
+}
+
+@mixin tier($name) {
+  @if $name == xs {
+    @container frame (width < #{$bp-xs}) {
+      @content;
+    }
+  } @else if $name == sm {
+    @container frame (#{$bp-xs} <= width < #{$bp-sm}) {
+      @content;
+    }
+  } @else if $name == md {
+    :where([data-form='flow']) & {
+      @container frame (width >= #{$bp-sm}) {
+        @content;
+      }
+    }
+  } @else if $name == lg {
+    :where([data-form='stage']) & {
+      @container frame (width < #{$bp-xl}) {
+        @content;
+      }
+    }
+  } @else if $name == xl {
+    :where([data-form='stage']) & {
+      @container frame (#{$bp-xl} <= width < #{$bp-xxl}) {
+        @content;
+      }
+    }
+  } @else if $name == xxl {
+    :where([data-form='stage']) & {
+      @container frame (width >= #{$bp-xxl}) {
+        @content;
+      }
+    }
+  } @else {
+    @error 'tier: xs, sm, md, lg, xl or xxl, not #{$name}';
+  }
+}
+
+@mixin form($f) {
+  :where([data-form='#{$f}']) & {
+    @content;
+  }
+}
+
+@mixin landscape-short {
+  @media (orientation: landscape) and (height < #{$bp-short-h}) {
+    @content;
+  }
+}
+
+@mixin short {
+  :where([data-short]) & {
+    @content;
+  }
+}
+
+@mixin lite {
+  :where([data-fx='lite']) & {
+    @content;
+  }
+}
+
+@mixin hover {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
+
+@mixin coarse {
+  @media (any-pointer: coarse) {
+    @content;
+  }
+}
+
+@mixin box {
+  container-type: inline-size;
+}
+
+@mixin box-h($min: null, $max: null) {
+  @if $min and $max {
+    @container (#{$min} <= height < #{$max}) {
+      @content;
+    }
+  } @else if $min {
+    @container (height >= #{$min}) {
+      @content;
+    }
+  } @else {
+    @container (height < #{$max}) {
+      @content;
+    }
+  }
+}
+
+@mixin box-w($max) {
+  @container (width < #{$max}) {
+    @content;
+  }
+}
+
+@mixin vp($min) {
+  @media (width >= #{$min}) {
+    @content;
+  }
+}
+
+@mixin touch-control {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    scale: var(--press);
+  }
+}
+
+@mixin hit($pseudo: after) {
+  @include coarse {
+    @include touch-control;
+
+    @at-root :where(#{&}) {
+      position: relative;
+    }
+
+    &::#{$pseudo} {
+      content: '';
+      position: absolute;
+      inset: min(0px, calc((100% - var(--hit)) / 2));
+    }
+  }
+}
+
+@mixin field {
+  @include hit-min;
+  @include form(flow) {
+    font-size: $fs-field;
+  }
+}
+
+@mixin hit-min {
+  @include coarse {
+    @include touch-control;
+
+    :where([data-form='flow']) & {
+      min-block-size: var(--hit);
+    }
+  }
 }

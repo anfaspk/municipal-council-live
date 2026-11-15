@@ -1,6 +1,8 @@
 import { inject } from '@angular/core';
+import { ScreenState } from '../../core/screen/screen.state';
 import { ct } from '../../core/i18n/count-strings';
 import { CEvent, CGov, CWil } from '../../domain/count/count';
+import { ListPager } from '../../shared/motion/list-pager';
 import { govWalk, natWalk } from './count-wall.model';
 import { DrawFocus } from './draw/draw-focus';
 import { WilayatPanel } from './panels/wilayat-panel.component';
@@ -13,14 +15,25 @@ export interface ScreensHost extends Omit<LiveHost, 'manualHold' | 'selectWil' |
   play: WallPlayback;
   wilPanel(face: Face): WilayatPanel | undefined;
   detectChanges(): void;
+
   say(text: string, polite: boolean): void;
+
   sec(): number;
 }
 
 export class WallScreens {
+
   readonly live: WallLive;
+
   private readonly drawBack = inject(DrawFocus);
+  private readonly screen = inject(ScreenState);
+
+  private link: string | null = null;
+  private linkWil: number | null = null;
+
+  private readonly pager: ListPager;
   constructor(private readonly h: ScreensHost) {
+    this.pager = new ListPager(h.frames, h.play.clock, 'wall');
     this.live = new WallLive({
       ...h,
       manualHold: () => h.play.manualHold(),
@@ -35,6 +48,18 @@ export class WallScreens {
     return b?.gid ?? null;
   }
 
+  fromLink(): string | null {
+    const b = this.screen.takeBootWil();
+    this.linkWil = b?.wil ?? null;
+    return (this.link = b?.gov ?? null);
+  }
+
+  regionOf(gid?: string | null): string {
+    const g = this.link;
+    if (g && this.h.feed.gov(g)) this.link = null;
+    return gid || g || this.screen.region();
+  }
+
   natHot(id: string | null): void {
     this.h.stage().natHot(id);
     this.h.faces
@@ -42,6 +67,7 @@ export class WallScreens {
       ?.querySelectorAll('.cx-gr')
       .forEach((b) => b.classList.toggle('hot', b.getAttribute('data-g') === id));
   }
+
   private candIds(w: CWil): string {
     return w.cands
       .map((c) => c.id)
@@ -66,11 +92,13 @@ export class WallScreens {
     }
     const panel = this.h.wilPanel(f);
     panel?.updateHead(gv, w);
+
     panel?.updateRace(w);
     this.h.detectChanges();
   }
 
   goNat(instant?: boolean): void {
+    this.pager.stop();
     Object.assign(this.h.state, { mode: 'nat', gov: null, wil: null, natHot: null });
     this.h.feed.focus(null);
     const stage = this.h.stage();
@@ -81,6 +109,7 @@ export class WallScreens {
   goGov(id: string, instant?: boolean): void {
     const governorate = this.h.feed.gov(id)!,
       state = this.h.state;
+    this.pager.stop();
     Object.assign(state, { mode: 'gov', gov: id, wil: null });
     this.h.feed.focus(id);
     const stage = this.h.stage();
@@ -88,9 +117,13 @@ export class WallScreens {
     const face = this.h.faces.swap(this.h.faces.view('governorate', governorate), null, instant);
     this.live.wireGov(face, governorate);
     stage.showGovernorate(governorate, instant, () => {
-      if (state.pendWil) {
-        const wilayat = this.h.feed.wil(id, state.pendWil);
+      if (state.pendWil || this.linkWil !== null) {
+        const wilayat =
+          this.linkWil !== null
+            ? this.h.feed.wilById(this.linkWil)
+            : this.h.feed.wil(id, state.pendWil!);
         state.pendWil = null;
+        this.linkWil = null;
         if (wilayat) this.selectWil(wilayat, true);
       }
     });
@@ -112,12 +145,14 @@ export class WallScreens {
     const view = this.h.faces.view('wilayat', gv, w);
     this.live.wireWil(this.h.faces.swap(view, origin || WallFaces.origin(face)));
     this.h.stage().showWilayat(w);
+    this.page(user);
     this.h.say(w.n + '، ' + ct(STATUS_LABEL[w.st]), !!user);
   }
   backToList(user?: boolean): void {
     const state = this.h.state;
     if (state.mode !== 'gov' || !state.wil) return;
     const gv = this.h.feed.gov(state.gov!)!;
+    this.pager.stop();
     if (user) this.h.play.manualHold();
     const wn = cssEscape(state.wil);
     state.wil = null;
@@ -130,6 +165,7 @@ export class WallScreens {
     f.querySelector('.cx-w[data-w="' + wn + '"],.cxr-c[data-w="' + wn + '"]')?.classList.add('was');
     this.h.stage().returnToGovernorate();
   }
+
   planNat(): void {
     const ids = this.h.feed.govs.map((g) => g.id),
       walk = natWalk(ids.length, this.h.sec()),
@@ -145,8 +181,8 @@ export class WallScreens {
   planGov(gv: CGov): void {
     const walk = govWalk(gv.wil.length, this.h.sec()),
       clock = this.h.play.clock;
-    const cycle = (k: number) => {
-      const s = walk.start(k);
+
+    const cycle = (k: number, s: number) => {
       if (k > 0) clock.at(s, () => this.h.stage().relock());
       gv.wil.forEach((w, i) => {
         clock.at(s + walk.hold + i * walk.per, () => {
@@ -155,10 +191,22 @@ export class WallScreens {
         });
       });
       clock.at(s + walk.back, () => this.backToList(false));
-      clock.at(s + walk.length - 40, () => cycle(k + 1));
+      const next = clock.at(s + walk.length - 40, () => cycle(k + 1, next.at + 40));
     };
-    cycle(0);
+    cycle(0, walk.start(0));
   }
+
+  private page(user?: boolean): void {
+    this.pager.stop();
+    if (user) return;
+    const clock = this.h.play.clock;
+    this.pager.run(() => this.h.faces.current()?.querySelector<HTMLElement>(RACE_SCROLL) ?? null, {
+      time: this.h.sec() * 1000,
+      travel: !this.h.still(),
+      wait: (ms) => clock.shift(clock.now(), ms),
+    });
+  }
+
   answer(e: CEvent): void {
     const state = this.h.state;
     if (state.mode === 'nat') {

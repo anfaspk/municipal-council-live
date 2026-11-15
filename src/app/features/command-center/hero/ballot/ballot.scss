@@ -18,3 +18,8 @@
     }
   }
 }
+@layer states {
+  :where([data-fx='lite']) .mv :is(.mv-spin, .mv-leds, .mv-pad i, .mv-float, .mv-sheen) {
+    animation-play-state: paused;
+  }
+}

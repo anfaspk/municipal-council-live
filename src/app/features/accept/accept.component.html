@@ -2,7 +2,7 @@
 <div class="mj-horizon ca-hz"></div>
 
 <header class="ca-top mj-glass">
-  <img class="ca-logo" [src]="logo" alt="" />
+  <img class="ca-logo" [attr.src]="logo.src" [attr.srcset]="logo.srcset" alt="" width="1000" height="1082" decoding="async" />
   <span class="ca-top-tx">
     <span class="ca-top-t">{{ 'caBrand' | caT }}</span>
     <span class="ca-top-s">{{ 'caFoot' | caT }}</span>

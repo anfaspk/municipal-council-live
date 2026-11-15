@@ -17,10 +17,10 @@ const share = (part: number, whole: number): number => (whole ? (part / whole) *
 @Component({
   selector: 'section.cc-kpis',
   imports: [KpiTileComponent],
-  template: `<div class="mj-glass mj-tile k1" [kpi]="tiles()[0]" [value]="values()[0]"></div>
-    <div class="mj-glass mj-tile k2" [kpi]="tiles()[1]" [value]="values()[1]"></div>
-    <div class="mj-glass mj-tile k3" [kpi]="tiles()[2]" [value]="values()[2]"></div>
-    <div class="mj-glass mj-tile k4" [kpi]="tiles()[3]" [value]="values()[3]"></div>`,
+  template: `<div class="mj-glass mj-tile k1" [kpi]="tiles()[0]" [value]="values()[0]" fig="kpi.population"></div>
+    <div class="mj-glass mj-tile k2" [kpi]="tiles()[1]" [value]="values()[1]" fig="kpi.registered"></div>
+    <div class="mj-glass mj-tile k3" [kpi]="tiles()[2]" [value]="values()[2]" fig="kpi.regF"></div>
+    <div class="mj-glass mj-tile k4" [kpi]="tiles()[3]" [value]="values()[3]" fig="kpi.voted"></div>`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

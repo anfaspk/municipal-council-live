@@ -16,6 +16,7 @@ import {
 import { WinnersLoad } from '../../data/winners.store';
 import { announcedOf, WRegion } from '../../domain/winners/winners';
 import { reducedMotion } from '../../shared/motion/reduced-motion';
+import { TouchHold } from '../../shared/motion/touch-hold';
 import { IconComponent } from '../../shared/ui/icon.component';
 import { WinnersStageComponent } from './winners-stage.component';
 import { wt } from './winners-strings';
@@ -45,6 +46,7 @@ export class WinnersRegionComponent {
   readonly hover = output<boolean>();
   readonly retry = output<void>();
   readonly pickGov = output<string>();
+  protected readonly railHold = new TouchHold((on) => this.hover.emit(on));
 
   protected readonly q = signal('');
 

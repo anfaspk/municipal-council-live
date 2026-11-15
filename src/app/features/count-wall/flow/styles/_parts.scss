@@ -1,0 +1,388 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.cf-st {
+  --c: var(--ink-muted);
+}
+.cf-st.count {
+  --c: var(--data-cyan);
+}
+.cf-st.pend {
+  --c: var(--stat-pending);
+}
+.cf-st.decl {
+  --c: var(--declared);
+}
+.cf-dot {
+  flex: none;
+  inline-size: 10px;
+  block-size: 10px;
+  border-radius: $radius-round;
+  background: var(--c);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 22%, transparent);
+}
+.cf-card {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-14;
+  padding: $sp-16;
+  border: 1px solid var(--hairline);
+  border-radius: $r-20;
+  background: var(--glass-solid);
+}
+.cf-nat {
+  align-items: center;
+  text-align: center;
+}
+.cf-block {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-12;
+}
+.cf-sec {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $sp-12;
+}
+.cf-micro {
+  margin: 0;
+  color: var(--gold-ink);
+  font-size: $fs-13;
+  font-weight: 700;
+}
+.cf-h2 {
+  margin: 0;
+  font-size: $fs-17;
+  font-weight: 600;
+  line-height: $lh-head;
+}
+.cf-count {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.cf-page {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-16;
+}
+.cf-ph {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+}
+.cf-kind {
+  margin: 0;
+  color: var(--gold-ink);
+  font-size: $fs-13;
+  font-weight: 700;
+}
+.cf-name {
+  margin: 0;
+  font-size: $fs-30;
+  line-height: $lh-head;
+}
+.cf-name:focus {
+  outline: none;
+}
+.cf-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sp-8;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cf-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  min-block-size: 30px;
+  padding-inline: $sp-12;
+  border: 1px solid color-mix(in srgb, var(--c, var(--ink-muted)) 45%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--c, var(--ink-muted)) 12%, transparent);
+  font-size: $fs-13;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.cf-chip b {
+  color: var(--c);
+}
+.cf-chip-gold {
+  --c: var(--gold-ink);
+}
+.cf-chip .cf-ic {
+  inline-size: 16px;
+  block-size: 16px;
+}
+.cf-segbar {
+  display: flex;
+  gap: $sp-2;
+  inline-size: 100%;
+  block-size: 10px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--hairline);
+}
+.cf-segbar i {
+  flex: var(--k) 0 0;
+  background: var(--c);
+  transition: flex-grow $t-600 var(--ease-std);
+}
+.cf-segbar.thin {
+  block-size: 6px;
+}
+.cf-say {
+  margin: 0;
+  font-size: $fs-16;
+  line-height: $lh-body;
+}
+
+.cf-ring {
+  position: relative;
+  flex: none;
+  inline-size: 168px;
+  block-size: 168px;
+}
+.cf-ring svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.cf-ring-trk,
+.cf-ring-arc {
+  fill: none;
+  stroke-width: 8;
+}
+.cf-ring-trk {
+  stroke: color-mix(in srgb, var(--ink) 14%, transparent);
+}
+.cf-ring-arc {
+  stroke: var(--gold-ink);
+  stroke-linecap: round;
+  transition: stroke-dashoffset $t-900 var(--ease-std);
+}
+.cf-ring-in {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: $lh-figure;
+}
+.cf-ring-fig {
+  color: var(--gold-ink);
+  font-size: $fs-34;
+}
+.cf-ring-in small {
+  margin-block-start: $sp-4;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.cf-ringrow {
+  display: flex;
+  align-items: center;
+  gap: $sp-16;
+}
+.cf-ringrow .cf-ring {
+  inline-size: 104px;
+  block-size: 104px;
+}
+.cf-ringrow .cf-ring-fig {
+  font-size: $fs-18;
+}
+.cf-ringtxt {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: $sp-6;
+  min-inline-size: 0;
+}
+.cf-ringtxt small {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}
+.cf-headcard {
+  gap: $sp-14;
+}
+
+.cf-figs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $sp-8;
+  inline-size: 100%;
+}
+.cf-figs.two {
+  grid-template-columns: repeat(2, 1fr);
+}
+.cf-fig {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-2;
+  padding: $sp-10 $sp-8;
+  border-radius: $r-14;
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+  text-align: center;
+}
+.cf-fig span,
+.cf-fig small {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}
+.cf-fig b {
+  font-size: $fs-20;
+}
+.cf-fig.m b {
+  color: var(--male-neon);
+}
+.cf-fig.f b {
+  color: var(--female);
+}
+.cf-fig.left b {
+  color: var(--stat-pending);
+}
+
+.cf-seg {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  gap: $sp-4;
+  padding: $sp-4;
+  border-radius: $r-14;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.cf-seg button {
+  min-block-size: 44px;
+  padding-inline: $sp-8;
+  border: 0;
+  border-radius: $r-10;
+  color: var(--ink-muted);
+  background: none;
+  font: inherit;
+  font-size: $fs-14;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.cf-seg button.on {
+  color: var(--ink);
+  background: var(--canvas-0);
+  font-weight: 700;
+}
+
+.cf-acts {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+}
+.cf-play {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: $sp-8;
+  min-block-size: 44px;
+  padding-inline: $sp-16;
+  border: 1px solid var(--gold-ink);
+  border-radius: $r-14;
+  color: var(--gold-ink);
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.cf-play .cf-ic {
+  inline-size: 18px;
+  block-size: 18px;
+}
+.cf-act {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  min-block-size: 48px;
+  padding-inline: $sp-12;
+  border: 0;
+  border-radius: $r-14;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+  font: inherit;
+  font-size: $fs-14;
+  text-align: start;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.cf-act span {
+  flex: 1;
+  min-inline-size: 0;
+  @include mixins.ellipsis;
+}
+.cf-act time {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}
+.cf-act .cf-ic {
+  inline-size: 18px;
+  block-size: 18px;
+  color: var(--ink-muted);
+}
+
+.cf-map {
+  display: block;
+  inline-size: 100%;
+}
+.cf-map svg {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  max-block-size: 420px;
+}
+.cf-map.thumb svg {
+  max-block-size: 220px;
+}
+.cf-map-shape {
+  fill: color-mix(in srgb, var(--ink) 6%, transparent);
+  stroke: var(--glass-stroke);
+}
+.cf-map-shape[data-g] {
+  cursor: pointer;
+}
+.cf-map-shape.on {
+  fill: color-mix(in srgb, var(--gold-ink) 14%, transparent);
+  stroke: var(--gold-ink);
+}
+.cf-map-pin {
+  fill: var(--c);
+  stroke: var(--canvas-0);
+  pointer-events: none;
+}
+.cf-map-hit {
+  fill: transparent;
+  cursor: pointer;
+}
+.cf-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sp-12;
+  margin: 0;
+  padding: 0;
+  color: var(--ink-muted);
+  font-size: $fs-12;
+  list-style: none;
+}
+.cf-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+}
+.cf-legend .cf-dot {
+  inline-size: 8px;
+  block-size: 8px;
+  box-shadow: none;
+}
+.cf-wait {
+  margin: 0;
+  padding-block: $sp-16;
+  color: var(--ink-muted);
+  text-align: center;
+}

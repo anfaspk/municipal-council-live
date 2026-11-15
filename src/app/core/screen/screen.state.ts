@@ -14,7 +14,9 @@ import { log } from '../log/log';
 import {
   isRegion,
   loadScreenPrefs,
+  govOfWil,
   parseScreenBoot,
+  wilIds,
   readReload,
   RELOAD_GUARD,
   Rotation,
@@ -31,7 +33,7 @@ export class ScreenState {
   private readonly injector = inject(Injector);
   private readonly govs = Object.keys(GEO.g);
   private readonly prefs = loadScreenPrefs(this.govs);
-  private readonly boot = parseScreenBoot(location.search, this.govs);
+  private readonly boot = parseScreenBoot(location.search, this.govs, wilIds(GEO.wilPt));
   private readonly reload = readReload(Date.now());
 
   private readonly _screen = signal<Screen>(this.reload?.screen ?? this.boot.screen ?? 'dashboard');
@@ -43,6 +45,17 @@ export class ScreenState {
   readonly region = this._region.asReadonly();
   readonly rotation = this._rotation.asReadonly();
   readonly bootRegion = this.boot.region ?? null;
+  private bootWil = this.boot.wil ?? null;
+  takeBootWil(): { wil: number; gov: string } | null {
+    const w = this.bootWil,
+      gov = w === null ? null : govOfWil(w, GEO.wilPt);
+    this.bootWil = null;
+    return w !== null && gov ? { wil: w, gov } : null;
+  }
+
+  private readonly _auto = signal<{ from: Screen; to: Screen; n: number } | null>(null);
+  readonly auto = this._auto.asReadonly();
+  autoGate: (go: () => void) => void = (go) => go();
 
   private origin: Element | null = null;
   private wallShown = false;
@@ -53,9 +66,7 @@ export class ScreenState {
     effect(() => {
       if (!this.clock.counting() || this.wallShown) return;
       this.wallShown = true;
-      untracked(() => {
-        if (!this.is('winners') && !this.is('draw')) this.show('wall');
-      });
+      untracked(() => this.autoShow('wall'));
     });
   }
 
@@ -102,7 +113,23 @@ export class ScreenState {
 
   showWinners(region: string): void {
     this.handoff = region;
-    this.show('winners');
+    this.autoShow('winners');
+  }
+
+  openOn(s: 'wall' | 'winners', gov: string, wil: number | null): void {
+    if (s === 'winners') this.handoff = gov;
+    else this.setRegion(gov);
+    this.bootWil = wil;
+    this.show(s);
+  }
+
+  private autoShow(to: Screen): void {
+    this.autoGate(() => {
+      const from = this._screen();
+      if (from === to || (to === 'wall' && (from === 'winners' || from === 'draw'))) return;
+      this.show(to);
+      this._auto.set({ from, to, n: (this._auto()?.n ?? 0) + 1 });
+    });
   }
   takeHandoff(): string | null {
     const g = this.handoff;

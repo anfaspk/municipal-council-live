@@ -1,0 +1,95 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.cf .mj-appbar-full {
+  @include mixins.landscape-short {
+    flex-wrap: nowrap;
+  }
+}
+.cf .mj-appbar-head {
+  @include mixins.landscape-short {
+    flex: 1 1 auto;
+    order: 1;
+  }
+}
+.cf .mj-appbar-menu {
+  @include mixins.landscape-short {
+    order: 2;
+  }
+}
+.cf-main {
+  @include mixins.landscape-short {
+    max-inline-size: 1000px;
+  }
+}
+.cf-main:has(> .cf-nat),
+.cf-gov,
+.cf-wil {
+  @include mixins.landscape-short {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    align-items: start;
+    gap: $sp-16;
+  }
+}
+.cf-main:has(> .cf-nat) > *,
+.cf-gov > *,
+.cf-wil > * {
+  @include mixins.landscape-short {
+    grid-column: 1;
+  }
+}
+.cf-main > .cf-govs,
+.cf-gov > :is(.cf-sec, .cf-rows),
+.cf-wil > :is(.cf-board, .cf-wait) {
+  @include mixins.landscape-short {
+    grid-column: 2;
+  }
+}
+.cf-main > .cf-govs {
+  @include mixins.landscape-short {
+    grid-row: 1 / span 4;
+  }
+}
+.cf-gov > .cf-sec {
+  @include mixins.landscape-short {
+    grid-row: 1;
+  }
+}
+.cf-gov > .cf-rows {
+  @include mixins.landscape-short {
+    grid-row: 2 / span 3;
+  }
+}
+.cf-wil > :is(.cf-board, .cf-wait) {
+  @include mixins.landscape-short {
+    grid-row: 1 / span 4;
+  }
+}
+.cf-ring {
+  @include mixins.landscape-short {
+    inline-size: 136px;
+    block-size: 136px;
+  }
+}
+.cf-scroll {
+  @include mixins.landscape-short {
+    padding-block-end: calc(#{$sp-60} + var(--safe-bottom));
+    scroll-padding-block-end: calc(#{$sp-60} + var(--safe-bottom));
+  }
+}
+.cf-bar-i {
+  @include mixins.landscape-short {
+    min-block-size: 48px;
+  }
+}
+.cf-bar-i span {
+  @include mixins.landscape-short {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

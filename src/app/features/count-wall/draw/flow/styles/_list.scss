@@ -1,0 +1,103 @@
+@use '../../../../../../styles/scales' as *;
+@use '../../../../../../styles/mixins';
+
+.cfd-list {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-12;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cfd-card {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+  box-sizing: border-box;
+  inline-size: 100%;
+  padding: $sp-16;
+  border: 1px solid var(--hairline);
+  border-radius: $r-20;
+  color: var(--ink);
+  background: var(--glass-solid);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.cfd-card-h {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $sp-10;
+}
+.cfd-card-w {
+  display: flex;
+  flex-direction: column;
+}
+.cfd-card-w small,
+.cfd-card-v {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.cfd-card-w b {
+  font-size: $fs-20;
+}
+.cfd-state {
+  --c: var(--stat-pending);
+}
+.cfd-state.drawn {
+  --c: var(--gold-ink);
+}
+.cfd-names {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+}
+.cfd-nrow {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  font-size: $fs-14;
+}
+.cfd-hav {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: $radius-round;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+  font-size: $fs-12;
+  font-weight: 700;
+}
+.cfd-hav img {
+  aspect-ratio: 1;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+.cfd-hn {
+  flex: 1;
+  min-inline-size: 0;
+}
+.cfd-won {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: $sp-4;
+  padding-inline: $sp-10;
+  border-radius: var(--radius-pill);
+  color: var(--on-gold);
+  background: var(--gold);
+  font-size: $fs-12;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.9;
+}
+.cfd-won .cf-ic {
+  inline-size: 14px;
+  block-size: 14px;
+}

@@ -55,11 +55,17 @@
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 50%, transparent);
   transition: box-shadow $t-300 var(--ease-std);
 }
-.wn-gsel:hover,
 .wn-gsel:focus-within {
   box-shadow:
     inset 0 0 0 1.5px var(--gold),
     0 0 24px color-mix(in srgb, var(--gold) 25%, transparent);
+}
+@include mixins.hover {
+  .wn-gsel:hover {
+    box-shadow:
+      inset 0 0 0 1.5px var(--gold),
+      0 0 24px color-mix(in srgb, var(--gold) 25%, transparent);
+  }
 }
 .wn-gsel:has(select:focus-visible) {
   outline: 2px solid var(--focus-ring);
@@ -198,6 +204,11 @@
   background: transparent;
   color: var(--ink);
   font: 500 #{$fs-17}/ 1 var(--font-sans);
+  appearance: none;
+  @include mixins.field;
+}
+.wn-find input::-webkit-search-cancel-button {
+  appearance: none;
 }
 .wn-find input:focus-visible {
   outline: none;
@@ -265,9 +276,12 @@
   transition:
     background-color $t-300 var(--ease-std),
     color $t-300 var(--ease-std);
+  @include mixins.hit;
 }
-.wn-wil:hover:not(.on) {
-  background: var(--glass-fill);
+@include mixins.hover {
+  .wn-wil:hover:not(.on) {
+    background: var(--glass-fill);
+  }
 }
 .wn-wil.on {
   box-shadow: none;
@@ -342,8 +356,10 @@
   color: var(--ink-muted);
   transition: transform $t-300 var(--ease-spring);
 }
-.wn-wil:hover .wn-wil-go {
-  transform: translate3d(-4px, 0, 0);
+@include mixins.hover {
+  .wn-wil:hover .wn-wil-go {
+    transform: translate3d(-4px, 0, 0);
+  }
 }
 .wn-wil.on .wn-wil-go {
   color: var(--on-gold);

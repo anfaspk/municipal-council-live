@@ -1,0 +1,24 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/list');
+  @include meta.load-css('styles/reveal');
+  @include meta.load-css('styles/land');
+}
+
+@layer states {
+  .cfd.still .cfd-coin i {
+    transition: none;
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .cfd .cfd-coin i,
+    .cfd .cfd-c {
+      transition: none;
+    }
+  }
+}

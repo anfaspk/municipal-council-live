@@ -33,6 +33,7 @@ export interface Kpi {
 export class KpiTileComponent {
   readonly kpi = input.required<Kpi>();
   readonly value = input.required<number | null>();
+  readonly fig = input<string | null>(null);
   readonly pct = pct;
   readonly id = uid('sp');
   readonly ring = computed(() => ringGeom(this.kpi().ring, 38, 3.5));

@@ -1,0 +1,183 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.fl-ins .mj-snaprow-track {
+  grid-auto-columns: 88%;
+  margin-inline: (-$sp-16);
+}
+.fl-ins-card {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+}
+.fl-bf-head {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr auto;
+  align-items: center;
+  gap: $sp-6;
+  margin-block: $sp-6;
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}
+.fl-bf-head span:nth-child(3) {
+  text-align: end;
+}
+.fl-bf {
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr;
+  align-items: center;
+  gap: $sp-6;
+  font-size: $fs-12;
+}
+.fl-bf em {
+  color: var(--ink-muted);
+  font-style: normal;
+  text-align: center;
+}
+.fl-bf span {
+  display: block;
+  block-size: 10px;
+}
+.fl-bf i {
+  display: block;
+  block-size: 100%;
+  border-radius: $r-3;
+  transform: scaleX(var(--k));
+  transition: transform var(--dur-card) var(--ease-std);
+}
+.fl-bf .m i {
+  background: var(--male);
+  transform-origin: left center;
+}
+.fl-bf .f i {
+  background: var(--female);
+  transform-origin: right center;
+}
+.fl-lead {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fl-lead li {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: $sp-10;
+}
+.fl-ages {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: $sp-6;
+  align-items: end;
+  margin-block-start: $sp-8;
+
+  @include mixins.box;
+}
+.fl-age {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-4;
+  font-size: $fs-12;
+}
+.fl-age .cols {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: $sp-2;
+  inline-size: 100%;
+  block-size: 120px;
+}
+.fl-age .cols i {
+  display: block;
+  inline-size: 40%;
+  block-size: 100%;
+  border-radius: $r-3 $r-3 0 0;
+  transform: scaleY(var(--k));
+  transform-origin: bottom center;
+  transition: transform var(--dur-card) var(--ease-std);
+}
+.fl-age .m {
+  background: var(--male);
+}
+.fl-age .f {
+  background: var(--female);
+}
+.fl-age em {
+  color: var(--ink-muted);
+  font-style: normal;
+}
+.fl-age small {
+  font-size: inherit;
+  font-weight: 600;
+}
+.fl-age small {
+  @include mixins.box-w($bp-ages-narrow) {
+    white-space: nowrap;
+  }
+}
+.fl-age:nth-child(odd) small {
+  @include mixins.box-w($bp-ages-narrow) {
+    margin-block-end: $sp-16;
+  }
+}
+.fl-age:nth-child(even) small {
+  @include mixins.box-w($bp-ages-narrow) {
+    margin-block-start: $sp-16;
+  }
+}
+.fl-age.top small {
+  color: var(--gold-ink);
+}
+.fl-key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-6;
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}
+.fl-key .fl-sex {
+  inline-size: 18px;
+  block-size: 18px;
+}
+.fl-link {
+  min-block-size: 44px;
+  padding-inline: $sp-8;
+  border: 0;
+  color: var(--gold-ink);
+  background: none;
+  font: inherit;
+  font-size: $fs-14;
+  font-weight: 600;
+  cursor: pointer;
+
+  @include mixins.touch-control;
+}
+.fl-lines {
+  margin: 0;
+  padding-block: 0;
+  padding-inline: $sp-14;
+  border: 1px solid var(--hairline);
+  border-radius: $r-20;
+  background: var(--glass-solid);
+  list-style: none;
+}
+.fl-lines li {
+  display: flex;
+  gap: $sp-12;
+  padding-block: $sp-12;
+  font-size: $fs-14;
+  line-height: $lh-label;
+}
+.fl-lines li + li {
+  border-block-start: 1px solid var(--hairline);
+}
+.fl-lines time {
+  flex: none;
+  color: var(--ink-muted);
+}

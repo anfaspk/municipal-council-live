@@ -24,7 +24,7 @@
                       <span class="tv-ih-badge"><svg [mjIcon]="'crown'"></svg>{{ (f.seats > 1 ? 'resSeat' : 'intLead') | t: { n: k + 1 } }}</span>
                       <b class="nm">{{ c.name }}</b>
                     </div>
-                    <div class="pc"><b class="mj-num">{{ c.v | fmt }}</b><span class="mj-num">{{ c.vP | share }}</span></div>
+                    <div class="pc"><b class="mj-num" [attr.data-fig]="'tv.int.' + c.id + '.votes'">{{ c.v | fmt }}</b><span class="mj-num" [attr.data-fig]="'tv.int.' + c.id + '.share'">{{ c.vP | share }}</span></div>
                   </div>
                 }
               </div>
@@ -39,14 +39,13 @@
                 <span class="tv-ih-line">{{ 'intLine' | t: votes(f.margin) }}</span>
               }
             </div>
-            <div class="tv-ih-rest" tabindex="0" [attr.aria-label]="(f.leaders.length ? 'intRest' : 'intAll') | t" [class.cols]="f.rest.length > 14" [class.lined]="f.line !== null" [style.--rows]="rows(f)" [style.--line]="f.line">
+            <div class="tv-ih-rest" #list data-pages tabindex="0" [attr.aria-label]="(f.leaders.length ? 'intRest' : 'intAll') | t">
               @for (b of f.rest; track b.c.id; let k = $index) {
                 <div class="tv-ir" [style.--k]="k < 12 ? k : 12">
                   <span class="p mj-num">{{ b.c.pos }}</span>
                   <span class="tv-iav sm" mjRaceAv [cand]="b.c"></span>
                   <span class="tv-ir-t" [style.--w]="b.w"><i></i><span class="nm">{{ b.c.name }}</span></span>
-                  <span class="v mj-num">{{ b.c.v | fmt }}</span>
-                  <b class="pc mj-num">{{ b.c.vP | share }}</b>
+                  <span class="vp"><span class="v mj-num" [attr.data-fig]="'tv.int.' + b.c.id + '.votes'">{{ b.c.v | fmt }}</span><b class="pc mj-num" [attr.data-fig]="'tv.int.' + b.c.id + '.share'">{{ b.c.vP | share }}</b></span>
                 </div>
               }
               @if (f.other; as o) {
@@ -54,8 +53,7 @@
                   <span class="p"></span>
                   <span class="tv-iav sm none"></span>
                   <span class="tv-ir-t" [style.--w]="o.w"><i></i><span class="nm">{{ 'intOther' | t }}</span></span>
-                  <span class="v mj-num">{{ o.v | fmt }}</span>
-                  <b class="pc mj-num">{{ o.vP | share }}</b>
+                  <span class="vp"><span class="v mj-num">{{ o.v | fmt }}</span><b class="pc mj-num">{{ o.vP | share }}</b></span>
                 </div>
               }
             </div>

@@ -1,0 +1,61 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.fl-podium {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-12;
+}
+.fl-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: $sp-8;
+}
+.fl-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-4;
+  min-inline-size: 0;
+  font-size: $fs-13;
+  text-align: center;
+
+  @include mixins.touch-control;
+}
+.fl-blk {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  border: 1px solid var(--hairline);
+  border-radius: $r-12 $r-12 $r-4 $r-4;
+  background: color-mix(in srgb, var(--ink) 14%, var(--canvas-1));
+}
+.fl-blk em {
+  font-size: $fs-22;
+  font-style: normal;
+  font-weight: 700;
+}
+.fl-blk small {
+  font-size: $fs-12;
+}
+.fl-step.s1 .fl-blk {
+  block-size: 104px;
+  border-color: color-mix(in srgb, var(--gold-ink) 50%, transparent);
+  background: color-mix(in srgb, var(--gold-ink) 22%, var(--canvas-1));
+}
+.fl-step.s2 .fl-blk {
+  block-size: 84px;
+}
+.fl-step.s3 .fl-blk {
+  block-size: 68px;
+  background: color-mix(in srgb, var(--band-mid) 22%, var(--canvas-1));
+}
+.fl-more {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

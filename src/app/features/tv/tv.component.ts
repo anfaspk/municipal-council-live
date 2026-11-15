@@ -35,7 +35,10 @@ import { watchTvPointer } from './tv-pointer';
 import { TvControls, EMPTY_FACE } from './tv-controls';
 import { InterimStore } from '../../data/interim.store';
 import { TvInterimTab } from './tv-interim-tab';
+import { TvWalk } from './tv-walk';
+import { TvMemo } from './tv-memo';
 import { INT_FROM, INT_STEP, interimDuration } from './tv-interim.model';
+
 @Component({
   selector: 'div.mj-tv',
   imports: [
@@ -46,7 +49,7 @@ import { INT_FROM, INT_STEP, interimDuration } from './tv-interim.model';
     TPipe,
     TvSlideComponent,
   ],
-  providers: [TvInterimTab, { provide: FRAME_SCOPE, useValue: 'tv' }],
+  providers: [TvWalk, { provide: FRAME_SCOPE, useValue: 'tv' }],
   host: {
     tabindex: '-1',
     '[class.on]': 'isOpen()',
@@ -60,6 +63,7 @@ import { INT_FROM, INT_STEP, interimDuration } from './tv-interim.model';
     '(click)': 'pick($event)',
   },
   templateUrl: './tv.component.html',
+
   styleUrls: ['./tv.scss', './tv-slides.scss', './tv-interim.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,13 +72,21 @@ export class TvComponent extends TvControls {
   private readonly updates = inject(ScreenUpdates);
   private readonly slideViews = viewChildren(TvSlideComponent);
   private readonly interim = inject(InterimStore);
+  private readonly memo = inject(TvMemo);
   private readonly inter = computed(() => this.interim.phase() === 'open');
+
   private placed = '';
+
   private shownInter = false;
   private walkJobs: ClockJob[] = [];
 
+  private walkMarks: { job: ClockJob; i: number }[] = [];
+
   constructor() {
     super();
+    this.walkHooks.left = () => this.walkLeft();
+    this.walkHooks.wait = (ms) => this.walkWait(ms);
+    this.walkHooks.still = () => this.still() || reducedMotion();
     watchTvPointer(this.host, {
       wake: () => this.wake(),
       dock: (over) => this.hold(this.hover, over),
@@ -82,6 +94,7 @@ export class TvComponent extends TvControls {
     this.updates.tv.pipe(takeUntilDestroyed()).subscribe((e) => {
       if (e.type === 'pull' || e.type === 'resume') guard('tv refresh', () => this.refresh());
     });
+
     effect(() => {
       const r = this.region(),
         at = r + '|' + this.pinned();
@@ -96,9 +109,10 @@ export class TvComponent extends TvControls {
       this.clock.reset();
       clearTimeout(this.idleTimer);
     });
+
     effect(() => this.interim.watch(this.isOpen()));
     const tab = inject(TvInterimTab).tab;
-    let open = false;
+    let open = this.memo.key !== null && this.inter();
     effect(() => {
       const now = this.inter();
       untracked(() => {
@@ -127,9 +141,17 @@ export class TvComponent extends TvControls {
     this.still.set(os || this.prefs.still);
     this.isOpen.set(true);
     this.placed = this.region() + '|' + this.pinned();
-    this.show(this.keyIndex(this.region()));
+    const from = this.memo.key,
+      lit = this.memo.lit;
+    this.show(this.keyIndex(from ?? this.region()));
     this.wake();
-    afterNextRender(() => this.afterOpen(), { injector: this.injector });
+    afterNextRender(
+      () => {
+        this.afterOpen();
+        if (from !== null && lit >= 0) this.light(lit);
+      },
+      { injector: this.injector },
+    );
   }
   private stop(): void {
     if (!this.isOpen()) return;
@@ -137,18 +159,20 @@ export class TvComponent extends TvControls {
     this.clock.reset();
     clearTimeout(this.idleTimer);
     this.opener = null;
+    this.memo.clear();
   }
-
 
   protected show(k: number, user = false): void {
     if (!this.isOpen()) return;
     const index = this.stats.index(),
       old = this.keys(),
       want = old.length ? old[mod(k, old.length)]! : null;
+
     if (!old.length || k === 0 || this.pinned()) this.keys.set(slideKeys(index));
     const keys = this.keys(),
       idx = want === null ? mod(k, keys.length) : Math.max(0, keys.indexOf(want));
     const seg = document.activeElement?.classList.contains('tva-seg') ?? false;
+
     const settled = this.paused(),
       face = this.active() === 0 ? 1 : 0;
     const slide = this.unpinned(
@@ -160,10 +184,14 @@ export class TvComponent extends TvControls {
 
     this.clock.reset();
     this.walkJobs = [];
+    this.walkMarks = [];
     this.walkEnd = null;
     this.k.set(idx);
+    this.memo.keep(slide.key);
     this.faces[face].set({ slides: [slide], settled });
     this.active.set(face);
+    this.walkHooks.onView.set(slide.uid);
+    this.walkHooks.shown.update((n) => n + 1);
     this.updates.tvSwap(this.host.querySelectorAll('.tv-face')[face]);
     afterNextRender(
       () => {
@@ -177,8 +205,10 @@ export class TvComponent extends TvControls {
       { injector: this.injector },
     );
     if (slide.kind === 'gov' && !settled) this.splitTimers(slide, dur, !walk);
+
     this.endJob = this.pinned() ? null : this.clock.at(dur, () => this.show(this.k() + 1));
     if (walk) {
+
       if (settled)
         afterNextRender(() => this.slideView(walk)?.spotlight(0), { injector: this.injector });
       this.walk(walk, 0, INT_FROM);
@@ -196,6 +226,7 @@ export class TvComponent extends TvControls {
     }
     const n = slide.wilayat.length;
     if (!spot || this.still() || reducedMotion() || !n) return;
+
     const every = Math.max(900, Math.min(1600, (dur - sp - 3400) / (n + 1)));
     for (let i = 0; i <= n; i++)
       this.clock.at(sp + 2600 + i * every, () => view()?.spotlight(i < n ? i : -1));
@@ -206,8 +237,15 @@ export class TvComponent extends TvControls {
     const n = slide.wilayat.length,
       view = () => this.slideView(slide);
     this.walkJobs = [];
-    for (let i = from; i < n; i++)
-      this.walkJobs.push(this.clock.at(at + (i - from) * INT_STEP, () => view()?.spotlight(i)));
+    this.walkMarks = [];
+    for (let i = from; i < n; i++) {
+      const job = this.clock.at(at + (i - from) * INT_STEP, () => {
+        view()?.spotlight(i);
+        this.memo.lit = i;
+      });
+      this.walkJobs.push(job);
+      this.walkMarks.push({ job, i });
+    }
     const end = at + Math.max(1, n - from) * INT_STEP;
     this.walkEnd = end;
     if (this.endJob) {
@@ -217,6 +255,23 @@ export class TvComponent extends TvControls {
         ?.style.setProperty('--dur', end + 'ms');
     } else if (this.pinned())
       this.walkJobs.push(this.clock.at(end, () => this.walk(slide, 0, end)));
+  }
+
+  private walkLeft(): number {
+    const now = this.clock.now(),
+      lit = Math.max(0, this.walking()?.view.lit() ?? 0),
+      next = this.walkMarks.find((m) => !m.job.done && m.job.at > now && m.i !== lit)?.job.at;
+    return Math.max(0, (next ?? this.walkEnd ?? now + INT_STEP) - now);
+  }
+
+  private walkWait(ms: number): void {
+    this.clock.shift(this.clock.now(), ms);
+    if (this.walkEnd === null) return;
+    this.walkEnd += ms;
+    if (this.endJob)
+      this.host
+        .querySelector<HTMLElement>('.tva-seg[aria-current] i')
+        ?.style.setProperty('--dur', this.walkEnd + 'ms');
   }
 
   protected pick(e: MouseEvent): void {
@@ -230,14 +285,17 @@ export class TvComponent extends TvControls {
     this.light((Math.max(0, cur.view.lit()) + step + n) % n);
     return true;
   }
+
   private light(i: number): void {
     const cur = this.walking(),
       w = cur?.slide.wilayat[i];
     if (!cur || !w) return;
     cur.view.spotlight(i);
+    this.memo.lit = i;
     this.walk(cur.slide, i + 1, this.clock.now() + INT_STEP);
     this.say(w.name, true);
   }
+
   private walking(): { slide: GovSlide; view: TvSlideComponent } | null {
     const f = this.active(),
       slide = f === -1 ? null : this.faces[f]().slides[0],
@@ -248,6 +306,7 @@ export class TvComponent extends TvControls {
   private unpinned<S extends TvSlide>(slide: S): S {
     return this.pinned() ? { ...slide, next: null } : slide;
   }
+
   protected keyIndex(key: string): number {
     const keys = this.keys().length ? this.keys() : slideKeys(this.stats.index());
     return Math.max(0, keys.indexOf(key));

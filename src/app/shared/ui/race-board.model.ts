@@ -92,8 +92,9 @@ export interface RaceView {
 }
 
 export const REST_DENSE = 12;
-export function restGrid(n: number): { cols: number; rows: number; dense: boolean } {
-  return { cols: 2, rows: Math.max(1, Math.ceil(n / 2)), dense: n > REST_DENSE };
+export function restGrid(n: number, cols = 2): { cols: number; rows: number; dense: boolean } {
+  const c = Math.max(1, Math.floor(cols));
+  return { cols: c, rows: Math.max(1, Math.ceil(n / c)), dense: c > 1 && n > REST_DENSE };
 }
 
 export function raceView(w: CWil, hist: VoteHistory): RaceView | null {

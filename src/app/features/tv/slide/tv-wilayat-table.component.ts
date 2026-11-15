@@ -23,7 +23,7 @@ import { TvSlideState } from './tv-slide-state';
         <div class="tv-wr" [class]="r.band" [class.hi]="spot() === r.i" [style.--j]="r.i">
           <span class="r mj-num">{{ r.rank }}</span>
           <span class="nm">{{ r.name }}</span>
-          <b class="pc mj-num" [mjCountUp]="r.t" countFormat="pct" [countDuration]="1400" countGroup="table"></b>
+          <b class="pc mj-num" [attr.data-fig]="'tv.wil.' + r.id + '.turnout'" [mjCountUp]="r.t" countFormat="pct" [countDuration]="1400" countGroup="table"></b>
           <span class="ct mj-num" dir="ltr"><em [mjCountUp]="r.voted" [countDuration]="1400" countGroup="table"></em> / {{ r.reg | fmt }}</span>
         </div>
       }

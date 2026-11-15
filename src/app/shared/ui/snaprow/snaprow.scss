@@ -1,0 +1,80 @@
+@use '../../../../styles/scales' as *;
+@use '../../../../styles/mixins';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  .mj-snaprow {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-8;
+    min-inline-size: 0;
+  }
+  .mj-snaprow-track {
+    display: grid;
+    grid-auto-columns: 84%;
+    grid-auto-flow: column;
+    gap: $sp-12;
+    padding-block: $sp-4;
+    padding-inline: $sp-16;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: $sp-16;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+  }
+  .mj-snaprow-track::-webkit-scrollbar {
+    display: none;
+  }
+  .mj-snap-item {
+    min-inline-size: 0;
+    scroll-snap-align: start;
+  }
+  .mj-snap-item:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+  .mj-snaprow-dots {
+    display: flex;
+    justify-content: center;
+    gap: $sp-2;
+  }
+  .mj-snaprow-dot {
+    display: grid;
+    place-items: center;
+    inline-size: 24px;
+    block-size: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+
+    @include mixins.hit;
+  }
+  .mj-snaprow-dot i {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: $radius-round;
+    background: var(--glass-stroke);
+    transition:
+      background var(--dur-card) var(--ease-std),
+      scale var(--dur-card) var(--ease-std);
+  }
+  .mj-snaprow-dot.on i {
+    background: var(--gold);
+    scale: 1.25;
+  }
+  .mj-snaprow-dot:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: -2px;
+    border-radius: $radius-round;
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .mj-snaprow-dot i {
+      transition: none;
+    }
+  }
+}

@@ -14,8 +14,10 @@ import {
 import { TurnoutStore } from '../../../../data/turnout.store';
 import { FRAME_SCOPE, FrameLoop } from '../../../../shared/motion/frame-loop.service';
 import { reducedMotion } from '../../../../shared/motion/reduced-motion';
+import { ornaments } from '../../../../shared/motion/effects-tier';
 import { restartAnimation } from '../../../../shared/motion/restart-animation';
-import { LOGO_DARK } from '../../../../shared/ui/brand';
+import { LOGO_DARK, logoFor } from '../../../../shared/ui/brand';
+import { ViewportState } from '../../../../core/screen/viewport.state';
 import { uid } from '../../../../shared/ui/uid';
 import { bt } from './ballot-strings';
 import {
@@ -50,7 +52,8 @@ export class BallotComponent {
   protected readonly art = ballotArt();
   protected readonly steps = STEPS;
   protected readonly gid = uid('mvg');
-  protected readonly logo = LOGO_DARK;
+  private readonly viewport = inject(ViewportState);
+  protected readonly logo = computed(() => logoFor(LOGO_DARK, this.viewport.form() === 'flow'));
   protected readonly s = {
     election: bt('election'),
     start: bt('mvStart'),
@@ -70,11 +73,11 @@ export class BallotComponent {
     recorded: bt('mvRecorded'),
     secure: bt('mvSecure'),
   };
-  private readonly shown = signal(reducedMotion());
+  private readonly shown = signal(!ornaments());
   protected readonly level = computed(() =>
     this.shown() ? Math.max(0, Math.min(1, this.stats.turnout() / 100)).toFixed(4) : '0',
   );
-  protected readonly sweep = signal(reducedMotion() ? '0ms' : '1800ms');
+  protected readonly sweep = signal(ornaments() ? '1800ms' : '0ms');
 
   constructor() {
     const destroyRef = inject(DestroyRef);
@@ -84,9 +87,9 @@ export class BallotComponent {
         scr,
         views: STEPS.map((k) => scr.querySelector<HTMLElement>('.mv-' + k)!),
         segs: Array.from(scr.querySelectorAll<HTMLElement>('.mv-steps i')),
-        beam: this.host.querySelector<HTMLElement>('.mv-beam')!,
+        beam: this.host.querySelector<HTMLElement>('.mv-beam'),
       };
-      if (reducedMotion()) {
+      if (!ornaments()) {
         paint(this.host, parts, BALLOT_STILL);
         return;
       }
@@ -137,7 +140,7 @@ interface Parts {
   scr: HTMLElement;
   views: HTMLElement[];
   segs: HTMLElement[];
-  beam: HTMLElement;
+  beam: HTMLElement | null;
 }
 
 function paint(host: HTMLElement, p: Parts, f: BallotFrame): void {
@@ -149,6 +152,6 @@ function paint(host: HTMLElement, p: Parts, f: BallotFrame): void {
     v.classList.toggle('ok', f.ok[i]!);
   });
   p.segs.forEach((g, i) => (g.className = f.seg[i]!));
-  p.beam.classList.toggle('on', f.beam);
+  p.beam?.classList.toggle('on', f.beam);
   host.classList.toggle('fly', f.fly);
 }

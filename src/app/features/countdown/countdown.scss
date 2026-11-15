@@ -1,4 +1,5 @@
 @use '../../../styles/scales' as *;
+@use '../../../styles/mixins';
 
 @layer tokens, base, app, motion, states;
 
@@ -66,5 +67,94 @@
   }
   .mj-countdown .cdn-note {
     opacity: 0.7;
+  }
+
+  .mj-countdown.cdn-flow {
+    @include mixins.frame;
+
+    overflow-y: auto;
+    place-items: safe center;
+    padding-block: var(--safe-top) var(--safe-bottom);
+    padding-inline: var(--safe-right) var(--safe-left);
+  }
+  .cdn-flow .cdn-in {
+    gap: $sp-14;
+    width: min(560px, 100%);
+  }
+  .cdn-flow .cdn-logos {
+    display: flex;
+    align-items: center;
+    gap: $sp-14;
+    margin-block-end: $sp-10;
+  }
+  .cdn-flow .cdn-logos img {
+    display: block;
+    block-size: 48px;
+    inline-size: auto;
+  }
+  .cdn-flow .cdn-logos i {
+    inline-size: 1px;
+    block-size: 32px;
+    background: var(--hairline);
+  }
+  .cdn-flow .cdn-title {
+    font-size: $fs-22;
+  }
+  .cdn-flow :is(.cdn-sub, .cdn-note) {
+    display: none;
+  }
+  .cdn-flow .cdn-opens {
+    margin-block-start: 0;
+    font-size: $fs-16;
+  }
+  .cdn-flow .cdn-clock {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $sp-10;
+    width: 100%;
+    max-width: 520px;
+    direction: rtl;
+  }
+  .cdn-flow .cdn-u {
+    width: auto;
+    padding: $sp-14 $sp-8;
+    border: 1px solid var(--hairline);
+    border-radius: $r-20;
+    background: var(--glass-solid);
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  .cdn-flow .cdn-u b {
+    font-size: $fs-display-0;
+    line-height: 1.05;
+  }
+  .cdn-flow .cdn-u span {
+    font-size: $fs-14;
+  }
+  .cdn-flow .cdn-at {
+    max-width: 30ch;
+    color: var(--ink-muted);
+    font-size: $fs-14;
+  }
+  .cdn-flow {
+    @include mixins.tier(xs) {
+      .cdn-clock {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .cdn-u b {
+        font-size: $fs-display-0-narrow;
+      }
+    }
+  }
+  .cdn-flow {
+    @include mixins.landscape-short {
+      .cdn-in {
+        gap: $sp-8;
+        padding-block: $sp-12;
+      }
+      .cdn-logos {
+        margin-block-end: 0;
+      }
+    }
   }
 }

@@ -37,9 +37,15 @@
     opacity $t-200 var(--ease-std),
     fill $t-200 var(--ease-std);
 }
-.dt-page .dt-loc-pin:is(:hover, .over, :focus-visible) .dot {
+.dt-page .dt-loc-pin:is(.over, :focus-visible) .dot {
   fill: var(--band);
   opacity: 1;
+}
+@include mixins.hover {
+  .dt-page .dt-loc-pin:hover .dot {
+    fill: var(--band);
+    opacity: 1;
+  }
 }
 .dt-page .dt-loc-pin:focus-visible .hit {
   stroke: var(--focus-ring);
@@ -127,6 +133,7 @@
   color: var(--ink);
   font: 500 #{$fs-13}/ 1 var(--font-sans);
   @include mixins.arabic;
+  @include mixins.field;
 }
 .dt-vils .dt-q input::-webkit-search-cancel-button {
   appearance: none;
@@ -164,13 +171,16 @@
   transition:
     background-color $t-200 var(--ease-std),
     color $t-200 var(--ease-std);
+  @include mixins.hit;
 }
 .dt-vils .dt-chipb b {
   color: var(--ink);
   font: 700 #{$fs-12}/ 1 var(--font-display);
 }
-.dt-vils .dt-chipb:hover:not(:disabled) {
-  color: var(--ink);
+@include mixins.hover {
+  .dt-vils .dt-chipb:hover:not(:disabled) {
+    color: var(--ink);
+  }
 }
 .dt-vils .dt-chipb[aria-pressed='true'] {
   color: var(--band-ink);
@@ -250,16 +260,6 @@
 }
 .dt-page .dt-empty p {
   margin: 0;
-}
-
-.mj-fluid .dt-page .dt-c-locator {
-  min-height: 360px;
-}
-.mj-fluid .dt-page .dt-c-villages {
-  height: 640px;
-}
-.mj-fluid .dt-vils .dt-rows > li {
-  content-visibility: visible;
 }
 
 @keyframes dt-shimmer {

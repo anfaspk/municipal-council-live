@@ -1,0 +1,1 @@
+var r=e=>e.pointerType===`touch`||e.pointerType===`pen`;var i=class{constructor(t){this.set=t}set;timer=null;on(){this.clear(),this.set(!0)}off(t){this.clear(),t&&r(t)?this.timer=setTimeout(()=>this.release(),3e3):this.set(!1)}stop(){this.clear()}release(){this.timer=null,this.set(!1)}clear(){this.timer!==null&&clearTimeout(this.timer),this.timer=null}};export{i as t};

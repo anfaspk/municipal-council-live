@@ -1,0 +1,170 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.fl-shell[data-comp='sign'] .mj-appbar-menu {
+  display: none;
+}
+.fl-shell[data-comp='sign'] .mj-appbar-full {
+  box-sizing: border-box;
+  block-size: calc(#{$sp-112} + var(--safe-top));
+  padding-block: calc(#{$sp-12} + var(--safe-top)) $sp-8;
+  overflow: clip;
+}
+.fl-shell[data-comp='sign'] .fl-feed {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  block-size: calc(100svh - #{$sp-112} - var(--safe-top));
+  padding-block-end: max(#{$sp-24}, var(--safe-bottom));
+  overflow: clip;
+  font-size: $fs-17;
+}
+.fl-shell[data-comp='sign'] .fl-feed > .fl-since-host {
+  grid-row: 1;
+}
+.fl-shell[data-comp='sign'] .fl-feed > .fl-hero {
+  grid-row: 2;
+  grid-column: span 3;
+}
+.fl-shell[data-comp='sign'] .fl-feed > .fl-bb {
+  grid-row: 2;
+  grid-column: span 1;
+}
+.fl-shell[data-comp='sign'] .fl-feed > .fl-pulse {
+  grid-row: 3;
+  grid-column: span 3;
+}
+.fl-shell[data-comp='sign'] .fl-feed > .fl-kpis {
+  grid-row: 3;
+  grid-column: span 1;
+}
+.fl-shell[data-comp='sign'] .fl-feed > .fl-govs {
+  grid-row: 4;
+}
+.fl-shell[data-comp='sign'] .fl-feed > :is(.fl-ins, .fl-ph) {
+  grid-row: 5;
+}
+.fl-shell[data-comp='sign'] .fl-hero .fl-ring {
+  inline-size: 200px;
+  block-size: 200px;
+}
+.fl-shell[data-comp='sign'] .fl-hero .fl-say {
+  font-size: $fs-20;
+}
+.fl-shell[data-comp='sign'] .fl-kpis .mj-snaprow-track {
+  grid-template-columns: none;
+  grid-auto-flow: row;
+  block-size: 100%;
+}
+.fl-shell[data-comp='sign'] .fl-kpis .fl-tile {
+  min-block-size: 0;
+}
+.fl-shell[data-comp='sign'] .fl-kpis .fl-tile b {
+  font-size: $fs-26;
+}
+.fl-shell[data-comp='sign'] .fl-govs {
+  min-block-size: 0;
+  padding: $sp-16 $sp-20;
+  border: 1px solid var(--hairline);
+  border-radius: $r-20;
+  background: var(--glass-solid);
+}
+.fl-shell[data-comp='sign'] .fl-govs-body.both {
+  flex: 1 1 auto;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: stretch;
+  min-block-size: 0;
+}
+.fl-shell[data-comp='sign'] .fl-govs-map {
+  display: flex;
+  flex-direction: column;
+  order: -1;
+  min-block-size: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.fl-shell[data-comp='sign'] .fl-map {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  max-inline-size: none;
+}
+.fl-shell[data-comp='sign'] .fl-map svg {
+  block-size: 100%;
+  max-block-size: none;
+}
+.fl-shell[data-comp='sign'] .fl-legend {
+  display: none;
+}
+.fl-shell[data-comp='sign'] .fl-row {
+  min-block-size: 50px;
+}
+.fl-shell[data-comp='sign'] .fl-go {
+  display: none;
+}
+.fl-shell[data-comp='sign'] .fl-sort {
+  display: none;
+}
+.fl-shell[data-comp='sign'] .fl-ins .mj-snaprow-track {
+  grid-auto-columns: 100%;
+  margin-inline: 0;
+  padding-inline: 0;
+  scroll-padding-inline: 0;
+}
+.fl-shell[data-comp='sign'] .fl-lead {
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  column-gap: $sp-32;
+}
+.fl-shell[data-comp='sign'] .fl-ins-card {
+  block-size: 300px;
+  overflow: clip;
+}
+
+.fl-row.lit {
+  background: color-mix(in srgb, var(--gold-ink) 12%, transparent);
+  box-shadow: inset 3px 0 0 var(--gold-ink);
+}
+.fl-govs-map {
+  position: relative;
+}
+.fl-tour {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-end: $sp-8;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+  inline-size: 240px;
+  padding: $sp-14 $sp-16 $sp-16;
+  border: 1px solid var(--gold-ink);
+  border-radius: $r-18;
+  background: var(--canvas-1);
+  box-shadow: 0 12px 30px rgb(0 0 0 / 35%);
+  animation: fl-since-in var(--dur-sheet) var(--ease-sheet) both;
+}
+.fl-tour-name {
+  font-size: $fs-24;
+}
+.fl-tour-fig {
+  font-size: $fs-30;
+  line-height: $lh-figure;
+}
+.fl-tour-t {
+  display: block;
+  block-size: 3px;
+  margin-block-start: $sp-8;
+  background: var(--gold-ink);
+  transform-origin: inline-start;
+  animation: fl-since-t $t-10000 linear both;
+}
+
+.fl-bb {
+  display: grid;
+  place-items: center;
+  min-block-size: 220px;
+  padding: 0;
+  overflow: hidden;
+}

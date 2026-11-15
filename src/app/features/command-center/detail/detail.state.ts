@@ -1,4 +1,5 @@
 import { afterNextRender, DestroyRef, inject, Injectable, Injector, signal } from '@angular/core';
+import { NavHistory } from '../../../core/screen/nav-history';
 import { GEO } from '../../../domain/geo/geo.data';
 import { DetailAt, readDetail, sameAt, upOf, writeDetail } from './detail-url';
 
@@ -6,14 +7,13 @@ interface Entry {
   dtDepth?: unknown;
   dtFrom?: unknown;
 }
-const entry = (): Entry =>
-  history.state && typeof history.state === 'object' ? history.state : {};
 const depthOf = (e: Entry): number =>
   typeof e.dtDepth === 'number' && e.dtDepth > 0 ? e.dtDepth : 0;
 
 @Injectable()
 export class DetailState {
   private readonly injector = inject(Injector);
+  private readonly nav = inject(NavHistory);
   private readonly govs = Object.keys(GEO.g);
 
   private readonly _at = signal<DetailAt | null>(readDetail(location.search, this.govs), {
@@ -27,10 +27,12 @@ export class DetailState {
   private now = (): DetailAt | null => (this.to === undefined ? this._at() : this.to);
 
   constructor() {
-    const pop = () => this.popped(readDetail(location.search, this.govs));
-    addEventListener('popstate', pop);
-    inject(DestroyRef).onDestroy(() => removeEventListener('popstate', pop));
+    const stop = this.nav.listen('detail', () =>
+      this.popped(readDetail(location.search, this.govs)),
+    );
+    inject(DestroyRef).onDestroy(stop);
   }
+  private entry = (): Entry => this.nav.state;
 
   open(at: DetailAt): void {
     if (sameAt(at, this.now())) return;
@@ -45,17 +47,17 @@ export class DetailState {
     if (!at) return;
     const to = upOf(at);
     if (!to) return this.close();
-    const from = entry().dtFrom;
+    const from = this.entry().dtFrom;
     if (typeof from === 'string' && sameAt(readDetail(from, this.govs), to)) history.back();
     else this.go(to, 'replace');
   }
   close(): void {
     if (!this.now()) return;
-    const depth = depthOf(entry());
-    if (depth > 0) {
-      this.closing = true;
-      history.go(-depth);
-    } else this.write(null, 'replace');
+    this.closing = true;
+    if (!this.nav.back('detail')) {
+      this.closing = false;
+      this.write(null, 'replace');
+    }
     this.shut();
   }
 
@@ -75,11 +77,11 @@ export class DetailState {
     else apply();
   }
   private write(at: DetailAt | null, how: 'push' | 'replace'): void {
-    const e = entry(),
+    const e = this.entry(),
       url = location.pathname + writeDetail(at, location.search) + location.hash;
     if (how === 'push')
-      history.pushState({ dtDepth: depthOf(e) + 1, dtFrom: location.search }, '', url);
-    else history.replaceState(at ? { ...e } : {}, '', url);
+      this.nav.push('detail', { dtDepth: depthOf(e) + 1, dtFrom: location.search }, url);
+    else this.nav.replace(at ? { dtDepth: e.dtDepth, dtFrom: e.dtFrom } : {}, url);
   }
   private popped(next: DetailAt | null): void {
     if (this.closing) {

@@ -1,0 +1,34 @@
+@use '../../../../../../styles/scales' as *;
+@use '../../../../../../styles/mixins';
+
+.cfd-reveal {
+  @include mixins.landscape-short {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: $sp-12 $sp-16;
+  }
+}
+.cfd-reveal > * {
+  @include mixins.landscape-short {
+    grid-column: 1;
+  }
+}
+.cfd-reveal > .cfd-coinrow {
+  @include mixins.landscape-short {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+.cfd-reveal > :is(.cfd-cands, .cfd-wait) {
+  @include mixins.landscape-short {
+    grid-column: 2;
+    grid-row: 2 / span 6;
+  }
+}
+.cfd-av {
+  @include mixins.landscape-short {
+    inline-size: 72px;
+    block-size: 72px;
+  }
+}

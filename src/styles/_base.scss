@@ -2,6 +2,11 @@
 @use 'scales' as *;
 
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   font-family: var(--font-sans);
   font-size: $fs-16;
@@ -127,6 +132,11 @@ textarea {
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   box-shadow: var(--shadow-panel);
   isolation: isolate;
+
+  @include mixins.lite {
+    background: var(--glass-solid);
+    backdrop-filter: none;
+  }
 }
 .mj-glass::before {
   content: '';

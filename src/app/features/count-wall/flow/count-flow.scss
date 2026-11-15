@@ -1,0 +1,38 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/frame');
+  @include meta.load-css('styles/parts');
+  @include meta.load-css('styles/rows');
+  @include meta.load-css('styles/board');
+  @include meta.load-css('styles/sheets');
+  @include meta.load-css('styles/land');
+}
+
+@layer states {
+  .cf.still .cf-prog li.on i,
+  .cf-story.held .cf-prog li.on i {
+    animation-play-state: paused;
+  }
+  .cf.still .cf-prog li.on i {
+    animation: none;
+    transform: none;
+  }
+  .cf.still :is(.cf-ring-arc, .cf-pbar i, .cf-cbar i, .cf-segbar i) {
+    transition: none;
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .cf .cf-prog li.on i {
+      animation: none;
+      transform: none;
+    }
+    .cf :is(.cf-ring-arc, .cf-pbar i, .cf-cbar i, .cf-segbar i) {
+      transition: none;
+    }
+  }
+}

@@ -1,0 +1,80 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.fl-since-host:empty {
+  display: none;
+}
+.fl-since {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+  padding: $sp-12 $sp-16 $sp-14;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--gold-ink) 45%, transparent);
+  border-radius: $r-18;
+  background: color-mix(in srgb, var(--gold-ink) 10%, var(--glass-solid));
+  animation: fl-since-in var(--dur-sheet) var(--ease-sheet) both;
+}
+.fl-since-h {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+}
+.fl-since-h > .fl-ic {
+  color: var(--gold-ink);
+}
+.fl-since-h small {
+  margin-inline-end: auto;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.fl-since ul {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-4;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fl-since li {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  font-size: $fs-14;
+}
+.fl-since li .fl-ic {
+  inline-size: 18px;
+  block-size: 18px;
+  color: var(--gold-ink);
+}
+.fl-since-t {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: 3px;
+  background: var(--gold-ink);
+  transform-origin: inline-start;
+  animation: fl-since-t $t-10000 linear both;
+}
+@keyframes fl-since-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+@keyframes fl-since-t {
+  to {
+    transform: scaleX(0);
+  }
+}
+.fl-row.moved {
+  box-shadow: inset 3px 0 0 var(--gold-ink);
+  animation: fl-moved $t-1200 var(--ease-sheet) 2 alternate;
+}
+@keyframes fl-moved {
+  to {
+    opacity: 0.6;
+  }
+}

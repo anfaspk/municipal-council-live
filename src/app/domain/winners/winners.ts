@@ -27,6 +27,7 @@ export interface WCand {
   name: string;
   ini: string;
   photo: string | null;
+  thumb: string | null;
   pos: number;
   votes: number | null;
   share: number | null;
@@ -53,6 +54,15 @@ export function bigPhoto(c: WinnerCandRow['c'] | null | undefined): string | nul
   return photoOf(c) ?? null;
 }
 
+const THUMB_SIZES = ['ims', 'imm', 'imu', 'iml'] as const;
+export function smallPhoto(c: WinnerCandRow['c'] | null | undefined): string | null {
+  for (const k of THUMB_SIZES) {
+    const u = typeof c?.[k] === 'string' ? c[k].trim() : '';
+    if (/^https?:\/\//i.test(u)) return u;
+  }
+  return photoOf(c) ?? null;
+}
+
 const whole = (x: unknown): number | null => {
   const n = num(x);
   return n !== null && Number.isInteger(n) && n >= 1 ? n : null;
@@ -66,6 +76,7 @@ function candOf(x: WinnerCandRow, k: number, n: number): WCand | null {
     name,
     ini: candInitials(name),
     photo: bigPhoto(x.c),
+    thumb: smallPhoto(x.c),
     pos: whole(x.p) ?? n + k + 1,
     votes: num(x.v),
     share: shareOf(x.vP),

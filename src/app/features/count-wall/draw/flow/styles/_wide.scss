@@ -1,0 +1,90 @@
+@use '../../../../../../styles/scales' as *;
+
+.cfd:where([data-comp='tab'], [data-comp='sign']) {
+  .cfd-split {
+    display: grid;
+    grid-template-columns: minmax(280px, 38%) 1fr;
+    align-items: start;
+    gap: $sp-16;
+    padding-inline: max(#{$sp-16}, var(--safe-right)) max(#{$sp-16}, var(--safe-left));
+  }
+  .cfd-side {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-12;
+    padding-block: $sp-16;
+  }
+  .cfd-split .cf-main {
+    max-inline-size: none;
+    padding-inline: 0;
+  }
+  .cfd-card.on {
+    border-color: var(--gold-ink);
+    box-shadow: inset (-$sp-3) 0 0 var(--gold-ink);
+  }
+}
+
+.cfd[data-comp='sign'] {
+  font-size: $fs-20;
+
+  .cf-scroll {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-block-end: 0;
+  }
+  .cf-top .cf-btn,
+  .cfd-reveal .cf-btn {
+    display: none;
+  }
+  .cfd-split {
+    display: flex;
+    flex: 1;
+    flex-direction: column-reverse;
+    min-block-size: 0;
+    padding-inline: max(#{$sp-36}, var(--safe-right)) max(#{$sp-36}, var(--safe-left));
+  }
+  .cfd-split .cf-main {
+    flex: 1;
+    justify-content: center;
+    min-block-size: 0;
+  }
+  .cfd-side {
+    flex: none;
+    padding-block: $sp-16 max(#{$sp-24}, var(--safe-bottom));
+    border-block-start: 1px solid var(--hairline);
+  }
+  .cfd-side .cfd-list {
+    flex-direction: row;
+  }
+  .cfd-side .cfd-list > li {
+    flex: 1;
+    min-inline-size: 0;
+  }
+  .cfd-side .cfd-names,
+  .cfd-list-h {
+    display: none;
+  }
+  .cfd-where h1 {
+    font-size: $fs-54;
+  }
+  .cfd-where small,
+  .cfd-st,
+  .cfd-c small,
+  .cfd-steps li,
+  .cfd-prog,
+  .cfd-note {
+    font-size: $fs-20;
+  }
+  .cfd-av {
+    inline-size: 220px;
+    block-size: 220px;
+  }
+  .cfd-nm {
+    font-size: $fs-26;
+  }
+  .cfd-coin {
+    inline-size: 72px;
+    block-size: 72px;
+  }
+}

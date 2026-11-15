@@ -1,0 +1,116 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.cf-rows {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--hairline);
+  border-radius: $r-20;
+  background: var(--glass-solid);
+  overflow: hidden;
+  list-style: none;
+}
+.cf-rows > li + li {
+  border-block-start: 1px solid var(--hairline);
+}
+.cf-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: $sp-4 $sp-12;
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-block-size: 72px;
+  padding: $sp-12 $sp-14;
+  border: 0;
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.cf-row-m {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+  min-inline-size: 0;
+}
+.cf-row-n {
+  font-size: $fs-16;
+}
+.cf-row-m small {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}
+.cf-row-e {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $sp-2;
+}
+.cf-row-e b {
+  font-size: $fs-16;
+}
+.cf-row-e small {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}
+.cf-go {
+  color: var(--ink-muted);
+  inline-size: 18px;
+  block-size: 18px;
+}
+.cf-tie {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-4;
+  margin-inline-start: $sp-6;
+  padding-inline: $sp-8;
+  border: 1px solid color-mix(in srgb, var(--gold-ink) 50%, transparent);
+  border-radius: var(--radius-pill);
+  color: var(--gold-ink);
+  font-size: $fs-12;
+  font-weight: 600;
+  vertical-align: middle;
+}
+.cf-tie .cf-ic {
+  inline-size: 12px;
+  block-size: 12px;
+}
+.cf-lead {
+  display: flex;
+  align-items: center;
+  gap: $sp-6;
+  min-inline-size: 0;
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.cf-lead .cf-av {
+  inline-size: 28px;
+  block-size: 28px;
+  font-size: $fs-12;
+}
+.cf-lead .cf-av + .cf-av {
+  margin-inline-start: -$sp-10;
+}
+.cf-lead-n {
+  min-inline-size: 0;
+  @include mixins.ellipsis;
+}
+.cf-pbar {
+  block-size: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--hairline);
+  overflow: hidden;
+}
+.cf-pbar i {
+  display: block;
+  block-size: 100%;
+  background: var(--c);
+  transform: scaleX(var(--k));
+  transform-origin: right center;
+  transition: transform $t-600 var(--ease-std);
+}

@@ -1,0 +1,250 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.wf-cards {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: $sp-12;
+  inline-size: 100%;
+  padding-block-end: $sp-6;
+}
+.wf-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-inline-size: 0;
+}
+.wf-card.one {
+  inline-size: min(248px, 72%);
+}
+.wf-card.two {
+  inline-size: calc(50% - #{$sp-6});
+  max-inline-size: 200px;
+}
+.wf-por {
+  position: relative;
+  box-sizing: border-box;
+  inline-size: 100%;
+  aspect-ratio: 5 / 6;
+  padding: $sp-3;
+  border-radius: var(--radius-pill) var(--radius-pill) $r-18 $r-18;
+  background: linear-gradient(160deg, var(--wf-g1), var(--wf-g2) 40%, var(--wf-g3));
+  box-shadow: 0 0 34px -4px color-mix(in srgb, var(--gold) 55%, transparent);
+}
+.wf-frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-pill) var(--radius-pill) $r-16 $r-16;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--wn-star) 26%, var(--wn-sky-1)),
+    var(--wn-sky-1) 35%,
+    var(--wn-sky-0)
+  );
+}
+.wf-ini {
+  color: var(--gold-glow);
+  font-size: $fs-44;
+  font-weight: 700;
+}
+.wf-img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+  opacity: 0;
+  transition: opacity $t-400 var(--ease-std);
+}
+.wf-img.on {
+  opacity: 1;
+}
+.wf-seal {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -$sp-14;
+  display: flex;
+  align-items: center;
+  gap: $sp-6;
+  inline-size: max-content;
+  block-size: 28px;
+  margin-inline: auto;
+  padding-inline: $sp-4 $sp-12;
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  background: var(--wn-sky-0);
+  box-shadow: inset 0 0 0 1.5px var(--gold);
+  font-size: $fs-12;
+  font-weight: 700;
+}
+.wf-medal {
+  display: grid;
+  place-items: center;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: $radius-round;
+  color: var(--wn-sky-0);
+  background: linear-gradient(160deg, var(--wf-g1), var(--wf-g2));
+}
+.wf-medal .wf-ic {
+  inline-size: 13px;
+  block-size: 13px;
+  stroke-width: 2.8;
+}
+.wf-plate {
+  position: relative;
+  box-sizing: border-box;
+  inline-size: 100%;
+  margin-block-start: $sp-20;
+  padding: $sp-10 $sp-10 $sp-12;
+  border-radius: $r-14;
+  color: var(--wn-plate-ink);
+  background: linear-gradient(180deg, var(--wn-plate-hi), var(--wn-plate-lo));
+  box-shadow:
+    0 0 0 1.5px color-mix(in srgb, var(--gold) 80%, transparent),
+    0 0 30px -6px color-mix(in srgb, var(--gold) 45%, transparent);
+  text-align: center;
+}
+.wf-cname {
+  display: -webkit-box;
+  min-block-size: 2.6em;
+  margin: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: $fs-15;
+  line-height: 1.3;
+  font-weight: 700;
+}
+.wf-card.one .wf-cname {
+  padding-inline: $sp-34;
+  font-size: $fs-17;
+}
+.wf-fig {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: $sp-10;
+  margin: $sp-8 0;
+  padding-block-start: $sp-8;
+  border-block-start: 1px solid color-mix(in srgb, var(--wn-plate-ink) 14%, transparent);
+}
+.wf-card.two .wf-fig {
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-4;
+}
+.wf-fig > span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: $sp-3;
+}
+.wf-fig b {
+  font-size: $fs-20;
+  line-height: 1;
+}
+.wf-pct b {
+  font-size: $fs-14;
+}
+.wf-fig small {
+  color: var(--wn-plate-muted);
+  font-size: $fs-12;
+}
+.wf-card.one .wf-votes b {
+  font-size: $fs-26;
+}
+.wf-card.one .wf-pct b {
+  font-size: $fs-16;
+}
+.wf-part {
+  position: relative;
+  display: block;
+  block-size: 4px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--wn-plate-ink) 12%, transparent);
+  overflow: hidden;
+}
+.wf-part::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--wf-g3), var(--wf-g2));
+  transform: scaleX(var(--w));
+  transform-origin: right center;
+}
+.wf-cshare {
+  position: absolute;
+  inset-block-start: -$sp-22;
+  inset-inline-end: -$sp-6;
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 0;
+  color: var(--wn-plate-ink);
+  background: none;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.wf-cshare .wf-ic {
+  box-sizing: border-box;
+  inline-size: 30px;
+  block-size: 30px;
+  padding: $sp-6;
+  border-radius: $radius-round;
+  background: var(--wn-plate-hi);
+  box-shadow: 0 0 0 1.5px var(--gold);
+}
+
+.wf-card.wait .wf-por {
+  border: 2px dashed color-mix(in srgb, var(--gold-ink) 60%, transparent);
+  padding: $sp-2;
+  background: none;
+  box-shadow: none;
+}
+.wf-card.wait .wf-frame {
+  background: color-mix(in srgb, var(--wn-sky-0) 70%, transparent);
+}
+.wf-q {
+  inline-size: 58%;
+  fill: color-mix(in srgb, var(--ink) 16%, transparent);
+}
+.wf-card.wait .wf-seal {
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--stat-pending) 70%, transparent);
+}
+.wf-card.wait .wf-medal {
+  background: none;
+  box-shadow: inset 0 0 0 1.5px var(--stat-pending);
+}
+.wf-card.wait .wf-medal i {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: $radius-round;
+  background: var(--stat-pending);
+}
+.wf-card.wait .wf-plate {
+  color: var(--ink-muted);
+  background: color-mix(in srgb, var(--wn-sky-0) 85%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold-ink) 40%, transparent);
+}
+.wf-card.wait .wf-cname {
+  min-block-size: 0;
+  font-size: $fs-14;
+  font-weight: 500;
+}
+.wf-card.sk .wf-por {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.wf-card.sk .wf-plate {
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  box-shadow: none;
+}

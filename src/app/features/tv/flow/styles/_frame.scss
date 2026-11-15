@@ -1,0 +1,253 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.tvf {
+  position: fixed;
+  inset: 0;
+  z-index: $z-screen;
+  display: none;
+  color: var(--ink);
+  background: var(--canvas-0);
+  font-size: $fs-15;
+  line-height: $lh-body;
+}
+.tvf.on {
+  display: block;
+}
+.tvf:focus {
+  outline: none;
+}
+.tvf-frame {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+  box-sizing: border-box;
+  block-size: 100%;
+  max-inline-size: 560px;
+  margin-inline: auto;
+  padding-block: max(#{$sp-10}, var(--safe-top)) max(#{$sp-12}, var(--safe-bottom));
+  padding-inline: max(#{$sp-16}, var(--safe-right)) max(#{$sp-16}, var(--safe-left));
+}
+.tvf-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-block-size: 0;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+.tvf-in {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+.tvf-frame.mj-swipe-x,
+.tvf-frame .tvf-body {
+  touch-action: pinch-zoom;
+}
+.tvf-frame .tvf-body.pans {
+  touch-action: pan-y pinch-zoom;
+}
+
+.tvf-chrome {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: $sp-8;
+  transition: opacity $t-300 var(--ease-std);
+}
+.tvf-prog {
+  display: flex;
+  gap: $sp-4;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tvf-prog li {
+  flex: 1;
+  block-size: 4px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+  overflow: hidden;
+}
+.tvf-prog i {
+  display: block;
+  block-size: 100%;
+  background: var(--gold-ink);
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+.tvf-prog li.done i {
+  transform: none;
+}
+.tvf-prog li.on i {
+  animation: tvf-fill var(--seg-ms, 16000ms) linear both;
+}
+.tvf-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $sp-8;
+  min-block-size: 44px;
+}
+.tvf-live {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  min-block-size: 30px;
+  padding-inline: $sp-10;
+  border-radius: var(--radius-pill);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  font-size: $fs-13;
+  font-weight: 600;
+}
+.tvf-live i {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: $radius-round;
+  background: var(--live);
+}
+.tvf-live.stale i {
+  background: var(--ink-muted);
+}
+.tvf-count {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+  font-weight: 600;
+}
+.tvf-count.pin {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-4;
+  color: var(--gold-ink);
+}
+.tvf-count .tvf-ic {
+  inline-size: 16px;
+  block-size: 16px;
+}
+.tvf-int {
+  display: inline-flex;
+  order: 5;
+  align-items: center;
+  gap: $sp-6;
+  min-block-size: 28px;
+  padding-inline: $sp-10;
+  border: 1px solid color-mix(in srgb, var(--gold-ink) 45%, transparent);
+  border-radius: var(--radius-pill);
+  color: var(--gold-ink);
+  background: color-mix(in srgb, var(--gold-ink) 10%, transparent);
+  font-size: $fs-12;
+  white-space: nowrap;
+}
+.tvf-int i {
+  inline-size: 7px;
+  block-size: 7px;
+  border-radius: $radius-round;
+  background: var(--gold-ink);
+}
+.tvf-int b {
+  font-size: $fs-13;
+  direction: ltr;
+}
+.tvf-tools {
+  display: flex;
+  margin-inline-start: auto;
+}
+.tvf-btn {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: $radius-round;
+  color: var(--ink);
+  background: none;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.tvf-pause {
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.tvf-pause.on {
+  color: var(--on-gold);
+  background: var(--gold);
+}
+.tvf.idle .tvf-head > :not(.tvf-tools),
+.tvf.idle .tvf-tools > :not(.tvf-pause),
+.tvf.idle .tvf-prog,
+.tvf.idle .tvf-next {
+  opacity: 0;
+  transition: opacity $t-600 var(--ease-std);
+}
+.tvf-ic {
+  flex: none;
+  inline-size: 22px;
+  block-size: 22px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+.tvf-ic.fill {
+  fill: currentcolor;
+  stroke: none;
+}
+
+.tvf-next {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $sp-6;
+  min-block-size: 44px;
+  padding: 0;
+  border: 0;
+  color: var(--ink-muted);
+  background: none;
+  font: inherit;
+  font-size: $fs-13;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.tvf-next span {
+  color: var(--gold-ink);
+  font-weight: 700;
+}
+.tvf-next b {
+  color: var(--ink);
+  font-size: $fs-14;
+}
+.tvf-next .tvf-ic {
+  inline-size: 16px;
+  block-size: 16px;
+}
+.tvf-honest {
+  display: flex;
+  flex: none;
+  align-items: flex-start;
+  gap: $sp-8;
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: $fs-12;
+  line-height: $lh-body;
+}
+.tvf-honest i {
+  flex: none;
+  inline-size: 7px;
+  block-size: 7px;
+  margin-block-start: $sp-6;
+  border-radius: $radius-round;
+  background: var(--gold-ink);
+}
+@keyframes tvf-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}

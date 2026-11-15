@@ -24,6 +24,7 @@ import { nationalOf } from '../domain/stats/turnout';
 import { checkOverall, checkRegion, checkVillage, checkWilayat } from '../domain/validate/answers';
 import { log } from '../core/log/log';
 import { IssueLog } from './issue-log';
+import { RegionNeeds, withIds, type RegionNeed } from './region-needs';
 
 export interface TurnoutEvents extends StatsEvents {
   villages: { wid: number };
@@ -97,6 +98,10 @@ export class TurnoutStore {
   private readonly lastRegions = new Map<number, RegionResp>();
   private readonly regionAt = new Map<number, number>();
   private readonly issues = new IssueLog('statistics');
+  private readonly needs = new RegionNeeds();
+  private lastOverall: OverallResp | null = null;
+  private readonly _read = signal<ReadonlySet<number>>(new Set());
+  private readonly regionLoads = new Map<number, AbortController>();
   private readonly slotIssues = { w: new IssueLog('statistics'), v: new IssueLog('statistics') };
 
   constructor() {
@@ -112,6 +117,23 @@ export class TurnoutStore {
     if (this.poll.running) return;
     this.armStale();
     this.poll.start();
+  }
+
+  needRegions(owner: object, ids: RegionNeed): void {
+    const had = new Set(this.needs.wanted(this.listed()));
+    this.needs.set(owner, ids);
+    if (this._ready())
+      this.needs.wanted(this.listed()).forEach((id) => had.has(id) || void this.loadRegion(id));
+  }
+  release(owner: object): void {
+    if (!this.needs.delete(owner)) return;
+    const keep = new Set(this.needs.wanted(this.listed()));
+    this.regionLoads.forEach(
+      (ctl, id) => keep.has(id) || (ctl.abort(), this.regionLoads.delete(id)),
+    );
+  }
+  regionRead(apiId: number): boolean {
+    return this._read().has(apiId);
   }
 
   gov(id: string): Gov | null {
@@ -163,12 +185,13 @@ export class TurnoutStore {
       this.vid !== null ? this.loadVillage(this.vid) : null,
     ]);
     const ovP = this.api.get(endpoints.statsOverall, { signal });
-    let ids = this._govs().map((g) => g.apiId);
-    if (!ids.length)
+    let ids = this.listed();
+    if (!ids.length && this.needs.size)
       ids = await ovP.then(
         (o) => (checkOverall(o).value.hPSRL || []).map((x) => x.r.i),
         () => [],
       );
+    ids = this.needs.wanted(ids);
     const [ov, ...rg] = await Promise.allSettled([
       ovP,
       ...ids.map((id) => this.api.get(endpoints.statsRegion(id), { signal })),
@@ -196,6 +219,7 @@ export class TurnoutStore {
       before = this.turnout();
     const ov = checkOverall(raw),
       o = ov.value;
+    this.lastOverall = raw;
     answered.forEach((r, id) => this.lastRegions.set(id, r));
     const checked = new Map([...this.lastRegions].map(([id, r]) => [id, checkRegion(id, r)]));
     const regions = new Map([...answered.keys()].map((id) => [id, checked.get(id)!.value]));
@@ -208,6 +232,7 @@ export class TurnoutStore {
     this._base.set(baseOf(o, first ? undefined : this._base()));
     this._updatedAt.set(this.clock.now());
     answered.forEach((_, id) => this.regionAt.set(id, this._updatedAt()));
+    this._read.update((r) => withIds(r, answered.keys()));
     this.armStale();
     this.issues.report([
       ...ov.issues,
@@ -228,6 +253,29 @@ export class TurnoutStore {
       if (k) this.told.add(k);
       this.events.next(e);
     });
+  }
+
+  private listed(): number[] {
+    return this._govs().map((g) => g.apiId);
+  }
+  private async loadRegion(id: number): Promise<void> {
+    if (this.regionLoads.has(id)) return;
+    const ctl = new AbortController(),
+      from = this.clock.now();
+    this.regionLoads.set(id, ctl);
+    try {
+      const r = await this.api.get(endpoints.statsRegion(id), { signal: ctl.signal });
+      if (ctl.signal.aborted || !this.lastOverall || (this.regionAt.get(id) ?? -1) >= from) return;
+      this.lastRegions.set(id, r);
+      const o = checkOverall(this.lastOverall).value;
+      this._govs.set(buildGovs(o, new Map([[id, checkRegion(id, r).value]]), this._govs()));
+      this.regionAt.set(id, this.clock.now());
+      this._read.update((r) => withIds(r, [id]));
+    } catch (e) {
+      if (!ctl.signal.aborted) log.warn('statistics/region failed', e);
+    } finally {
+      if (this.regionLoads.get(id) === ctl) this.regionLoads.delete(id);
+    }
   }
 
   private armStale(): void {

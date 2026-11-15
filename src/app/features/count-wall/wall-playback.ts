@@ -1,6 +1,7 @@
 import { reducedMotion } from '../../shared/motion/reduced-motion';
 import { SlideClock } from '../../shared/motion/slide-clock';
 import { COUNT_TV_PREFS, loadTvPrefs, saveTvPrefs } from '../../shared/ui/tv-prefs';
+import { TouchHold } from '../../shared/motion/touch-hold';
 
 const HOLD_S = 20;
 
@@ -72,21 +73,28 @@ export class WallPlayback {
     }, 4000);
   }
   listen(tv: HTMLElement): void {
+    const set = (h: boolean) => {
+      if (h === !!this.hold.hover) return;
+      this.hold.hover = h;
+      this.sync();
+    };
+    const touch = new TouchHold(set);
+    const onDock = (e: Event) => !!(e.target as Element).closest?.('.tva-dock');
     tv.addEventListener('pointermove', (e) => {
       this.wake();
-      const h = e.pointerType === 'mouse' && !!(e.target as Element).closest?.('.tva-dock');
-      if (h !== !!this.hold.hover) {
-        this.hold.hover = h;
-        this.sync();
-      }
+      if (e.pointerType === 'mouse') set(onDock(e));
     });
-    tv.addEventListener('pointerleave', () => {
-      if (this.hold.hover) {
-        this.hold.hover = false;
-        this.sync();
-      }
+    tv.addEventListener('pointerleave', (e) => {
+      if (e.pointerType === 'mouse') set(false);
     });
-    tv.addEventListener('pointerdown', () => this.wake());
+    tv.addEventListener('pointerdown', (e) => {
+      this.wake();
+      if (e.pointerType !== 'mouse' && onDock(e)) touch.on();
+    });
+    for (const t of ['pointerup', 'pointercancel'] as const)
+      tv.addEventListener(t, (e) => {
+        if (e.pointerType !== 'mouse' && onDock(e)) touch.off(e);
+      });
     tv.addEventListener('focusin', () => this.wake());
   }
   setSec(v: number): void {

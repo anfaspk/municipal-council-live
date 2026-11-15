@@ -1,0 +1,95 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+.cf-sheets {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+  padding-block-end: $sp-16;
+  color: var(--ink);
+}
+.cf-sh-h {
+  margin: 0 0 $sp-4;
+  font-size: $fs-20;
+}
+.cf-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-12;
+  min-block-size: 56px;
+  padding: $sp-8 $sp-14;
+  border: 1px solid var(--hairline);
+  border-radius: $r-16;
+  color: var(--ink);
+  background: none;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  @include mixins.touch-control;
+}
+.cf-opt.col {
+  flex-direction: column;
+  align-items: stretch;
+  cursor: default;
+}
+.cf-opt.link {
+  justify-content: flex-start;
+}
+.cf-opt span {
+  display: flex;
+  flex-direction: column;
+}
+.cf-opt small {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.cf-opt:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.cf-sw {
+  position: relative;
+  flex: none;
+  inline-size: 48px;
+  block-size: 28px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 20%, transparent);
+}
+.cf-sw i {
+  position: absolute;
+  inset-block-start: $sp-3;
+  inset-inline-start: $sp-3;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: $radius-round;
+  background: var(--ink);
+  transition: translate $t-200 var(--ease-std);
+}
+.cf-sw.on {
+  background: var(--gold);
+}
+.cf-sw.on i {
+  background: var(--on-gold);
+  translate: -20px 0;
+}
+.cf-lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cf-lines li {
+  display: flex;
+  align-items: baseline;
+  gap: $sp-10;
+  padding-block: $sp-12;
+  border-block-end: 1px solid var(--hairline);
+  font-size: $fs-15;
+}
+.cf-lines li span {
+  flex: 1;
+}
+.cf-lines time {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}

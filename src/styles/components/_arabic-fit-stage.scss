@@ -1,0 +1,23 @@
+@use '../mixins';
+@use '../scales' as *;
+
+.fc-name {
+  font-size: $fs-18;
+  @include mixins.ellipsis;
+}
+.fc-gt .glyphs,
+.fc-gt .glyph {
+  gap: $sp-4;
+}
+.fc-gt .glyph .mj-sex {
+  width: 20px;
+  height: 20px;
+}
+.mj-pod .who b {
+  font-size: $fs-13-5;
+}
+
+.fc-gt .mj-chip.sm {
+  font-size: $fs-9-5;
+  padding: 0 $sp-6;
+}

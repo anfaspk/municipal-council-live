@@ -92,9 +92,12 @@
   transition:
     background $t-300 var(--ease-std),
     box-shadow $t-300 var(--ease-std);
+  @include mixins.hit;
 }
-.cxd-row:hover {
-  background: var(--glass-fill);
+@include mixins.hover {
+  .cxd-row:hover {
+    background: var(--glass-fill);
+  }
 }
 .cxd-row.on {
   background: color-mix(in srgb, var(--gold) 12%, transparent);

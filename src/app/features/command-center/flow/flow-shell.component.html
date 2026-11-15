@@ -1,0 +1,28 @@
+@let paged = !!detail.at();
+<div mjAppbar [inert]="paged" [heading]="heading" [sub]="'flSub' | flT" [liveL]="(view.done() ? 'declared' : 'flLive') | flT" [stamp]="view.stamp()" [stale]="view.stale()" [fig]="view.nat().pct" [theme]="state.theme()" (menu)="menuOpen.set(true)"></div>
+@let c = comp();
+@if (c !== 'phone') {@defer (on immediate) {<i flWide></i>} @error {}}
+<main class="fl-feed" [inert]="paged">
+  @defer (on idle) {<div flSince (said)="sayLive($event)"></div>} @error {}
+  @if (follow.place() && c !== 'sign') {@defer (on immediate) {<section flFollow></section>} @placeholder {<div class="fl-card fl-ph"></div>} @error {}}
+  <section flHero></section>
+  @if (c === 'split' || c === 'sign') {@defer (on idle) {<div class="fl-card fl-bb" aria-hidden="true"><div class="fl-bb-in" mvBallot></div></div>} @placeholder {<div class="fl-card fl-bb"></div>} @error {}}
+  <div flKpis></div>
+  <section flPulse [expanded]="c === 'port'" [fixed]="c === 'sign'"></section>
+  @if (c === 'split') {
+  <div class="fl-duo"><section flGovs [both]="true" [lit]="pane()" (pick)="openGov($event)"></section>
+    <aside class="fl-card fl-pane" [attr.aria-label]="'flPaneL' | flT">@if (pane(); as g) {<div flGovSheet [gid]="g" (shared)="note($event)" (page)="openPage($event)"></div>}</aside></div>
+  } @else {
+  <section flGovs [both]="c === 'sign'" [lit]="c === 'sign' ? tour() : null" [tour]="c === 'sign'" [hint]="c !== 'sign'" (pick)="openGov($event)"></section>
+  }
+  @defer (on viewport) {<section flInsights [cycle]="c === 'sign'"></section>} @placeholder {<div class="fl-card fl-ph"></div>} @error {}
+  @if (c === 'split') {@defer (on viewport) {<section flPodium (pick)="openGov($event)"></section>} @placeholder {<div class="fl-card fl-ph"></div>} @error {}}
+  @if (c !== 'sign') {@defer (on viewport) {<section flLatest (all)="allOpen.set(true)"></section>} @placeholder {<div class="fl-ph small"></div>} @error {}}
+</main>
+@if (c !== 'sign') {<nav flBar></nav>}
+@if (paged) {@defer (on immediate) {<div flPage (shared)="note($event)"></div>}}
+<dialog mjSheet [label]="sheetLabel()" [side]="side()" [detents]="!side()" [(open)]="sheetOpen" [(detent)]="detent" (closed)="gid.set(null)">@if (gid(); as g) {<div flGovSheet [gid]="g" (shared)="note($event)" (page)="openPage($event)"></div>}</dialog>
+<dialog mjSheet [label]="'flMenu' | flT" [(open)]="menuOpen"><div flMenu (shared)="note($event)"></div></dialog>
+<dialog mjSheet [label]="'flAllLines' | flT" [(open)]="allOpen"><h2 class="fl-menu-h">{{ 'flAllLines' | flT }}</h2><ul class="fl-lines">@for (l of allLines(); track l.tick) {<li><time>{{ l.tick.time }}</time><span>@for (p of l.parts; track $index) {@if (p.bold) {<b>{{ p.text }}</b>} @else {{{ p.text }}}}</span></li>}</ul></dialog>
+@if (toast(); as m) {<div class="fl-toast" role="status"><svg flIcon="bell"></svg><span><b>{{ m.title }}</b>@if (m.sub) {<small>{{ m.sub }}</small>}</span></div>}
+<div class="mj-sr" aria-live="polite" #live></div>

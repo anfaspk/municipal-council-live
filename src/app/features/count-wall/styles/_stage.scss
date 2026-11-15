@@ -57,10 +57,12 @@
   opacity: 0.8;
   cursor: pointer;
 }
-.m-gov .cx-g:not(.on):hover {
-  fill: color-mix(in srgb, var(--data-cyan) 14%, var(--canvas-1));
-  stroke: color-mix(in srgb, var(--data-cyan) 75%, transparent);
-  opacity: 1;
+@include mixins.hover {
+  .m-gov .cx-g:not(.on):hover {
+    fill: color-mix(in srgb, var(--data-cyan) 14%, var(--canvas-1));
+    stroke: color-mix(in srgb, var(--data-cyan) 75%, transparent);
+    opacity: 1;
+  }
 }
 .cx-g.on {
   fill: color-mix(in srgb, var(--canvas-1) 30%, transparent);

@@ -12,8 +12,8 @@
   <div class="wn-plate">
     <h3 class="wn-cname">{{ cand().name }}</h3>
     <p class="wn-fig">
-      <span class="wn-votes">@if (cand().votes !== null) {<b [mjCountUp]="cand().votes ?? 0" countGroup="wn" [countDuration]="1600"></b>} @else {<b>—</b>}<small>{{ 'wnVotes' | wnT }}</small></span>
-      @if (share()) {<span class="wn-share"><b>{{ share() }}</b><small>{{ 'wnShare' | wnT }}</small></span>}
+      <span class="wn-votes" [attr.data-fig]="'win.' + cand().id + '.votes'">@if (cand().votes !== null) {<b [mjCountUp]="cand().votes ?? 0" countGroup="wn" [countDuration]="1600"></b>} @else {<b>—</b>}<small>{{ 'wnVotes' | wnT }}</small></span>
+      @if (share()) {<span class="wn-share" [attr.data-fig]="'win.' + cand().id + '.share'"><b>{{ share() }}</b><small>{{ 'wnShare' | wnT }}</small></span>}
     </p>
     @if (part() !== null) {<i class="wn-part" aria-hidden="true" [style.--w]="part()"></i>}
   </div>

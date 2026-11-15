@@ -1,0 +1,136 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+
+
+.fl-follow {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+  border-color: color-mix(in srgb, var(--gold-ink) 45%, transparent);
+}
+.fl-follow-h {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  color: var(--gold-ink);
+  font-size: $fs-14;
+  font-weight: 700;
+}
+.fl-follow-h .fl-link {
+  margin-inline-start: auto;
+}
+.fl-follow-b,
+.fl-follow-wh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $sp-12;
+}
+.fl-follow-txt {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+  min-inline-size: 0;
+}
+.fl-follow-name {
+  font-size: $fs-22;
+  line-height: $lh-head;
+}
+.fl-ring.sm {
+  inline-size: 92px;
+  block-size: 92px;
+}
+.fl-ring.sm b {
+  font-size: $fs-17;
+}
+.fl-ring.sm small {
+  font-size: $fs-12;
+}
+.fl-chip.st.count {
+  color: var(--gold-ink);
+}
+.fl-follow-seats,
+.fl-follow-wins {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fl-follow-seats {
+  display: flex;
+  flex-direction: column;
+  gap: $sp-6;
+}
+.fl-follow-seats li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: $sp-10;
+  font-size: $fs-14;
+}
+.fl-follow-seats em {
+  display: grid;
+  place-items: center;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: $radius-round;
+  background: var(--gold-ink);
+  color: var(--canvas-0);
+  font-style: normal;
+  font-weight: 700;
+}
+.fl-follow-seats span {
+  color: var(--ink-muted);
+  font-size: $fs-13;
+}
+.fl-follow-wins {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: $sp-10;
+}
+.fl-follow-wins li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $sp-2;
+  padding: $sp-12 $sp-8;
+  border: 1px solid color-mix(in srgb, var(--gold-ink) 35%, transparent);
+  border-radius: $r-16;
+  background: color-mix(in srgb, var(--gold-ink) 8%, transparent);
+  text-align: center;
+}
+.fl-follow-wins b {
+  font-size: $fs-14;
+  line-height: $lh-label;
+}
+.fl-follow-wins small {
+  color: var(--ink-muted);
+  font-size: $fs-12;
+}
+.fl-follow-wins em {
+  color: var(--gold-ink);
+  font-size: $fs-12;
+  font-style: normal;
+  font-weight: 600;
+}
+.fl-follow-av {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: 64px;
+  block-size: 64px;
+  overflow: hidden;
+  border: 2px solid var(--gold-ink);
+  border-radius: $radius-round;
+  background: var(--canvas-1);
+}
+.fl-follow-av i {
+  font-style: normal;
+  font-weight: 700;
+}
+.fl-follow-av img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}

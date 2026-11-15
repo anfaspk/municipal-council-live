@@ -17,8 +17,10 @@
 .mj-omap .om-svg.is-drill .rg:not(.is-pinned) {
   opacity: 0.14;
 }
-.mj-omap .om-svg.is-drill .rg:not(.is-pinned):hover {
-  opacity: 0.3;
+@include mixins.hover {
+  .mj-omap .om-svg.is-drill .rg:not(.is-pinned):hover {
+    opacity: 0.3;
+  }
 }
 .mj-omap .om-svg.is-drill :is(.om-shadow, .om-leads, .act) {
   opacity: 0;
@@ -125,6 +127,11 @@
     opacity $t-400 var(--ease-std),
     transform $t-500 var(--ease-spring),
     box-shadow $t-250;
+  @include mixins.hit;
+
+  @include mixins.lite {
+    backdrop-filter: none;
+  }
 }
 .mj-omap.wil-on .om-wl {
   opacity: 1;

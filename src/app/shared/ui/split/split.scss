@@ -1,0 +1,57 @@
+@use '../../../../styles/scales' as *;
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  .mj-split {
+    display: block;
+    min-inline-size: 0;
+  }
+  .mj-split.split {
+    display: grid;
+    grid-template-columns: minmax(280px, 2fr) 3fr;
+    gap: $sp-16;
+    block-size: var(--split-h, 70svh);
+  }
+  .mj-split.split > .mj-split-list,
+  .mj-split.split > .mj-split-detail {
+    min-block-size: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  .mj-split-detail {
+    display: flex;
+    flex-direction: column;
+    gap: $sp-12;
+    outline: none;
+  }
+  .mj-split-detail[hidden],
+  .mj-split-list[hidden] {
+    display: none;
+  }
+  .mj-split-back {
+    align-self: flex-start;
+  }
+  .mj-split.stack.open > .mj-split-detail {
+    animation: mj-split-in var(--dur-card) var(--ease-sheet) both;
+  }
+  @keyframes mj-split-in {
+    from {
+      opacity: 0;
+      translate: -8% 0;
+    }
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .mj-split.stack.open > .mj-split-detail {
+      animation-name: mj-split-fade;
+    }
+    @keyframes mj-split-fade {
+      from {
+        opacity: 0;
+      }
+    }
+  }
+}

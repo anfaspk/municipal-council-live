@@ -1,0 +1,39 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/frame');
+  @include meta.load-css('styles/pick');
+  @include meta.load-css('styles/story');
+  @include meta.load-css('styles/card');
+  @include meta.load-css('styles/sheet');
+  @include meta.load-css('styles/land');
+}
+
+@layer states {
+  .wf-chrome.held .wf-prog li.on i {
+    animation-play-state: paused;
+  }
+  .wf.still .wf-prog li.on i {
+    animation: none;
+    transform: scaleX(0.5);
+  }
+  .wf.still :is(.wf-show, .wf-img) {
+    animation: none;
+    transition: none;
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .wf .wf-prog li.on i {
+      animation: none;
+      transform: scaleX(0.5);
+    }
+    .wf :is(.wf-show, .wf-img) {
+      animation: none;
+      transition: none;
+    }
+  }
+}

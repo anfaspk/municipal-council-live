@@ -17,11 +17,12 @@ import { WWil } from '../../domain/winners/winners';
 import { CountUpGroup } from '../../shared/motion/count-up.directive';
 import { PointerTracker } from '../../shared/motion/pointer-tracker.service';
 import { reducedMotion } from '../../shared/motion/reduced-motion';
+import { ornaments } from '../../shared/motion/effects-tier';
 import { IconComponent } from '../../shared/ui/icon.component';
 import { WinnerCardComponent } from './winner-card.component';
-import { SCENE_IMG, WinnersSceneComponent } from './winners-scene.component';
+import { WinnersSceneComponent } from './winners-scene.component';
 import { wt } from './winners-strings';
-import { layoutOf, placeholders, starfield, titled, titleParts } from './winners.model';
+import { layoutOf, placeholders, SCENE_IMG, starfield, titled, titleParts } from './winners.model';
 import { WnTPipe } from './wn-t.pipe';
 
 const COUNT_AT = 1150;
@@ -104,7 +105,7 @@ export class WinnersStageComponent {
     let at: [number, number] | null = null;
     const tracking = tracker.track(host, {
       read: ({ move, last }) => {
-        if (reducedMotion()) return;
+        if (!ornaments()) return;
         if (last.type === 'pointerleave') at = [0, 0];
         else if (move) {
           const r = tracker.rect(host);

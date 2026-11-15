@@ -1,3 +1,4 @@
+@use '../mixins';
 @use '../scales' as *;
 
 .mj-rail {
@@ -72,8 +73,10 @@
   font-size: $fs-12;
   text-transform: none;
 }
-.mj-row.wl-tot:hover {
-  background: color-mix(in srgb, var(--band) 9%, transparent);
+@include mixins.hover {
+  .mj-row.wl-tot:hover {
+    background: color-mix(in srgb, var(--band) 9%, transparent);
+  }
 }
 .map-rail .mj-rail.is-wil .mj-row.wl-tot {
   grid-row: 11;

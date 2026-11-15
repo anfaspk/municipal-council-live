@@ -41,6 +41,7 @@ import {
   wilView,
 } from './insights.model';
 import { InsightsWilayatComponent } from './insights-wilayat.component';
+import { TouchHold } from '../../../shared/motion/touch-hold';
 
 const SLIDES = [
   { k: 'gen', t: 'ixGenT', s: 'ixGenS', tag: 'live' },
@@ -81,10 +82,8 @@ export class InsightsComponent implements AfterViewInit {
     return g ? name(g) : t('ixOman');
   });
   private readonly state = inject(CommandCenterState);
-
   protected readonly paused = this.state.held;
   protected readonly ppLabel = computed(() => t(this.paused() ? 'ixPlay' : 'ixPause'));
-
   protected readonly age = signal<AgeView | null>(null);
   protected readonly gen = signal<GenView | null>(null);
   protected readonly wil = signal<WilView | null>(null);
@@ -105,7 +104,6 @@ export class InsightsComponent implements AfterViewInit {
   private clock: FrameHandle | null = null;
   private ro?: ResizeObserver;
   private onVis = () => this.sync();
-
   private bar: Animation | null = null;
   private covered = false;
   private hover = false;
@@ -125,7 +123,6 @@ export class InsightsComponent implements AfterViewInit {
         if (this.ready) this.setGov(g);
       });
     });
-
     this.destroyRef.onDestroy(() => {
       this.dead = true;
       this.ro?.disconnect();
@@ -146,14 +143,12 @@ export class InsightsComponent implements AfterViewInit {
     this.tabEls = el.querySelectorAll('.ix-tab');
     this.dock = el.querySelector('.ix-dock')!;
     const card = el.closest('.mj-glass') || el;
-    card.addEventListener('pointerenter', () => {
-      this.hover = true;
+    const hold = new TouchHold((on) => {
+      this.hover = on;
       this.sync();
     });
-    card.addEventListener('pointerleave', () => {
-      this.hover = false;
-      this.sync();
-    });
+    card.addEventListener('pointerenter', () => hold.on());
+    card.addEventListener('pointerleave', (e) => hold.off(e as PointerEvent));
     el.addEventListener('focusin', () => {
       this.focusIn = true;
       this.sync();
@@ -182,7 +177,6 @@ export class InsightsComponent implements AfterViewInit {
           if (this.animate) this.buildIn(0);
           this.ink(0, true);
           if (!this.animate) this.slideEls[0]!.classList.add('ix-still');
-
           this.covered = this.frames.isPaused('dashboard');
           this.clock = this.frames.add(
             {
@@ -218,7 +212,6 @@ export class InsightsComponent implements AfterViewInit {
           ages: agesOf(this.stats.govs()),
         };
   }
-
   private take(i: number): void {
     const k = SLIDES[i]!.k;
     if (k === 'age') this.age.set(ageView(this.scope()));
@@ -229,7 +222,6 @@ export class InsightsComponent implements AfterViewInit {
     const k = SLIDES[i]!.k;
     return (k === 'age' ? this.age() : k === 'gen' ? this.gen() : this.wil()) !== null;
   }
-
   private rendered(fn: () => void): void {
     afterNextRender(
       () => {
@@ -244,7 +236,6 @@ export class InsightsComponent implements AfterViewInit {
     slide.classList.remove('ix-build', 'ix-still');
     flushStyle(slide);
     slide.classList.add(reducedMotion() ? 'ix-still' : 'ix-build');
-
     clearTimeout(this.bT[i]);
     this.bT[i] = setTimeout(() => slide.classList.remove('ix-build'), 2600);
     if (reducedMotion()) return;
@@ -377,7 +368,6 @@ export class InsightsComponent implements AfterViewInit {
     if (!reducedMotion()) restartAnimation(this.scopeEl().nativeElement, 'ix-pop');
     this.take(this.cur);
   }
-
   private update(total: number): void {
     this.base = total;
     if (this.taken(this.cur)) this.take(this.cur);

@@ -163,16 +163,3 @@
   color: var(--ink);
   background: var(--glass-fill);
 }
-
-.mj-fluid .dt-page :is(.dt-c-gauge, .dt-c-cmp) {
-  margin: 0;
-  border-radius: var(--radius-panel);
-  background: var(--glass-fill);
-  box-shadow: inset 0 0 0 1px var(--hairline);
-}
-.mj-fluid .dt-page .dt-c-gauge {
-  padding-block: $sp-12;
-}
-.mj-fluid .dt-page .dt-c-cmp {
-  padding-inline: $sp-16;
-}

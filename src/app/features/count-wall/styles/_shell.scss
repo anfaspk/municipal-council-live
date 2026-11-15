@@ -156,9 +156,11 @@ $chips: (
   background: none;
   box-shadow: none;
 }
-.tva-opts .tva-theme:hover,
-.tva-opts .tva-full:hover {
-  background: var(--glass-fill);
+@include mixins.hover {
+  .tva-opts .tva-theme:hover,
+  .tva-opts .tva-full:hover {
+    background: var(--glass-fill);
+  }
 }
 .tva-opts .tva-theme svg,
 .tva-opts .tva-full svg {
@@ -197,9 +199,13 @@ $chips: (
   opacity: 0.8;
   transition: opacity $t-450 var(--ease-std);
 }
-.mj-tv .tv-dash:hover,
 .mj-tv .tv-dash:focus-visible {
   opacity: 1;
+}
+@include mixins.hover {
+  .mj-tv .tv-dash:hover {
+    opacity: 1;
+  }
 }
 .mj-tv.tva-idle .tv-dash {
   opacity: 0;

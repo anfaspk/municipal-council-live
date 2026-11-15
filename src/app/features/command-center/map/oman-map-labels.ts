@@ -1,13 +1,16 @@
 import { clampLabelX, spreadTags } from '../../../domain/geo/label-layout';
-import { projector, Size, ViewBox } from '../../../domain/geo/projection';
+import { projector, Size, unitsPerPx, ViewBox } from '../../../domain/geo/projection';
 import { Gov } from '../../../domain/stats/stats';
 import { MapNode } from './oman-map-build';
 import { MapWilayat } from './oman-map-wilayat';
+
+const COARSE = typeof matchMedia === 'function' ? matchMedia('(any-pointer: coarse)') : null;
 
 export class MapLabels {
   size: Size = { width: 0, height: 0 };
   private readonly labSize = new WeakMap<Element, Size>();
   private readonly labAt = new WeakMap<HTMLElement, string>();
+  private u = 0;
 
   constructor(private readonly host: HTMLElement) {}
 
@@ -43,9 +46,26 @@ export class MapLabels {
         w = this.labSize.get(n.lab)?.width ?? 0;
       this.move(n.lab, clampLabelX(p.x, w, W), p.y);
     });
+    if (COARSE?.matches)
+      this.units(wil.length ? wil.units(project, dh) : this.govUnits(project, govs, nodes));
     if (!wil.length) return;
     const tags = wil.tags(project, dh, (e) => this.labSize.get(e));
     spreadTags(tags, W, H).forEach((t, i) => this.move(wil.label(i), t.x, t.y));
+  }
+  private govUnits(
+    project: (x: number, y: number) => { x: number; y: number },
+    govs: readonly Gov[],
+    nodes: Record<string, MapNode>,
+  ): number {
+    return govs.reduce((u, g) => {
+      const n = nodes[g.id];
+      return n ? Math.max(u, unitsPerPx(project, n.ax, n.ay)) : u;
+    }, 0);
+  }
+  private units(u: number): void {
+    if (u <= this.u && u > this.u * 0.95) return;
+    this.u = u * 1.05;
+    this.host.style.setProperty('--om-u', this.u.toFixed(4));
   }
   private move(lab: HTMLElement, x: number, y: number): void {
     const at = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px';

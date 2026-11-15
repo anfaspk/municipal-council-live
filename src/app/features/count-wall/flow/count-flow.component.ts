@@ -38,6 +38,7 @@ import { DrawFocus } from '../draw/draw-focus';
 import { EventPacer, PacedEvent } from '../event-pacer';
 import { handOffToWinners } from '../wall-handoff';
 import { CfGovComponent } from './cf-gov.component';
+import { CfFlyComponent } from './cf-fly.component';
 import { CfGovsComponent } from './cf-govs.component';
 import { CfIconComponent } from './cf-icon.component';
 import { CfMapComponent } from './cf-map.component';
@@ -66,6 +67,7 @@ const BAR: readonly { s: Screen; icon: 'box' | 'crown' | 'grid' | 'tv'; key: str
     AppbarComponent,
     SheetComponent,
     SwipeDirective,
+    CfFlyComponent,
     CfGovsComponent,
     CfGovComponent,
     CfIconComponent,
@@ -123,6 +125,7 @@ export class CountFlowComponent {
     const { w, h } = this.viewport.size();
     return screenComp(w, h, this.viewport.anyCoarse());
   });
+  protected readonly fly = computed(() => this.comp() === 'sign' && this.viewport.fx() !== 'lite');
   protected readonly stamp = computed(() => {
     const at = this.view.staleAt();
     return at ? cf('figuresAt', { t: at }) : cf('cfUpdated', { t: this.view.stamp() });
@@ -142,7 +145,7 @@ export class CountFlowComponent {
   private readonly scroll = viewChild<ElementRef<HTMLElement>>('scroll');
   private lineN = 0;
   private stopNav: (() => void) | null = null;
-  private readonly pacer = new EventPacer(
+  protected readonly pacer = new EventPacer(
     this.store.every,
     (e) => ({ ...e, gov: this.store.gov(e.gov.id) ?? e.gov, w: this.store.wilById(e.w.id) ?? e.w }),
     (ev) => guard('count flow ' + ev.type, () => this.paced(ev)),
@@ -340,6 +343,7 @@ export class CountFlowComponent {
     const a = screenKey(
       {
         key: e.key,
+        keyCode: e.keyCode,
         onButton: !!el?.closest?.('button'),
         onField: !!el?.closest?.('select, input'),
       },

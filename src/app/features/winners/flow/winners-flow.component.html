@@ -5,7 +5,7 @@
       <aside class="wf-rail" [attr.aria-label]="'wfWils' | wfT"><div wfWils [card]="c" [govs]="view.cards()" [wils]="wils()" [cur]="cur()" [tally]="view.tally()" (choose)="choose($event)" (pickGov)="pick($event, 'side')"></div></aside>
     }
     <div class="wf-story" mjSwipe="x" (swipeNext)="move(1)" (swipePrev)="move(-1)" (swipeDown)="back()" (holdStart)="hold(true)" (holdEnd)="hold(false)">
-      <div class="wf-scene" aria-hidden="true"><img [src]="scene" alt="" decoding="async" width="1448" height="1086"></div>
+      <div class="wf-scene" aria-hidden="true"><img [src]="scene" alt="" decoding="async" width="1448" height="1086">@if (comp() === 'sign' && !still) {@defer (on immediate) {<div wfFx [wil]="wil()"></div>} @error {}}</div>
       <header class="wf-chrome" [class.held]="stopped()">
         @if (walking()) {<ol class="wf-prog" aria-hidden="true">@for (s of segs(); track $index) {<li [class]="s">@if (s === 'on') {@for (l of [lap()]; track l) {<i [style.--seg-ms]="step + 'ms'"></i>}} @else {<i></i>}</li>}</ol>}
         <div class="wf-row">
@@ -28,7 +28,7 @@
             @let t = title(w);
             <div class="wf-show" role="group" [attr.aria-label]="'wfStory' | wfT: { w: w.name, i: cur() + 1, n: wils().length }">
               <div class="wf-title">
-                <h1 class="wf-name" tabindex="-1">@if (t.kind) {<span class="wf-name-k">{{ t.kind }}</span>&ngsp;}<span class="wf-name-n">{{ t.name }}</span></h1>
+                <h1 class="wf-name" tabindex="-1">@if (t.kind) {<span class="wf-name-k">{{ t.kind }}</span>&ngsp;}<span class="wf-name-n" [attr.data-n]="t.name">{{ t.name }}</span></h1>
                 <p class="wf-chips">
                   @if (w.published) {<span class="wf-badge"><svg wfIcon="check"></svg>{{ 'wnDeclared' | wfT }}</span>} @else {<span class="wf-badge pend"><i aria-hidden="true"></i>{{ 'wnPending' | wfT }}</span>}
                   @if (w.seats) {<span class="wf-seats">{{ 'wnSeats' | wfT: { n: w.seats } }}</span>}

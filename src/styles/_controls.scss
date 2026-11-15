@@ -214,6 +214,10 @@
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
+html.mj-remote .mj-root :focus-visible {
+  outline-width: $sp-4;
+  outline-offset: $sp-4;
+}
 .mj-seg {
   position: relative;
   display: inline-flex;

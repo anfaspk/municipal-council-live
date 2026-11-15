@@ -17,6 +17,8 @@ import { ScreenState } from '../../core/screen/screen.state';
 import { WinnersStore } from '../../data/winners.store';
 import { GEO } from '../../domain/geo/geo.data';
 import { FRAME_SCOPE } from '../../shared/motion/frame-loop.service';
+import { RemoteNav } from '../../shared/motion/remote-nav';
+import { watchStageSwipe } from '../../shared/motion/stage-swipe';
 import { SlideClock } from '../../shared/motion/slide-clock';
 import { LOGO_DARK, MOI_LOGO_DARK } from '../../shared/ui/brand';
 import { trapTab } from '../../shared/ui/focus-trap';
@@ -86,6 +88,13 @@ export class WinnersComponent {
   private stepSet = false;
 
   constructor() {
+    inject(RemoteNav).zone({
+      root: this.host,
+      on: () => this.isOpen(),
+      controls: () =>
+        this.host.querySelector<HTMLElement>('.wn-rail') ?? this.host.querySelector('.wn-pick'),
+    });
+    watchStageSwipe(this.host, (s) => this.gov() && this.move(s));
     effect(() => {
       const on = this.screen.is('winners');
       untracked(() => (on ? this.open() : this.shut()));
@@ -232,6 +241,7 @@ export class WinnersComponent {
     const a = winnersKey(
       {
         key: e.key,
+        keyCode: e.keyCode,
         metaKey: e.metaKey,
         ctrlKey: e.ctrlKey,
         altKey: e.altKey,

@@ -35,6 +35,9 @@
   font-family: var(--font-arabic);
 
   @include mixins.hit-min;
+  @include mixins.stage-touch {
+    min-block-size: var(--hit);
+  }
 }
 @include mixins.hover {
   .ix-sel select:hover {
@@ -57,4 +60,7 @@
   border-inline-width: 1.5px 0;
   transform: rotate(45deg);
   pointer-events: none;
+  @include mixins.stage-touch {
+    top: calc(var(--hit) / 2 - #{$sp-4});
+  }
 }

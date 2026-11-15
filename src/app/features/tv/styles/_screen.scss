@@ -13,6 +13,9 @@
   font: 600 #{$fs-14}/ 1 var(--font-arabic);
   cursor: pointer;
   @include mixins.hit-min;
+  @include mixins.stage-touch {
+    min-block-size: var(--hit);
+  }
 }
 @include mixins.hover {
   .tva-region:hover {

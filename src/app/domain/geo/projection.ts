@@ -63,3 +63,12 @@ export function projectFlat(
 ): [number, number] {
   return [point[0] * transform.k + transform.tx, point[1] * transform.k + transform.ty];
 }
+
+export function unitsPerPx(project: (x: number, y: number) => Point, x: number, y: number): number {
+  const a = project(x - 0.5, y),
+    b = project(x + 0.5, y),
+    c = project(x, y - 0.5),
+    d = project(x, y + 0.5);
+  const px = Math.min(Math.hypot(b.x - a.x, b.y - a.y), Math.hypot(d.x - c.x, d.y - c.y));
+  return px > 0 ? 1 / px : 0;
+}

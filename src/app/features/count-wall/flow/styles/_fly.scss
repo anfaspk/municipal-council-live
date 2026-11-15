@@ -1,0 +1,73 @@
+@use '../../../../../styles/scales' as *;
+
+.cf-fly {
+  flex: none;
+  box-sizing: border-box;
+  block-size: 440px;
+  margin-inline: max(#{$sp-36}, var(--safe-right)) max(#{$sp-36}, var(--safe-left));
+  margin-block-end: $sp-16;
+  padding: 0;
+  overflow: hidden;
+}
+.cf-fly svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.cf-fly-shape {
+  fill: color-mix(in srgb, var(--ink) 6%, transparent);
+  stroke: var(--glass-stroke);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  transition:
+    fill $t-900 var(--ease-std),
+    stroke $t-900 var(--ease-std);
+}
+.cf-fly-shape.on {
+  fill: color-mix(in srgb, var(--gold-ink) 14%, transparent);
+  stroke: var(--gold-ink);
+}
+.cf-fly-pin {
+  fill: var(--c);
+  stroke: var(--canvas-0);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.cf-fly-n.sel .cf-fly-pin {
+  stroke: var(--gold-ink);
+  stroke-width: 2.5;
+}
+.cf-fly-pg {
+  fill: none;
+  stroke: color-mix(in srgb, var(--c) 70%, transparent);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cf-fly-ping $t-3600 cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation-delay: calc(var(--j, 0) * -1 * $t-410);
+}
+.cf-fly-n.await .cf-fly-pg {
+  stroke: color-mix(in srgb, var(--c) 45%, transparent);
+}
+.cf-fly-n.sel .cf-fly-pg {
+  stroke: var(--gold-ink);
+  stroke-width: 1.6;
+}
+@keyframes cf-fly-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70%,
+  100% {
+    transform: scale(2.3);
+    opacity: 0;
+  }
+}
+
+:where(.cf[data-comp='sign']:has(.cf-fly))
+  :is(.cf-signmap, .cf-gov .cf-mapcard, .cf-govs .cf-mapcard, .cf-govs .cf-seg) {
+  display: none;
+}

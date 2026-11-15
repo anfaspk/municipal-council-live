@@ -72,6 +72,9 @@
   transition:
     background-color $t-200 var(--ease-std),
     box-shadow $t-200 var(--ease-std);
+  @include mixins.stage-touch {
+    min-block-size: var(--hit);
+  }
 }
 .dt-ranked .dt-row.hot {
   background: var(--glass-fill-strong);
@@ -189,6 +192,9 @@
   flex-direction: column;
   gap: $sp-14;
   min-height: 0;
+  @include mixins.stage-touch {
+    overflow: hidden auto;
+  }
 }
 .dt-strip .dt-strip-bar {
   position: relative;
@@ -197,6 +203,11 @@
   overflow: hidden;
   border-radius: var(--radius-pill);
   background: var(--hairline);
+  @include mixins.stage-touch {
+    box-sizing: content-box;
+    border-block: max(0px, calc((var(--hit) - 34px) / 2 + 1px)) solid transparent;
+    background-clip: padding-box;
+  }
 }
 .dt-strip .dt-strip-bar:focus-visible {
   outline: 2px solid var(--focus-ring);
@@ -264,6 +275,9 @@
   text-align: start;
   cursor: pointer;
   @include mixins.hit-min;
+  @include mixins.stage-touch {
+    min-block-size: var(--hit);
+  }
 }
 .dt-strip .dt-mini span {
   @include mixins.ellipsis;

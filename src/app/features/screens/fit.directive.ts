@@ -1,15 +1,33 @@
 import { DestroyRef, Directive, DOCUMENT, effect, ElementRef, inject } from '@angular/core';
 import { ViewportState } from '../../core/screen/viewport.state';
+import { BURN_STEP, type Drift, driftAt, NO_DRIFT } from '../../shared/motion/burn-in.model';
 import { setLiteFx } from '../../shared/motion/effects-tier';
+import { reducedMotion } from '../../shared/motion/reduced-motion';
 
+const INPUTS = ['keydown', 'pointerdown', 'pointermove', 'wheel', 'touchstart'];
 @Directive({ selector: '[mjFit]' })
 export class FitDirective {
   private readonly root: HTMLElement = inject(ElementRef).nativeElement;
   private readonly html = inject(DOCUMENT).documentElement;
   private readonly viewport = inject(ViewportState);
+  private touched = performance.now();
+  private drift: Drift = NO_DRIFT;
 
   constructor() {
     this.html.classList.add('mj-fit');
+    const win = inject(DOCUMENT).defaultView,
+      input = () => {
+        this.touched = performance.now();
+        this.place(NO_DRIFT, false);
+      };
+    for (const ev of INPUTS) win?.addEventListener(ev, input, { capture: true, passive: true });
+    const tick = setInterval(() => {
+      const l = this.viewport.layout();
+      this.place(
+        l.form === 'stage' ? driftAt(performance.now() - this.touched, reducedMotion()) : NO_DRIFT,
+        true,
+      );
+    }, BURN_STEP);
     effect(() => {
       const l = this.viewport.layout(),
         safe = this.viewport.safe(),
@@ -36,6 +54,8 @@ export class FitDirective {
           'height',
           'transform-origin',
           'transform',
+          'translate',
+          'transition',
         ])
           st.removeProperty(p);
         return;
@@ -52,10 +72,21 @@ export class FitDirective {
       st.transform = 'scale(' + l.scale.toFixed(5) + ')';
     });
     inject(DestroyRef).onDestroy(() => {
+      clearInterval(tick);
+      for (const ev of INPUTS) win?.removeEventListener(ev, input, { capture: true });
       this.html.classList.remove('mj-fit', 'mj-zoomed');
       for (const a of ['data-form', 'data-tier', 'data-short', 'data-fx'])
         this.html.removeAttribute(a);
       setLiteFx(false);
     });
+  }
+
+  private place(d: Drift, glide: boolean): void {
+    if (d.x === this.drift.x && d.y === this.drift.y) return;
+    this.drift = d;
+    const st = this.root.style,
+      k = this.viewport.layout().scale;
+    st.transition = glide ? 'translate ' + BURN_STEP + 'ms linear' : '';
+    st.translate = !d.x && !d.y ? '' : (d.x * k).toFixed(2) + 'px ' + (d.y * k).toFixed(2) + 'px';
   }
 }

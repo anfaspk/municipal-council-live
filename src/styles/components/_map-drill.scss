@@ -70,6 +70,13 @@
   animation: om-wring $t-2600 ease-out infinite;
   animation-delay: calc(var(--j) * -1 * $t-370);
 }
+:is(.rg, .om-wp) .hit {
+  fill: transparent;
+  r: 0;
+  @include mixins.stage-touch {
+    r: calc(var(--hit) / 2 * var(--om-u, 0));
+  }
+}
 .om-wp .stem {
   stroke: var(--band);
   stroke-width: 1;

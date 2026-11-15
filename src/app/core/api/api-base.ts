@@ -1,1 +1,1 @@
-export const API_BASE = 'http://10.241.26.71:8090/api/v1634';
+export const API_BASE = 'https://result-stg.elections.om/PublicResultApi/api/v1634';

@@ -1,0 +1,28 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/fx');
+  @include meta.load-css('styles/fx-story');
+}
+
+@layer states {
+  .wf:has(.wf-chrome.held) .wf-fx *,
+  .wf:has(.wf-chrome.held) .wf-por::before {
+    animation-play-state: paused;
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .wf[data-comp='sign']
+      :is(.wf-fx, .wf-fx *, .wf-scene, .wf-name, .wf-chips, .wf-card, .wf-seal) {
+      animation: none;
+    }
+    .wf[data-comp='sign'] .wf-por::before,
+    .wf[data-comp='sign'] :is(.wf-seal, .wf-name-n)::after {
+      display: none;
+    }
+  }
+}

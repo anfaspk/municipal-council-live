@@ -1,0 +1,261 @@
+@use '../../../../../styles/mixins';
+@use '../../../../../styles/scales' as *;
+
+.wf-fx {
+  @include mixins.cover;
+  pointer-events: none;
+}
+.wf-fx-set {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 0;
+  inline-size: 160%;
+  aspect-ratio: 1448 / 1086;
+  translate: 50% 0;
+}
+.wf-fx-in {
+  @include mixins.cover;
+  direction: ltr;
+}
+.wf-fx-night {
+  @include mixins.cover;
+  -webkit-mask-image: radial-gradient(52% 88% at 50% 92%, var(--ink) 58%, transparent 92%);
+  mask-image: radial-gradient(52% 88% at 50% 92%, var(--ink) 58%, transparent 92%);
+}
+.wf-fx-stars {
+  position: absolute;
+  inset-block-start: 3%;
+  inset-inline-start: 21%;
+  inline-size: 1px;
+  block-size: 1px;
+  border-radius: $radius-round;
+  color: var(--wn-star);
+  box-shadow: var(--stars);
+  opacity: calc(0.55 + var(--l) * 0.25);
+  animation: wf-fx-twinkle calc(#{$t-4000} + var(--l) * #{$t-2200}) ease-in-out infinite alternate;
+}
+.wf-fx-meteor {
+  position: absolute;
+  inset-block-start: 9%;
+  inset-inline-start: 66%;
+  inline-size: 180px;
+  block-size: 2px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, transparent, var(--wn-star));
+  transform-origin: 0 50%;
+  opacity: 0;
+  animation: wf-fx-meteor $t-11000 linear $t-3000 infinite;
+}
+.wf-fx-meteor.m2 {
+  inset-block-start: 22%;
+  inset-inline-start: 40%;
+  inline-size: 120px;
+  animation-duration: $t-18000;
+  animation-delay: $t-9000;
+}
+.wf-fx-glow {
+  position: absolute;
+  inset-inline: 6%;
+  inset-block: 68% 19%;
+  background: radial-gradient(
+    50% 50% at 50% 70%,
+    color-mix(in srgb, var(--wn-amber) 30%, transparent),
+    transparent
+  );
+  animation: wf-fx-glow $t-9000 ease-in-out infinite alternate;
+}
+.wf-fx-mist {
+  position: absolute;
+  inset-block: 71% 17%;
+  inset-inline-start: 0;
+  inline-size: 200%;
+  background:
+    radial-gradient(
+      30% 50% at 25% 60%,
+      color-mix(in srgb, var(--wn-star) 9%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      22% 40% at 70% 45%,
+      color-mix(in srgb, var(--wn-star) 7%, transparent),
+      transparent
+    );
+  background-size: 50% 100%;
+  animation: wf-fx-mist $t-120000 linear infinite;
+}
+.wf-fx-lamps {
+  position: absolute;
+  inset-inline: 0;
+  inset-block: 80% 6%;
+  background:
+    radial-gradient(
+      5% 36% at 13.5% 59%,
+      color-mix(in srgb, var(--wn-amber) 55%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      5% 36% at 30.9% 59%,
+      color-mix(in srgb, var(--wn-amber) 55%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      5% 36% at 51.1% 59%,
+      color-mix(in srgb, var(--wn-amber) 55%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      5% 36% at 69.1% 59%,
+      color-mix(in srgb, var(--wn-amber) 55%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      5% 36% at 88.9% 59%,
+      color-mix(in srgb, var(--wn-amber) 55%, transparent),
+      transparent
+    );
+  animation: wf-fx-flicker $t-4800 steps(1, end) infinite;
+}
+
+.wf-fx-sweep {
+  position: absolute;
+  inset-block: -10%;
+  inset-inline-start: 0;
+  inline-size: 34%;
+  direction: ltr;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    color-mix(in srgb, var(--gold-pale) 16%, transparent) 45%,
+    color-mix(in srgb, var(--gold-pale) 22%, transparent) 50%,
+    color-mix(in srgb, var(--gold-pale) 16%, transparent) 55%,
+    transparent
+  );
+  transform: translate3d(-130%, 0, 0) skewX(-16deg);
+  opacity: 0;
+  animation: wf-fx-sweep $t-1400 var(--ease-std) both;
+}
+.wf-fx-burst {
+  --b: 420px;
+  position: absolute;
+  inset-block-start: calc(64% - var(--b) / 2);
+  inset-inline-start: calc(50% - var(--b) / 2);
+  inline-size: var(--b);
+  block-size: var(--b);
+  border-radius: $radius-round;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--gold-glow) 70%, transparent),
+    transparent
+  );
+  opacity: 0;
+  animation: wf-fx-burst $t-1600 var(--ease-expo) $t-700 both;
+}
+.wf-fx-motes {
+  --w: 600px;
+  position: absolute;
+  inset-block-start: 46%;
+  inset-inline-start: calc(50% - var(--w) / 2);
+  inline-size: 2px;
+  block-size: 2px;
+  border-radius: $radius-round;
+  direction: ltr;
+  color: var(--gold-glow);
+  box-shadow: var(--motes);
+  opacity: 0;
+  animation: wf-fx-motes $t-10000 linear $t-1200 infinite;
+}
+.wf-fx-motes.m2 {
+  animation-duration: $t-11000;
+  animation-delay: $t-6000;
+}
+
+@keyframes wf-fx-twinkle {
+  from {
+    opacity: 0.35;
+  }
+}
+@keyframes wf-fx-meteor {
+  0% {
+    transform: rotate(160deg) translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  1.5% {
+    opacity: 1;
+  }
+  7%,
+  100% {
+    transform: rotate(160deg) translate3d(480px, 0, 0);
+    opacity: 0;
+  }
+}
+@keyframes wf-fx-glow {
+  from {
+    opacity: 0.6;
+  }
+}
+@keyframes wf-fx-mist {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes wf-fx-flicker {
+  0% {
+    opacity: 0.9;
+  }
+  13% {
+    opacity: 0.7;
+  }
+  15% {
+    opacity: 1;
+  }
+  48% {
+    opacity: 0.8;
+  }
+  51% {
+    opacity: 0.95;
+  }
+  79% {
+    opacity: 0.75;
+  }
+  82% {
+    opacity: 1;
+  }
+}
+@keyframes wf-fx-sweep {
+  0% {
+    transform: translate3d(300%, 0, 0) skewX(-16deg);
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+}
+@keyframes wf-fx-burst {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+@keyframes wf-fx-motes {
+  0% {
+    transform: translate3d(0, 60px, 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate3d(0, -180px, 0);
+    opacity: 0;
+  }
+}

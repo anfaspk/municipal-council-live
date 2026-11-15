@@ -74,6 +74,8 @@ export function buildMap(
     const pat = el('use', { ...shape, class: 'pat' }, grp);
     const act = el('g', { class: 'act', 'clip-path': url('c-' + g.id) }, grp);
     const edge = el('use', { ...shape, class: 'edge' }, grp);
+    const [cx, cy] = GEO.g[g.id]!.c;
+    const hit = el('circle', { class: 'hit', cx, cy }, grp);
     const lead = LABEL_OFFSET[g.id] ? el('path', { class: 'om-lead' }, gLead) : undefined;
     const lab = document.createElement('div'),
       nm = document.createElement('span'),
@@ -84,7 +86,7 @@ export function buildMap(
     labels.appendChild(lab);
     top.style.fillOpacity = '1.00';
     const rs = pathRings(GEO.g[g.id]!.d);
-    const raised = [top, pat, edge, act];
+    const raised = [top, pat, edge, act, hit];
     nodes[g.id] = {
       ax: 0,
       ay: 0,

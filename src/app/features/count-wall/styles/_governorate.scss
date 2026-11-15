@@ -45,6 +45,9 @@
     background $t-400,
     transform $t-450 var(--ease-expo);
   @include status.c;
+  @include mixins.stage-touch {
+    min-block-size: var(--hit);
+  }
 }
 .cx-w:focus-visible {
   outline: none;

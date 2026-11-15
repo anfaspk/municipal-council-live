@@ -15,6 +15,7 @@ import {
 import { ScreenState } from '../../../core/screen/screen.state';
 import { TurnoutStore } from '../../../data/turnout.store';
 import { FRAME_SCOPE } from '../../../shared/motion/frame-loop.service';
+import { keyOf } from '../../../shared/motion/screen-keys';
 import { IconComponent } from '../../../shared/ui/icon.component';
 import { DetailAt, sameAt, upOf } from './detail-url';
 import { fmt } from '../../../domain/format';
@@ -145,7 +146,7 @@ export class DetailPageComponent {
     if (!this.detail.at() || !this.screen.is('dashboard')) return;
     const el = e.target as Element | null,
       field = !!el?.closest?.('input, select, textarea, [contenteditable="true"]');
-    if (e.key === 'Escape') {
+    if (keyOf(e) === 'Escape') {
       e.preventDefault();
       this.detail.up();
       return;

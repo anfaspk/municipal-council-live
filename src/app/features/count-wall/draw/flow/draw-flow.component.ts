@@ -144,6 +144,7 @@ export class DrawFlowComponent extends DrawScreen {
     const target = e.target as HTMLElement | null;
     const a = drawKey({
       key: e.key,
+      keyCode: e.keyCode,
       metaKey: e.metaKey,
       ctrlKey: e.ctrlKey,
       altKey: e.altKey,

@@ -2,6 +2,12 @@
 @use '../../../../styles/scales' as *;
 
 .wn-root {
+  @include mixins.coarse {
+    touch-action: pan-y;
+  }
+}
+
+.wn-root {
   @include mixins.cover;
   @include mixins.arabic;
   --wn-bar: 124px;

@@ -22,6 +22,8 @@ import { name, pct } from '../../domain/format';
 import { band, bandFill, turnout } from '../../domain/stats/turnout';
 import { boot, BootFlag } from '../../shared/motion/boot';
 import { reducedMotion } from '../../shared/motion/reduced-motion';
+import { RemoteNav } from '../../shared/motion/remote-nav';
+import { keyOf } from '../../shared/motion/screen-keys';
 import { AmbientComponent } from '../../shared/ui/ambient.component';
 import { BandLegendComponent } from '../../shared/ui/band-legend.component';
 import { ConfettiComponent } from '../../shared/ui/confetti.component';
@@ -101,6 +103,7 @@ export class CommandCenterComponent implements AfterViewInit {
   };
 
   constructor() {
+    inject(RemoteNav).zone({ root: this.frame, on: () => this.screen.is('dashboard') });
     inject(TickerStore);
     effect(() => {
       const id = this.state.pinned();
@@ -254,8 +257,9 @@ export class CommandCenterComponent implements AfterViewInit {
     if (this.state.pinned()) this.scrimHole(true);
   }
   key(e: KeyboardEvent): void {
-    if (e.key === 'Escape' && !e.defaultPrevented && this.screen.is('dashboard'))
-      this.state.close();
+    if (keyOf(e) !== 'Escape' || e.defaultPrevented || !this.screen.is('dashboard')) return;
+    if (this.state.pinned()) e.preventDefault();
+    this.state.close();
   }
 
   tourEnter(): void {

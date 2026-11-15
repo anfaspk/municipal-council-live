@@ -1,6 +1,7 @@
 import { pct } from '../../../domain/format';
 import { GEO } from '../../../domain/geo/geo.data';
 import { Tag } from '../../../domain/geo/label-layout';
+import { Point, unitsPerPx } from '../../../domain/geo/projection';
 import { band } from '../../../domain/stats/turnout';
 import { html, setMarkup, svgEl } from '../../../shared/ui/markup';
 import { WilPoint } from './oman-map.model';
@@ -14,6 +15,7 @@ interface WilNode {
   ring: SVGElement;
   halo: SVGElement;
   core: SVGElement;
+  hit: SVGElement;
   lab: HTMLElement;
 }
 
@@ -51,14 +53,15 @@ export class MapWilayat {
       const stem = svgEl('line', { class: 'stem', x1: x, x2: x }, g),
         ring = svgEl('circle', { class: 'ring', cx: x }, g),
         halo = svgEl('circle', { class: 'halo', cx: x }, g),
-        core = svgEl('circle', { class: 'core', cx: x }, g);
+        core = svgEl('circle', { class: 'core', cx: x }, g),
+        hit = svgEl('circle', { class: 'hit', cx: x }, g);
       const lab = document.createElement('div');
       lab.className = 'om-wl';
       lab.style.setProperty('--j', String(i));
       lab.setAttribute('data-w', n);
       this.labels.appendChild(lab);
       this.ro()?.observe(lab);
-      this.wil.push({ i: p.i, n, c: p.c, g, stem, ring, halo, core, lab });
+      this.wil.push({ i: p.i, n, c: p.c, g, stem, ring, halo, core, hit, lab });
     });
     this.paint();
   }
@@ -95,6 +98,7 @@ export class MapWilayat {
     this.wil.forEach((w) => {
       const y = (w.c[1] - dh).toFixed(2);
       w.core.setAttribute('cy', y);
+      w.hit.setAttribute('cy', y);
       w.halo.setAttribute('cy', y);
       w.ring.setAttribute('cy', y);
       w.stem.setAttribute('y1', y);
@@ -114,6 +118,9 @@ export class MapWilayat {
         sz = size(w.lab);
       return { x: p.x, y: p.y - 12, width: sz?.width ?? 0, height: sz?.height ?? 0 };
     });
+  }
+  units(project: (x: number, y: number) => Point, dh: number): number {
+    return this.wil.reduce((u, w) => Math.max(u, unitsPerPx(project, w.c[0], w.c[1] - dh)), 0);
   }
   label(i: number): HTMLElement {
     return this.wil[i]!.lab;

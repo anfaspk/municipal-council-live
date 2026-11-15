@@ -35,6 +35,8 @@ import { watchTvPointer } from './tv-pointer';
 import { TvControls, EMPTY_FACE } from './tv-controls';
 import { InterimStore } from '../../data/interim.store';
 import { TvInterimTab } from './tv-interim-tab';
+import { RemoteNav } from '../../shared/motion/remote-nav';
+import { watchStageSwipe } from '../../shared/motion/stage-swipe';
 import { TvWalk } from './tv-walk';
 import { TvMemo } from './tv-memo';
 import { INT_FROM, INT_STEP, interimDuration } from './tv-interim.model';
@@ -84,6 +86,12 @@ export class TvComponent extends TvControls {
 
   constructor() {
     super();
+    inject(RemoteNav).zone({
+      root: this.host,
+      on: () => this.isOpen(),
+      controls: () => this.host.querySelector('.tva-dock'),
+      reveal: () => this.wake(),
+    });
     this.walkHooks.left = () => this.walkLeft();
     this.walkHooks.wait = (ms) => this.walkWait(ms);
     this.walkHooks.still = () => this.still() || reducedMotion();
@@ -91,6 +99,7 @@ export class TvComponent extends TvControls {
       wake: () => this.wake(),
       dock: (over) => this.hold(this.hover, over),
     });
+    watchStageSwipe(this.host, (s) => this.show(this.k() + s, true));
     this.updates.tv.pipe(takeUntilDestroyed()).subscribe((e) => {
       if (e.type === 'pull' || e.type === 'resume') guard('tv refresh', () => this.refresh());
     });

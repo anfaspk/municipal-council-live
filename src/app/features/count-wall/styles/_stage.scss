@@ -150,6 +150,9 @@
 }
 .cx-n .hit {
   fill: transparent;
+  @include mixins.stage-touch {
+    r: max(30px, calc(var(--hit) / 2));
+  }
 }
 .cx-n .pg {
   fill: none;

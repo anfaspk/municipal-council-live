@@ -1,0 +1,125 @@
+@use '../../../../../styles/scales' as *;
+
+:where(.wf[data-comp='sign']) {
+  .wf-scene {
+    transform-origin: 50% 100%;
+    animation: wf-fx-breathe $t-26000 ease-in-out infinite alternate;
+  }
+  .wf-name {
+    animation: wf-fx-in-name $t-1100 var(--ease-expo) $t-250 both;
+  }
+  .wf-name-n {
+    position: relative;
+    display: inline-block;
+  }
+  .wf-name-n::after {
+    content: attr(data-n);
+    position: absolute;
+    inset: 0;
+    color: var(--gold-pale);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--gold-glow) 80%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    animation: wf-fx-gleam $t-2400 var(--ease-std) $t-900 both;
+  }
+  .wf-chips {
+    animation: wf-fx-rise $t-700 var(--ease-expo) $t-600 both;
+  }
+  .wf-card {
+    animation: wf-fx-rise $t-900 var(--ease-expo) both;
+    animation-delay: $t-500;
+  }
+  .wf-card + .wf-card {
+    animation-delay: $t-700;
+  }
+  .wf-card:not(.wait) .wf-por::before {
+    content: '';
+    position: absolute;
+    inset: -$sp-3;
+    border-radius: inherit;
+    box-shadow:
+      0 0 0 2px var(--gold-pale),
+      0 0 30px 2px color-mix(in srgb, var(--gold-glow) 60%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    animation: wf-fx-rim $t-4000 ease-in-out $t-1600 infinite alternate;
+  }
+  .wf-card:not(.wait) .wf-seal {
+    animation: wf-fx-stamp $t-700 var(--ease-spring) $t-1200 both;
+  }
+  .wf-card:not(.wait) .wf-seal::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    inline-size: 4px;
+    block-size: 4px;
+    margin: -$sp-2;
+    border-radius: $radius-round;
+    color: var(--gold-glow);
+    box-shadow:
+      0 -34px 0 0,
+      24px -24px 0 0,
+      34px 0 0 0,
+      24px 24px 0 0,
+      0 34px 0 0,
+      -24px 24px 0 0,
+      -34px 0 0 0,
+      -24px -24px 0 0,
+      13px -31px 0 -1px,
+      31px 13px 0 -1px,
+      -13px 31px 0 -1px,
+      -31px -13px 0 -1px;
+    opacity: 0;
+    pointer-events: none;
+    animation: wf-fx-sparks $t-1100 var(--ease-expo) $t-1350 both;
+  }
+}
+
+@keyframes wf-fx-breathe {
+  to {
+    transform: scale(1.035);
+  }
+}
+@keyframes wf-fx-in-name {
+  from {
+    transform: translate3d(48px, 0, 0);
+    opacity: 0;
+  }
+}
+@keyframes wf-fx-gleam {
+  40% {
+    opacity: 0.9;
+  }
+}
+@keyframes wf-fx-rise {
+  from {
+    transform: translate3d(0, 40px, 0);
+    opacity: 0;
+  }
+}
+@keyframes wf-fx-rim {
+  to {
+    opacity: 0.85;
+  }
+}
+@keyframes wf-fx-stamp {
+  0% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+  55% {
+    transform: scale(0.94);
+    opacity: 1;
+  }
+}
+@keyframes wf-fx-sparks {
+  0% {
+    transform: scale(0.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}

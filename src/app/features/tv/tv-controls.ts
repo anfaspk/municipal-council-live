@@ -171,6 +171,7 @@ export abstract class TvControls {
     const el = e.target as Element | null;
     const a = tvKey({
       key: e.key,
+      keyCode: e.keyCode,
       onButton: !!el?.closest?.('button'),
       onField: !!el?.closest?.('select, input'),
     });

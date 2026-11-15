@@ -34,7 +34,7 @@ import { WallFaces } from './wall-faces';
 import { WallBanners } from './wall-live';
 import { WallPlayback } from './wall-playback';
 import { WallScreens } from './wall-screens';
-import { wallAction, wallKey } from './wall-input';
+import { wallAction, wallKey, wallRemote } from './wall-input';
 import { handOffToWinners } from './wall-handoff';
 
 @Component({
@@ -189,6 +189,7 @@ export class CountWallComponent implements AfterViewInit {
   }
   constructor() {
     handOffToWinners();
+    wallRemote(this.input);
     effect(() => {
       const on = this.screen.is('wall');
       untracked(() => (on ? this.openWall(this.theme()) : this.closeWall()));

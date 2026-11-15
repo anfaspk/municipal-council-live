@@ -16,6 +16,7 @@
       <svg:path class="bd" [attr.fill]="url(o.band)" [attr.d]="o.body"/>
       <svg:ellipse class="cp" [attr.cx]="o.cap.cx" [attr.cy]="o.cap.cy" [attr.rx]="o.cap.rx" [attr.ry]="o.cap.ry"/>
       <svg:circle class="pt" [attr.cx]="o.pt.cx" [attr.cy]="o.pt.cy" r="2.6"/>
+      <svg:circle class="hit" [attr.cx]="o.pt.cx" [attr.cy]="o.pt.cy"/>
     </svg:g>
   }
 </svg:g>
@@ -30,6 +31,7 @@
         <svg:text class="pc" [attr.x]="l.pc.cx" [attr.y]="l.pc.cy" font-size="26" [mjCountUp]="l.t" countFormat="pct" [countDuration]="1200" countGroup="labels"></svg:text>
         <svg:text class="ct" [attr.x]="l.ct.cx" [attr.y]="l.ct.cy" font-size="12.5">{{ l.count }}</svg:text>
       </svg:g>
+      <svg:circle class="hit" [attr.cx]="l.pc.cx" [attr.cy]="l.pc.cy"/>
     </svg:g>
   }
 </svg:g>

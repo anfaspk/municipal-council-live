@@ -170,6 +170,9 @@
   cursor: pointer;
   transition: background-color $t-200 var(--ease-std);
   @include mixins.hit-min;
+  @include mixins.stage-touch {
+    min-block-size: var(--hit);
+  }
 }
 .dt-page .dt-navb span {
   @include mixins.ellipsis;

@@ -5,6 +5,13 @@
 .tv-sl.tv-pick :is(.tv-col, .tv-wl) {
   cursor: pointer;
 }
+:is(.tv-col, .tv-wl) .hit {
+  fill: transparent;
+  r: 0;
+  @include mixins.stage-touch {
+    r: calc(var(--hit) / 2 * var(--tv-u, 1));
+  }
+}
 
 .tv-int-cd {
   display: inline-flex;

@@ -19,6 +19,7 @@
   .cf-main {
     flex: 1;
     max-inline-size: none;
+    margin-inline: 0;
     min-block-size: 0;
     overflow: hidden;
     padding-inline: max(#{$sp-36}, var(--safe-right)) max(#{$sp-36}, var(--safe-left));
@@ -55,6 +56,16 @@
   .cf-map-lit {
     fill: none;
     stroke: var(--gold-ink);
+  }
+  .cf-govs .cf-rows {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cf-govs li:nth-child(2) {
+    border-block-start: 0;
+  }
+  .cf-govs li:nth-child(odd) {
+    border-inline-end: 1px solid var(--hairline);
   }
   .cf-main > .cf-wil {
     display: flex;

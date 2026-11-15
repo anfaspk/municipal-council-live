@@ -1,0 +1,23 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/fly');
+}
+
+@layer states {
+  .cf-fly.still .cf-fly-pg {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .cf-fly .cf-fly-pg {
+      animation: none;
+      opacity: 0;
+    }
+  }
+}

@@ -1,4 +1,8 @@
-import { screenKey } from '../../shared/motion/screen-keys';
+import { inject } from '@angular/core';
+import { ScreenState } from '../../core/screen/screen.state';
+import { RemoteNav } from '../../shared/motion/remote-nav';
+import { keyOf, screenKey } from '../../shared/motion/screen-keys';
+import { watchStageSwipe } from '../../shared/motion/stage-swipe';
 import { trapTab } from '../../shared/ui/focus-trap';
 import { CountShellAction } from './count-wall-shell.component';
 import { CountWallState } from './count-wall-state';
@@ -57,7 +61,7 @@ export function wallAction(action: CountShellAction, h: InputHost): void {
 export function wallKey(e: KeyboardEvent, h: InputHost): void {
   const tv = h.tv();
   if (!tv || !tv.classList.contains('on') || e.metaKey || e.ctrlKey || e.altKey) return;
-  const k = e.key,
+  const k = keyOf(e),
     t = e.target as Element | null,
     state = h.state;
   const onBtn = t && t.closest && t.closest('button,[role="button"]'),
@@ -106,4 +110,18 @@ export function wallKey(e: KeyboardEvent, h: InputHost): void {
     h.release();
     h.show(go);
   }
+}
+
+export function wallRemote(h: InputHost): void {
+  const screen = inject(ScreenState);
+  inject(RemoteNav).zone({
+    root: h.root,
+    on: () => screen.is('wall'),
+    controls: () => h.root.querySelector('.tva-dock'),
+    reveal: () => h.wake(),
+  });
+  watchStageSwipe(h.root, (s) => {
+    h.wake();
+    wallAction({ type: s > 0 ? 'next' : 'previous' }, h);
+  });
 }

@@ -40,6 +40,7 @@ import {
 } from '../winners.model';
 import { WinnersView } from '../winners.view';
 import { WfCardComponent } from './wf-card.component';
+import { WfFxComponent } from './wf-fx.component';
 import { WfIconComponent } from './wf-icon.component';
 import { WfPickComponent } from './wf-pick.component';
 import { shareWinner, toggleFullscreen } from './wf-share';
@@ -64,6 +65,7 @@ const TOAST_MS = 3000;
     SheetComponent,
     SwipeDirective,
     WfCardComponent,
+    WfFxComponent,
     WfIconComponent,
     WfPickComponent,
     WfTPipe,
@@ -354,6 +356,7 @@ export class WinnersFlowComponent {
     const a = winnersKey(
       {
         key: e.key,
+        keyCode: e.keyCode,
         metaKey: e.metaKey,
         ctrlKey: e.ctrlKey,
         altKey: e.altKey,

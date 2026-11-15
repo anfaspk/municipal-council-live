@@ -24,6 +24,14 @@
   grid-template-rows: repeat(11, minmax(0, 1fr));
   gap: $sp-2;
   height: 100%;
+  @include mixins.stage-touch {
+    grid-template-rows: repeat(11, minmax(var(--hit), 1fr));
+    box-sizing: border-box;
+    padding-block-start: $sp-4;
+    padding-inline-start: $sp-2;
+    overflow: hidden auto;
+    overscroll-behavior: contain;
+  }
 }
 .map-rail .mj-row {
   grid-template-columns: 20px 12px minmax(0, 1fr) 74px 50px;

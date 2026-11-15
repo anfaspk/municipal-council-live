@@ -104,6 +104,9 @@
 }
 .dt-page .dt-rg-pin .hit {
   fill: transparent;
+  @include mixins.stage-touch {
+    r: calc(var(--hit) / 2 / 0.86);
+  }
 }
 .dt-page .dt-rg-pin .dot {
   fill: var(--band);

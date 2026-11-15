@@ -29,6 +29,9 @@
 }
 .dt-page .dt-loc-pin .hit {
   fill: transparent;
+  @include mixins.stage-touch {
+    r: calc(var(--hit) / 2);
+  }
 }
 .dt-page .dt-loc-pin .dot {
   fill: var(--ink-muted);
@@ -134,6 +137,9 @@
   font: 500 #{$fs-13}/ 1 var(--font-sans);
   @include mixins.arabic;
   @include mixins.field;
+  @include mixins.stage-touch {
+    min-block-size: var(--hit);
+  }
 }
 .dt-vils .dt-q input::-webkit-search-cancel-button {
   appearance: none;

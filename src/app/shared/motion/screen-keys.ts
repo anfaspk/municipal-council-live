@@ -8,12 +8,20 @@ export type ScreenKeyAction =
 
 export interface KeyInfo {
   key: string;
+  keyCode?: number;
   metaKey?: boolean;
   ctrlKey?: boolean;
   altKey?: boolean;
   onButton?: boolean;
   onField?: boolean;
 }
+
+const BACK_KEYS: readonly string[] = ['GoBack', 'BrowserBack'];
+const BACK_CODES: readonly number[] = [461, 10009];
+export const isBack = (e: { key: string; keyCode?: number }): boolean =>
+  BACK_KEYS.includes(e.key) || (e.keyCode !== undefined && BACK_CODES.includes(e.keyCode));
+export const keyOf = (e: { key: string; keyCode?: number }): string =>
+  e.key === 'Escape' || isBack(e) ? 'Escape' : e.key;
 
 const GO: Record<string, 'next' | 'prev' | 'first' | 'last'> = {
   ArrowLeft: 'next',
@@ -27,7 +35,7 @@ const GO: Record<string, 'next' | 'prev' | 'first' | 'last'> = {
 };
 
 export function screenKey(e: KeyInfo, screen: 'tv' | 'wall' = 'tv'): ScreenKeyAction | null {
-  const k = e.key;
+  const k = keyOf(e);
   if (e.metaKey || e.ctrlKey || e.altKey) return null;
   if (k === 'Tab') return { type: 'tab' };
   if (k === 'Escape') return { type: 'close' };

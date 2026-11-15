@@ -16,6 +16,11 @@
 .mj-tv:focus {
   outline: none;
 }
+.mj-tv {
+  @include mixins.coarse {
+    touch-action: pan-y;
+  }
+}
 .mj-tv .tv-x {
   position: absolute;
   top: calc(var(--tv-title-y) + $sp-14);

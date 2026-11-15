@@ -9,6 +9,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FRAME_SCOPE } from '../../../shared/motion/frame-loop.service';
+import { RemoteNav } from '../../../shared/motion/remote-nav';
+import { watchStageSwipe } from '../../../shared/motion/stage-swipe';
 import { LOGO, LOGO_DARK, MOI_LOGO, MOI_LOGO_DARK } from '../../../shared/ui/brand';
 import { trapTab } from '../../../shared/ui/focus-trap';
 import { HorizonComponent } from '../../../shared/ui/horizon.component';
@@ -40,6 +42,19 @@ export class DrawComponent extends DrawScreen {
   readonly theme = input('night');
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
   private readonly injector = inject(Injector);
+
+  constructor() {
+    super();
+    inject(RemoteNav).zone({
+      root: this.host,
+      on: () => this.isOpen(),
+      controls: () => this.host.querySelector('.cxd-list'),
+    });
+    watchStageSwipe(this.host, (s) => {
+      const l = this.items();
+      if (l.length) this.choose(l[stepTie(this.index(), l.length, s)]!.id);
+    });
+  }
 
   protected readonly stageRow = STAGE_ROW;
   protected readonly logo = LOGO;
@@ -79,6 +94,7 @@ export class DrawComponent extends DrawScreen {
     const target = e.target as HTMLElement | null;
     const a = drawKey({
       key: e.key,
+      keyCode: e.keyCode,
       metaKey: e.metaKey,
       ctrlKey: e.ctrlKey,
       altKey: e.altKey,

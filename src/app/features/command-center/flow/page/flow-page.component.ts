@@ -19,6 +19,7 @@ import { ScreenState } from '../../../../core/screen/screen.state';
 import { TurnoutStore } from '../../../../data/turnout.store';
 import { fmt, pct } from '../../../../domain/format';
 import { FRAME_SCOPE } from '../../../../shared/motion/frame-loop.service';
+import { keyOf } from '../../../../shared/motion/screen-keys';
 import { SwipeDirective } from '../../../../shared/motion/swipe.directive';
 import { slimOf } from '../../../../shared/ui/appbar/appbar.model';
 import { GlyphComponent } from '../../../../shared/ui/glyph.component';
@@ -253,7 +254,7 @@ export class FlowPageComponent {
     if (!this.detail.at() || !this.screen.is('dashboard')) return;
     const el = e.target as Element | null;
     if (el?.closest?.('dialog')) return;
-    if (e.key === 'Escape') {
+    if (keyOf(e) === 'Escape') {
       e.preventDefault();
       this.detail.up();
       return;

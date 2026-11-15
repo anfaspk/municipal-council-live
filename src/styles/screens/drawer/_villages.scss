@@ -144,6 +144,9 @@
   @include mixins.glass-fill;
   color: var(--ink-muted);
   transition: box-shadow $t-200;
+  @include mixins.stage-touch {
+    min-block-size: var(--hit);
+  }
 }
 .dw-search:focus-within {
   box-shadow:
@@ -189,6 +192,9 @@
   padding: $sp-9 $sp-10;
   border-radius: $r-11;
   transition: background $t-200;
+  @include mixins.stage-touch {
+    min-block-size: var(--hit);
+  }
 }
 @include mixins.hover {
   .dw-vr:hover {

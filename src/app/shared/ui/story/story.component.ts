@@ -18,6 +18,7 @@ import { reducedMotion } from '../../motion/reduced-motion';
 import { SlideClock } from '../../motion/slide-clock';
 import { SwipeDirective } from '../../motion/swipe.directive';
 import { IconComponent } from '../icon.component';
+import { keyOf } from '../../motion/screen-keys';
 import { liveLine, segState, stepTo, storyKey, tapZone, type StoryStep } from './story.model';
 
 @Component({
@@ -153,7 +154,7 @@ export class StoryComponent {
   }
   protected key(e: KeyboardEvent): void {
     if ((e.target as Element).closest('input, select, textarea')) return;
-    const k = storyKey(e.key, getComputedStyle(this.el).direction === 'rtl');
+    const k = storyKey(keyOf(e), getComputedStyle(this.el).direction === 'rtl');
     if (!k || (k === 'close' && !this.closable())) return;
     e.preventDefault();
     if (k === 'toggle') this.toggle();

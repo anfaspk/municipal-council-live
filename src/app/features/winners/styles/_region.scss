@@ -186,6 +186,9 @@
   box-shadow: inset 0 0 0 1px var(--hairline);
   color: var(--ink-muted);
   transition: box-shadow $t-300 var(--ease-std);
+  @include mixins.stage-touch {
+    min-block-size: var(--hit);
+  }
 }
 .wn-find:focus-within {
   box-shadow: inset 0 0 0 1.5px var(--gold);

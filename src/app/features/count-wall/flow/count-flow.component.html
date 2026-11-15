@@ -8,7 +8,7 @@
       <header class="cf-story" [class.held]="walk.paused() || walk.held()">
         <ol class="cf-prog" aria-hidden="true">@for (c of segList(); track $index) {<li [class]="c"><i [style.--seg-ms]="s.ms + 'ms'"></i></li>}</ol>
         <div class="cf-story-row">
-          <span class="cf-live"><i aria-hidden="true"></i>{{ 'cfLive' | cfT }}</span>
+          @if (view.staleAt(); as at) {<span class="cf-live stale"><i aria-hidden="true"></i>{{ 'figuresAt' | cfT: { t: at } }}</span>} @else {<span class="cf-live"><i aria-hidden="true"></i>{{ 'cfLive' | cfT }}</span>}
           <b class="cf-story-at">{{ 'cfWalk' | cfT }} · {{ crumbs().here || ('cfOman' | cfT) }}</b>
           <button type="button" class="cf-btn icon" [attr.aria-label]="(walk.paused() ? 'cfResume' : 'cfPause') | cfT" [attr.aria-pressed]="walk.paused()" (click)="walk.toggle()"><svg [cfIcon]="walk.paused() ? 'play' : 'pause'"></svg></button>
           <button type="button" class="cf-btn icon" [attr.aria-label]="'cfWalkStop' | cfT" (click)="walk.stop()"><svg cfIcon="close"></svg></button>
@@ -27,6 +27,7 @@
         <button type="button" class="cf-btn icon" [attr.aria-label]="'cfMenu' | cfT" (click)="sheet.set('set')"><svg cfIcon="menu"></svg></button>
       </div>
     }
+    @if (fly()) {@defer (on immediate) {<div cfFly [place]="p" [still]="still()" (fly)="pacer.hold($event)"></div>} @error {}}
     <main class="cf-main">
       @if (!counting()) {
         <p class="cf-empty"><b>{{ 'cxdBefore' | cfT }}</b></p>

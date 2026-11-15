@@ -165,6 +165,14 @@
   }
 }
 
+@mixin stage-touch {
+  @include coarse {
+    :where([data-form='stage']) & {
+      @content;
+    }
+  }
+}
+
 @mixin field {
   @include hit-min;
   @include form(flow) {

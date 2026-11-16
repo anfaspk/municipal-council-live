@@ -49,23 +49,9 @@
         @content;
       }
     }
-  } @else if $name == lg {
-    :where([data-form='stage']) & {
-      @container frame (width < #{$bp-xl}) {
-        @content;
-      }
-    }
-  } @else if $name == xl {
-    :where([data-form='stage']) & {
-      @container frame (#{$bp-xl} <= width < #{$bp-xxl}) {
-        @content;
-      }
-    }
-  } @else if $name == xxl {
-    :where([data-form='stage']) & {
-      @container frame (width >= #{$bp-xxl}) {
-        @content;
-      }
+  } @else if $name == lg or $name == xl or $name == xxl {
+    :where([data-tier='#{$name}']) & {
+      @content;
     }
   } @else {
     @error 'tier: xs, sm, md, lg, xl or xxl, not #{$name}';
@@ -86,6 +72,12 @@
 
 @mixin short {
   :where([data-short]) & {
+    @content;
+  }
+}
+
+@mixin tight {
+  :where([data-tight]) & {
     @content;
   }
 }

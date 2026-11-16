@@ -1,0 +1,229 @@
+@use '../mixins';
+@use '../scales' as *;
+
+
+:where(.cc-grid) {
+  @include mixins.tier(lg) {
+    > .cc-hero {
+      @include mixins.box;
+    }
+    .cc-hero .hero-in {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      column-gap: $sp-18;
+      padding-inline: $sp-20 $sp-16;
+    }
+    .cc-hero :is(.gwrap, .hero-in .bb) {
+      zoom: 0.82;
+    }
+    .cc-hero .hero-in .mid > .mj-micro {
+      white-space: nowrap;
+    }
+    .cc-hero .hero-title {
+      font-size: $fs-20;
+      margin-bottom: $sp-20;
+    }
+    .cc-hero .hero-stats {
+      column-gap: $sp-10;
+    }
+    .cc-hero .hero-stats b {
+      font-size: $fs-22;
+    }
+    .cc-hero .hs-l {
+      font-size: $fs-13;
+      gap: $sp-6;
+    }
+    .cc-hero .hero-stats .cap {
+      font-size: $fs-12;
+    }
+    .cc-kpis .mj-kpi .foot {
+      font-size: $fs-11;
+      white-space: nowrap;
+    }
+    .cc-kpis .mj-kpi-header {
+      font-size: $fs-14;
+      line-height: 1.25;
+      @include mixins.lines(2);
+    }
+    .cc-kpis .mj-kpi .val {
+      font-size: $fs-26;
+    }
+    .cc-pulse :is(.gp-sexes, .gp-sex) {
+      gap: $sp-6;
+    }
+    .cc-pulse .gp-g {
+      width: 28px;
+      height: 28px;
+    }
+    .cc-pulse .gp-g .mj-sex {
+      width: 18px;
+      height: 18px;
+    }
+    .cc-pulse .gp-gap {
+      max-width: 96px;
+      padding: $sp-4 $sp-8;
+      white-space: normal;
+      text-align: center;
+    }
+    .cc-map {
+      grid-template-columns: 284px minmax(0, 1fr) 244px;
+      gap: $sp-12;
+      padding: $sp-16;
+    }
+    .map-rail .cc-rail-heading {
+      font-size: $fs-18;
+      @include mixins.ellipsis;
+    }
+    .map-rail .mj-row {
+      grid-template-columns: 18px 10px minmax(0, 1fr) 68px 44px;
+      gap: $sp-6;
+      padding: 0 $sp-6;
+    }
+    .cc-age .ix-gsum {
+      gap: $sp-8;
+    }
+    .cc-age .ix-gt b {
+      font-size: $fs-16;
+    }
+    .cc-podium .mj-pods {
+      gap: $sp-6;
+    }
+    .cc-podium .mj-pod {
+      width: 86px;
+    }
+    .cc-podium .mj-runner .rr {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: $sp-6;
+      padding: $sp-6 $sp-8;
+    }
+    .cc-podium .mj-runner .rr .n b {
+      @include mixins.ellipsis;
+    }
+    @include mixins.box-w($bp-hero-narrow) {
+      .cc-hero :is(.gwrap, .hero-in .bb) {
+        zoom: 0.7;
+      }
+      .cc-hero .hero-in .mid > .mj-micro {
+        font-size: $fs-18;
+      }
+    }
+  }
+}
+
+.cc-grid {
+  @include mixins.short {
+    grid-template-rows: 56px clamp(260px, 29.5%, 300px) minmax(0, 1fr) 34px;
+  }
+}
+:where(.cc-grid) {
+  @include mixins.short {
+    > .cc-pulse {
+      padding-block: $sp-12 $sp-10;
+    }
+    .cc-pulse .gp-body {
+      gap: $sp-6;
+    }
+    .cc-pulse .gp-row {
+      gap: $sp-4;
+    }
+
+    .cc-side {
+      @include mixins.box;
+    }
+    .cc-side .cc-podium {
+      height: auto;
+      padding-block: $sp-10 $sp-12;
+    }
+    .cc-podium .mj-podium {
+      height: auto;
+    }
+    .cc-podium .mj-pods {
+      flex: 1;
+      min-width: 0;
+      align-items: center;
+      justify-content: space-between;
+      gap: $sp-6;
+    }
+    .cc-podium .mj-pod {
+      flex-direction: row-reverse;
+      gap: $sp-6;
+      width: auto;
+      min-width: 0;
+    }
+    .cc-podium .mj-pod.p1 {
+      order: 3;
+    }
+    .cc-podium .mj-pod.p2 {
+      order: 2;
+    }
+    .cc-podium .mj-pod.p3 {
+      order: 1;
+    }
+    .cc-podium .mj-pod .who {
+      min-width: 0;
+      margin: 0;
+      text-align: end;
+    }
+    .cc-podium .mj-pod .who b {
+      font-size: $fs-13;
+      @include mixins.ellipsis;
+    }
+    .cc-podium .mj-pod .blk {
+      flex: none;
+      flex-direction: row;
+      align-items: center;
+      gap: $sp-6;
+      width: auto;
+      max-height: 34px;
+      padding: $sp-4 $sp-8;
+      border-radius: var(--radius-pill);
+    }
+    .cc-podium .mj-pod .blk .r {
+      font-size: $fs-16;
+    }
+    .cc-podium .mj-pod .blk .s {
+      margin: 0;
+    }
+    .cc-podium :is(.mj-pod .who span, .mj-runner),
+    .cc-podium .mj-pod .blk::before {
+      display: none;
+    }
+    @include mixins.box-w($bp-side-narrow) {
+      .cc-podium .mj-pod .blk .r {
+        display: none;
+      }
+    }
+
+    .map-focus .fc-in {
+      display: flex;
+      flex-flow: column wrap;
+      align-content: flex-start;
+      column-gap: $sp-40;
+      height: 100%;
+    }
+    .map-focus .fc-in > * {
+      flex: none;
+      inline-size: 100%;
+    }
+    .map-focus :is(.fg-row.nv, .fg-turn, .fc-alt) {
+      display: none;
+    }
+    .map-focus .fc-big {
+      margin-block: $sp-4;
+    }
+    .map-focus .fc-gt {
+      margin-top: $sp-8;
+    }
+    .map-focus .fg-row {
+      margin-top: $sp-5;
+    }
+  }
+
+  @include mixins.tight {
+    .cc-age .ix-gr:nth-child(even) .ix-gh {
+      visibility: hidden;
+    }
+    .cc-side .cc-age :is(.ix-gsum, .ix-wc, .ix-ahd, .ix-aaxis) {
+      display: none;
+    }
+  }
+}

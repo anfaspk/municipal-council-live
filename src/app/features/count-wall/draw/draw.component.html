@@ -58,7 +58,8 @@
       }
     </div>
   </div>
-  <button type="button" class="mj-btn tv-dash" (click)="toWall()"><svg mjIcon="prev"></svg><span>{{ text('cxdWall') }}</span></button>
+  @if (full.offered()) {<button type="button" class="mj-btn icon cxd-full" [attr.aria-label]="text(full.on() ? 'fullOff' : 'full')" [title]="text(full.on() ? 'fullOff' : 'full') + ' (F)'" (click)="full.toggle()"><svg [mjIcon]="full.on() ? 'shrink' : 'expand'"></svg></button>}
+  <button type="button" class="mj-btn tv-dash" [class.cxd-dash]="full.offered()" (click)="toWall()"><svg mjIcon="prev"></svg><span>{{ text('cxdWall') }}</span></button>
   <button type="button" class="mj-btn icon tv-x" [attr.aria-label]="text('close')" [title]="text('close')" (click)="close()"><svg mjIcon="close"></svg></button>
   <p class="mj-sr" aria-live="polite">{{ say() }}</p>
 </div>

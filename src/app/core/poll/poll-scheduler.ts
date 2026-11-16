@@ -12,6 +12,7 @@ export interface PollHost {
   hidden(): boolean;
   onVisible(fn: () => void): () => void;
   onWake(fn: () => void): () => void;
+  onLeave?(fn: () => void): () => void;
   random(): number;
 }
 
@@ -44,6 +45,7 @@ export class Poll {
     this.unlisten = [
       this.host.onVisible(() => this.returned()),
       this.host.onWake(() => this.woke()),
+      ...(this.host.onLeave ? [this.host.onLeave(() => this.left())] : []),
     ];
     this.fire();
   }
@@ -67,6 +69,13 @@ export class Poll {
     this.refresh();
   }
 
+  private left(): void {
+    clearTimeout(this.timer);
+    this.ctl?.abort();
+    this.ctl = null;
+    this.due = true;
+  }
+
   private returned(): void {
     if (!this.due) return;
     this.due = false;
@@ -84,6 +93,7 @@ export class Poll {
       this.due = true;
       return;
     }
+    this.due = false;
     this.ctl?.abort();
     const ctl = (this.ctl = new AbortController()),
       t0 = performance.now();
@@ -141,6 +151,11 @@ export class PollScheduler {
           win?.removeEventListener('online', fn);
           win?.removeEventListener('pageshow', shown);
         };
+      },
+      onLeave: (fn) => {
+        const win = doc.defaultView;
+        win?.addEventListener('pagehide', fn);
+        return () => win?.removeEventListener('pagehide', fn);
       },
       random: Math.random,
     });

@@ -13,6 +13,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ServerClock } from '../../core/clock/server-clock.service';
+import { Fullscreen } from '../../core/screen/fullscreen';
 import { ScreenState } from '../../core/screen/screen.state';
 import { WinnersStore } from '../../data/winners.store';
 import { GEO } from '../../domain/geo/geo.data';
@@ -24,6 +25,7 @@ import { LOGO_DARK, MOI_LOGO_DARK } from '../../shared/ui/brand';
 import { trapTab } from '../../shared/ui/focus-trap';
 import { IconComponent } from '../../shared/ui/icon.component';
 import { WinnerPhotos } from './winner-photos';
+import { WinnersMemo } from './winners-memo';
 import { WinnersPickerComponent } from './winners-picker.component';
 import { WinnersRegionComponent } from './winners-region.component';
 import { WinnersSkyComponent } from './winners-sky.component';
@@ -57,10 +59,12 @@ import { WnTPipe } from './wn-t.pipe';
 })
 export class WinnersComponent {
   protected readonly screen = inject(ScreenState);
+  protected readonly full = inject(Fullscreen);
   protected readonly store = inject(WinnersStore);
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
   private readonly injector = inject(Injector);
   private readonly walk = new SlideClock();
+  private readonly memo = inject(WinnersMemo);
   protected readonly counting = inject(ServerClock).counting;
 
   protected readonly logoDark = LOGO_DARK;
@@ -128,6 +132,12 @@ export class WinnersComponent {
       );
       untracked(() => photos.warm(urls));
     });
+    this.memo.follow(
+      this.isOpen,
+      this.gov,
+      () => this.wils()[this.cur()]?.id ?? this.pendWil,
+      this.paused,
+    );
     effect(() => {
       const h = this.held();
       untracked(() => (h || !this.gov() ? this.walk.stop() : this.walk.start()));
@@ -143,14 +153,17 @@ export class WinnersComponent {
     const handoff = this.screen.takeHandoff(),
       link = this.opened && !handoff ? null : this.screen.takeBootWil(),
       boot = handoff ?? link?.gov ?? (this.opened ? null : this.screen.bootRegion);
+    const kept = handoff || link ? null : this.memo.kept(),
+      g = kept ? kept.gov : boot;
     this.opened = true;
-    this.gov.set(boot && Object.hasOwn(GEO.g, boot) ? boot : null);
+    this.gov.set(g && Object.hasOwn(GEO.g, g) ? g : null);
     this.cur.set(0);
-    this.pendWil = link?.wil ?? null;
-    this.paused.set(!!link);
+    this.pendWil = kept ? kept.wil : (link?.wil ?? null);
+    this.paused.set(kept ? kept.paused : !!link);
     afterNextRender(() => this.focusFirst(), { injector: this.injector });
   }
   private shut(): void {
+    if (this.isOpen()) this.memo.clear();
     this.isOpen.set(false);
     this.gov.set(null);
     this.walk.reset();
@@ -163,6 +176,7 @@ export class WinnersComponent {
 
   protected pick(id: string, focus = true): void {
     if (id === this.gov() || !Object.hasOwn(GEO.g, id)) return;
+    this.memo.q = '';
     this.gov.set(id);
     this.cur.set(0);
     this.paused.set(false);
@@ -172,13 +186,6 @@ export class WinnersComponent {
     if (focus) afterNextRender(() => this.focusFirst(), { injector: this.injector });
   }
 
-  protected fullscreen(): void {
-    try {
-      if (document.fullscreenElement) void document.exitFullscreen?.();
-      else void document.documentElement.requestFullscreen?.();
-    } catch {
-    }
-  }
   protected back(): void {
     const was = this.gov();
     this.gov.set(null);
@@ -253,6 +260,7 @@ export class WinnersComponent {
     if (!a) return;
     if (a.type === 'tab') return trapTab(this.host, e, 'button, select, input');
     e.preventDefault();
+    if (a.type === 'fullscreen') return this.full.toggle();
     if (a.type === 'back' && field instanceof HTMLInputElement && field.value) {
       field.value = '';
       field.dispatchEvent(new Event('input', { bubbles: true }));

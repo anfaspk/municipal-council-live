@@ -2,12 +2,15 @@ import {
   ApplicationConfig,
   ErrorHandler,
   inject,
+  Injector,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { OnceErrorHandler } from './core/log/error-handler';
 import { NavHistory } from './core/screen/nav-history';
+import { SCREEN_SWAP, type ScreenSwap } from './core/screen/screen.state';
 import { FRAME_READS } from './core/screen/viewport.state';
 import { FrameLoop } from './shared/motion/frame-loop.service';
+import { viewSwap } from './shared/motion/view-swap';
 import { SHEET_HISTORY, type SheetHistory } from './shared/ui/sheet/sheet-history';
 
 export const appConfig: ApplicationConfig = {
@@ -16,6 +19,7 @@ export const appConfig: ApplicationConfig = {
     { provide: ErrorHandler, useClass: OnceErrorHandler },
     { provide: FRAME_READS, useExisting: FrameLoop },
     { provide: SHEET_HISTORY, useFactory: sheetHistory },
+    { provide: SCREEN_SWAP, useFactory: screenSwap },
   ],
 };
 
@@ -34,4 +38,12 @@ function sheetHistory(): SheetHistory {
       };
     },
   };
+}
+
+function screenSwap(): ScreenSwap {
+  const injector = inject(Injector);
+  return (apply, form) =>
+    form || document.documentElement.dataset['form'] === 'flow'
+      ? viewSwap(apply, injector)
+      : apply();
 }

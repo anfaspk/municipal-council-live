@@ -33,15 +33,7 @@ import { FlIconComponent } from '../fl-icon.component';
 import { FpTPipe } from './fp-t.pipe';
 import { fp } from './page-strings';
 
-import {
-  LIST_SORTS,
-  PAGE_TABS,
-  type PageSort,
-  type PageTab,
-  tabOf,
-  tabStep,
-  type TabChoice,
-} from './page.model';
+import { LIST_SORTS, PAGE_TABS, type PageSort, type PageTab, tabOf, tabStep } from './page.model';
 import { PageAgesComponent } from './page-ages.component';
 import { PageColsComponent } from './page-cols.component';
 import { PageGenderComponent } from './page-gender.component';
@@ -121,7 +113,7 @@ export class FlowPageComponent {
     const f = this.followAt();
     return !!f && this.follow.is(f);
   });
-  private readonly kept = signal<TabChoice>({});
+  private readonly kept = this.detail.tabs;
   protected readonly tabs = computed(() => PAGE_TABS[this.v.level() ?? 'gov']);
   protected readonly tab = computed(() => tabOf(this.v.level() ?? 'gov', this.kept()));
   protected readonly fmt = fmt;

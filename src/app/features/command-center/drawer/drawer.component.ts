@@ -19,6 +19,7 @@ import { DetailState } from '../detail/detail.state';
 import { CountUpGroup } from '../../../shared/motion/count-up.directive';
 import { reducedMotion } from '../../../shared/motion/reduced-motion';
 import { flushStyle, restartAnimation } from '../../../shared/motion/restart-animation';
+import { trapTab } from '../../../shared/ui/focus-trap';
 import { IconComponent, IconName } from '../../../shared/ui/icon.component';
 import { TPipe } from '../../../shared/ui/t.pipe';
 import { CommandCenterState } from '../command-center.state';
@@ -51,6 +52,8 @@ const SETTLE_MS = 1100;
     '[class.low]': 'drawer.snap() && drawer.band() === "low"',
     '[class.mid]': 'drawer.snap() && drawer.band() === "mid"',
     '[class.high]': 'drawer.snap() && drawer.band() === "high"',
+    '(keydown.tab)': 'trap($event)',
+    '(keydown.shift.tab)': 'trap($event)',
   },
   templateUrl: './drawer.component.html',
   styleUrl: './drawer.scss',
@@ -62,6 +65,10 @@ export class DrawerComponent {
   protected readonly drawer = inject(DrawerState);
   protected readonly tabs = TAB_ITEMS;
   protected readonly open = signal(false);
+  protected trap(e: Event): void {
+    if (this.open())
+      trapTab(this.host, e as KeyboardEvent, 'button, select, input, [tabindex="0"]');
+  }
   protected readonly crumbWil = computed(() =>
     this.drawer.tab() === 'vil' ? this.drawer.wil() : null,
   );
@@ -105,6 +112,10 @@ export class DrawerComponent {
       this.hot = n;
       this.state.wilHot.set(n);
     });
+    effect(() => {
+      const t = this.drawer.tab();
+      if (this.gid) untracked(() => this.state.pane.set(t));
+    });
     this.host.addEventListener('pointerleave', () => {
       this.hot = null;
       this.state.wilHot.set(null);
@@ -128,7 +139,7 @@ export class DrawerComponent {
     const d = this.drawer;
     if (!this.stats.gov(gid)) return null;
     if (first) {
-      d.tab.set('ov');
+      d.tab.set(this.state.pane());
       d.openVil(null);
     }
     this.gid = gid;

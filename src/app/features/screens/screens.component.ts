@@ -58,7 +58,8 @@ import { ScreenActivity } from './screen-activity';
   host: {
     class: 'mj-root mj-cc',
     '[class.cc-drill]': 'state.drilled()',
-    '[class.cc-paged]': '!!detail.at()',
+    '[class.cc-paged]': '!!detail.at() && !detail.beside()',
+    '[class.cc-beside]': '!!detail.at() && detail.beside()',
     '[attr.data-theme]': 'state.theme()',
     dir: 'rtl',
     lang: 'ar',

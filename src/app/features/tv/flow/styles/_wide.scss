@@ -116,7 +116,6 @@
 
   .tvf-card {
     flex: 1 1 0;
-    min-block-size: 0;
     padding: $sp-16;
   }
   .tvf-seats {
@@ -152,7 +151,7 @@
     grid-template-columns: 1fr 1fr;
     align-content: start;
     column-gap: $sp-18;
-    min-block-size: 0;
+    min-block-size: calc(2 * #{$sp-64});
     margin: 0;
     padding: 0;
     overflow: hidden auto;

@@ -1,13 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   inject,
   input,
   output,
   ViewEncapsulation,
 } from '@angular/core';
-import { ViewportState } from '../../../core/screen/viewport.state';
+import { Fullscreen } from '../../../core/screen/fullscreen';
 import { CfIconComponent } from './cf-icon.component';
 import { CfTPipe } from './cf-t.pipe';
 
@@ -36,7 +35,7 @@ export interface CfLine {
         <div class="cf-seg" role="group" aria-labelledby="cf-secs">@for (s of secsList(); track s) {<button type="button" [class.on]="s === sec()" [attr.aria-pressed]="s === sec()" (click)="secChange.emit(s)">{{ 'cfSecN' | cfT: { n: s } }}</button>}</div></div>
       <button type="button" class="cf-opt" role="switch" [attr.aria-checked]="still()" [disabled]="osStill()" (click)="stillChange.emit(!still())"><span><b>{{ 'cfStill' | cfT }}</b><small>{{ 'cfStillD' | cfT }}</small></span><span class="cf-sw" [class.on]="still()" aria-hidden="true"><i></i></span></button>
       <button type="button" class="cf-opt" (click)="themeChange.emit()"><span><b>{{ 'cfTheme' | cfT }}</b><small>{{ (theme() === 'night' ? 'cfNight' : 'cfDay') | cfT }}</small></span><svg [cfIcon]="theme() === 'night' ? 'moon' : 'sun'"></svg></button>
-      @if (canFull()) {<button type="button" class="cf-opt link" (click)="full()"><svg cfIcon="full"></svg><b>{{ 'cfFull' | cfT }}</b></button>}
+      @if (full.offered()) {<button type="button" class="cf-opt link" (click)="full.toggle()"><svg [cfIcon]="full.on() ? 'unfull' : 'full'"></svg><b>{{ (full.on() ? 'fullOff' : 'cfFull') | cfT }}</b></button>}
       <button type="button" class="cf-opt link" (click)="go.emit('draw')"><svg cfIcon="star"></svg><b>{{ 'cfDraw' | cfT }}</b></button>
       <button type="button" class="cf-opt link" (click)="go.emit('dashboard')"><svg cfIcon="grid"></svg><b>{{ 'cfDash' | cfT }}</b></button>
     }`,
@@ -44,7 +43,6 @@ export interface CfLine {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CfSheetsComponent {
-  private readonly viewport = inject(ViewportState);
   readonly kind = input.required<CfSheet>();
   readonly lines = input<readonly CfLine[]>([]);
   readonly sec = input(6);
@@ -56,10 +54,5 @@ export class CfSheetsComponent {
   readonly stillChange = output<boolean>();
   readonly themeChange = output<void>();
   readonly go = output<'draw' | 'dashboard'>();
-  protected readonly canFull = computed(
-    () => !!document.fullscreenEnabled && this.viewport.display() === 'browser',
-  );
-  protected full(): void {
-    void document.documentElement.requestFullscreen?.().catch(() => undefined);
-  }
+  protected readonly full = inject(Fullscreen);
 }

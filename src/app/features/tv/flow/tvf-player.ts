@@ -24,7 +24,8 @@ export abstract class TvfPlayer {
   protected readonly walker = inject(TvWalk);
   protected readonly clock = this.walker.clock;
   protected readonly prefs = loadTvPrefs();
-  protected readonly tab = inject(TvInterimTab).tab;
+  protected readonly tabs = inject(TvInterimTab);
+  protected readonly tab = this.tabs.tab;
 
   protected readonly isOpen = signal(false);
   protected readonly keys = signal<string[]>([]);

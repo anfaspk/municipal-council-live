@@ -15,6 +15,7 @@ import {
 import { ServerClock } from '../../../core/clock/server-clock.service';
 import { NavHistory } from '../../../core/screen/nav-history';
 import type { Screen } from '../../../core/screen/screen-prefs';
+import { Fullscreen } from '../../../core/screen/fullscreen';
 import { ScreenState } from '../../../core/screen/screen.state';
 import { injectScreenComp } from '../../../core/screen/viewport.state';
 import { WinnersStore } from '../../../data/winners.store';
@@ -29,6 +30,7 @@ import { trapTab } from '../../../shared/ui/focus-trap';
 import { SheetComponent } from '../../../shared/ui/sheet/sheet.component';
 import { tapZone } from '../../../shared/ui/story/story.model';
 import { WinnerPhotos } from '../winner-photos';
+import { WinnersMemo } from '../winners-memo';
 import {
   placeholders,
   SCENE_IMG,
@@ -43,19 +45,13 @@ import { WfCardComponent } from './wf-card.component';
 import { WfFxComponent } from './wf-fx.component';
 import { WfIconComponent } from './wf-icon.component';
 import { WfPickComponent } from './wf-pick.component';
-import { shareWinner, toggleFullscreen } from './wf-share';
+import { shareWinner } from './wf-share';
 import { wf } from './wf-strings';
 import { WfTPipe } from './wf-t.pipe';
 import { WfWideComponent } from './wf-wide.component';
 import { WfWilsComponent } from './wf-wils.component';
-import { cardSize, govKey, govOfKey, segStates } from './winners-flow.model';
+import { BAR, cardSize, govKey, govOfKey, segStates } from './winners-flow.model';
 
-const BAR: readonly { s: Screen; icon: 'box' | 'crown' | 'grid' | 'tv'; key: string }[] = [
-  { s: 'wall', icon: 'box', key: 'wfBarCount' },
-  { s: 'winners', icon: 'crown', key: 'wfBarWin' },
-  { s: 'dashboard', icon: 'grid', key: 'wfBarDash' },
-  { s: 'tv', icon: 'tv', key: 'wfBarTv' },
-];
 const TOAST_MS = 3000;
 
 @Component({
@@ -94,9 +90,11 @@ const TOAST_MS = 3000;
 export class WinnersFlowComponent {
   protected readonly view = inject(WinnersView);
   protected readonly screen = inject(ScreenState);
+  protected readonly full = inject(Fullscreen);
   protected readonly store = inject(WinnersStore);
   private readonly nav = inject(NavHistory);
   private readonly photos = inject(WinnerPhotos);
+  private readonly memo = inject(WinnersMemo);
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
   private readonly injector = inject(Injector);
   private readonly walk = new SlideClock();
@@ -117,7 +115,6 @@ export class WinnersFlowComponent {
   protected readonly sheet = signal<'wils' | 'menu' | null>(null);
   protected readonly toast = signal('');
   protected readonly say = signal('');
-  protected readonly canFull = typeof document.documentElement.requestFullscreen === 'function';
 
   protected readonly card = computed(
     () => this.view.cards().find((c) => c.id === this.gov()) ?? null,
@@ -190,6 +187,7 @@ export class WinnersFlowComponent {
       const run = this.isOpen() && !!this.gov() && !this.stopped();
       untracked(() => (run ? this.walk.start() : this.walk.stop()));
     });
+    this.memo.follow(this.isOpen, this.gov, () => this.wil()?.id ?? this.pendWil, this.paused);
     inject(DestroyRef).onDestroy(() => {
       this.walk.reset();
       this.store.watch(null);
@@ -202,13 +200,15 @@ export class WinnersFlowComponent {
     const handoff = this.screen.takeHandoff(),
       link = this.opened && !handoff ? null : this.screen.takeBootWil(),
       boot = handoff ?? link?.gov ?? (this.opened ? null : this.screen.bootRegion);
+    const kept = handoff || link ? null : this.memo.kept(),
+      g = kept ? kept.gov : boot;
     this.opened = true;
     this.isOpen.set(true);
     this.sheet.set(null);
-    this.gov.set(boot && Object.hasOwn(GEO.g, boot) ? boot : null);
+    this.gov.set(g && Object.hasOwn(GEO.g, g) ? g : null);
     this.cur.set(0);
-    this.pendWil = link?.wil ?? null;
-    this.paused.set(!!link && this.comp() !== 'sign');
+    this.pendWil = kept ? kept.wil : (link?.wil ?? null);
+    this.paused.set(kept ? kept.paused : !!link && this.comp() !== 'sign');
     this.held.set(false);
     this.stepSet = false;
     this.stopNav = this.nav.listen('level', () => this.popped());
@@ -216,6 +216,7 @@ export class WinnersFlowComponent {
   }
   private shut(): void {
     if (!this.isOpen()) return;
+    this.memo.clear();
     this.isOpen.set(false);
     this.gov.set(null);
     this.sheet.set(null);
@@ -325,10 +326,6 @@ export class WinnersFlowComponent {
     this.toast.set(text);
     this.toastT = setTimeout(() => this.toast.set(''), TOAST_MS);
   }
-  protected fullscreen(): void {
-    this.sheet.set(null);
-    toggleFullscreen();
-  }
 
   protected title(w: WWil): { kind: string; name: string } {
     return titleParts(w.name, wf('wnWilayat'));
@@ -368,6 +365,7 @@ export class WinnersFlowComponent {
     if (!a) return;
     if (a.type === 'tab') return trapTab(this.host, e, 'button, select, input, [tabindex="0"]');
     e.preventDefault();
+    if (a.type === 'fullscreen') return this.full.toggle();
     if (a.type === 'back') return this.back();
     if (a.type === 'play') return this.togglePlay();
     if (a.type === 'move') return this.move(a.step);

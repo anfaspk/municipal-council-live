@@ -1,4 +1,5 @@
 @let paged = !!detail.at();
+@let covered = paged && !detail.beside();
 <div class="mj-ambient"></div>
 <div class="mj-horizon"></div>
 <div class="cc-grid">
@@ -6,13 +7,13 @@
   <section class="cc-hero mj-glass" data-boot [inert]="paged" [attr.aria-label]="'natTurnout' | t"></section>
   <section class="cc-pulse mj-glass" data-boot [inert]="paged" [attr.aria-label]="'gender' | t"><span class="mj-crenel"></span>@defer (on idle) {<div gpPulse></div>}</section>
   <section class="cc-kpis" data-boot [inert]="paged" [attr.aria-label]="'kpisL' | t"></section>
-  <section class="cc-map mj-glass" data-boot [inert]="paged" [attr.aria-label]="'map' | t" (pointerenter)="tourEnter()" (pointerleave)="tourLeave()" (focusin)="tourFocus(true)" (focusout)="tourFocus(false, $event)"><span class="mj-crenel"></span>
+  <section class="cc-map mj-glass" data-boot [inert]="covered" [attr.aria-label]="'map' | t" (pointerenter)="tourEnter()" (pointerleave)="tourLeave()" (focusin)="tourFocus(true)" (focusout)="tourFocus(false, $event)"><span class="mj-crenel"></span>
     <div class="map-rail mj-z"></div>
     <div class="map-wrap mj-z"><div class="map-stage" dir="ltr"></div><div class="map-bands mj-glass raised" [govs]="stats.govs()"></div></div>
     <div class="map-focus mj-z"></div></section>
-  <div class="cc-side" [inert]="paged"><section class="cc-age ix-card mj-glass" data-boot [attr.aria-label]="'ixTabs' | t"><span class="mj-crenel"></span><div class="ixw mj-z"></div></section>
+  <div class="cc-side" [inert]="covered"><section class="cc-age ix-card mj-glass" data-boot [attr.aria-label]="'ixTabs' | t"><span class="mj-crenel"></span><div class="ixw mj-z"></div></section>
     <section class="cc-podium mj-glass" data-boot [attr.aria-label]="'podium' | t"></section></div>
-  <footer class="cc-ticker mj-glass mj-ticker" data-boot [inert]="paged"></footer>
+  <footer class="cc-ticker mj-glass mj-ticker" data-boot [inert]="covered"></footer>
 </div>
 @if (paged) {@defer (on immediate) {<div class="dt-page"></div>}}
 <div class="mj-scrim" aria-hidden="true" [inert]="paged" (click)="state.close()"></div>

@@ -100,6 +100,12 @@
   visibility: hidden;
   pointer-events: none;
 }
+.has-foc .cx-lb {
+  pointer-events: none;
+}
+.has-foc .cx-lb:not(.hov) {
+  opacity: 0.26;
+}
 .cx-lb.sel {
   --c: var(--gold);
   scale: 1.12;

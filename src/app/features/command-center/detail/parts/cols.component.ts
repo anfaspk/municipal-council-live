@@ -2,6 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
+  ElementRef,
+  inject,
   input,
   output,
   ViewEncapsulation,
@@ -9,7 +12,9 @@ import {
 import { pct } from '../../../../domain/format';
 import { dt } from '../detail-strings';
 import { DtTPipe } from '../dt-t.pipe';
-import { Col, ColPlace, colsModel } from './cols.model';
+import { FRAME_SCOPE, FrameLoop } from '../../../../shared/motion/frame-loop.service';
+import { boxOf } from '../charts/chart-box';
+import { Col, ColPlace, colsModel, colsScroll } from './cols.model';
 
 @Component({
   selector: 'div.dt-cols',
@@ -36,6 +41,7 @@ import { Col, ColPlace, colsModel } from './cols.model';
 </div>`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '[class.scroll]': 'scroll()', '[style.--n]': 'model().cols.length' },
 })
 export class ColsComponent<K = number> {
   readonly places = input.required<readonly ColPlace<K>[]>();
@@ -44,6 +50,39 @@ export class ColsComponent<K = number> {
   readonly pick = output<K>();
   protected readonly pct = pct;
   protected readonly model = computed(() => colsModel(this.places(), this.current(), this.ref()));
+  private readonly box = boxOf();
+  protected readonly scroll = computed(() => colsScroll(this.model().cols.length, this.box().w));
+
+  constructor() {
+    const host: HTMLElement = inject(ElementRef).nativeElement;
+    const frames = inject(FrameLoop),
+      scope = inject(FRAME_SCOPE);
+    effect((onCleanup) => {
+      this.current();
+      if (!this.scroll()) return;
+      let by = 0,
+        tries = 30;
+      const h = frames.add(
+        {
+          read: () => {
+            by = 0;
+            const me = host.querySelector('.dt-vcol.me');
+            if (!me) return;
+            const c = host.getBoundingClientRect(),
+              r = me.getBoundingClientRect(),
+              k = c.width / (host.offsetWidth || 1) || 1;
+            by = (r.left + r.width / 2 - (c.left + c.width / 2)) / k;
+          },
+          write: () => {
+            if (Math.abs(by) >= 1) host.scrollLeft += by;
+            if (--tries <= 0) h.stop();
+          },
+        },
+        scope,
+      );
+      onCleanup(() => h.stop());
+    });
+  }
   protected readonly summary = computed(() => {
     const m = this.model();
     return dt('dtSumCols', {

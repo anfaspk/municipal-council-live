@@ -18,14 +18,15 @@ import { band, turnout } from '../../../domain/stats/turnout';
 import { GlyphComponent } from '../../../shared/ui/glyph.component';
 import { shareLink, type Shared } from '../../../shared/ui/share';
 import { TPipe } from '../../../shared/ui/t.pipe';
+import { CommandCenterState } from '../command-center.state';
 import { writeDetail, type DetailAt } from '../detail/detail-url';
+import type { Tab } from '../drawer/drawer.model';
 import { FlIconComponent } from './fl-icon.component';
 import { FlTPipe } from './fl-t.pipe';
 import { FollowPref } from './follow-pref';
 import { fl } from './flow-strings';
 import { cmpOf } from './flow.model';
 
-type Tab = 'ov' | 'wil' | 'vil';
 const TABS: readonly { tab: Tab; key: string }[] = [
   { tab: 'ov', key: 'flTabOv' },
   { tab: 'wil', key: 'flTabWil' },
@@ -45,12 +46,16 @@ export class FlowGovSheetComponent {
   readonly shared = output<Shared>();
   readonly page = output<DetailAt>();
   private readonly stats = inject(TurnoutStore);
+  private readonly cc = inject(CommandCenterState);
   protected readonly follow = inject(FollowPref);
   protected readonly followed = computed(() => this.follow.is({ gov: this.gid(), wil: null }));
   protected readonly tabs = TABS;
   protected readonly pct = pct;
   protected readonly fmt = fmt;
-  protected readonly tab = linkedSignal<string, Tab>({ source: this.gid, computation: () => 'ov' });
+  protected readonly tab = linkedSignal<string, Tab>({
+    source: this.gid,
+    computation: (_, prev) => (prev ? 'ov' : untracked(this.cc.pane)),
+  });
   protected readonly wid = linkedSignal<string, number | null>({
     source: this.gid,
     computation: () => null,
@@ -129,6 +134,10 @@ export class FlowGovSheetComponent {
         if (g && need) this.stats.needRegions(this, [g.apiId]);
         else this.stats.release(this);
       });
+    });
+    effect(() => {
+      const t = this.tab();
+      untracked(() => this.cc.pane.set(t));
     });
     effect(() => {
       const w = this.tab() === 'vil' ? this.vilWid() : null;

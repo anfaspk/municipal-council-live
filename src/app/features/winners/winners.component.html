@@ -7,7 +7,7 @@
   <span class="wn-gap"></span>
   @if (stamp(); as s) {<span class="wn-chip" [class.stale]="store.stale()"><i></i>{{ s }}</span>}
   @if (gov()) {<button type="button" class="mj-btn wn-back" (click)="back()"><svg [mjIcon]="'layers'"></svg><span>{{ 'wnBack' | wnT }}</span></button>}
-  <button type="button" class="mj-btn icon wn-fs" [attr.aria-label]="'wnFull' | wnT" [title]="'wnFull' | wnT" (click)="fullscreen()"><svg [mjIcon]="'expand'"></svg></button>
+  @if (full.offered()) {<button type="button" class="mj-btn icon wn-fs" [attr.aria-label]="(full.on() ? 'fullOff' : 'wnFull') | wnT" [title]="((full.on() ? 'fullOff' : 'wnFull') | wnT) + ' (F)'" (click)="full.toggle()"><svg [mjIcon]="full.on() ? 'shrink' : 'expand'"></svg></button>}
   <button type="button" class="mj-btn icon wn-x" [attr.aria-label]="'close' | wnT" [title]="('close' | wnT) + ' (Esc)'" (click)="close()"><svg [mjIcon]="'close'"></svg></button>
 </header>
 @if (card(); as c) {

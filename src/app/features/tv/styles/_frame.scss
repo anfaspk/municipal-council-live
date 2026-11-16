@@ -140,11 +140,12 @@
 }
 
 .tv-body {
+  --tv-extra: calc(max(0px, 100cqi - 1944px) * 0.75);
   position: relative;
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 880px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, calc(880px + var(--tv-extra))) minmax(0, 1fr);
   gap: $sp-56;
   align-items: center;
 }

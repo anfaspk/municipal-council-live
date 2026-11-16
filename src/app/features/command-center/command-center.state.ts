@@ -11,6 +11,7 @@ import {
 import { Subject } from 'rxjs';
 import { ViewportState } from '../../core/screen/viewport.state';
 import { TurnoutStore } from '../../data/turnout.store';
+import type { Tab } from './drawer/drawer.model';
 import { loadTheme, saveTheme, themeOf, type Theme } from './theme-pref';
 
 export type { Theme } from './theme-pref';
@@ -29,6 +30,7 @@ export class CommandCenterState {
   readonly pinned = signal<string | null>(null);
   readonly focus = computed(() => this.hot() ?? this.pinned());
   readonly drilled = computed(() => this.pinned() !== null);
+  readonly pane = signal<Tab>('ov');
   readonly side = signal<string | null>(null);
   readonly wilHot = signal<string | null>(null);
   readonly wilSel = signal<string | null>(null);
@@ -59,6 +61,7 @@ export class CommandCenterState {
   close(): void {
     if (this.pinned() === null) return;
     this.pinned.set(null);
+    this.pane.set('ov');
     this.hot.set(null);
     this.wilHot.set(null);
     this.wilSel.set(null);

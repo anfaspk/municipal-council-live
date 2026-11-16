@@ -62,7 +62,7 @@
   row-gap: $sp-18;
 }
 .tv-body.tabbed:has(> .tv-int:not(.off)) {
-  grid-template-columns: minmax(0, 1040px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, calc(1040px + var(--tv-extra))) minmax(0, 1fr);
 }
 .tv-body.tabbed > .tv-map {
   grid-column: 2;

@@ -27,7 +27,7 @@ import { fl } from './flow-strings';
   },
   template: `<p class="mj-sr" role="status">{{ busy }}</p>
     <div class="fl-sk-in" inert>
-      <div mjAppbar [heading]="heading" [sub]="sub" [theme]="theme()"></div>
+      <div mjAppbar [heading]="heading" [sub]="sub" [theme]="theme()" [bare]="true"></div>
       <main class="fl-sk-feed">
         <section class="fl-sk-card fl-sk-hero"><i class="fl-sk ring"></i><i class="fl-sk line"></i><i class="fl-sk chip"></i></section>
         <div class="fl-sk-tiles"><i class="fl-sk tile"></i><i class="fl-sk tile"></i><i class="fl-sk tile"></i></div>

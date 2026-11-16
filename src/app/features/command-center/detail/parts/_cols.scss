@@ -17,6 +17,15 @@
   grid-template-rows: 46px minmax(0, 1fr);
   min-width: 0;
 }
+.dt-cols.scroll {
+  overflow: auto hidden;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+.dt-cols.scroll .dt-cols-plot {
+  flex: none;
+  inline-size: calc(var(--n, 1) * #{$sp-30} + (var(--n, 1) - 1) * #{$sp-3});
+}
 .dt-cols .dt-cols-me {
   position: relative;
   inset-inline-start: clamp(

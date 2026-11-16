@@ -251,7 +251,9 @@ html.mj-fit.mj-zoomed body {
 
 .mj-cc.cc-paged .cc-grid > :not(.cc-bar),
 .mj-cc.cc-paged .mj-drawer,
-.mj-cc.cc-paged .mj-scrim {
+.mj-cc.cc-paged .mj-scrim,
+.mj-cc.cc-beside .mj-drawer,
+.mj-cc.cc-beside .mj-scrim {
   visibility: hidden;
   content-visibility: hidden;
 }

@@ -1,6 +1,17 @@
-import { afterNextRender, DestroyRef, inject, Injectable, Injector, signal } from '@angular/core';
+import {
+  afterNextRender,
+  computed,
+  DestroyRef,
+  inject,
+  Injectable,
+  Injector,
+  linkedSignal,
+  signal,
+} from '@angular/core';
 import { NavHistory } from '../../../core/screen/nav-history';
+import { ViewportState } from '../../../core/screen/viewport.state';
 import { GEO } from '../../../domain/geo/geo.data';
+import type { TabChoice } from '../flow/page/page.model';
 import { DetailAt, readDetail, sameAt, upOf, writeDetail } from './detail-url';
 
 interface Entry {
@@ -20,6 +31,15 @@ export class DetailState {
     equal: sameAt,
   });
   readonly at = this._at.asReadonly();
+  readonly vilQ = linkedSignal<number | null, string>({
+    source: () => this._at()?.wil ?? null,
+    computation: () => '',
+  });
+  readonly tabs = signal<TabChoice>({});
+  readonly beside = computed(() => {
+    const v = this.injector.get(ViewportState);
+    return v.form() === 'stage' && v.tier() === 'xxl';
+  });
   private opener: HTMLElement | null = null;
   private closing = false;
   move = (_from: DetailAt, _to: DetailAt | null, apply: () => void): void => apply();

@@ -37,6 +37,7 @@ export class FitDirective {
         if (el.dataset['form'] !== l.form) el.dataset['form'] = l.form;
         if (el.dataset['tier'] !== l.tier) el.dataset['tier'] = l.tier;
         el.toggleAttribute('data-short', l.short);
+        el.toggleAttribute('data-tight', l.tight);
       }
       this.html.classList.toggle('mj-zoomed', l.scroll);
       const fx = this.viewport.fx();
@@ -75,7 +76,7 @@ export class FitDirective {
       clearInterval(tick);
       for (const ev of INPUTS) win?.removeEventListener(ev, input, { capture: true });
       this.html.classList.remove('mj-fit', 'mj-zoomed');
-      for (const a of ['data-form', 'data-tier', 'data-short', 'data-fx'])
+      for (const a of ['data-form', 'data-tier', 'data-short', 'data-tight', 'data-fx'])
         this.html.removeAttribute(a);
       setLiteFx(false);
     });

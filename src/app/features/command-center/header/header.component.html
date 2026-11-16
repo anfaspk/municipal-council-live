@@ -3,8 +3,8 @@
 <span class="mj-beacon" [class.declared]="stats.done()"><i></i><span class="bt">{{ (stats.done() ? 'declared' : 'live') | t }}</span></span>
 <span class="cc-upd"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><circle class="mj-track" cx="10" cy="10" r="8" fill="none" stroke-width="2"/><circle class="cd" cx="10" cy="10" r="8" fill="none" stroke-width="2" stroke-linecap="round" pathLength="100" stroke-dasharray="100 100" transform="rotate(-90 10 10)"/></svg><span class="txt" #updated></span></span>
 <span class="cc-gap"></span>
-<button class="mj-btn icon theme" type="button" [title]="'theme' | t" [attr.aria-label]="'theme' | t" (click)="state.toggleTheme()"><svg [mjIcon]="state.theme() === 'night' ? 'sun' : 'moon'"></svg></button>
-<button class="mj-btn icon tvb" type="button" [title]="'tv' | t" [attr.aria-label]="'tv' | t" (click)="screen.show('tv')"><svg [mjIcon]="'tv'"></svg></button>
-<button class="mj-btn icon ctvb" type="button" [title]="liveCount" [attr.aria-label]="liveCount" (click)="screen.show('wall')"><svg [mjIcon]="'ballot'"></svg></button>
-<button class="mj-btn icon wnb" type="button" [title]="'winners' | t" [attr.aria-label]="'winners' | t" (click)="screen.show('winners')"><svg [mjIcon]="'crown'"></svg></button>
-<button class="mj-btn icon full" type="button" [title]="'full' | t" [attr.aria-label]="'full' | t" (click)="fullscreen()"><svg [mjIcon]="'expand'"></svg></button>
+<button class="mj-btn icon theme" type="button" [inert]="covered()" [title]="'theme' | t" [attr.aria-label]="'theme' | t" (click)="state.toggleTheme()"><svg [mjIcon]="state.theme() === 'night' ? 'sun' : 'moon'"></svg></button>
+<button class="mj-btn icon tvb" type="button" [inert]="covered()" [title]="'tv' | t" [attr.aria-label]="'tv' | t" (click)="screen.show('tv')"><svg [mjIcon]="'tv'"></svg></button>
+<button class="mj-btn icon ctvb" type="button" [inert]="covered()" [title]="liveCount" [attr.aria-label]="liveCount" (click)="screen.show('wall')"><svg [mjIcon]="'ballot'"></svg></button>
+<button class="mj-btn icon wnb" type="button" [inert]="covered()" [title]="'winners' | t" [attr.aria-label]="'winners' | t" (click)="screen.show('winners')"><svg [mjIcon]="'crown'"></svg></button>
+@if (full.offered()) {<button class="mj-btn icon full" type="button" [inert]="covered()" [title]="(full.on() ? 'fullOff' : 'full') | t" [attr.aria-label]="(full.on() ? 'fullOff' : 'full') | t" (click)="full.toggle()"><svg [mjIcon]="full.on() ? 'shrink' : 'expand'"></svg></button>}

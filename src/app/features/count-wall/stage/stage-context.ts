@@ -47,6 +47,7 @@ export interface StageContext {
   box(id: string): Box;
   gov(id: string): CGov;
   relayout(): void;
+  free(): readonly [number, number] | null;
 }
 
 const ELS: Record<keyof StageEls, string> = {

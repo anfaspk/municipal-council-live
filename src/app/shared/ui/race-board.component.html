@@ -49,7 +49,7 @@
 @if (gridCandidates().length || extraGridRows()) {
   <div class="rs-rest" style="--d:.3">
     @if (!r.seatCards.length) {<span class="mj-micro rs-all">{{ 'resAll' | t }}</span>}
-    <div class="rs-grid" data-pages [style.--rows]="g.rows" [style.--cols]="g.cols">
+    <div class="rs-grid" data-pages tabindex="0" [attr.aria-label]="(r.seatCards.length ? 'resRest' : 'resAll') | t" [style.--rows]="g.rows" [style.--cols]="g.cols">
       @for (c of gridCandidates(); track c.id) {
         <div class="rs-row" [attr.data-id]="c.id" [style.--d]="c.d" [style.--w]="c.w">
           <i class="rs-fill"></i><span class="rs-rk mj-num">{{ c.rank }}</span><span class="rs-av sm" mjRaceAv [cand]="c"></span>

@@ -19,6 +19,17 @@
   .dt-page {
     @include mixins.frame;
   }
+  .dt-page {
+    @include mixins.short {
+      grid-template-rows: 226px 124px minmax(280px, 1fr) minmax(280px, 1fr);
+      overflow: hidden auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+  }
+  .mj-cc.cc-beside .dt-page {
+    inset-inline-start: calc($sp-16 + var(--cc-beside-w) + $sp-14);
+  }
   .dt-page .dt-grid {
     display: contents;
   }

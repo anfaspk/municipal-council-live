@@ -1,3 +1,4 @@
+import { ct } from '../../core/i18n/count-strings';
 import { CGov, CNat, CWil } from '../../domain/count/count';
 import { CountShellView } from './count-wall-shell.component';
 
@@ -36,3 +37,26 @@ export const CHROME0: CountShellView = {
   next: '',
   subtitle: '',
 };
+
+export function chromeOf(
+  list: readonly string[],
+  k: number,
+  s: CountWallState,
+  play: { paused: boolean; still: boolean; sec: number },
+  label: (i: number) => string,
+  o: { os: boolean; next: string | undefined },
+): CountShellView {
+  return {
+    slides: list.map((_, i) => label(i)),
+    index: k,
+    done: s.done,
+    results: s.res,
+    theme: s.theme,
+    paused: play.paused,
+    still: play.still,
+    osMotion: o.os,
+    seconds: play.sec,
+    next: o.next ?? ct('cTvNat'),
+    subtitle: ct(s.res ? 'cxResSub' : list[k] === 'nat' ? 'cTvNatSub' : 'cTvSub'),
+  };
+}

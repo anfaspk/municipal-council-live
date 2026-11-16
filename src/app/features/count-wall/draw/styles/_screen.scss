@@ -145,3 +145,23 @@
   font: 500 #{$fs-17}/ 1.5 var(--font-arabic);
   color: var(--ink-muted);
 }
+
+.cxd-tv .cxd-full {
+  position: absolute;
+  top: calc(var(--tv-title-y) + $sp-14);
+  inset-inline-end: calc(var(--tv-action-x) + $sp-36 + var(--space-2));
+  z-index: $z-5;
+  opacity: 0.8;
+  transition: opacity $t-450 var(--ease-std);
+}
+.cxd-tv .cxd-full:focus-visible {
+  opacity: 1;
+}
+@include mixins.hover {
+  .cxd-tv .cxd-full:hover {
+    opacity: 1;
+  }
+}
+.cxd-tv .tv-dash.cxd-dash {
+  inset-inline-end: calc(var(--tv-action-x) + ($sp-36 + var(--space-2)) * 2);
+}

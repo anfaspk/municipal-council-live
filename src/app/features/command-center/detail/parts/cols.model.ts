@@ -45,3 +45,9 @@ export function colsModel<K>(
     at: i < 0 ? null : r2((i + 0.5) / cols.length),
   };
 }
+
+export const COL_MIN = 30;
+export const COL_GAP = 3;
+export function colsScroll(n: number, width: number): boolean {
+  return width > 0 && n * COL_MIN + (n - 1) * COL_GAP > width;
+}

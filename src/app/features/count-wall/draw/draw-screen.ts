@@ -1,6 +1,7 @@
 import { computed, DestroyRef, Directive, effect, inject, signal, untracked } from '@angular/core';
 import { ServerClock } from '../../../core/clock/server-clock.service';
 import { ct } from '../../../core/i18n/count-strings';
+import { Fullscreen } from '../../../core/screen/fullscreen';
 import { ScreenState } from '../../../core/screen/screen.state';
 import { ConflictStore } from '../../../data/conflict.store';
 import { CountStore } from '../../../data/count.store';
@@ -14,6 +15,7 @@ export const REVEAL_WAIT = 5000;
 @Directive()
 export abstract class DrawScreen {
   protected readonly screen = inject(ScreenState);
+  protected readonly full = inject(Fullscreen);
   protected readonly store = inject(CountStore);
   protected readonly conflicts = inject(ConflictStore);
   protected readonly wish = inject(DrawFocus);
@@ -56,6 +58,11 @@ export abstract class DrawScreen {
       const it = this.isOpen() && this.viewing() ? this.item() : null;
       untracked(() => this.watch(it));
     });
+    effect(() => {
+      const it = this.isOpen() ? this.item() : null,
+        full = this.viewing();
+      if (it) untracked(() => this.wish.keep({ id: it.id, full }));
+    });
     inject(DestroyRef).onDestroy(() => {
       this.store.stop(this);
       this.conflicts.watch(null);
@@ -66,19 +73,21 @@ export abstract class DrawScreen {
   protected abstract opened(asked: boolean): void;
 
   private open(): void {
-    const w = this.wish.take();
+    const w = this.wish.take(),
+      kept = w ? null : this.wish.kept();
     if (w) {
       this.sel.set(w.id);
       this.autoplay = w.play ? w.id : null;
-    }
+    } else if (kept) this.sel.set(kept.id);
     this.still.set(loadTvPrefs(COUNT_TV_PREFS).still || reducedMotion());
     this.isOpen.set(true);
     this.store.start(this);
-    this.opened(!!w);
+    this.opened(!!w || !!kept?.full);
   }
   private shut(): void {
     if (!this.isOpen()) return;
     this.isOpen.set(false);
+    this.wish.keep(null);
     this.store.stop(this);
     this.conflicts.watch(null);
     this.autoplay = null;

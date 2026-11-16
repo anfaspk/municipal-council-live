@@ -261,6 +261,9 @@
   color: var(--ink-muted);
   font-size: $fs-13;
 }
+.fl-install {
+  margin: 0;
+}
 .fl-menu-row .fl-seg {
   flex: none;
   min-inline-size: 150px;

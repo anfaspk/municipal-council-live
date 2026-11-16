@@ -1,4 +1,4 @@
-import { computed, DOCUMENT, effect, inject, Injectable, signal, untracked } from '@angular/core';
+import { computed, effect, inject, Injectable, signal, untracked } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ApiClient } from '../core/api/api-client';
 import { endpoints } from '../core/api/endpoints';
@@ -25,6 +25,7 @@ import { Issue } from '../domain/stats/check';
 import { checkCountOverall, checkCountRegion, checkCountWilayat } from '../domain/validate/answers';
 import { log } from '../core/log/log';
 import { IssueLog } from './issue-log';
+import { StaleClock } from './stale-clock';
 import { TurnoutStore } from './turnout.store';
 
 export type CountStoreEvent =
@@ -51,13 +52,12 @@ export class CountStore {
   readonly ready = this._ready.asReadonly();
   readonly done = this._done.asReadonly();
   private readonly _updatedAt = signal(0);
-  private readonly _stale = signal(false);
+  private readonly fresh = new StaleClock(STALE_POLLS * POLL, () => this.poll.running);
   readonly updatedAt = this._updatedAt.asReadonly();
-  readonly stale = this._stale.asReadonly();
+  readonly stale = this.fresh.on;
   readonly staleAt = computed(() =>
-    this._stale() && this._updatedAt() ? clockStr(this._updatedAt()) : null,
+    this.stale() && this._updatedAt() ? clockStr(this._updatedAt()) : null,
   );
-  private staleT?: ReturnType<typeof setTimeout>;
   private leadN = 0;
   private registered = 0;
   private focusGov: string | null = null;
@@ -90,11 +90,11 @@ export class CountStore {
     const on = this.owners.size > 0 && this.clock.counting();
     if (on === this.poll.running) return;
     if (on) {
-      this.armStale();
+      this.fresh.arm();
       this.poll.start();
     } else {
       this.poll.stop();
-      clearTimeout(this.staleT);
+      this.fresh.stop();
     }
   }
 
@@ -103,9 +103,6 @@ export class CountStore {
       this.wanted();
       this.clock.counting();
       untracked(() => this.sync());
-    });
-    inject(DOCUMENT).defaultView?.addEventListener('offline', () => {
-      if (this.poll.running) this._stale.set(true);
     });
   }
   focus(gid: string | null): void {
@@ -211,7 +208,7 @@ export class CountStore {
     ]);
     if (!ok) throw new Error('counting/region: no answer');
     this._updatedAt.set(this.clock.now());
-    this.armStale();
+    this.fresh.arm();
     const was = this._done();
     if (!was && countComplete(this.state())) this._done.set(true);
     if (first) {
@@ -223,12 +220,6 @@ export class CountStore {
   private checked<T>(key: string, c: { value: T; issues: Issue[] }): T {
     this.fixed.set(key, c.issues);
     return c.value;
-  }
-
-  private armStale(): void {
-    this._stale.set(false);
-    clearTimeout(this.staleT);
-    this.staleT = setTimeout(() => this._stale.set(true), STALE_POLLS * POLL);
   }
 
   private collect(evs: CountEvent[], found: CountEvent[]): void {

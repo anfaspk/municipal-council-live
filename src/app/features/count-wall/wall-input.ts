@@ -24,15 +24,7 @@ export interface InputHost {
   setTheme(): void;
   setSec(v: number): void;
   toggleStill(): void;
-}
-
-export function fullscreen(): void {
-  const d = document.documentElement;
-  try {
-    if (document.fullscreenElement) document.exitFullscreen?.();
-    else d.requestFullscreen?.();
-  } catch {
-  }
+  fullscreen(): void;
 }
 
 export function wallAction(action: CountShellAction, h: InputHost): void {
@@ -43,7 +35,7 @@ export function wallAction(action: CountShellAction, h: InputHost): void {
     case 'theme':
       return h.setTheme();
     case 'fullscreen':
-      return fullscreen();
+      return h.fullscreen();
     case 'pause':
       return h.toggle();
     case 'previous':
@@ -67,7 +59,7 @@ export function wallKey(e: KeyboardEvent, h: InputHost): void {
   const onBtn = t && t.closest && t.closest('button,[role="button"]'),
     inList = t && t.closest && t.closest(RACE_SCROLL);
   h.wake();
-  if (k === 'Tab') return trapTab(h.root, e, 'button');
+  if (k === 'Tab') return trapTab(h.root, e, 'button, [tabindex="0"]');
   if ((k === ' ' || k === 'Enter') && onBtn) return;
   const tabs = t && t.closest && t.closest('.cxr-tabs');
   if (tabs && (k === 'ArrowLeft' || k === 'ArrowRight')) {
@@ -95,7 +87,7 @@ export function wallKey(e: KeyboardEvent, h: InputHost): void {
   }
   if (action.type === 'fullscreen') {
     e.preventDefault();
-    fullscreen();
+    h.fullscreen();
     return;
   }
   if (action.type === 'play') {

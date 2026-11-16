@@ -143,8 +143,15 @@ export class FlowShellComponent {
       const now = !!this.detail.at();
       if (now === paged) return;
       paged = now;
-      if (!now) afterNextRender(() => scrollTo({ top: at }), { injector: this.injector });
+      if (now) return;
+      afterNextRender(() => scrollTo({ top: at }), { injector: this.injector });
+      if (!this.sheetOpen()) this.state.close();
     });
+    const pin = this.state.pinned();
+    if (pin && !this.detail.at())
+      afterNextRender(() => this.comp() !== 'sign' && this.openGov(pin), {
+        injector: this.injector,
+      });
     effect((onCleanup) => {
       if (this.comp() !== 'sign' || !this.screen.is('dashboard')) return this.tour.set(null);
       const step = () =>
@@ -167,6 +174,7 @@ export class FlowShellComponent {
 
   protected openGov(id: string): void {
     if (this.comp() === 'split') return this.chosen.set(id);
+    this.state.open(id);
     this.gid.set(id);
     this.detent.set('peek');
     this.sheetOpen.set(true);
@@ -183,6 +191,10 @@ export class FlowShellComponent {
     addEventListener('popstate', go);
     setTimeout(go, 400);
     this.sheetOpen.set(false);
+  }
+  protected sheetClosed(): void {
+    this.gid.set(null);
+    if (!this.detail.at()) this.state.close();
   }
   protected sayLive(text: string): void {
     if (this.screen.is('dashboard')) this.live().nativeElement.textContent = text;

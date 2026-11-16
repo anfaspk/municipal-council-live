@@ -16,6 +16,7 @@ import { SegComponent, SegItem } from '../../../../shared/ui/seg.component';
 import { RankedListComponent } from '../charts/ranked-list.component';
 import { RankSort } from '../charts/ranked.model';
 import { dt } from '../detail-strings';
+import { DetailState } from '../detail.state';
 import { DtTPipe } from '../dt-t.pipe';
 import { bandCounts, filterVillages, villageRows } from './villages.model';
 
@@ -38,7 +39,7 @@ export class VillagesComponent {
   protected readonly bandList = BANDS;
   protected readonly skeleton = SKELETON;
   protected readonly sorts: SegItem[] = SORTS.map((v) => ({ v, label: dt('dtSort.' + v) }));
-  protected readonly q = signal('');
+  protected readonly q = inject(DetailState).vilQ;
   protected readonly sort = signal<RankSort>('turnout');
   protected readonly bands = signal<readonly Band[]>([]);
 

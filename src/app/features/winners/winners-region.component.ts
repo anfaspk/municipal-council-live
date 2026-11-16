@@ -18,6 +18,7 @@ import { announcedOf, WRegion } from '../../domain/winners/winners';
 import { reducedMotion } from '../../shared/motion/reduced-motion';
 import { TouchHold } from '../../shared/motion/touch-hold';
 import { IconComponent } from '../../shared/ui/icon.component';
+import { WinnersMemo } from './winners-memo';
 import { WinnersStageComponent } from './winners-stage.component';
 import { wt } from './winners-strings';
 import { GovCard, matchWils } from './winners.model';
@@ -48,7 +49,8 @@ export class WinnersRegionComponent {
   readonly pickGov = output<string>();
   protected readonly railHold = new TouchHold((on) => this.hover.emit(on));
 
-  protected readonly q = signal('');
+  private readonly memo = inject(WinnersMemo);
+  protected readonly q = signal(this.memo.q);
 
   protected readonly name = computed(() => this.data()?.name || this.card().name);
   protected readonly govName = computed(() => this.card().name || this.name());
@@ -74,10 +76,15 @@ export class WinnersRegionComponent {
   protected readonly spot = computed(() => this.matches().indexOf(this.cur()));
   constructor() {
     const id = computed(() => this.card().id);
+    let was: string | null = null;
     effect(() => {
-      id();
-      untracked(() => this.q.set(''));
+      const g = id();
+      untracked(() => {
+        if (was !== null && was !== g) this.q.set('');
+        was = g;
+      });
     });
+    effect(() => (this.memo.q = this.q()));
     const host: HTMLElement = inject(ElementRef).nativeElement,
       injector = inject(Injector);
     effect(() => {

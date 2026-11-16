@@ -21,7 +21,7 @@
 </main>
 @if (c !== 'sign') {<nav flBar></nav>}
 @if (paged) {@defer (on immediate) {<div flPage (shared)="note($event)"></div>}}
-<dialog mjSheet [label]="sheetLabel()" [side]="side()" [detents]="!side()" [(open)]="sheetOpen" [(detent)]="detent" (closed)="gid.set(null)">@if (gid(); as g) {<div flGovSheet [gid]="g" (shared)="note($event)" (page)="openPage($event)"></div>}</dialog>
+<dialog mjSheet [label]="sheetLabel()" [side]="side()" [detents]="!side()" [(open)]="sheetOpen" [(detent)]="detent" (closed)="sheetClosed()">@if (gid(); as g) {<div flGovSheet [gid]="g" (shared)="note($event)" (page)="openPage($event)"></div>}</dialog>
 <dialog mjSheet [label]="'flMenu' | flT" [(open)]="menuOpen"><div flMenu (shared)="note($event)"></div></dialog>
 <dialog mjSheet [label]="'flAllLines' | flT" [(open)]="allOpen"><h2 class="fl-menu-h">{{ 'flAllLines' | flT }}</h2><ul class="fl-lines">@for (l of allLines(); track l.tick) {<li><time>{{ l.tick.time }}</time><span>@for (p of l.parts; track $index) {@if (p.bold) {<b>{{ p.text }}</b>} @else {{{ p.text }}}}</span></li>}</ul></dialog>
 @if (toast(); as m) {<div class="fl-toast" role="status"><svg flIcon="bell"></svg><span><b>{{ m.title }}</b>@if (m.sub) {<small>{{ m.sub }}</small>}</span></div>}

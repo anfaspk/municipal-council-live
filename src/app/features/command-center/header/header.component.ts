@@ -9,6 +9,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { t } from '../../../core/i18n/i18n';
+import { Fullscreen } from '../../../core/screen/fullscreen';
 import { ScreenState } from '../../../core/screen/screen.state';
 import { ViewportState } from '../../../core/screen/viewport.state';
 import { TurnoutStore } from '../../../data/turnout.store';
@@ -16,6 +17,7 @@ import { LOGO, LOGO_DARK, logoFor, MOI_LOGO, MOI_LOGO_DARK } from '../../../shar
 import { IconComponent } from '../../../shared/ui/icon.component';
 import { TPipe } from '../../../shared/ui/t.pipe';
 import { CommandCenterState } from '../command-center.state';
+import { DetailState } from '../detail/detail.state';
 import { UpdateRingDirective } from './update-ring.directive';
 
 @Component({
@@ -29,8 +31,11 @@ export class HeaderComponent {
   protected readonly state = inject(CommandCenterState);
   protected readonly stats = inject(TurnoutStore);
   protected readonly screen = inject(ScreenState);
+  protected readonly full = inject(Fullscreen);
   protected readonly liveCount = t('cLiveCount');
   private readonly viewport = inject(ViewportState);
+  private readonly detail = inject(DetailState);
+  protected readonly covered = computed(() => this.state.drilled() && !this.detail.at());
   protected readonly logos = computed(() => {
     const flow = this.viewport.form() === 'flow',
       night = this.state.theme() === 'night';
@@ -56,12 +61,5 @@ export class HeaderComponent {
       const tick = setInterval(write, 1000);
       cleanup(() => clearInterval(tick));
     });
-  }
-
-  fullscreen(): void {
-    try {
-      document.documentElement.requestFullscreen?.();
-    } catch {
-    }
   }
 }

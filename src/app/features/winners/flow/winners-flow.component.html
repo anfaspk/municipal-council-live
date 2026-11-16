@@ -81,7 +81,7 @@
       <div wfWils [card]="c" [govs]="view.cards()" [wils]="wils()" [cur]="cur()" [tally]="view.tally()" (choose)="choose($event, true)" (pickGov)="pick($event, 'side')"></div>
     } @else if (sheet() === 'menu') {
       <div class="wf-menu">
-        @if (canFull) {<button type="button" class="wf-opt" (click)="fullscreen()"><svg wfIcon="full"></svg><b>{{ 'wnFull' | wfT }}</b></button>}
+        @if (full.offered()) {<button type="button" class="wf-opt" (click)="sheet.set(null); full.toggle()"><svg [wfIcon]="full.on() ? 'unfull' : 'full'"></svg><b>{{ (full.on() ? 'fullOff' : 'wnFull') | wfT }}</b></button>}
         <button type="button" class="wf-opt" (click)="show('dashboard')"><svg wfIcon="grid"></svg><b>{{ 'wfDash' | wfT }}</b></button>
       </div>
     }

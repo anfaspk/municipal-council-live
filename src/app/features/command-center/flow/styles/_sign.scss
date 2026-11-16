@@ -124,7 +124,7 @@
 }
 
 .fl-row.lit {
-  background: color-mix(in srgb, var(--gold-ink) 12%, transparent);
+  background: var(--row-lit);
   box-shadow: inset 3px 0 0 var(--gold-ink);
 }
 .fl-govs-map {

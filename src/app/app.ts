@@ -1,6 +1,7 @@
 import {
   afterNextRender,
   ChangeDetectionStrategy,
+  computed,
   Component,
   DOCUMENT,
   effect,
@@ -9,6 +10,7 @@ import {
 } from '@angular/core';
 import { ServerClock } from './core/clock/server-clock.service';
 import { FLOW_READY } from './core/screen/layout.model';
+import { InstallOffer } from './core/screen/install';
 import { ScreenState } from './core/screen/screen.state';
 import { ViewportState } from './core/screen/viewport.state';
 import { TurnoutStore } from './data/turnout.store';
@@ -48,12 +50,11 @@ import { TPipe } from './shared/ui/t.pipe';
           @defer (when !!screen.auto()) {
             <div mjAutoToast dir="rtl" lang="ar"></div>
           }
-        } @else if (viewport.dashForm() === 'flow' && screen.is('dashboard')) {
-          @defer (on immediate) {
-            <div flSkel></div>
-          }
         }
       }
+    }
+    @if (skeleton()) {
+      <div flSkel></div>
     }`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -64,8 +65,17 @@ export class App {
 
   protected readonly viewport = inject(ViewportState);
   protected readonly screen = inject(ScreenState);
+  protected readonly skeleton = computed(
+    () =>
+      this.viewport.dashForm() === 'flow' &&
+      this.screen.is('dashboard') &&
+      (this.clock.phase() === 'loading'
+        ? !this.clock.connecting()
+        : this.clock.phase() === 'live' && !this.stats.ready()),
+  );
 
   constructor() {
+    inject(InstallOffer);
     effect(() => {
       if (this.viewport.form() === 'flow' && FLOW_READY.has(this.screen.screen()))
         this.stats.release(this);

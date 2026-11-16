@@ -2,12 +2,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
+  inject,
   input,
   output,
   signal,
   ViewEncapsulation,
 } from '@angular/core';
 import { WWil } from '../../../domain/winners/winners';
+import { WinnersMemo } from '../winners-memo';
 import { GovCard, matchWils } from '../winners.model';
 import { WfIconComponent } from './wf-icon.component';
 import { WfTPipe } from './wf-t.pipe';
@@ -59,7 +62,8 @@ export class WfWilsComponent {
   readonly choose = output<number>();
   readonly pickGov = output<string>();
 
-  protected readonly q = signal('');
+  private readonly memo = inject(WinnersMemo);
+  protected readonly q = signal(this.memo.q);
   protected readonly matches = computed(() =>
     matchWils(
       this.wils().map((w) => w.name),
@@ -70,6 +74,10 @@ export class WfWilsComponent {
   protected readonly full = computed(
     () => this.tally().all > 0 && this.tally().done === this.tally().all,
   );
+
+  constructor() {
+    effect(() => (this.memo.q = this.q()));
+  }
 
   protected shows(i: number): boolean {
     return this.hits().has(i);

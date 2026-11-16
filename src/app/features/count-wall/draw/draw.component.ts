@@ -103,6 +103,7 @@ export class DrawComponent extends DrawScreen {
     if (!a) return;
     if (a.type === 'tab') return trapTab(this.host, e, 'button');
     e.preventDefault();
+    if (a.type === 'fullscreen') return this.full.toggle();
     if (a.type === 'back') return this.toWall();
     if (a.type === 'play') return this.play();
     const l = this.items();

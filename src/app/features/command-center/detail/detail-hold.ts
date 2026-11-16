@@ -18,13 +18,32 @@ export class DetailHold {
     const frames = inject(FrameLoop),
       updates = inject(ScreenUpdates),
       cc = inject(CommandCenterState);
-    frames.pause('dashboard', this);
-    updates.cover(true);
-    const held = holdUnder(inject(SCREEN_FRAME));
-    inject(DestroyRef).onDestroy(() => {
+    const frame = inject(SCREEN_FRAME);
+    let held: Animation[] | null = null;
+    const hold = (on: boolean) => {
+      if (on === !!held) return;
+      if (on) {
+        frames.pause('dashboard', this);
+        updates.cover(true);
+        held = holdUnder(frame);
+        return;
+      }
       frames.resume('dashboard', this);
       updates.cover(false);
-      for (const a of held) if (a.playState === 'paused') a.play();
+      for (const a of held!) if (a.playState === 'paused') a.play();
+      held = null;
+    };
+    hold(!this.detail.beside());
+    effect(() => {
+      const on = !this.detail.beside();
+      untracked(() => hold(on));
+    });
+    inject(DestroyRef).onDestroy(() => hold(false));
+    effect(() => {
+      const pin = cc.pinned(),
+        at = untracked(() => this.detail.at());
+      if (pin && at && pin !== at.gov && this.detail.beside())
+        untracked(() => this.detail.sibling({ gov: pin }));
     });
     updates.now.pipe(takeUntilDestroyed()).subscribe((e) => {
       if (e.type === 'villages' || e.type === 'village' || e.type === 'resume')

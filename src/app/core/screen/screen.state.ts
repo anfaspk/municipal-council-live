@@ -27,10 +27,17 @@ import {
 
 export const SCREEN_FRAME = new InjectionToken<HTMLElement>('screen frame');
 
+export type ScreenSwap = (apply: () => void, form: boolean) => void;
+export const SCREEN_SWAP = new InjectionToken<ScreenSwap>('screen swap', {
+  providedIn: 'root',
+  factory: () => (apply) => apply(),
+});
+
 @Injectable({ providedIn: 'root' })
 export class ScreenState {
   private readonly clock = inject(ServerClock);
   private readonly injector = inject(Injector);
+  private readonly swap = inject(SCREEN_SWAP);
   private readonly govs = Object.keys(GEO.g);
   private readonly prefs = loadScreenPrefs(this.govs);
   private readonly boot = parseScreenBoot(location.search, this.govs, wilIds(GEO.wilPt));
@@ -78,6 +85,11 @@ export class ScreenState {
     const was = this._screen();
     if (s === was) return;
     if (was === 'dashboard') this.origin = document.activeElement;
+    this.swap(() => this.apply(s), false);
+  }
+
+  private apply(s: Screen): void {
+    if (this._screen() === s) return;
     this._screen.set(s);
     if (s !== 'dashboard') return;
     this._built.set(true);

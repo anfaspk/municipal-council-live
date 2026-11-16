@@ -22,6 +22,8 @@ const PATHS = {
   out: 'M14 5h5v5M19 5l-8 8M10 5H5v14h14v-5',
   moon: 'M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10z',
   full: 'M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5',
+  add: 'M5 4h14v16H5zM12 8v8M8 12h8',
+  unfull: 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5',
   bell: 'M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 20h4',
   star: 'M12 4l2.4 5 5.6.8-4 4 1 5.6L12 17l-5 2.4 1-5.6-4-4 5.6-.8z',
 } as const;

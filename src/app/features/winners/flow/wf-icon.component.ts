@@ -19,6 +19,7 @@ const PATHS = {
   down: 'M6 9l6 6 6-6',
   check: 'M5 12.5l4.5 4.5L19 7.5',
   full: 'M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5',
+  unfull: 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5',
   grid: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
   tv: 'M3 6h18v11H3zM8 21h8M12 17v4',
   box: 'M4 9h16v11H4zM8 9V5h8v4M10 13h4',

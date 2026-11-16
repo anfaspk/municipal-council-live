@@ -6,6 +6,7 @@ import {
   ElementRef,
   inject,
   input,
+  signal,
   ViewEncapsulation,
 } from '@angular/core';
 import { CountStore } from '../../../data/count.store';
@@ -34,7 +35,7 @@ const NO_CAM = { k: 1, tx: 0, ty: 0 };
   selector: 'div.cx-stage',
   template: `<button
     type="button"
-    class="mj-btn cx-back"
+    class="mj-btn cx-back" [inert]="!onGov()"
     [title]="text('cxOmanL') + ' (Esc)'"
     (click)="back()"
   >
@@ -47,6 +48,7 @@ const NO_CAM = { k: 1, tx: 0, ty: 0 };
 })
 export class CountStage implements AfterViewInit {
   protected readonly text = ct;
+  protected readonly onGov = signal(false);
   protected back(): void {
     this.actions().backToNational();
   }
@@ -62,6 +64,7 @@ export class CountStage implements AfterViewInit {
   private flight: FrameHandle | null = null;
   private readonly rings: Record<string, Pt[][]> = {};
   private readonly bounds: Record<string, Box> = {};
+  private free: readonly [number, number] | null = null;
   private readonly x: StageContext = {
     els: this.els,
     feed: this.feed,
@@ -74,6 +77,7 @@ export class CountStage implements AfterViewInit {
     box: (id) => this.boxOf(id),
     gov: (id) => this.feed.gov(id)!,
     relayout: () => this.relayoutLabels(),
+    free: () => this.free,
   };
   private readonly gov = new GovernorateOverlay(this.x);
   private readonly nat = new NationalOverlay(this.x);
@@ -113,6 +117,7 @@ export class CountStage implements AfterViewInit {
     return { width: this.els.el.offsetWidth || 800, height: this.els.el.offsetHeight || 800 };
   }
   private viewGov(id: string): FlatCamera {
+    this.free = null;
     return C.viewGov(this.boxOf(id), this.size());
   }
   private viewWil(w: CWil): FlatCamera {
@@ -122,6 +127,7 @@ export class CountStage implements AfterViewInit {
       z = size.width / (sb.width || 1),
       span = C.freeSpan([fb.left, fb.right], [sb.left, sb.right], z, size.width),
       free = { width: span[1] - span[0], height: size.height };
+    this.free = span[1] - span[0] < size.width ? span : null;
     return C.inset(C.viewWil(C.viewGov(this.boxOf(this.state.gov!), free), w.pt), size, span);
   }
   private screenPath(id: string): string {
@@ -293,6 +299,7 @@ export class CountStage implements AfterViewInit {
     this.clearOverlay(instant);
     els.el.classList.remove('m-gov', 'nat-on');
     els.el.classList.add('m-nat');
+    this.onGov.set(false);
     els.el.querySelectorAll('.cx-g.on').forEach((path) => path.classList.remove('on'));
     [els.edge, els.edgeG, els.clipP, els.comet].forEach((path) => path.setAttribute('d', ''));
     els.hint.textContent = ct('cxMapHint');
@@ -316,6 +323,7 @@ export class CountStage implements AfterViewInit {
     this.clearOverlay(instant);
     els.el.classList.remove('m-nat', 'nat-on', 'has-hot');
     els.el.classList.add('m-gov');
+    this.onGov.set(true);
     els.el.querySelectorAll('.cx-g.hot,.cx-g.hov').forEach((p) => p.classList.remove('hot', 'hov'));
     els.hot.setAttribute('d', '');
     els.el

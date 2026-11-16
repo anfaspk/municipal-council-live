@@ -41,7 +41,7 @@ export function screenKey(e: KeyInfo, screen: 'tv' | 'wall' = 'tv'): ScreenKeyAc
   if (k === 'Escape') return { type: 'close' };
   if (e.onField) return null;
   if ((k === ' ' || k === 'Enter') && e.onButton) return null;
-  if (screen === 'wall' && (k === 'f' || k === 'F')) return { type: 'fullscreen' };
+  if (k === 'f' || k === 'F') return { type: 'fullscreen' };
   if (screen === 'tv' && (k === 'ArrowUp' || k === 'ArrowDown'))
     return { type: 'wil', step: k === 'ArrowDown' ? 1 : -1 };
   if (k === ' ' || k === 'k' || k === 'K' || k === 'MediaPlayPause' || k === 'Pause')

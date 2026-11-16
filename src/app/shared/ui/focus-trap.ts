@@ -1,7 +1,10 @@
 export function trapTab(host: HTMLElement, e: KeyboardEvent, controls = 'button, select'): void {
   const f = Array.from(host.querySelectorAll<HTMLElement>(controls)).filter(
     (b) =>
-      b.tabIndex >= 0 && b.getClientRects().length && getComputedStyle(b).visibility !== 'hidden',
+      b.tabIndex >= 0 &&
+      b.getClientRects().length &&
+      getComputedStyle(b).visibility !== 'hidden' &&
+      !b.closest('[inert]'),
   );
   const i = f.indexOf(document.activeElement as HTMLElement),
     first = f[0],

@@ -11,6 +11,7 @@ export interface DrawWish {
 export class DrawFocus {
   private wish: DrawWish | null = null;
   private back: { gid: string; n: string } | null = null;
+  private view: { id: number; full: boolean } | null = null;
 
   constructor() {
     const id = drawBootWil(location.search);
@@ -30,5 +31,12 @@ export class DrawFocus {
     const b = this.back;
     this.back = null;
     return b;
+  }
+
+  keep(view: { id: number; full: boolean } | null): void {
+    this.view = view;
+  }
+  kept(): { id: number; full: boolean } | null {
+    return this.view;
   }
 }

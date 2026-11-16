@@ -27,7 +27,7 @@ const CYCLE = 10_000;
   selector: 'section[flInsights]',
   imports: [SnapRowComponent, SnapItemDirective, GlyphComponent, TPipe, FlTPipe],
   host: { class: 'fl-block fl-ins', '[attr.aria-label]': 'label' },
-  template: `<div mjSnapRow [label]="'flInsL' | flT">
+  template: `<div mjSnapRow [label]="'flInsL' | flT" [paged]="cycle()">
     <article mjSnapItem class="fl-card fl-ins-card"><p class="fl-micro">{{ 'flInsMicro' | flT: { i: 1, n: 3 } }}</p><h2 class="fl-h2">{{ 'flGenT' | flT }}</h2>
       @let g = gen();
       <div class="fl-bf-head"><span class="fl-sex m" mjGlyph="m"></span><span>{{ 'male' | t }} · {{ g.mPeak }}</span><span>{{ 'female' | t }} · {{ g.fPeak }}</span><span class="fl-sex f" mjGlyph="f"></span></div>

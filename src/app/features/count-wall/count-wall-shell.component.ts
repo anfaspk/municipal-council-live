@@ -7,6 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ct } from '../../core/i18n/count-strings';
+import { Fullscreen } from '../../core/screen/fullscreen';
 import { CountStore } from '../../data/count.store';
 import { LOGO, LOGO_DARK, MOI_LOGO, MOI_LOGO_DARK } from '../../shared/ui/brand';
 import { HorizonComponent } from '../../shared/ui/horizon.component';
@@ -47,6 +48,7 @@ export class CountWallShell {
   readonly action = output<CountShellAction>();
   protected readonly text = ct;
   protected readonly staleAt = inject(CountStore).staleAt;
+  protected readonly full = inject(Fullscreen);
   protected readonly logo = LOGO;
   protected readonly darkLogo = LOGO_DARK;
   protected readonly moi = MOI_LOGO;

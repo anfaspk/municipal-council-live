@@ -20,6 +20,7 @@ import { slideLabel } from './tv-label';
 
 import { trapTab } from '../../shared/ui/focus-trap';
 import { ServerClock } from '../../core/clock/server-clock.service';
+import { Fullscreen } from '../../core/screen/fullscreen';
 import { ScreenState } from '../../core/screen/screen.state';
 
 interface Face {
@@ -32,6 +33,7 @@ const IDLE_MS = 4000;
 
 export abstract class TvControls {
   protected readonly screen = inject(ScreenState);
+  protected readonly full = inject(Fullscreen);
   protected readonly host: HTMLElement = inject(ElementRef).nativeElement;
   protected readonly injector = inject(Injector);
   protected readonly stats = inject(TurnoutStore);
@@ -178,6 +180,10 @@ export abstract class TvControls {
     if (!a) return;
 
     if (a.type === 'tab') return trapTab(this.host, e, 'button, select, .tv-ih-rest');
+    if (a.type === 'fullscreen') {
+      e.preventDefault();
+      return this.full.toggle();
+    }
     if (a.type === 'wil') {
       if (this.stepWil(a.step)) e.preventDefault();
       return;

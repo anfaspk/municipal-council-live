@@ -8,7 +8,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ScreenState } from '../../../core/screen/screen.state';
-import { ViewportState } from '../../../core/screen/viewport.state';
+import { Fullscreen } from '../../../core/screen/fullscreen';
 import { TurnoutStore } from '../../../data/turnout.store';
 import { fmt, pct } from '../../../domain/format';
 import { FmtPipe, PctPipe, SharePipe } from '../../../shared/ui/format.pipes';
@@ -73,7 +73,7 @@ export type TvfSheet = 'more' | 'wils' | 'cands' | 'set';
       <button type="button" class="tvf-opt" role="switch" [attr.aria-checked]="!pinned()" (click)="rotate()"><span><b>{{ 'scrRotate' | tvfT }}</b><small>{{ 'tvfRotD' | tvfT }}</small></span><i class="tvf-sw" [class.on]="!pinned()" aria-hidden="true"></i></button>
       <div class="tvf-opt col" role="group" [attr.aria-label]="'tvTime' | tvfT"><b>{{ 'tvTime' | tvfT }}</b><div class="tvf-seg">@for (n of secs; track n) {<button type="button" [class.on]="sec() === n" [attr.aria-pressed]="sec() === n" (click)="secChange.emit(n)">{{ 'tvSec' | tvfT: { n } }}</button>}</div></div>
       <button type="button" class="tvf-opt" role="switch" [attr.aria-checked]="still()" [attr.aria-disabled]="osStill() ? 'true' : null" (click)="stillChange.emit(!still())"><span><b>{{ 'tvStill' | tvfT }}</b><small>{{ 'tvfStillD' | tvfT }}</small></span><i class="tvf-sw" [class.on]="still()" aria-hidden="true"></i></button>
-      @if (canFull()) {<button type="button" class="tvf-opt link" (click)="full()"><svg tvfIcon="full"></svg><b>{{ 'tvfFull' | tvfT }}</b></button>}
+      @if (full.offered()) {<button type="button" class="tvf-opt link" (click)="full.toggle()"><svg [tvfIcon]="full.on() ? 'unfull' : 'full'"></svg><b>{{ (full.on() ? 'fullOff' : 'tvfFull') | tvfT }}</b></button>}
       <button type="button" class="tvf-opt link" (click)="screen.leave('tv')"><svg tvfIcon="grid"></svg><b>{{ 'tvfBack' | tvfT }}</b></button>
     }
   }`,
@@ -84,7 +84,6 @@ export class TvfSheetsComponent {
   protected readonly view = inject(TvView);
   protected readonly screen = inject(ScreenState);
   private readonly stats = inject(TurnoutStore);
-  private readonly viewport = inject(ViewportState);
   readonly kind = input.required<TvfSheet>();
   readonly sec = input.required<number>();
   readonly still = input.required<boolean>();
@@ -94,9 +93,7 @@ export class TvfSheetsComponent {
   protected readonly secs = TV_SECS;
   protected readonly govs = this.stats.govs;
   protected readonly pinned = computed(() => this.screen.rotation() === 'pinned');
-  protected readonly canFull = computed(
-    () => !!document.fullscreenEnabled && this.viewport.display() === 'browser',
-  );
+  protected readonly full = inject(Fullscreen);
   protected readonly num = fmt;
   protected readonly pc = pct;
   protected share(v: number): number {
@@ -108,11 +105,5 @@ export class TvfSheetsComponent {
   }
   protected rotate(): void {
     this.screen.setRotation(this.pinned() ? 'auto' : 'pinned');
-  }
-  protected full(): void {
-    try {
-      void document.documentElement.requestFullscreen?.();
-    } catch {
-    }
   }
 }

@@ -285,7 +285,7 @@ function regionColumns(pts: { at: Pt; r: WilayatStat }[], box: TvBox): RegionCol
   const lab = cl.map((o) => {
     const count = fmt(o.r.voted) + ' / ' + fmt(o.r.reg),
       w = (Math.max(o.r.name.length * 8, 84, count.length * 7.4) + 30) * m,
-      h = 76 * m;
+      h = 80 * m;
     return {
       r: o.r,
       X: o.X,
@@ -334,7 +334,7 @@ function regionColumns(pts: { at: Pt; r: WilayatStat }[], box: TvBox): RegionCol
         bg: { x: f2(cx - hw), y: f2(cy - hh), w: f2(hw * 2), h: f2(hh * 2) },
         top: { x: f2(cx - hw + 14 * m), y: f2(cy - hh), w: f2(hw * 2 - 28 * m), h: '2' },
         nm: { cx: f2(cx), cy: f2(cy - hh + 22 * m) },
-        pc: { cx: f2(cx), cy: f2(cy + 13 * m) },
+        pc: { cx: f2(cx), cy: f2(cy + 11 * m) },
         ct: { cx: f2(cx), cy: f2(cy + hh - 11 * m) },
       };
     });

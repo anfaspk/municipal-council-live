@@ -174,6 +174,7 @@ export function starfield(
 
 export type WinnersKey =
   | { type: 'tab' }
+  | { type: 'fullscreen' }
   | { type: 'back' }
   | { type: 'play' }
   | { type: 'move'; step: 1 | -1 }
@@ -181,7 +182,7 @@ export type WinnersKey =
 export function winnersKey(e: KeyInfo, region: boolean): WinnersKey | null {
   const a = screenKey(e, 'tv');
   if (!a) return null;
-  if (a.type === 'tab') return a;
+  if (a.type === 'tab' || a.type === 'fullscreen') return a;
   if (a.type === 'close') return { type: 'back' };
   if (!region) return null;
   if (a.type === 'play') return { type: 'play' };

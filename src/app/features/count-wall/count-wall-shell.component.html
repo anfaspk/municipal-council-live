@@ -117,15 +117,15 @@
       (click)="action.emit({ type: 'theme' })"
     >
       <svg [mjIcon]="view().theme === 'night' ? 'sun' : 'moon'"></svg></button
-    ><button
+    >@if (full.offered()) {<button
       type="button"
       class="mj-btn icon tva-full"
-      [attr.aria-label]="text('full')"
-      [title]="text('full') + ' (F)'"
+      [attr.aria-label]="text(full.on() ? 'fullOff' : 'full')"
+      [title]="text(full.on() ? 'fullOff' : 'full') + ' (F)'"
       (click)="action.emit({ type: 'fullscreen' })"
     >
-      <svg mjIcon="expand"></svg>
-    </button>
+      <svg [mjIcon]="full.on() ? 'shrink' : 'expand'"></svg>
+    </button>}
   </div>
 </div>
 <div class="tva-live" aria-live="off" aria-atomic="true"></div>

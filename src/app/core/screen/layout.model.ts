@@ -10,6 +10,7 @@ export interface LayoutEnv {
   zoom: number;
   screen: Screen;
   forced: Form | null;
+  held?: Form | null;
   coarse: boolean;
   display: Display;
 }
@@ -22,6 +23,7 @@ export interface Layout {
   frameH: number | null;
   aspect: number;
   short: boolean;
+  tight: boolean;
   scroll: boolean;
 }
 
@@ -44,7 +46,7 @@ export interface LayoutFlags {
   floor: boolean;
   ceiling: boolean;
 }
-export const LAYOUT_FLAGS: LayoutFlags = { floor: false, ceiling: false };
+export const LAYOUT_FLAGS: LayoutFlags = { floor: true, ceiling: true };
 
 export const DESIGN_W = 1920;
 export const DESIGN_H = 1080;
@@ -59,6 +61,7 @@ const FLOOR = 0.8;
 const CEILING = 1.2;
 const CEILING_BELOW = 3200;
 const MAX_ASPECT = 21 / 9;
+const TIGHT_H = 880;
 
 const STEPS = [
   0.25, 0.33, 0.5, 0.67, 0.75, 0.8, 0.9, 1.1, 1.2, 1.25, 1.33, 1.5, 1.7, 1.75, 2, 2.4, 2.5, 3, 4, 5,
@@ -68,6 +71,10 @@ export function zoomOf(outerWidth: number, innerWidth: number): number {
   if (!outerWidth || !innerWidth) return 1;
   const r = outerWidth / innerWidth;
   return STEPS.find((s) => Math.abs(r - s) / s < 0.012) ?? 1;
+}
+
+export function fullscreenOffered(enabled: boolean, display: Display, on: boolean): boolean {
+  return enabled && (on || display === 'browser');
 }
 
 export function parseForm(search: string): Form | null {
@@ -103,7 +110,8 @@ export function formOf(env: LayoutEnv, ready: Ready = FLOW_READY, prev?: Form): 
   const built = ready.get(env.screen),
     keep = prev === 'stage';
   if (!built) return 'stage';
-  if (env.forced) return env.forced;
+  const pinned = env.forced ?? env.held;
+  if (pinned) return pinned;
   if (env.screen === 'dashboard' && env.coarse && env.vw <= COARSE_UP_TO) return 'flow';
   const min = env.screen === 'dashboard' ? DASH_MIN : STAGE_MIN;
   return env.vw >= min.w - (keep ? BAND_W : 0) &&
@@ -117,7 +125,7 @@ function stageOf(env: LayoutEnv, flags: LayoutFlags): Layout {
   const dash = env.screen === 'dashboard',
     browser = env.display === 'browser',
     base = Math.min(env.vw / DESIGN_W, env.vh / DESIGN_H),
-    floor = dash && flags.floor && base < FLOOR;
+    floor = dash && flags.floor && !env.forced && base < FLOOR;
   let scale = base;
   if (dash && flags.ceiling && browser && env.vw < CEILING_BELOW) scale = Math.min(scale, CEILING);
   scale *= dash ? env.zoom : 1;
@@ -135,6 +143,7 @@ function stageOf(env: LayoutEnv, flags: LayoutFlags): Layout {
     frameH: height,
     aspect: env.vw / env.vh,
     short: height < DESIGN_H - 0.5,
+    tight: height < TIGHT_H,
     scroll: width * scale > env.vw + 0.5 || height * scale > env.vh + 0.5,
   };
 }
@@ -150,6 +159,7 @@ function flowOf(env: LayoutEnv, ready: Ready): Layout {
     frameH: env.screen === 'dashboard' ? null : env.vh,
     aspect: env.vw / env.vh,
     short: false,
+    tight: false,
     scroll: false,
   };
 }

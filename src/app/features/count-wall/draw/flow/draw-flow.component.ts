@@ -153,6 +153,7 @@ export class DrawFlowComponent extends DrawScreen {
     if (!a) return;
     if (a.type === 'tab') return trapTab(this.host, e, 'button, [tabindex="0"]');
     e.preventDefault();
+    if (a.type === 'fullscreen') return this.full.toggle();
     if (a.type === 'back')
       return this.tie() && this.comp() === 'phone' ? this.toList() : this.toWall();
     if (a.type === 'play') return this.play();

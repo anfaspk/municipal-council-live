@@ -10,6 +10,7 @@
   --glass-fill: rgba(255, 255, 255, 0.12);
   --glass-fill-strong: rgba(255, 255, 255, 0.2);
   --glass-solid: color-mix(in srgb, var(--c-white) 12%, var(--canvas-1));
+  --row-lit: color-mix(in srgb, var(--gold-ink) 12%, transparent);
   --glass-stroke: rgba(255, 255, 255, 0.3);
   --hairline: rgba(255, 255, 255, 0.1);
   --specular: rgba(255, 255, 255, 0.1);
@@ -70,6 +71,7 @@
   --glass-fill: rgba(255, 255, 255, 0.62);
   --glass-fill-strong: rgba(255, 255, 255, 0.82);
   --glass-solid: color-mix(in srgb, var(--c-white) 62%, var(--canvas-1));
+  --row-lit: color-mix(in srgb, var(--gold-ink) 8%, transparent);
   --glass-stroke: rgba(122, 88, 34, 0.28);
   --hairline: rgba(40, 32, 18, 0.1);
   --specular: rgba(255, 233, 196, 0.55);

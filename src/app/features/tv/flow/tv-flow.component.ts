@@ -140,14 +140,12 @@ export class TvFlowComponent extends TvfPlayer {
       });
     });
     effect(() => this.interim.watch(this.isOpen()));
-    let open = this.memo.key !== null && this.inter();
     effect(() => {
       const now = this.inter();
       untracked(() => {
-        if (now && !open) this.tab.set('inter');
+        if (now) this.tabs.open();
         if (this.isOpen() && this.keys().length && now !== this.walking()) this.show(this.k());
       });
-      open = now;
     });
     effect(() => {
       const g = this.view.gov();
@@ -178,7 +176,10 @@ export class TvFlowComponent extends TvfPlayer {
         ? new ResizeObserver(() => {
             const inner = this.body()?.nativeElement,
               el = inner?.parentElement;
-            el?.classList.toggle('pans', inner!.offsetHeight > el.clientHeight + 1);
+            const pans = !!el && inner!.offsetHeight > el.clientHeight + 1;
+            el?.classList.toggle('pans', pans);
+            if (pans) el.setAttribute('tabindex', '0');
+            else el?.removeAttribute('tabindex');
           })
         : null;
     effect(() => {
@@ -223,6 +224,7 @@ export class TvFlowComponent extends TvfPlayer {
     this.clock.reset();
     clearTimeout(this.idleTimer);
     this.memo.clear();
+    this.tabs.reset();
     this.sheet.set(null);
     this.view.slide.set(null);
   }

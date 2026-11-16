@@ -160,6 +160,7 @@ export function tossPlan(
 
 export type DrawKey =
   | { type: 'tab' }
+  | { type: 'fullscreen' }
   | { type: 'back' }
   | { type: 'play' }
   | { type: 'move'; step: 1 | -1 }
@@ -168,7 +169,7 @@ export type DrawKey =
 export function drawKey(e: KeyInfo): DrawKey | null {
   const a = screenKey(e, 'tv');
   if (!a) return null;
-  if (a.type === 'tab') return a;
+  if (a.type === 'tab' || a.type === 'fullscreen') return a;
   if (a.type === 'close') return { type: 'back' };
   if (a.type === 'play') return a.pause ? null : { type: 'play' };
   if (a.type === 'wil') return { type: 'move', step: a.step };

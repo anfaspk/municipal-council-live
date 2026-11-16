@@ -75,6 +75,7 @@ export class TvComponent extends TvControls {
   private readonly slideViews = viewChildren(TvSlideComponent);
   private readonly interim = inject(InterimStore);
   private readonly memo = inject(TvMemo);
+  private readonly tabs = inject(TvInterimTab);
   private readonly inter = computed(() => this.interim.phase() === 'open');
 
   private placed = '';
@@ -120,15 +121,12 @@ export class TvComponent extends TvControls {
     });
 
     effect(() => this.interim.watch(this.isOpen()));
-    const tab = inject(TvInterimTab).tab;
-    let open = this.memo.key !== null && this.inter();
     effect(() => {
       const now = this.inter();
       untracked(() => {
-        if (now && !open) tab.set('inter');
+        if (now) this.tabs.open();
         if (this.isOpen() && this.keys().length && now !== this.shownInter) this.show(this.k());
       });
-      open = now;
     });
     effect(() => {
       const on = this.screen.is('tv');
@@ -169,6 +167,7 @@ export class TvComponent extends TvControls {
     clearTimeout(this.idleTimer);
     this.opener = null;
     this.memo.clear();
+    this.tabs.reset();
   }
 
   protected show(k: number, user = false): void {

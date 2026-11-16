@@ -1,5 +1,5 @@
 import { CountStage, CountStageActions } from './stage/count-stage.component';
-import { CHROME0, CountWallState } from './count-wall-state';
+import { CHROME0, chromeOf, CountWallState } from './count-wall-state';
 import { CountWallShell, CountShellView, CountShellAction } from './count-wall-shell.component';
 import { NationalPanel } from './panels/national-panel.component';
 import { GovernoratePanel } from './panels/governorate-panel.component';
@@ -23,6 +23,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CountStore } from '../../data/count.store';
+import { Fullscreen } from '../../core/screen/fullscreen';
 import { ScreenState } from '../../core/screen/screen.state';
 import { EventPacer, PacedEvent } from './event-pacer';
 import { FRAME_SCOPE, FrameLoop } from '../../shared/motion/frame-loop.service';
@@ -54,6 +55,7 @@ import { handOffToWinners } from './wall-handoff';
 })
 export class CountWallComponent implements AfterViewInit {
   private readonly screen = inject(ScreenState);
+  private readonly full = inject(Fullscreen);
   readonly theme = input('night');
   protected readonly mounts = signal<number[]>([]);
   protected readonly chrome = signal<CountShellView>(CHROME0);
@@ -156,25 +158,17 @@ export class CountWallComponent implements AfterViewInit {
     setTheme: () => this.setTheme(this.state.theme === 'night' ? 'daylight' : 'night'),
     setSec: (v: number) => this.tvSetSec(v),
     toggleStill: () => this.toggleStill(),
+    fullscreen: () => this.full.toggle(),
   };
 
   private renderChrome(): void {
     const next = this.tvList[(this.tvK + 1) % this.tvList.length];
-    this.chrome.set({
-      slides: this.tvList.map((_, index) => this.tvLabel(index)),
-      index: this.tvK,
-      done: this.state.done,
-      results: this.state.res,
-      theme: this.state.theme,
-      paused: this.play.paused,
-      still: this.play.still,
-      osMotion: reducedMotion(),
-      seconds: this.play.sec,
-      next: (next && next !== 'nat' ? this.feed.gov(next)?.ar : null) ?? ct('cTvNat'),
-      subtitle: ct(
-        this.state.res ? 'cxResSub' : this.tvList[this.tvK] === 'nat' ? 'cTvNatSub' : 'cTvSub',
-      ),
-    });
+    this.chrome.set(
+      chromeOf(this.tvList, this.tvK, this.state, this.play, (i) => this.tvLabel(i), {
+        os: reducedMotion(),
+        next: next && next !== 'nat' ? this.feed.gov(next)?.ar : undefined,
+      }),
+    );
   }
   protected act(action: CountShellAction): void {
     wallAction(action, this.input);

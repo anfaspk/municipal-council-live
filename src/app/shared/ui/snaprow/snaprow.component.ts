@@ -29,11 +29,12 @@ export class SnapItemDirective {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'mj-snaprow', role: 'group', '[attr.aria-label]': 'label()' },
-  template: `<div class="mj-snaprow-track" role="list" #track (keydown)="key($event)" (focusin)="focused($event)"><ng-content /></div>
+  template: `<div class="mj-snaprow-track" role="list" #track [attr.data-pages]="paged() ? '' : null" (keydown)="key($event)" (focusin)="focused($event)"><ng-content /></div>
   @if (items().length > 1) {<div class="mj-snaprow-dots">@for (d of items(); track $index) {<button type="button" class="mj-snaprow-dot" [class.on]="$index === active()" [attr.aria-current]="$index === active() ? 'true' : null" [attr.aria-label]="dotL($index)" (click)="go($index, false)"><i aria-hidden="true"></i></button>}</div>}`,
 })
 export class SnapRowComponent {
   readonly label = input.required<string>();
+  readonly paged = input(false);
   protected readonly items = contentChildren(SnapItemDirective);
   protected readonly active = signal(0);
   private readonly n = computed(() => this.items().length);

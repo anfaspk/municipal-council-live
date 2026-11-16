@@ -16,6 +16,7 @@ const PATHS = {
   back: 'M15 6l-6 6 6 6',
   pin: 'M9 4h6l-1 6 3 3H7l3-3zM12 13v7',
   full: 'M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5',
+  unfull: 'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5',
   grid: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
   crown: 'M3 8l4 4 5-7 5 7 4-4-2 11H5z',
   ballot: 'M4 10h16v10H4zM8 10V4h8v6M10 14h4',

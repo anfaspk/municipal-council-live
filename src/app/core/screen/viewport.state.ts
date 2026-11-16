@@ -23,7 +23,7 @@ import {
   zoomOf,
 } from './layout.model';
 import type { Screen } from './screen-prefs';
-import { ScreenState } from './screen.state';
+import { SCREEN_SWAP, ScreenState } from './screen.state';
 
 export interface ViewportReading {
   vw: number;
@@ -73,6 +73,7 @@ export class ViewportState {
   private readonly host = inject(VIEWPORT_HOST);
   private readonly frames = inject(FRAME_READS);
   private readonly screens = inject(ScreenState);
+  private readonly swap = inject(SCREEN_SWAP);
   private readonly forced: Form | null = parseForm(this.host.search());
   private readonly reading = signal(this.host.read(), { equal: same });
   private readonly held = signal<{ screen: string; form: Form } | null>(null);
@@ -85,7 +86,7 @@ export class ViewportState {
       const env = this.env(),
         held = this.held();
       if (!held || held.screen !== env.screen) return layoutOf(env);
-      return layoutOf({ ...env, forced: this.forced ?? held.form }, FLOW_READY, held.form);
+      return layoutOf({ ...env, held: held.form }, FLOW_READY, held.form);
     },
     { equal: sameLayout },
   );
@@ -156,7 +157,7 @@ export class ViewportState {
     const held = this.held();
     if (!held || held.screen !== this.screens.screen()) return;
     const form = formOf(this.env(), FLOW_READY, held.form);
-    if (form !== held.form) this.held.set({ screen: held.screen, form });
+    if (form !== held.form) this.swap(() => this.held.set({ screen: held.screen, form }), true);
   }
 
   private env(): LayoutEnv {

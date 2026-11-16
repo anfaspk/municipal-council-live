@@ -256,6 +256,10 @@
 .has-sel .cx-n:not(.sel):not(.hov) {
   opacity: 0.34;
 }
+.has-foc .cx-n:not(.hov) {
+  opacity: 0.34;
+  pointer-events: none;
+}
 .cx-n:focus-visible .trk {
   stroke: var(--focus-ring);
 }

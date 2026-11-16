@@ -1,4 +1,4 @@
-import { computed, DOCUMENT, effect, inject, Injectable, signal, untracked } from '@angular/core';
+import { computed, effect, inject, Injectable, signal, untracked } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ApiClient } from '../core/api/api-client';
 import { endpoints } from '../core/api/endpoints';
@@ -25,6 +25,7 @@ import { checkOverall, checkRegion, checkVillage, checkWilayat } from '../domain
 import { log } from '../core/log/log';
 import { IssueLog } from './issue-log';
 import { RegionNeeds, withIds, type RegionNeed } from './region-needs';
+import { StaleClock } from './stale-clock';
 
 export interface TurnoutEvents extends StatsEvents {
   villages: { wid: number };
@@ -64,7 +65,7 @@ export class TurnoutStore {
   });
   private readonly _ready = signal(false);
   private readonly _updatedAt = signal(this.clock.now());
-  private readonly _stale = signal(false);
+  private readonly fresh = new StaleClock(STALE_POLLS * POLL, () => this.poll.running);
   readonly govs = this._govs.asReadonly();
   readonly index = computed(() => indexGovs(this._govs()));
   readonly ranked = computed(() => this.index().ranked);
@@ -78,14 +79,13 @@ export class TurnoutStore {
   readonly ready = this._ready.asReadonly();
   readonly done = this.clock.closed;
   readonly updatedAt = this._updatedAt.asReadonly();
-  readonly stale = this._stale.asReadonly();
-  readonly staleAt = computed(() => (this._stale() ? clockStr(this._updatedAt()) : null));
+  readonly stale = this.fresh.on;
+  readonly staleAt = computed(() => (this.stale() ? clockStr(this._updatedAt()) : null));
 
   private readonly poll = inject(PollScheduler).create({
     every: () => POLL,
     run: (signal) => this.pull(signal),
   });
-  private staleT?: ReturnType<typeof setTimeout>;
   private wid: number | null = null;
   private vid: number | null = null;
   private readonly vil = new Map<number, Village[]>();
@@ -108,14 +108,11 @@ export class TurnoutStore {
     effect(() => {
       if (this.done()) untracked(() => this.events.next({ type: 'complete' }));
     });
-    inject(DOCUMENT).defaultView?.addEventListener('offline', () => {
-      if (this.poll.running) this._stale.set(true);
-    });
   }
 
   start(): void {
     if (this.poll.running) return;
-    this.armStale();
+    this.fresh.arm();
     this.poll.start();
   }
 
@@ -233,7 +230,7 @@ export class TurnoutStore {
     this._updatedAt.set(this.clock.now());
     answered.forEach((_, id) => this.regionAt.set(id, this._updatedAt()));
     this._read.update((r) => withIds(r, answered.keys()));
-    this.armStale();
+    this.fresh.arm();
     this.issues.report([
       ...ov.issues,
       ...[...checked.values()].flatMap((c) => c.issues),
@@ -276,12 +273,6 @@ export class TurnoutStore {
     } finally {
       if (this.regionLoads.get(id) === ctl) this.regionLoads.delete(id);
     }
-  }
-
-  private armStale(): void {
-    this._stale.set(false);
-    clearTimeout(this.staleT);
-    this.staleT = setTimeout(() => this._stale.set(true), STALE_POLLS * POLL);
   }
 
   private loadWilayat(wid: number): Promise<void> {

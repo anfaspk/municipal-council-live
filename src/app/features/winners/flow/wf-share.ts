@@ -13,11 +13,3 @@ export async function shareWinner(gov: string, w: WWil, c: WCand | null): Promis
   });
   return r === 'copied' ? wf('shareCopied') : r === 'shown' ? wf('shareShown') + ' ' + url : '';
 }
-
-export function toggleFullscreen(): void {
-  try {
-    if (document.fullscreenElement) void document.exitFullscreen?.();
-    else void document.documentElement.requestFullscreen?.();
-  } catch {
-  }
-}

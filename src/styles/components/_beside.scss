@@ -1,0 +1,30 @@
+@use '../scales' as *;
+
+.mj-cc.cc-beside {
+  --cc-beside-w: 1180px;
+}
+.mj-cc.cc-beside .cc-grid {
+  grid-template-columns: var(--cc-beside-w) minmax(0, 1fr);
+  grid-template-rows: 56px minmax(0, 1.3fr) minmax(0, 1fr) 34px;
+}
+.mj-cc.cc-beside .cc-grid > :is(.cc-hero, .cc-pulse, .cc-kpis) {
+  display: none;
+}
+.mj-cc.cc-beside .cc-grid > :is(.cc-map, .cc-side, .cc-ticker) {
+  grid-column: 1;
+}
+.mj-cc.cc-beside .cc-map {
+  grid-row: 2;
+}
+.mj-cc.cc-beside .cc-side {
+  grid-row: 3;
+  flex-direction: row;
+}
+.mj-cc.cc-beside .cc-side > * {
+  flex: 1 1 0;
+  min-width: 0;
+  height: auto;
+}
+.mj-cc.cc-beside .cc-ticker {
+  grid-row: 4;
+}

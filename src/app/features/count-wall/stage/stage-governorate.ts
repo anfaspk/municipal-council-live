@@ -17,6 +17,7 @@ interface Node {
   lb: HTMLElement;
   dx: number;
   dy: number;
+  under: boolean;
 }
 
 export class GovernorateOverlay {
@@ -61,7 +62,7 @@ export class GovernorateOverlay {
       lb.style.setProperty('--j', String(i));
       setMarkup(lb, labelInner(w));
       els.labels.appendChild(lb);
-      this.nodes.push({ wid: w.id, n: w.n, pt: w.pt, g, lb, dx: 0, dy: -46 });
+      this.nodes.push({ wid: w.id, n: w.n, pt: w.pt, g, lb, dx: 0, dy: -46, under: false });
       const pick = () => {
         const cur = this.x.feed.wilById(w.id);
         if (cur) this.x.actions().selectWil(cur, true);
@@ -81,6 +82,15 @@ export class GovernorateOverlay {
       [g, lb].forEach((e) => {
         e.addEventListener('pointerenter', () => hov(true));
         e.addEventListener('pointerleave', () => hov(false));
+      });
+      g.addEventListener('focus', () => {
+        if (!g.matches(':focus-visible')) return;
+        els.el.classList.add('has-foc');
+        hov(true);
+      });
+      g.addEventListener('blur', () => {
+        els.el.classList.remove('has-foc');
+        hov(false);
       });
     });
   }
@@ -127,8 +137,16 @@ export class GovernorateOverlay {
   }
   place(): void {
     if (!this.centre) return;
+    const free = this.x.free();
     this.nodes.forEach((nd) => {
-      const p = this.x.proj(nd.pt);
+      const p = this.x.proj(nd.pt),
+        under = !!free && (p[0] < free[0] || p[0] > free[1]);
+      if (under !== nd.under) {
+        nd.under = under;
+        nd.g.setAttribute('tabindex', under ? '-1' : '0');
+        if (under) nd.g.setAttribute('aria-hidden', 'true');
+        else nd.g.removeAttribute('aria-hidden');
+      }
       nd.g.setAttribute('transform', 'translate(' + C.f1(p[0]) + ' ' + C.f1(p[1]) + ')');
       nd.lb.style.transform = C.labelAt(p[0] + nd.dx, p[1] + nd.dy);
       nd.g

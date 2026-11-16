@@ -17,6 +17,7 @@ export type IconName =
   | 'moon'
   | 'tv'
   | 'expand'
+  | 'shrink'
   | 'trend'
   | 'play'
   | 'next'

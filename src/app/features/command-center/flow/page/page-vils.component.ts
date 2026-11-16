@@ -12,6 +12,7 @@ import {
 import type { Village } from '../../../../domain/stats/stats';
 import { type Band, BANDS } from '../../../../domain/stats/turnout';
 import { rankedModel } from '../../detail/charts/ranked.model';
+import { DetailState } from '../../detail/detail.state';
 import { bandCounts, filterVillages, villageRows } from '../../detail/wil/villages.model';
 import { FlIconComponent } from '../fl-icon.component';
 import { FpTPipe } from './fp-t.pipe';
@@ -43,7 +44,7 @@ export class PageVilsComponent {
   protected readonly sorts = VIL_SORTS;
   protected readonly bandList = BANDS;
   protected readonly skel = [1, 2, 3, 4, 5];
-  protected readonly q = signal('');
+  protected readonly q = inject(DetailState).vilQ;
   protected readonly sort = signal<PageSort>('turnout');
   protected readonly bands = signal<readonly Band[]>([]);
 

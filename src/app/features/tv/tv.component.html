@@ -3,7 +3,7 @@
   <div class="mj-horizon"></div>
   <div class="tv-glow"></div>
   @for (face of faces; track $index; let f = $index) {
-    <div class="tv-face" [class.on]="active() === f" [class.tva-settled]="face().settled"
+    <div class="tv-face" [class.on]="active() === f" [class.tva-settled]="face().settled" [inert]="active() !== f"
       [attr.aria-hidden]="active() === f ? null : 'true'" [attr.role]="active() === f ? 'group' : null"
       [attr.aria-roledescription]="active() === f ? ('tvSlideRole' | t) : null" [attr.aria-label]="active() === f ? label(k()) : null">
       @for (s of face().slides; track s.uid) {<div appTvSlide [slide]="s" [settled]="face().settled"></div>}
@@ -38,6 +38,7 @@
       <button type="button" class="mj-btn tva-motion" role="switch" [attr.aria-checked]="still()" [attr.aria-disabled]="osReduced() ? 'true' : null" (click)="toggleStill()">
         <i class="tva-sw" aria-hidden="true"></i><span>{{ 'tvStill' | t }}</span>
       </button>
+      @if (full.offered()) {<button type="button" class="mj-btn icon tva-full" [attr.aria-label]="(full.on() ? 'fullOff' : 'full') | t" [title]="((full.on() ? 'fullOff' : 'full') | t) + ' (F)'" (click)="full.toggle()"><svg [mjIcon]="full.on() ? 'shrink' : 'expand'"></svg></button>}
     </div>
   </div>
   <div class="tva-live" [attr.aria-live]="announce().polite ? 'polite' : 'off'" aria-atomic="true">{{ announce().text }}</div>

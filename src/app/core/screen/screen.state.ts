@@ -11,6 +11,7 @@ import {
 import { GEO } from '../../domain/geo/geo.data';
 import { ServerClock } from '../clock/server-clock.service';
 import { log } from '../log/log';
+import { leaveFor } from './error-page';
 import {
   isRegion,
   loadScreenPrefs,
@@ -111,16 +112,21 @@ export class ScreenState {
   }
 
   recover(s: Screen): void {
+    if (this.reloadOnce(s)) return;
+    log.warn('screen chunk failed: ' + s);
+    if (s === 'dashboard') leaveFor('50x', 'boot');
+    else this.leave(s);
+  }
+
+  reloadOnce(s: Screen): boolean {
     const last = readReload(Date.now());
     if (
       (last && Date.now() - last.at < RELOAD_GUARD) ||
       !writeReload({ screen: s, at: Date.now() })
-    ) {
-      log.warn('screen chunk failed: ' + s);
-      this.leave(s);
-      return;
-    }
+    )
+      return false;
     location.reload();
+    return true;
   }
 
   showWinners(region: string): void {

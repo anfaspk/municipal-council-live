@@ -15,7 +15,7 @@
     <section class="cc-podium mj-glass" data-boot [attr.aria-label]="'podium' | t"></section></div>
   <footer class="cc-ticker mj-glass mj-ticker" data-boot [inert]="covered"></footer>
 </div>
-@if (paged) {@defer (on immediate) {<div class="dt-page"></div>}}
+@if (paged) {@defer (on immediate) {<div class="dt-page"></div>} @error {<i hidden dtRecover></i>}}
 <div class="mj-scrim" aria-hidden="true" [inert]="paged" (click)="state.close()"></div>
 @defer (on idle; on timer(2s); when !!state.pinned()) {<div class="mj-drawer mj-glass raised dw" [inert]="paged" role="dialog" aria-modal="false" aria-labelledby="dw-title" aria-hidden="true"></div>}
 <div class="mj-sr" aria-live="polite" #live></div>

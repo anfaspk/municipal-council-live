@@ -49,6 +49,7 @@ import { FlowWideComponent } from './flow-wide.component';
 import { BallotComponent } from '../hero/ballot/ballot.component';
 import { compOf } from './flow.model';
 import { fl } from './flow-strings';
+import { DetailRecoverDirective } from '../detail/detail-recover.directive';
 
 
 const TOUR = 10_000;
@@ -58,6 +59,7 @@ type Said = Extract<ScreenEvent, { type: 'cross' | 'milestone' | 'complete' }>;
 @Component({
   selector: 'div[ccFlow]',
   imports: [
+    DetailRecoverDirective,
     FlTPipe,
     FlIconComponent,
     AppbarComponent,

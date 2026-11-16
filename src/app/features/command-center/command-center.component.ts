@@ -45,10 +45,12 @@ import { PodiumComponent } from './podium/podium.component';
 import { PulseComponent } from './pulse/pulse.component';
 import { GovRailComponent } from './rail/gov-rail.component';
 import { TickerComponent } from './ticker/ticker.component';
+import { DetailRecoverDirective } from './detail/detail-recover.directive';
 
 @Component({
   selector: 'app-command-center',
   imports: [
+    DetailRecoverDirective,
     AmbientComponent,
     HorizonComponent,
     TPipe,

@@ -38,6 +38,43 @@
       type="font/woff2"
       crossorigin
     />
+    <script>
+      (function () {
+        var gone = false;
+        function down() {
+          if (gone) return;
+          gone = true;
+          try {
+            var prev = JSON.parse(sessionStorage.getItem('majlis.down') || 'null');
+            var n = prev && prev.n >= 0 ? prev.n + 1 : 0;
+            var to = location.pathname + location.search + location.hash;
+            sessionStorage.setItem('majlis.down', JSON.stringify({ to: to, why: 'boot', n: n }));
+          } catch (e) {}
+          location.replace(new URL('50x.html', document.baseURI).href);
+        }
+        addEventListener(
+          'error',
+          function (e) {
+            var t = e.target;
+            var url =
+              t &&
+              (t.tagName === 'SCRIPT'
+                ? t.src
+                : t.tagName === 'LINK' && t.rel === 'stylesheet'
+                  ? t.href
+                  : '');
+            if (url && new URL(url, location.href).origin === location.origin) down();
+          },
+          true,
+        );
+        addEventListener('load', function () {
+          setTimeout(function () {
+            var root = document.querySelector('app-root');
+            if (root && !root.firstElementChild) down();
+          }, 15000);
+        });
+      })();
+    </script>
     <style>
       @layer tokens, base, app, motion, states;
       @layer base {

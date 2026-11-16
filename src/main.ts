@@ -5,12 +5,14 @@ import { API_BASE } from './app/core/api/api-base';
 import { type Display, formOf, parseForm } from './app/core/screen/layout.model';
 import { log } from './app/core/log/log';
 import { isAcceptPath } from './app/domain/conflict/accept-path';
+import { isAppPath, leaveFor } from './app/core/screen/error-page';
 import { loadKit } from './app/kit-entry';
 
 async function root() {
   if (loadKit && new URLSearchParams(location.search).has('kit')) return loadKit();
-  if (!isAcceptPath(location.pathname)) return App;
-  return (await import('./app/features/accept/accept.component')).AcceptComponent;
+  if (isAcceptPath(location.pathname))
+    return (await import('./app/features/accept/accept.component')).AcceptComponent;
+  return isAppPath(location.pathname, new URL(document.baseURI).pathname) ? App : null;
 }
 
 try {
@@ -47,8 +49,11 @@ function shellAhead(): void {
 
 root()
   .then((r) => {
+    if (!r) return leaveFor('404');
     if (r === App) shellAhead();
-    return r;
+    return bootstrapApplication(r, appConfig).then(() => undefined);
   })
-  .then((r) => bootstrapApplication(r, appConfig))
-  .catch((err) => log.error('bootstrap failed', err));
+  .catch((err) => {
+    log.error('bootstrap failed', err);
+    leaveFor('50x', 'boot');
+  });

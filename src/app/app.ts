@@ -8,7 +8,10 @@ import {
   inject,
   ViewEncapsulation,
 } from '@angular/core';
+import { API_BASE } from './core/api/api-base';
+import { endpoints } from './core/api/endpoints';
 import { ServerClock } from './core/clock/server-clock.service';
+import { forgetDown, watchDown } from './core/screen/error-page';
 import { FLOW_READY } from './core/screen/layout.model';
 import { InstallOffer } from './core/screen/install';
 import { ScreenState } from './core/screen/screen.state';
@@ -17,6 +20,7 @@ import { TurnoutStore } from './data/turnout.store';
 import { CountdownComponent } from './features/countdown/countdown.component';
 import { FlowSkeletonComponent } from './features/command-center/flow/flow-skeleton.component';
 import { AutoToastComponent } from './features/screens/auto-toast.component';
+import { RecoverDirective } from './features/screens/recover.directive';
 import { prefetchScreens } from './features/screens/screen-chunks';
 import { ScreensComponent } from './features/screens/screens.component';
 import { IconSpriteComponent } from './shared/ui/icon.component';
@@ -30,6 +34,7 @@ import { TPipe } from './shared/ui/t.pipe';
     FlowSkeletonComponent,
     AutoToastComponent,
     IconSpriteComponent,
+    RecoverDirective,
     TPipe,
   ],
   template: `<div class="mj-icons"></div>
@@ -42,6 +47,8 @@ import { TPipe } from './shared/ui/t.pipe';
       @case ('before') {
         @defer (on immediate) {
           <app-countdown />
+        } @error {
+          <i hidden [mjRecover]="'dashboard'"></i>
         }
       }
       @case ('live') {
@@ -83,6 +90,11 @@ export class App {
     });
     effect(() => {
       if (this.clock.phase() === 'live') this.stats.start();
+    });
+    effect((onCleanup) => {
+      if (this.stats.ready()) return forgetDown();
+      if (this.clock.phase() === 'live')
+        onCleanup(watchDown(API_BASE + '/' + endpoints.statsOverall.path));
     });
     const doc = inject(DOCUMENT);
     afterNextRender(() =>

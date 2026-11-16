@@ -106,15 +106,23 @@ export interface FollowWin {
   done: number;
   n: number;
 }
-export function followWin(f: Follow, region: WRegion | null): FollowWin | null {
+export function followWin(
+  f: Follow,
+  region: WRegion | null,
+  count: readonly CWil[] | null = null,
+): FollowWin | null {
   if (!region || String(region.id) !== f.gov) return null;
-  if (f.wil === null)
+  if (f.wil === null) {
+    const ws: readonly { published: boolean }[] = count ?? region.wils;
     return {
       name: region.name,
       winners: [],
-      done: region.wils.filter((w) => w.published).length,
-      n: region.wils.length,
+      done: ws.filter((w) => w.published).length,
+      n: ws.length,
     };
+  }
   const w = region.wils.find((x) => x.id === f.wil);
-  return w ? { name: w.name, winners: w.winners, done: w.published ? 1 : 0, n: 1 } : null;
+  return w && !w.unread
+    ? { name: w.name, winners: w.winners, done: w.published ? 1 : 0, n: 1 }
+    : null;
 }

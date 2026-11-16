@@ -25,7 +25,7 @@
         <li [style.--i]="i">
           <button type="button" class="wn-wil" [class.on]="i === cur()" [class.done]="w.published" [attr.aria-current]="i === cur() ? 'true' : null" (click)="choose.emit(i)">
             <span class="wn-wil-dot" aria-hidden="true">@if (w.published) {<svg class="wn-chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>} @else {<i></i>}</span>
-            <span class="wn-wil-t"><b>{{ w.name }}</b><small>@if (seats(w.seats); as s) {<span>{{ s }}</span><i></i>}<span>{{ (w.published ? 'wnDeclared' : 'wnPendingShort') | wnT }}</span></small></span>
+            <span class="wn-wil-t"><b>{{ w.name }}</b><small>@if (seats(w.seats); as s) {<span>{{ s }}</span><i></i>}@if (!w.unread) {<span>{{ (w.published ? 'wnDeclared' : 'wnPendingShort') | wnT }}</span>}</small></span>
             <svg class="wn-wil-go" [mjIcon]="'prev'"></svg>
           </button>
         </li>

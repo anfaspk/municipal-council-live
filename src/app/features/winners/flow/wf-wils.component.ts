@@ -41,7 +41,7 @@ import { WfTPipe } from './wf-t.pipe';
           <li>
             <button type="button" class="wf-wil" [class.on]="i === cur()" [class.done]="w.published" [attr.aria-current]="i === cur() ? 'true' : null" (click)="choose.emit(i)">
               <span class="wf-wil-dot" aria-hidden="true">@if (w.published) {<svg wfIcon="check"></svg>} @else {<i></i>}</span>
-              <span class="wf-wil-t"><b>{{ w.name }}</b><small>@if (w.seats) {{{ 'wnSeats' | wfT: { n: w.seats } }} · }{{ (w.published ? 'wnDeclared' : 'wnPendingShort') | wfT }}</small></span>
+              <span class="wf-wil-t"><b>{{ w.name }}</b><small>@if (w.seats) {{{ 'wnSeats' | wfT: { n: w.seats } }} · }@if (!w.unread) {{{ (w.published ? 'wnDeclared' : 'wnPendingShort') | wfT }}}</small></span>
               @if (w.published) {<span class="wf-faces" aria-hidden="true">@for (c of w.winners; track c.id) {@if (c.thumb) {<img [src]="c.thumb" alt="" width="32" height="32" decoding="async" loading="lazy">} @else {<span>{{ c.ini }}</span>}}</span>}
               <svg class="wf-go" wfIcon="go"></svg>
             </button>

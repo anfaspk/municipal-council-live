@@ -23,7 +23,7 @@
           <div class="wf-msg"><span class="wf-msg-i warn"><svg wfIcon="warn"></svg></span><h1 class="wf-name" tabindex="-1">{{ 'wnFailed' | wfT }}</h1><p>{{ 'wnFailedLead' | wfT }}</p><button type="button" class="wf-retry" (click)="store.retry()">{{ 'wnRetry' | wfT }}</button></div>
         } @else if (view.load() === 'ready' && !wils().length) {
           <div class="wf-msg"><span class="wf-msg-i"><svg wfIcon="grid"></svg></span><h1 class="wf-name" tabindex="-1">{{ 'wnEmpty' | wfT }}</h1></div>
-        } @else if (wil(); as w) {
+        } @else if (wil()?.unread ? null : wil(); as w) {
           @for (k of [w.id]; track k) {
             @let t = title(w);
             <div class="wf-show" role="group" [attr.aria-label]="'wfStory' | wfT: { w: w.name, i: cur() + 1, n: wils().length }">

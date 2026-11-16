@@ -120,6 +120,13 @@ export class WinnersComponent {
         if (n && !this.stepSet) this.schedule();
       });
     });
+    effect(() => {
+      const ws = this.gov() && this.isOpen() ? this.wils() : [],
+        i = this.cur();
+      const w = ws[i],
+        next = ws.length > 1 ? ws[(i + 1) % ws.length] : undefined;
+      untracked(() => this.store.show(w?.id ?? null, next?.id ?? null));
+    });
     const photos = inject(WinnerPhotos);
     effect(() => {
       if (this.isOpen()) untracked(() => photos.warm([SCENE_IMG]));

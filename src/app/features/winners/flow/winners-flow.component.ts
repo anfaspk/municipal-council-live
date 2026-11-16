@@ -173,15 +173,15 @@ export class WinnersFlowComponent {
         untracked(() => this.focusName());
     });
     effect(() => {
-      if (this.gov()) untracked(() => this.photos.warm([SCENE_IMG]));
-    });
-    effect(() => {
-      const ws = this.wils(),
-        i = this.cur();
-      const urls = [ws[i], ws[(i + 1) % ws.length]].flatMap((w) =>
+      const g = this.gov(),
+        pair = this.isOpen() && g ? [this.wil(), this.next()] : [];
+      const urls = pair.flatMap((w) =>
         w?.published ? w.winners.flatMap((c) => (c.photo ? [c.photo] : [])) : [],
       );
-      untracked(() => this.photos.warm(urls));
+      untracked(() => {
+        this.store.show(pair[0]?.id ?? null, pair[1]?.id ?? null);
+        this.photos.warm(g ? [SCENE_IMG, ...urls] : urls);
+      });
     });
     effect(() => {
       const run = this.isOpen() && !!this.gov() && !this.stopped();

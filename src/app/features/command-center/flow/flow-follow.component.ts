@@ -94,7 +94,7 @@ export class FlowFollowComponent {
   });
   protected readonly win = computed(() => {
     const f = this.pref.place();
-    return f ? followWin(f, this.winners.data()) : null;
+    return f ? followWin(f, this.winners.data(), placeWils(f, this.countStore.govs)) : null;
   });
 
   constructor() {
@@ -118,8 +118,10 @@ export class FlowFollowComponent {
       untracked(() => {
         if (live) this.countStore.start(this);
         else this.countStore.stop(this);
-        if (win) this.winners.watch(+f!.gov);
-        else if (this.screen.is('dashboard') && this.winners.region() === (f ? +f.gov : -1))
+        if (win) {
+          this.winners.watch(+f!.gov);
+          this.winners.show(f!.wil);
+        } else if (this.screen.is('dashboard') && this.winners.region() === (f ? +f.gov : -1))
           this.winners.watch(null);
       });
     });

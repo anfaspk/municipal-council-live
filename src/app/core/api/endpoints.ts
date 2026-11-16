@@ -41,8 +41,8 @@ export const endpoints = {
     fresh: true,
     bare: true,
   }),
-  winners: (regionId: number): Endpoint<WinnerResp> => ({
+  winners: (regionId: number, wilayatId: number): Endpoint<WinnerResp> => ({
     path: 'result/get/winner',
-    body: { regionId, wilayatId: 0 },
+    body: { regionId, wilayatId },
   }),
 };

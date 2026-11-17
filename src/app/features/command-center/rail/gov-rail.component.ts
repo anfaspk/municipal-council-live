@@ -58,7 +58,6 @@ export class GovRailComponent {
   readonly wid = signal<string | null>(null);
   private readonly govs = signal<Gov[]>(this.stats.govs());
   private readonly index = computed(() => indexGovs(this.govs()));
-  readonly govCount = computed(() => this.stats.govs().length);
   readonly listLabel = computed(() => {
     const g = this.headGov();
     return g ? t('wilOf', { g: name(g) }) : t('map');
@@ -70,7 +69,7 @@ export class GovRailComponent {
   readonly fmt = fmt;
   readonly pct = pct;
   readonly sortItems = computed<SegItem[]>(() => [
-    { v: 'turnout', label: t('sTurnout') },
+    { v: 'turnout', label: t('sTurnoutS') },
     { v: 'votes', label: t('sVotes') },
     { v: 'name', label: t('sName') },
   ]);

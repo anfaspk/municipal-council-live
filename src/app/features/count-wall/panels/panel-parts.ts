@@ -78,14 +78,14 @@ export class CountStatus {
 @Component({
   selector: 'div[countStats]',
   template: `<div class="cx-st c">
-      <span>{{ text('cCounted') }}</span
+      <span>{{ text(prefix() === 'w' ? 'cCountedW' : 'cCounted') }}</span
       ><b [class]="'mj-num cx-' + prefix() + 'c'" [attr.data-fig]="key('counted')">{{ number(counted()) }}</b
       ><em [class]="'mj-num cx-' + prefix() + 'p'" [attr.data-fig]="key('cP')">{{
         percentOf(counted(), cast())
       }}</em>
     </div>
     <div class="cx-st l">
-      <span>{{ text('cxUncounted') }}</span
+      <span>{{ text(prefix() === 'w' ? 'cxUncountedW' : 'cxUncounted') }}</span
       ><b [class]="'mj-num cx-' + prefix() + 'l'" [attr.data-fig]="key('left')">{{ number(cast() - counted()) }}</b
       ><em>{{ text('cOfCast', { v: number(cast()) }) }}</em>
     </div>

@@ -29,8 +29,8 @@ const TIE_TEXT = { f1: 'cxTieF1', f2: 'cxTieF2', s: 'cxTieS2' } as const;
       <div class="cf-ringrow"><div [cfRing]="h.k"><b class="cf-ring-fig">{{ h.p }}</b></div>
         <div class="cf-ringtxt"><p class="cf-say">{{ 'cfSay' | cfT: { c: h.counted, t: h.cast } }}</p>@if (h.seats) {<small>{{ 'cfCandsOn' | cfT: { n: h.cands, s: h.seats } }}</small>}</div></div>
       <div class="cf-figs two">
-        <div class="cf-fig"><span>{{ 'cCounted' | cfT }}</span><b class="mj-num" [attr.data-fig]="'count.wil.' + w.id + '.counted'">{{ h.counted }}</b><small class="mj-num" [attr.data-fig]="'count.wil.' + w.id + '.cP'">{{ h.cP }}</small></div>
-        <div class="cf-fig left"><span>{{ 'cxUncounted' | cfT }}</span><b class="mj-num" [attr.data-fig]="'count.wil.' + w.id + '.left'">{{ h.left }}</b><small class="mj-num">{{ 'cOfCast' | cfT: { v: h.cast } }}</small></div>
+        <div class="cf-fig"><span>{{ 'cCountedW' | cfT }}</span><b class="mj-num" [attr.data-fig]="'count.wil.' + w.id + '.counted'">{{ h.counted }}</b><small class="mj-num" [attr.data-fig]="'count.wil.' + w.id + '.cP'">{{ h.cP }}</small></div>
+        <div class="cf-fig left"><span>{{ 'cxUncountedW' | cfT }}</span><b class="mj-num" [attr.data-fig]="'count.wil.' + w.id + '.left'">{{ h.left }}</b><small class="mj-num">{{ 'cOfCast' | cfT: { v: h.cast } }}</small></div>
         <div class="cf-fig m"><span>{{ 'cxMaleV' | cfT }}</span><b class="mj-num" [attr.data-fig]="'count.wil.' + w.id + '.m'">{{ h.m }}</b><small class="mj-num">{{ h.mP }}</small></div>
         <div class="cf-fig f"><span>{{ 'cxFemaleV' | cfT }}</span><b class="mj-num" [attr.data-fig]="'count.wil.' + w.id + '.f'">{{ h.f }}</b><small class="mj-num">{{ h.fP }}</small></div>
       </div>

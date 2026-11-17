@@ -10,7 +10,7 @@ import { Gender } from '../tv-slide.model';
   imports: [CountUpDirective, GlyphComponent, PctPipe, TPipe],
   template: `
     @let g = gender();
-    <div class="tv-ch"><span class="mj-micro">{{ 'gender' | t }} · {{ 'votesCast' | t }}</span></div>
+    <div class="tv-ch"><span class="mj-micro">{{ 'gender' | t }} · {{ 'gpVoted' | t }}</span></div>
     <div class="tv-gv">
       <div class="gm">
         <span class="glyph m"><span mjGlyph="m"></span></span>

@@ -16,7 +16,7 @@ import { WilView } from './insights.model';
   imports: [CountUpDirective, FmtPipe, IconComponent, PctPipe, TPipe],
   template: `@let v = view();
     <div class="ix-wref">
-      <span class="mj-micro">{{ 'sTurnout' | t }} · {{ 'votesOfReg' | t }}</span
+      <span class="mj-micro">{{ 'sTurnoutL' | t }} · {{ 'votesOfReg' | t }}</span
       ><span class="ix-wkl"
         ><i></i><span>{{ v.refLabel }}</span></span
       >

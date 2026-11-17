@@ -82,7 +82,7 @@ export class PageView {
 
   readonly head = computed(() => {
     const a = this.at();
-    return a ? detailHead(a, this.stats.govs(), this.villages(), fp('tvOman')) : null;
+    return a ? detailHead(a, this.stats.govs(), this.villages(), fp('crumbOman')) : null;
   });
   readonly crumbs = computed(() => phoneCrumbs(this.head()?.crumbs ?? []));
   readonly upName = computed(() => {

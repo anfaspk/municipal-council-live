@@ -7,9 +7,8 @@
 /out-tsc
 /tmp
 /bazel-out
-# Note: /dist is intentionally committed (deployed build output).
-# Uncomment the next line if you stop deploying from the repo.
-# /dist
+# Build output (not tracked)
+/dist
 
 # Logs
 npm-debug.log*

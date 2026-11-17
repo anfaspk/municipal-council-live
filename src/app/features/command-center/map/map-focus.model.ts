@@ -42,10 +42,11 @@ function genderRow(
   cls = '',
   totCls = '',
 ): GenderRow {
-  const label = t(id);
+  /* The voters' row is named apart from the shared key (Arabic review 2026-11-17). */
+  const label = t(id === 'votesCast' ? 'focusVoted' : id);
   const pm = total ? (m / total) * 100 : 50;
   const aria =
-    label +
+    t(id === 'votesCast' ? 'gpVoted' : id) +
     ': ' +
     t('male') +
     ' ' +
@@ -105,7 +106,7 @@ export function focusView(g: Gov | null, nat: National, rank: number | null): Fo
     voted: s.voted,
     band: band(s.t),
     rank: s.rank,
-    micro: t('focus') + (s.rank ? ' · ' + t('of11', { n: s.rank }) : ''),
+    micro: t(g ? 'focusGov' : 'focus'),
     big: pctNum(s.t),
     share: s.share,
     ring: ringGeom(s.t, 54, 5),

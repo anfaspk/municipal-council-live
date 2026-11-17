@@ -16,7 +16,7 @@ import { WfTPipe } from './wf-t.pipe';
   imports: [WfIconComponent, WfTPipe],
   host: { class: 'wf-pick' },
   template: `<p class="wf-kicker" aria-hidden="true"><i></i>{{ 'wnPickKicker' | wfT }}<i></i></p>
-    <h2 class="wf-h1 wf-name" tabindex="-1">{{ 'wnPickTitle' | wfT }}</h2>
+    <h2 class="wf-h1 wf-name" tabindex="-1">{{ 'wnPickHead' | wfT }}</h2>
     <p class="wf-lead">{{ 'wnPickLead' | wfT }}</p>
     @if (wait()) {<p class="wf-note"><svg wfIcon="box"></svg><span>{{ 'wnWait' | wfT }}</span></p>}
     @if (map()) {

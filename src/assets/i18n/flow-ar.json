@@ -89,7 +89,7 @@
   "flFollowDone": "اكتمل فرز {d} من {n|wil}",
   "flFollowSeat": "المقعد {n}",
   "flFollowToCount": "في شاشة الفرز",
-  "flFollowWinT": "النتائج النهائية",
+  "flFollowWinT": "عرض النتائج",
   "flFollowTally": "أُعلنت نتائج {d} من {n|wil}",
   "flFollowToWin": "الفائزون في {w}",
   "flFollowWait": "تظهر الأرقام هنا فور وصولها",

@@ -39,8 +39,8 @@ interface Row {
   template: `@let v = view();
     <div class="mj-panel-head">
       <div class="mj-ph-l">
-        <span class="mj-micro gold">{{ 'gender' | t }}</span
-        ><span class="mj-panel-title">{{ 'gpTitle' | t }}</span>
+        <span class="mj-micro gold">{{ 'gender' | t }}</span>
+        <!-- <span class="mj-panel-title">{{ 'gpTitle' | t }}</span> -->
       </div>
     </div>
     <div class="gp-body mj-z" [class.gp-on]="on()">
@@ -55,7 +55,9 @@ interface Row {
           </div>
           @if ($first) {
             <div class="gp-gap">
-              <span>{{ 'gpGapL' | t }}</span><b data-fig="pulse.gap">{{ v.gap ?? '—' }}</b>
+              <!-- <span>{{ 'gpGapL' | t }}</span> -->
+              <b data-fig="pulse.gap">{{ 'gpGapL' | t }}</b>
+              <!-- <b data-fig="pulse.gap">{{ v.gap ?? '—' }}</b> -->
             </div>
           }
         }
@@ -79,7 +81,7 @@ interface Row {
       }
     </div>
     @if (v.parity !== null) {
-      <div class="gp-foot mj-z">{{ 'gpParity' | t: { n: v.parity } }}</div>
+      <!-- <div class="gp-foot mj-z">{{ 'gpParity' | t: { n: v.parity } }}</div> -->
     }`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

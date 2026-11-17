@@ -36,7 +36,6 @@
 }
 @if (!duel && !nextInGrid() && r.next; as nx) {
   <div class="rs-nx" [class.tight]="nx.tight" [attr.data-id]="nx.id" style="--d:.24">
-    <span class="rs-cut">{{ 'resLine' | t }}</span>
     <span class="mj-micro rs-nxl">{{ (nx.tight ? 'resTight' : 'resNextIn') | t }}</span>
     <span class="rs-rk mj-num">{{ nx.rank }}</span>
     <span class="rs-av sm" mjRaceAv [cand]="nx"></span>

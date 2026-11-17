@@ -23,7 +23,8 @@ import { FlTPipe } from './fl-t.pipe';
     @if (open()) {<div class="fl-splits" id="fl-pulse-more">
       <div class="fl-split"><div class="fl-split-l"><b>{{ v.m.regShare }}</b><em>{{ 'registered' | t }}</em><b>{{ v.f.regShare }}</b></div><div class="fl-split-bar" aria-hidden="true"><i class="m" [style.--k]="v.m.regK"></i><i class="f" [style.--k]="v.f.regK"></i></div></div>
       <div class="fl-split"><div class="fl-split-l"><b>{{ v.m.voteShare }}</b><em>{{ 'flVoters' | flT }}</em><b>{{ v.f.voteShare }}</b></div><div class="fl-split-bar" aria-hidden="true"><i class="m" [style.--k]="v.m.voteK"></i><i class="f" [style.--k]="v.f.voteK"></i></div></div>
-      @if (v.parity !== null) {<p class="fl-foot">{{ 'gpParity' | t: { n: v.parity } }}</p>}</div>}
+      <!-- @if (v.parity !== null) {<p class="fl-foot">{{ 'gpParity' | t: { n: v.parity } }}</p>} -->
+    </div>}
     @if (!fixed()) {<button type="button" class="fl-more" aria-controls="fl-pulse-more" [attr.aria-expanded]="open()" (click)="open.set(!open())">{{ (open() ? 'flPulseLess' : 'flPulseMore') | flT }}<svg [flIcon]="open() ? 'up' : 'down'"></svg></button>}`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

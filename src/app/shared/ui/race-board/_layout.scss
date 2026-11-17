@@ -191,17 +191,6 @@
   border-block-start: 2px dashed color-mix(in srgb, var(--gold) 70%, transparent);
   pointer-events: none;
 }
-.rs-cut {
-  position: absolute;
-  inset-block-start: -$sp-22;
-  inset-inline-start: $sp-24;
-  padding: $sp-2 $sp-12;
-  border-radius: var(--radius-pill);
-  font: 700 #{$fs-13}/ 1.4 var(--font-arabic);
-  color: var(--gold-ink);
-  background: var(--canvas-0);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 55%, transparent);
-}
 .rs-nx .mj-micro {
   padding-inline-end: $sp-4;
   font: 700 #{$fs-15}/ 1.2 var(--font-arabic);

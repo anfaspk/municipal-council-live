@@ -15,13 +15,13 @@ import { Compare } from './place.model';
 <ul class="dt-cmp-rows">
   @for (r of m.rows; track r.key) {
     <li class="dt-cmp-row" [class]="r.key + ' ' + (r.band ?? '')">
-      <span class="dt-cmp-nm">{{ r.label }}</span>
+      <!-- <span class="dt-cmp-nm">{{ r.label }}</span> -->
       <span class="dt-cmp-track" aria-hidden="true"><i class="dt-cmp-fill" [style.--k]="r.k"></i></span>
       <b class="dt-cmp-v mj-num" [attr.data-fig]="r.key === 'self' ? 'place.turnout' : null">{{ r.t === null ? dash : pct(r.t) }}</b>
     </li>
   }
   <li class="dt-cmp-row dt-cmp-scale" aria-hidden="true">
-    <span class="dt-cmp-nm"></span>
+    <!-- <span class="dt-cmp-nm"></span> -->
     <span class="dt-cmp-zones">
       <i class="z low"><em>{{ 'dtZone.low' | dtT }}</em></i><i class="z mid"><em>{{ 'dtZone.mid' | dtT }}</em></i><i class="z high"><em>{{ 'dtZone.high' | dtT }}</em></i>
       <b class="mj-num t50">50%</b><b class="mj-num t70">70%</b>

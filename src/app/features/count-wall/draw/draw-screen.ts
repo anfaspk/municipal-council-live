@@ -81,7 +81,7 @@ export abstract class DrawScreen {
     } else if (kept) this.sel.set(kept.id);
     this.still.set(loadTvPrefs(COUNT_TV_PREFS).still || reducedMotion());
     this.isOpen.set(true);
-    this.store.start(this);
+    this.store.start(this, true);
     this.opened(!!w || !!kept?.full);
   }
   private shut(): void {

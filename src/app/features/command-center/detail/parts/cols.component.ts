@@ -61,11 +61,13 @@ export class ColsComponent<K = number> {
       this.current();
       if (!this.scroll()) return;
       let by = 0,
+        left = 0,
         tries = 30;
       const h = frames.add(
         {
           read: () => {
             by = 0;
+            left = host.scrollLeft;
             const me = host.querySelector('.dt-vcol.me');
             if (!me) return;
             const c = host.getBoundingClientRect(),
@@ -74,7 +76,7 @@ export class ColsComponent<K = number> {
             by = (r.left + r.width / 2 - (c.left + c.width / 2)) / k;
           },
           write: () => {
-            if (Math.abs(by) >= 1) host.scrollLeft += by;
+            if (Math.abs(by) >= 1) host.scrollLeft = left + by;
             if (--tries <= 0) h.stop();
           },
         },

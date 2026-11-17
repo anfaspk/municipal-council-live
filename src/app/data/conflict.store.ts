@@ -24,6 +24,8 @@ export class ConflictStore {
 
   private readonly busy = new Map<number, AbortController>();
   private readonly failed = new Map<number, number>();
+  private seq = 0;
+  private readonly applied = new Map<number, number>();
 
   constructor() {
     inject(DestroyRef).onDestroy(() => this.poll?.stop());
@@ -64,13 +66,17 @@ export class ConflictStore {
     this._draws.set(m);
   }
 
-  private async read(id: number, signal: AbortSignal): Promise<CTie> {
+  private async read(id: number, signal: AbortSignal): Promise<{ t: CTie; n: number }> {
+    const n = ++this.seq;
     const r = await this.api.get(endpoints.conflictInfo(id), { signal });
-    const { value, issues } = checkConflictInfo(id, r);
+    const { value, issues, other } = checkConflictInfo(id, r);
     this.issueLog.report(issues);
-    return tieInfoOf(id, value, this._ties().get(id));
+    if (other) throw new Error('conflict/get/info: the answer is for another wilayat');
+    return { t: tieInfoOf(id, value, this._ties().get(id)), n };
   }
-  private keep(t: CTie): void {
+  private keep({ t, n }: { t: CTie; n: number }): void {
+    if (n < (this.applied.get(t.wid) ?? 0)) return;
+    this.applied.set(t.wid, n);
     if (this._ties().get(t.wid) !== t) this._ties.update((m) => new Map(m).set(t.wid, t));
     const d = t.draw;
     if (d && this._draws().get(t.wid) !== d) this._draws.update((m) => new Map(m).set(t.wid, d));
@@ -78,9 +84,9 @@ export class ConflictStore {
 
   private async pull(id: number, signal: AbortSignal): Promise<void> {
     try {
-      const t = await this.read(id, signal);
+      const read = await this.read(id, signal);
       if (signal.aborted || this.watched !== id) return;
-      this.keep(t);
+      this.keep(read);
     } catch (e) {
       if (signal.aborted) return;
       log.warn('conflict/info failed', id, e);
@@ -90,10 +96,10 @@ export class ConflictStore {
 
   private async fetch(id: number, ctrl: AbortController): Promise<void> {
     try {
-      const t = await this.read(id, ctrl.signal);
+      const read = await this.read(id, ctrl.signal);
       if (this.busy.get(id) !== ctrl) return;
-      this.keep(t);
-      if (!t.draw) throw new Error('conflict/get/info: no draw result yet');
+      this.keep(read);
+      if (!this._draws().has(id)) throw new Error('conflict/get/info: no draw result yet');
       this.failed.delete(id);
     } catch (e) {
       if (this.busy.get(id) !== ctrl || ctrl.signal.aborted) return;

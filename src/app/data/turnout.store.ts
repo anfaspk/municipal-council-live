@@ -115,6 +115,11 @@ export class TurnoutStore {
     this.fresh.arm();
     this.poll.start();
   }
+  stop(): void {
+    if (!this.poll.running) return;
+    this.poll.stop();
+    this.fresh.stop();
+  }
 
   needRegions(owner: object, ids: RegionNeed): void {
     const had = new Set(this.needs.wanted(this.listed()));

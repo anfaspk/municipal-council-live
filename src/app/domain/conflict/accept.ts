@@ -31,6 +31,21 @@ export function parseAcceptLink(search: string): AcceptLink | null {
   return ok ? link : null;
 }
 
+const LINK_KEYS = ['id', 'caid', 'ccid', 'nid', 'sec'];
+export const hasAcceptKeys = (search: string): boolean => {
+  const q = new URLSearchParams(search);
+  return LINK_KEYS.some((k) => q.has(k));
+};
+export const acceptQuery = (link: AcceptLink): string =>
+  '?' +
+  new URLSearchParams({
+    id: String(link.wid),
+    caid: String(link.cid),
+    ccid: String(link.ccid),
+    nid: String(link.nid),
+    sec: link.sec,
+  }).toString();
+
 export type AcceptOutcome =
   'accepted' | 'alreadyAccepted' | 'linkExpired' | 'finallyExpired' | 'linkInvalid' | 'serverError';
 export function acceptOutcome(
@@ -54,9 +69,13 @@ export function roundTime(s: string | null | undefined): number | null {
   const [, y = '', mon = '', d = '', h = '', mi = '', se = '', ap = ''] = m,
     month = MON.indexOf(mon.toLowerCase()),
     hour = Number(h);
-  if (month < 0 || hour < 1 || hour > 12) return null;
+  const day = Number(d),
+    min = Number(mi),
+    sec = Number(se);
+  if (month < 0 || hour < 1 || hour > 12 || min > 59 || sec > 59) return null;
+  if (day < 1 || new Date(Date.UTC(Number(y), month, day)).getUTCDate() !== day) return null;
   const h24 = (hour % 12) + (ap.toUpperCase() === 'PM' ? 12 : 0);
-  return Date.UTC(Number(y), month, Number(d), h24, Number(mi), Number(se)) - 4 * 3600 * 1000;
+  return Date.UTC(Number(y), month, day, h24, min, sec) - 4 * 3600 * 1000;
 }
 
 const LAG = 60 * 1000;

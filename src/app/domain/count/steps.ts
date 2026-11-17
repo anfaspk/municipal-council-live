@@ -34,8 +34,12 @@ export function detailStep(
   details: ReadonlyMap<number, CountWilayatResp>,
   winners = SHOW_WINNERS,
 ): CountStep {
-  const govs = reduceCount(prev, { details }, winners);
-  return { govs, events: diffCount(prev, govs, details.keys()) };
+  const govs = reduceCount(prev, { details }, winners),
+    before = indexCount(prev);
+  const events = diffCount(prev, govs, details.keys()).map((e): CountEvent =>
+    e.type === 'change' && !e.delta && !before.wil(e.w.id)?.detail ? { ...e, listed: true } : e,
+  );
+  return { govs, events };
 }
 
 function wantsDetail(prev: CWil, next: CWil): boolean {

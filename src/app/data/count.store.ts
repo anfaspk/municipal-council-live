@@ -1,9 +1,11 @@
 import { computed, effect, inject, Injectable, signal, untracked } from '@angular/core';
 import { Subject } from 'rxjs';
+import { API_BASE } from '../core/api/api-base';
 import { ApiClient } from '../core/api/api-client';
 import { endpoints } from '../core/api/endpoints';
 import { ServerClock } from '../core/clock/server-clock.service';
 import { PollScheduler } from '../core/poll/poll-scheduler';
+import { forgetDown, watchDown } from '../core/screen/error-page';
 import { clockStr } from '../domain/format';
 import {
   CGov,
@@ -24,6 +26,7 @@ import { num } from '../domain/stats/stats';
 import { Issue } from '../domain/stats/check';
 import { checkCountOverall, checkCountRegion, checkCountWilayat } from '../domain/validate/answers';
 import { log } from '../core/log/log';
+import { CountNames } from './count-names';
 import { IssueLog } from './issue-log';
 import { StaleClock } from './stale-clock';
 import { TurnoutStore } from './turnout.store';
@@ -33,6 +36,8 @@ export type CountStoreEvent =
 
 const POLL = 10 * 1000,
   DETAIL_MAX = 16,
+  SPREAD_NEAR = 10 * 1000,
+  SPREAD = 3 * 1000,
   STALE_POLLS = 3;
 
 @Injectable({ providedIn: 'root' })
@@ -68,22 +73,32 @@ export class CountStore {
   private readonly poll = inject(PollScheduler).create({
     every: () => POLL,
     run: (signal) => this.pull(signal),
+    spread: () => {
+      const c = this.clock.countingStart();
+      return c !== null && this.clock.now() - c < SPREAD_NEAR ? SPREAD : 0;
+    },
   });
 
   private readonly owners = new Set<object>();
   private readonly wanted = signal(0);
+  private readonly screens = new Set<object>();
+  private readonly screenN = signal(0);
 
   get govs(): CGov[] {
     return this.state();
   }
-  start(owner: object): void {
+  start(owner: object, screen = false): void {
     this.owners.add(owner);
+    if (screen) this.screens.add(owner);
     this.wanted.set(this.owners.size);
+    this.screenN.set(this.screens.size);
     this.sync();
   }
   stop(owner: object): void {
     this.owners.delete(owner);
+    this.screens.delete(owner);
     this.wanted.set(this.owners.size);
+    this.screenN.set(this.screens.size);
     this.sync();
   }
   private sync(): void {
@@ -103,6 +118,24 @@ export class CountStore {
       this.wanted();
       this.clock.counting();
       untracked(() => this.sync());
+    });
+    const names = inject(CountNames);
+    effect(() => {
+      const govs = this.state();
+      untracked(() =>
+        govs.forEach((g) =>
+          names.take(
+            [[g.apiId, g.ar]],
+            g.wil.map((w) => [w.id, w.ar] as const),
+            g.wil.length ? g.apiId : undefined,
+          ),
+        ),
+      );
+    });
+    effect((onCleanup) => {
+      if (!this.screenN() || !this.clock.counting()) return;
+      if (this._ready()) return forgetDown();
+      onCleanup(watchDown(API_BASE + '/' + endpoints.countOverall.path));
     });
   }
   focus(gid: string | null): void {
@@ -176,9 +209,8 @@ export class CountStore {
     region.wanted.forEach((id) => this.dirty.add(id));
     this.collect(evs, region.events);
     const focused = (id: number) => +(this.index().govOf(id)?.id === this.focusGov);
-    const want = [...this.dirty]
-      .sort((a, b) => focused(b) - focused(a))
-      .slice(0, first ? undefined : DETAIL_MAX);
+    const dirty = [...this.dirty].sort((a, b) => focused(b) - focused(a)),
+      want = dirty.slice(0, (first ? dirty.filter(focused).length : 0) + DETAIL_MAX);
     const det = await Promise.allSettled(
       want.map((id) => this.api.get(endpoints.countWilayat(id), { signal })),
     );
@@ -195,7 +227,7 @@ export class CountStore {
     });
     const listed = detailStep(this.state(), details);
     this.state.set(listed.govs);
-    this.history.record(listed.govs, Date.now());
+    this.history.record(listed.govs, this.clock.now());
     this.collect(evs, listed.events);
     regions.forEach((r) =>
       (r.cIWL || []).forEach((row) => row?.w && this.rows.set('r' + row.w.i, row)),

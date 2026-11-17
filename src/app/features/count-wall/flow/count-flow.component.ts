@@ -104,7 +104,8 @@ export class CountFlowComponent {
   private readonly focus = inject(DrawFocus);
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
   private readonly injector = inject(Injector);
-  protected readonly counting = inject(ServerClock).counting;
+  private readonly clock = inject(ServerClock);
+  protected readonly counting = this.clock.counting;
 
   protected readonly label = cf('cfLabel');
   protected readonly bar = BAR;
@@ -188,7 +189,7 @@ export class CountFlowComponent {
     this.still.set(this.prefs.still || reducedMotion());
     this.sheet.set(null);
     this.isOpen.set(true);
-    this.store.start(this);
+    this.store.start(this, true);
     this.stopNav = this.nav.listen('level', () => this.popped());
     const back = this.focus.takeBack(),
       link = this.screen.takeBootWil(),
@@ -316,7 +317,7 @@ export class CountFlowComponent {
     if (!text) return;
     const line: CfLine = {
       id: ++this.lineN,
-      t: clockStr(Date.now()),
+      t: clockStr(this.clock.now()),
       text,
       st: ev.type === 'lead' ? 'count' : ev.e.w.st,
     };

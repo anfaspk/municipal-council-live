@@ -209,6 +209,11 @@ export class WallScreens {
 
   answer(e: CEvent): void {
     const state = this.h.state;
+    if (e.listed) {
+      if (state.mode === 'gov' && state.gov === e.gov.id && state.wil === e.w.n)
+        this.wilLive(e.gov, e.w);
+      return;
+    }
     if (state.mode === 'nat') {
       this.live.natNums(e.gov.id);
       this.h.stage().natLive(e.gov.id);

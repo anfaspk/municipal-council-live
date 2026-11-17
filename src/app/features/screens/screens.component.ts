@@ -13,6 +13,7 @@ import { FLOW_READY } from '../../core/screen/layout.model';
 import { SCREEN_FRAME, ScreenState } from '../../core/screen/screen.state';
 import { ViewportState } from '../../core/screen/viewport.state';
 import { browserWakeHost, WakeKeeper } from '../../core/screen/wake-lock';
+import { TurnoutStore } from '../../data/turnout.store';
 import { FrameLoop } from '../../shared/motion/frame-loop.service';
 import { MagneticDirective, SpotlightDirective } from '../../shared/motion/pointer.directive';
 import { TPipe } from '../../shared/ui/t.pipe';
@@ -64,8 +65,8 @@ import { ScreenActivity } from './screen-activity';
     dir: 'rtl',
     lang: 'ar',
   },
-  template: `@if (screen.built()) {@if (flowShell()) {@defer (on immediate) {<div ccFlow></div>} @error {<i hidden [mjRecover]="'dashboard'"></i>}} @else {@defer (on immediate) {<app-command-center class="cc-dash" />} @error {<i hidden [mjRecover]="'dashboard'"></i>}}}
-    @if (tvFlow()) {@defer (when screen.is('tv')) {<div tvFlow role="dialog" aria-modal="true" [attr.aria-label]="'tv' | t"></div>} @error {<i hidden [mjRecover]="'tv'"></i>}} @else {@defer (when screen.is('tv')) {<div class="mj-tv" role="dialog" aria-modal="true" [attr.aria-label]="'tv' | t"></div>} @error {<i hidden [mjRecover]="'tv'"></i>}}
+  template: `@if (screen.built() && stats()) {@if (flowShell()) {@defer (on immediate) {<div ccFlow></div>} @error {<i hidden [mjRecover]="'dashboard'"></i>}} @else {@defer (on immediate) {<app-command-center class="cc-dash" />} @error {<i hidden [mjRecover]="'dashboard'"></i>}}}
+    @if (!stats()) {@if (waiting()) {<p class="mj-connecting" role="status">{{ 'connecting' | t }}</p>}} @else if (tvFlow()) {@defer (when screen.is('tv')) {<div tvFlow role="dialog" aria-modal="true" [attr.aria-label]="'tv' | t"></div>} @error {<i hidden [mjRecover]="'tv'"></i>}} @else {@defer (when screen.is('tv')) {<div class="mj-tv" role="dialog" aria-modal="true" [attr.aria-label]="'tv' | t"></div>} @error {<i hidden [mjRecover]="'tv'"></i>}}
     @if (wallFlow()) {@defer (when screen.is('wall')) {<div countFlow [theme]="state.theme()"></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'wall'"></i>}} @else {@defer (when screen.is('wall')) {<div class="ct-root" [theme]="state.theme()"></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'wall'"></i>}}
     @if (winnersFlow()) {@defer (when screen.is('winners')) {<div winnersFlow></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'winners'"></i>}} @else {@defer (when screen.is('winners')) {<div class="wn-root" role="dialog" aria-modal="true" [attr.aria-label]="'winners' | t"></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'winners'"></i>}}
     @if (drawFlow()) {@defer (when screen.is('draw')) {<div drawFlow [theme]="state.theme()"></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'draw'"></i>}} @else {@defer (when screen.is('draw')) {<div class="cxd-root" [theme]="state.theme()"></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'draw'"></i>}}`,
@@ -78,6 +79,7 @@ export class ScreensComponent {
   protected readonly state = inject(CommandCenterState);
   protected readonly detail = inject(DetailState);
   private readonly viewport = inject(ViewportState);
+  protected readonly stats = inject(TurnoutStore).ready;
   protected readonly flowShell = computed(
     () => FLOW_READY.has('dashboard') && this.viewport.dashForm() === 'flow',
   );
@@ -93,25 +95,31 @@ export class ScreensComponent {
   protected readonly winnersFlow = computed(
     () => FLOW_READY.has('winners') && this.viewport.formFor('winners') === 'flow',
   );
+  protected readonly waiting = computed(
+    () => this.screen.is('tv') || (this.screen.is('dashboard') && !this.flowShell()),
+  );
 
   constructor() {
     let gateT: ReturnType<typeof setTimeout> | undefined;
+    const waiting: (() => void)[] = [];
     const busy = () =>
       !!document.querySelector('dialog[open]') ||
       !!document.activeElement?.closest('input, select, textarea');
+    const tryGo = () => {
+      gateT = undefined;
+      if (this.viewport.form() === 'flow' && busy()) gateT = setTimeout(tryGo, 1000);
+      else waiting.splice(0).forEach((go) => go());
+    };
     this.screen.autoGate = (go) => {
-      clearTimeout(gateT);
-      const tryGo = () => {
-        if (this.viewport.form() === 'flow' && busy()) gateT = setTimeout(tryGo, 1000);
-        else go();
-      };
-      tryGo();
+      waiting.push(go);
+      if (gateT === undefined) tryGo();
     };
     const wake = new WakeKeeper(browserWakeHost());
     effect(() => wake.want(!this.screen.is('dashboard')));
     inject(DestroyRef).onDestroy(() => {
       wake.dispose();
       clearTimeout(gateT);
+      waiting.length = 0;
       this.screen.autoGate = (go) => go();
     });
     const doc = inject(DOCUMENT),

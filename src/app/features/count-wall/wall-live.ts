@@ -167,11 +167,11 @@ export class WallLive {
 export class WallBanners {
   readonly list = signal<{ id: number; event: CEvent; out: boolean }[]>([]);
   private n = 0;
-  private last = 0;
+  private last = -Infinity;
   constructor(private readonly h: { detectChanges(): void; destroyed(): boolean }) {}
 
   show(e: CEvent): boolean {
-    const now = Date.now();
+    const now = performance.now();
     if (now - this.last < 7000) return false;
     this.last = now;
     const id = ++this.n;

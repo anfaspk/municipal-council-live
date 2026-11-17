@@ -3,18 +3,13 @@ import { ApiClient } from '../api/api-client';
 import { endpoints } from '../api/endpoints';
 import { log } from '../log/log';
 import { PollScheduler } from '../poll/poll-scheduler';
+import { parseOman } from './oman-time';
 import { serverOffset } from './offset';
 
-const OMAN_OFFSET = '+04:00';
 const POLL = 10 * 1000,
   FAIL_OPEN = 30 * 1000;
 
-const parseOman = (s: string): number => Date.parse(s.trim().replace(' ', 'T') + OMAN_OFFSET);
-const opt = (s?: string | null): number | null => {
-  if (!s) return null;
-  const v = parseOman(s);
-  return isNaN(v) ? null : v;
-};
+const opt = (s?: string | null): number | null => (s ? parseOman(s) : null);
 
 export type Phase = 'loading' | 'before' | 'live';
 
@@ -30,6 +25,7 @@ export class ServerClock {
   private readonly failed = signal(false);
   private readonly clock = signal(performance.now());
   private readonly latched = signal(false);
+  private readonly failedOpen = signal(false);
   private readonly endLatched = signal(false);
   private readonly countLatched = signal(false);
   private timer?: ReturnType<typeof setTimeout>;
@@ -42,10 +38,11 @@ export class ServerClock {
   readonly votingEnd = this.end.asReadonly();
   readonly closed = this.endLatched.asReadonly();
   readonly counting = this.countLatched.asReadonly();
+  readonly countingStart = this.countStart.asReadonly();
   readonly interimFrom = this.iFrom.asReadonly();
   readonly interimTo = this.iTo.asReadonly();
   readonly phase = computed<Phase>(() => {
-    if (this.latched()) return 'live';
+    if (this.latched() || (this.failedOpen() && this.start() === null)) return 'live';
     const l = this.left();
     if (l === null) return 'loading';
     return l > 0 ? 'before' : 'live';
@@ -54,7 +51,7 @@ export class ServerClock {
 
   constructor() {
     setTimeout(() => {
-      if (this.start() === null) this.latched.set(true);
+      if (this.start() === null) this.failedOpen.set(true);
     }, FAIL_OPEN);
     inject(PollScheduler)
       .create({

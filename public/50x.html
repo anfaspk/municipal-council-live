@@ -826,7 +826,7 @@ h1 {
       </section>
     </main>
     <footer class="ep-foot">انتخابات المجالس البلدية 2026 · سلطنة عُمان</footer>
-    <script type="application/json" id="ep-t">{"code":"خطأ {c}","h500":"حدث خلل مؤقت","bootTitle":"تعذّر تشغيل الصفحة","bootText":"قد يكون الموقع قيد التحديث الآن. ستعود الصفحة تلقائيًا بعد لحظات، وإن تكرر ذلك فحدِّث متصفحك إلى أحدث إصدار.","wait":"المحاولة التالية بعد {n} ث","check":"جارٍ التحقق من الخدمة…","again":"ما زالت الخدمة غير متاحة، سنحاول مجددًا","ok":"عادت الخدمة، جارٍ التحويل…","offTitle":"لا يوجد اتصال بالإنترنت","offText":"تحقّق من اتصال جهازك بالشبكة. ستعود الصفحة تلقائيًا فور عودة الاتصال.","offChip":"غير متصل","off":"بانتظار عودة الاتصال…"}</script>
+    <script type="application/json" id="ep-t">{"code":"خطأ {c}","h500":"حدث خلل مؤقت","bootTitle":"تعذّر تشغيل الصفحة","bootText":"قد يكون الموقع قيد التحديث الآن. ستعود الصفحة تلقائيًا بعد لحظات، وإن تكرر ذلك فحدِّث متصفحك إلى أحدث إصدار.","wait":"المحاولة التالية بعد {n} ث","check":"جارٍ التحقق من الخدمة…","again":"ما زالت الخدمة غير متاحة، سنحاول مجددًا","ok":"عادت الخدمة، جارٍ التحويل…","offTitle":"لا يوجد اتصال بالإنترنت","offText":"تحقّق من اتصال جهازك بالشبكة. ستعود الصفحة تلقائيًا فور عودة الاتصال.","offChip":"غير متصل","off":"بانتظار عودة الاتصال…","apis":["https://result-stg.elections.om/PublicResultApi/api/v1634/","http://localhost:4300/api/"]}</script>
     <script>
       (() => {
   const root = document.documentElement;
@@ -921,7 +921,12 @@ h1 {
   const onSelf = /\/50x\.html$/.test(location.pathname);
   const to = (info && own(info.to)) || (onSelf ? base : null);
   const probe =
-    info && typeof info.probe === 'string' && /^https?:\/\//.test(info.probe) ? info.probe : null;
+    info &&
+    typeof info.probe === 'string' &&
+    /^https?:\/\//.test(info.probe) &&
+    (T.apis || []).some((a) => info.probe.startsWith(a))
+      ? info.probe
+      : null;
   const why = info && info.why === 'boot' ? 'boot' : 'api';
   let tries = info && Number.isInteger(info.n) && info.n > 0 ? Math.min(info.n, 3) : 0;
   const nav = performance.getEntriesByType?.('navigation')[0];

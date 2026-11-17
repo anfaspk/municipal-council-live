@@ -14,18 +14,13 @@ import {
 } from '@angular/core';
 import { ServerClock } from '../../core/clock/server-clock.service';
 import { AcceptStore } from '../../data/accept.store';
-import {
-  AcceptState,
-  AcceptView,
-  acceptView,
-  leftClock,
-  parseAcceptLink,
-} from '../../domain/conflict/accept';
+import { AcceptState, AcceptView, acceptView, leftClock } from '../../domain/conflict/accept';
 import { AmbientComponent } from '../../shared/ui/ambient.component';
 import { LOGO_DARK, logoFor } from '../../shared/ui/brand';
 import { HorizonComponent } from '../../shared/ui/horizon.component';
 import { AcceptAvatarComponent } from './accept-avatar.component';
 import { AcceptGlyphComponent, CaGlyph } from './accept-glyph.component';
+import { takeAcceptLink } from './accept-link';
 import { AcceptStepsComponent } from './accept-steps.component';
 import { at } from './accept-strings';
 import { AcceptTieComponent } from './accept-tie.component';
@@ -145,7 +140,7 @@ export class AcceptComponent {
     doc.title = at('caDocTitle');
     doc.documentElement.setAttribute('data-theme', 'night');
     doc.documentElement.setAttribute('data-form', 'flow');
-    this.store.open(parseAcceptLink(doc.location.search));
+    this.store.open(takeAcceptLink(doc));
     const tick = setInterval(() => this.now.set(this.clock.now()), 1000);
     inject(DestroyRef).onDestroy(() => clearInterval(tick));
     effect(() => {

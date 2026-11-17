@@ -217,7 +217,7 @@ export class CountWallComponent implements AfterViewInit {
     this.state.done = this.feed.done();
     this.state.res = this.feed.done() && SHOW_WINNERS;
     this.mount(this.regionK(this.screens.fromDraw() ?? this.screens.fromLink()));
-    this.feed.start(this);
+    this.feed.start(this, true);
   }
   private closeWall(): void {
     const tv = this.tvEl();

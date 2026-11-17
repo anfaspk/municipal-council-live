@@ -52,7 +52,7 @@ import { TPipe } from './shared/ui/t.pipe';
         }
       }
       @case ('live') {
-        @if (stats.ready()) {
+        @if (stats.ready() || clock.counting()) {
           <app-screens />
           @defer (when !!screen.auto()) {
             <div mjAutoToast dir="rtl" lang="ar"></div>
@@ -90,8 +90,10 @@ export class App {
     });
     effect(() => {
       if (this.clock.phase() === 'live') this.stats.start();
+      else this.stats.stop();
     });
     effect((onCleanup) => {
+      if (this.clock.counting() && !this.screen.is('dashboard') && !this.screen.is('tv')) return;
       if (this.stats.ready()) return forgetDown();
       if (this.clock.phase() === 'live')
         onCleanup(watchDown(API_BASE + '/' + endpoints.statsOverall.path));

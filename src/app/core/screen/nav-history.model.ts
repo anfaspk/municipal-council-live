@@ -10,11 +10,15 @@ export interface NavState {
 export const asState = (s: unknown): NavState =>
   s && typeof s === 'object' ? (s as NavState) : {};
 
+const MAX_DETAIL = 3;
+
 export function stackOf(s: unknown): NavOwner[] {
   const st = asState(s);
   if (Array.isArray(st.mjNav)) return st.mjNav.filter((o): o is NavOwner => OWNERS.includes(o));
   const d = st.dtDepth;
-  return typeof d === 'number' && d > 0 ? Array<NavOwner>(Math.floor(d)).fill('detail') : [];
+  return typeof d === 'number' && Number.isFinite(d) && d > 0
+    ? Array<NavOwner>(Math.min(Math.floor(d), MAX_DETAIL)).fill('detail')
+    : [];
 }
 
 export const pushedState = (s: unknown, owner: NavOwner, own: object = {}): NavState => ({

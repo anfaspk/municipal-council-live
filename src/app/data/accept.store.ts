@@ -83,8 +83,9 @@ export class AcceptStore {
     try {
       const r = await this.api.get(endpoints.conflictInfo(link.wid), { signal });
       if (signal.aborted) return;
-      const { value, issues } = checkConflictInfo(link.wid, r);
+      const { value, issues, other } = checkConflictInfo(link.wid, r);
       this.issueLog.report(issues);
+      if (other) throw new Error('conflict/get/info: the answer is for another wilayat');
       this._read.set({ info: value });
     } catch (e) {
       if (signal.aborted) return;

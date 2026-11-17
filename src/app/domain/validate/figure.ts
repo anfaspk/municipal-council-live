@@ -7,7 +7,7 @@ export const isNumericText = (x: unknown): x is string =>
 
 export const num = (x: unknown): number | null => {
   const n = isNumericText(x) ? Number(x) : x;
-  return typeof n === 'number' && Number.isFinite(n) && n >= 0 ? n : null;
+  return typeof n === 'number' && n >= 0 && n <= Number.MAX_SAFE_INTEGER ? n + 0 : null;
 };
 
 export const wholeId = (x: unknown): number | null => {

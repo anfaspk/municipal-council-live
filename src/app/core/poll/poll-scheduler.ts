@@ -6,6 +6,7 @@ export interface PollOptions {
   while?: () => boolean;
   maxBackoff?: number;
   phase?: boolean;
+  spread?: () => number;
 }
 
 export interface PollHost {
@@ -47,7 +48,9 @@ export class Poll {
       this.host.onWake(() => this.woke()),
       ...(this.host.onLeave ? [this.host.onLeave(() => this.left())] : []),
     ];
-    this.fire();
+    const spread = this.opts.spread?.() ?? 0;
+    if (spread > 0) this.timer = setTimeout(() => this.fire(), this.host.random() * spread);
+    else this.fire();
   }
 
   stop(): void {
@@ -98,8 +101,13 @@ export class Poll {
     const ctl = (this.ctl = new AbortController()),
       t0 = performance.now();
     let ok = true;
-    this.opts
-      .run(ctl.signal)
+    let run: Promise<unknown>;
+    try {
+      run = this.opts.run(ctl.signal);
+    } catch (e) {
+      run = Promise.reject(e);
+    }
+    run
       .catch(() => (ok = false))
       .then(() => {
         if (this.ctl !== ctl) return;

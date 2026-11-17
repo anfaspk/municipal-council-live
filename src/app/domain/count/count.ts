@@ -70,6 +70,7 @@ export interface CEvent {
   gov: CGov;
   w: CWil;
   delta?: number;
+  listed?: true;
   from?: CSt;
   to?: CSt;
   inC?: CCand;
@@ -192,7 +193,8 @@ export function countRace(w: CWil): CRace {
   if (decl) {
     const top = c.filter((x) => x.win),
       chaser = c[top.length] || null;
-    return { sorted: c, top, tied: [], chaser, gap: top[top.length - 1]!.v - (chaser?.v ?? 0), p };
+    const gap = Math.max(0, top[top.length - 1]!.v - (chaser?.v ?? 0));
+    return { sorted: c, top, tied: [], chaser, gap, p };
   }
   const line = s ? (c[s - 1]?.v ?? 0) : 0;
   if (!line) {

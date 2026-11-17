@@ -14,7 +14,7 @@ class ApiError extends Error {
 }
 
 export function unwrap<T>(path: string, body: Envelope<T> | null | undefined): T {
-  if (body?.resp?.s !== 1 || body.i == null)
+  if (body?.resp?.s !== 1 || body.i == null || typeof body.i !== 'object')
     throw new ApiError(path, body?.resp?.m || 'failure answer');
   return body.i;
 }

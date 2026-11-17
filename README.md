@@ -14,3 +14,10 @@ Al Wusta (الوسطى) http://localhost:4200/?screen=tv&region=8
 Dhofar (ظفار) http://localhost:4200/?screen=tv&region=9
 South Al Batinah (جنوب الباطنة) http://localhost:4200/?screen=tv&region=10
 South Al Sharqiyah (جنوب الشرقية) http://localhost:4200/?screen=tv&region=11
+
+## Build
+
+Built only: `npx ng build` (the production configuration; the API base is `src/app/core/api/api-base.ts`). There is no `local`,
+`staging` or `perf` configuration here, so `ng serve` also calls that API. `.browserslistrc` keeps the build's floor at Chromium 111
+(the public TVs); run `npm run lint:apis` in the development repo before a release.
+

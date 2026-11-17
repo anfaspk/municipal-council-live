@@ -917,7 +917,12 @@ h1 {
   const onSelf = /\/50x\.html$/.test(location.pathname);
   const to = (info && own(info.to)) || (onSelf ? base : null);
   const probe =
-    info && typeof info.probe === 'string' && /^https?:\/\//.test(info.probe) ? info.probe : null;
+    info &&
+    typeof info.probe === 'string' &&
+    /^https?:\/\//.test(info.probe) &&
+    (T.apis || []).some((a) => info.probe.startsWith(a))
+      ? info.probe
+      : null;
   const why = info && info.why === 'boot' ? 'boot' : 'api';
   let tries = info && Number.isInteger(info.n) && info.n > 0 ? Math.min(info.n, 3) : 0;
   const nav = performance.getEntriesByType?.('navigation')[0];

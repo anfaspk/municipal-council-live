@@ -3,11 +3,14 @@ import { Ref } from '../stats/stats';
 import { Checked, Notes, uniq } from './answers';
 import { wholeId } from './figure';
 
-export function checkConflictInfo(id: number, r: ConflictInfoResp): Checked<ConflictInfoResp> {
+export function checkConflictInfo(
+  id: number,
+  r: ConflictInfoResp,
+): Checked<ConflictInfoResp> & { other: boolean } {
   const notes = new Notes('conflict/info/' + id);
   notes.figures(r);
-  if (r?.w && wholeId(r.w.i) !== id)
-    notes.add('wilayat:' + String(r.w.i), 'answers wilayat ' + JSON.stringify(r.w.i));
+  const other = !!r?.w && wholeId(r.w.i) !== id;
+  if (other) notes.add('wilayat:' + String(r.w.i), 'answers wilayat ' + JSON.stringify(r.w.i));
   const tied = uniq(
       notes,
       r?.conflictCandidateList as (ConflictInfoResp['conflictCandidateList'][number] & {
@@ -35,5 +38,6 @@ export function checkConflictInfo(id: number, r: ConflictInfoResp): Checked<Conf
       selectedCandidateList: Array.isArray(wins) ? wins : [],
     },
     issues: notes.issues,
+    other,
   };
 }

@@ -5,6 +5,7 @@ import { ServerClock } from '../core/clock/server-clock.service';
 import { log } from '../core/log/log';
 import { Poll, PollScheduler } from '../core/poll/poll-scheduler';
 import { clockStr } from '../domain/format';
+import { GEO } from '../domain/geo/geo.data';
 import { checkWinners } from '../domain/validate/winners-answers';
 import {
   allAnnounced,
@@ -16,9 +17,11 @@ import {
 } from '../domain/winners/winners';
 import { IssueLog } from './issue-log';
 import { TurnoutStore } from './turnout.store';
+import { WinnersNames } from './winners-names';
 
 const EVERY = 60 * 1000;
 const STALE_POLLS = 2;
+const STATS_WAIT = 30 * 1000;
 
 export type WinnersLoad = 'idle' | 'wait' | 'loading' | 'ready' | 'failed';
 
@@ -33,6 +36,7 @@ export class WinnersStore {
   private readonly api = inject(ApiClient);
   private readonly clock = inject(ServerClock);
   private readonly stats = inject(TurnoutStore);
+  private readonly fallback = inject(WinnersNames);
   private readonly polls = inject(PollScheduler);
   private readonly issueLog = new IssueLog('winners');
 
@@ -46,24 +50,45 @@ export class WinnersStore {
   private next: number | null = null;
   private poll: Poll | null = null;
   private last: WRegion | null = null;
+  private readonly late = signal(false);
+  private lateT?: ReturnType<typeof setTimeout>;
+  private readonly statsFailed = computed(() => this.stats.stale() || this.late());
+  readonly namesWanted = computed<number | null | undefined>(() => {
+    if (!this.clock.counting() || !this.statsFailed()) return undefined;
+    const id = this._region();
+    if (id !== null && !this.stats.regionRead(id)) return id;
+    return this.stats.ready() ? undefined : null;
+  });
 
   readonly region = this._region.asReadonly();
   readonly data = computed<WRegion | null>(() => {
     const id = this._region();
-    const g = id === null ? null : this.stats.gov(String(id));
-    if (id === null || !g || !this.stats.regionRead(id)) return (this.last = null);
+    if (id === null) return (this.last = null);
+    const g = this.stats.gov(String(id)),
+      listed = !!g && this.stats.regionRead(id);
+    if (!listed && !this.statsFailed()) return (this.last = null);
     const read = new Map<number, WWil>();
     for (const [wid, e] of this.cache()) if (e.gov === id) read.set(wid, e.wil);
+    const rows = listed
+      ? g.wils
+      : (GEO.wilPt[String(id)] ?? []).map((p) => ({
+          id: p.i,
+          ar: this.fallback.wil(p.i) || read.get(p.i)?.name || '',
+        }));
+    const name = this.names().get(id) || g?.ar || this.fallback.gov(id);
     const prev = this.last?.id === id ? this.last : null;
-    return (this.last = regionOf(id, this.names().get(id) || g.ar, g.wils, read, prev));
+    return (this.last = regionOf(id, name, rows, read, prev));
   });
+  govName(id: number): string {
+    return this.names().get(id) || this.fallback.gov(id);
+  }
   readonly announced = computed(() => announcedOf(this.data()));
   readonly summaries = computed(() => {
     const by = new Map<number, WWil[]>();
     for (const e of this.cache().values()) by.set(e.gov, [...(by.get(e.gov) ?? []), e.wil]);
     const out = new Map<number, { done: number; all: number }>();
     for (const [gov, wils] of by) {
-      const all = this.stats.gov(String(gov))?.wils.length ?? 0;
+      const all = this.stats.gov(String(gov))?.wils.length || (GEO.wilPt[String(gov)]?.length ?? 0);
       if (all && wils.length >= all)
         out.set(gov, { done: wils.filter((w) => w.published).length, all });
     }
@@ -93,7 +118,17 @@ export class WinnersStore {
     effect(() => {
       if (this.clock.counting()) untracked(() => this.restart());
     });
-    inject(DestroyRef).onDestroy(() => this.stop());
+    inject(DestroyRef).onDestroy(() => {
+      this.stop();
+      clearTimeout(this.lateT);
+    });
+  }
+
+  askNames(gov: number | null): void {
+    this.fallback.want(gov);
+  }
+  dropNames(): void {
+    this.fallback.drop();
   }
 
   watch(id: number | null): void {
@@ -101,10 +136,17 @@ export class WinnersStore {
     this._region.set(id);
     this._wil.set(null);
     this.next = null;
+    clearTimeout(this.lateT);
     if (id === null) {
       this.stats.release(this);
       this.stop();
-    } else this.stats.needRegions(this, [id]);
+    } else {
+      this.stats.needRegions(this, [id]);
+      if (!this.late())
+        this.lateT = setTimeout(() => {
+          if (this._region() === id && !this.stats.regionRead(id)) this.late.set(true);
+        }, STATS_WAIT);
+    }
     this.restart();
   }
 
@@ -180,7 +222,10 @@ export class WinnersStore {
     if (!going) this.inflight.set(wid, p);
     return p.then(
       () => {
+        if (going && !signal.aborted && !this.cache().has(wid))
+          return this.read(gov, wid, signal, own);
         if (own && this._wil() === wid) this.fails.set(0);
+        return undefined;
       },
       (e: unknown) => {
         if (signal.aborted) return;

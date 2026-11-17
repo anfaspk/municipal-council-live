@@ -8,12 +8,12 @@ import {
 import { ct } from '../../../core/i18n/count-strings';
 import { CGov, CWil, countRace } from '../../../domain/count/count';
 import { STATUS_LABEL } from '../stage/stage-markup';
-import { CountStats, CountStatus } from './panel-parts';
+import { CountStats } from './panel-parts';
 
 @Component({
   selector: 'div.cx-whw',
   templateUrl: './wilayat-head.component.html',
-  imports: [CountStats, CountStatus],
+  imports: [CountStats],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

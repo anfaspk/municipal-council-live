@@ -41,6 +41,7 @@ export class InterimStore {
   private timer?: ReturnType<typeof setTimeout>;
   private retryTimer?: ReturnType<typeof setTimeout>;
   private window: number | null = null;
+  private until: number | null = null;
   private ctrl: AbortController | null = null;
   private readonly busy = new Set<number>();
   private wanted: number | null = null;
@@ -48,7 +49,9 @@ export class InterimStore {
   constructor() {
     effect(() => {
       const open = this.phase() === 'open';
-      untracked(() => (open ? this.enter() : this.watching() ? this.drop() : this.pause()));
+      untracked(() =>
+        open ? this.enter() : this.watching() && this.ended() ? this.drop() : this.pause(),
+      );
     });
     inject(DestroyRef).onDestroy(() => {
       clearTimeout(this.timer);
@@ -87,9 +90,15 @@ export class InterimStore {
 
   private enter(): void {
     const from = this.clock.interimFrom();
+    this.until = this.clock.interimTo() ?? this.until;
     if (from === this.window) return;
     this.drop();
     this.window = from;
+    this.until = this.clock.interimTo();
+  }
+  private ended(): boolean {
+    const c = this.clock;
+    return c.closed() || c.counting() || this.until === null || c.now() >= this.until;
   }
 
   private async fetch(id: number, ctrl: AbortController): Promise<void> {

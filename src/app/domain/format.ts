@@ -13,7 +13,7 @@ const MUSCAT_CLOCK = new Intl.DateTimeFormat('en-GB', {
 
 export const fmt = (n: number): string => WHOLE.format(Math.round(n));
 
-const EPS = 1e-7;
+const EPS = 1e-9;
 const two = (h: number): string => {
   const s = String(Math.abs(h)).padStart(3, '0');
   return (h < 0 ? '-' : '') + s.slice(0, -2) + '.' + s.slice(-2);

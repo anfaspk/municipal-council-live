@@ -59,6 +59,7 @@ export function drawOf(wid: number, r: ConflictInfoResp | null | undefined): CDr
     .filter((x): x is CDrawWin => x.seat !== null)
     .sort((a, b) => a.seat - b.seat);
   if (tied.length < 2 || !wins.length || wins.some((x) => !tied.includes(x.id))) return null;
+  if (new Set(wins.map((x) => x.seat)).size !== wins.length) return null;
   return { wid, tied, wins, votes: num(list[0]?.v) };
 }
 

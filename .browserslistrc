@@ -1,0 +1,11 @@
+# Build targets (PLAN.md D1, step 0.5): Angular 20's own default list, written out so that an Angular upgrade cannot narrow it below the
+# screens. It contains D1: the wall's laptops (current desktop browsers) and the public TVs, sticks and kiosks (last 2 versions of
+# Chrome, Edge, Safari, Firefox; Chromium 111 and later). Which CSS and JS features the code may use is decided by D1, not by this list:
+# docs/responsive/PLAN.md "Browser target".
+Chrome >= 107
+ChromeAndroid >= 107
+Edge >= 107
+Firefox >= 104
+FirefoxAndroid >= 104
+Safari >= 16
+iOS >= 16

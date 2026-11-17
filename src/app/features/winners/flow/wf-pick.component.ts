@@ -7,10 +7,10 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { GEO } from '../../../domain/geo/geo.data';
-import { GovCard } from '../winners.model';
+import { GovCard, titled } from '../winners.model';
 import { WfIconComponent } from './wf-icon.component';
+import { wf } from './wf-strings';
 import { WfTPipe } from './wf-t.pipe';
-
 @Component({
   selector: 'section[wfPick]',
   imports: [WfIconComponent, WfTPipe],
@@ -31,7 +31,7 @@ import { WfTPipe } from './wf-t.pipe';
         <li>
           <button type="button" class="wf-gov" [class.full]="!!s && s.done === s.all" [attr.data-g]="c.id" (click)="pick.emit(c.id)">
             <span class="wf-gov-n" aria-hidden="true">{{ two(c.n) }}</span>
-            <span class="wf-gov-t"><b>{{ c.name }}</b>@if (c.wils) {<small>{{ 'wilCount' | wfT: { n: c.wils } }}</small>}</span>
+            <span class="wf-gov-t"><b>{{ named(c.name) }}</b>@if (c.wils) {<small>{{ 'wilCount' | wfT: { n: c.wils } }}</small>}</span>
             @if (!wait()) {
               @if (s) {
                 <span class="wf-gov-p" [attr.data-fig]="'win.gov.' + c.id"><i [style.--p]="s.done / s.all" aria-hidden="true"></i><em>@if (s.done === s.all) {<svg wfIcon="check"></svg>}{{ 'wnAnnounced' | wfT: { done: s.done, all: s.all } }}</em></span>
@@ -71,7 +71,9 @@ export class WfPickComponent {
       ];
     }),
   );
-
+  protected named(name: string): string {
+    return titled(name, wf('wnGovLabel'));
+  }
   protected two(n: number): string {
     return String(n).padStart(2, '0');
   }

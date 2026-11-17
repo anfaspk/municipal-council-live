@@ -24,11 +24,9 @@ import { WinnersSceneComponent } from './winners-scene.component';
 import { wt } from './winners-strings';
 import { layoutOf, placeholders, SCENE_IMG, starfield, titled, titleParts } from './winners.model';
 import { WnTPipe } from './wn-t.pipe';
-
 const COUNT_AT = 1150;
 const LEAVE = 640;
 const MOTES = [starfield(28, 61, 2.2, 920, 520, 0.7), starfield(18, 67, 3, 920, 520, 0.6)];
-
 @Component({
   selector: 'div.wn-stage[wnStage]',
   imports: [IconComponent, WinnerCardComponent, WinnersSceneComponent, WnTPipe],
@@ -44,7 +42,6 @@ export class WinnersStageComponent {
   readonly load = input<WinnersLoad>('loading');
   readonly empty = input(false);
   readonly retry = output<void>();
-
   private readonly group = inject(CountUpGroup);
   protected readonly img = SCENE_IMG;
   protected readonly ready = signal(false);
@@ -55,7 +52,7 @@ export class WinnersStageComponent {
       g = this.gone();
     return [...(g && (!w || this.key(g) !== this.key(w)) ? [g] : []), ...(w ? [w] : [])];
   });
-  protected readonly govTitle = computed(() => titled(this.gov(), wt('wnGovWord')));
+  protected readonly govTitle = computed(() => titled(this.gov(), wt('wnGovLabel')));
   protected readonly key = (w: WWil): string => w.id + (w.published ? ':d' : ':p');
   protected readonly title = (w: WWil) => titleParts(w.name, wt('wnWilayat'));
   protected readonly layout = (w: WWil) =>
@@ -63,10 +60,8 @@ export class WinnersStageComponent {
   protected readonly seatsOf = placeholders;
   protected readonly skeleton = [0, 1];
   protected readonly motes = MOTES;
-
   private timer?: ReturnType<typeof setTimeout>;
   private leaveTimer?: ReturnType<typeof setTimeout>;
-
   constructor() {
     let last: WWil | null = null;
     effect(() => {
@@ -98,7 +93,6 @@ export class WinnersStageComponent {
       clearTimeout(this.leaveTimer);
     });
   }
-
   private parallax(): void {
     const host: HTMLElement = inject(ElementRef).nativeElement,
       tracker = inject(PointerTracker);

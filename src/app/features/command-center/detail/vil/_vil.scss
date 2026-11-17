@@ -1,7 +1,5 @@
 @use '../../../../../styles/scales' as *;
 @use '../../../../../styles/mixins';
-
-
 .dt-vil .dt-place {
   display: grid;
   flex: 1;
@@ -14,7 +12,6 @@
   padding-inline-start: $sp-16;
   border-inline-start: 1px solid var(--hairline);
 }
-
 .dt-vil .dt-skel-bars,
 .dt-vil .dt-skel-cols {
   display: flex;
@@ -33,8 +30,7 @@
 .dt-vil .dt-skel-cols .dt-skel {
   flex: 1;
 }
-
-.dt-busy > :is(.dt-card, .dt-c-cmp, .dt-c-gauge) > :not(.dt-chd, .mj-crenel) {
+.dt-busy > :is(.dt-card, .dt-c-cmp) > :not(.dt-chd, .mj-crenel) {
   opacity: 0.55;
   transition: opacity $t-300 var(--ease-std);
 }

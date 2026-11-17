@@ -1,6 +1,5 @@
 @use '../mixins';
 @use '../scales' as *;
-
 .mj-sr {
   position: absolute;
   width: 1px;
@@ -41,7 +40,6 @@
 [data-theme='daylight'] .cc-logo .night {
   display: none;
 }
-
 .mj-cc {
   width: 1920px;
   height: 1080px;
@@ -50,7 +48,6 @@
 .cc-dash {
   display: contents;
 }
-
 html.mj-fit,
 html.mj-fit body {
   margin: 0;
@@ -86,7 +83,6 @@ html.mj-fit.mj-zoomed body {
 }
 .cc-grid {
   @include mixins.frame;
-
   position: relative;
   z-index: $z-1;
   display: grid;
@@ -125,18 +121,6 @@ html.mj-fit.mj-zoomed body {
   font-size: $fs-21;
   line-height: 1.5;
   text-transform: none;
-}
-.cc-upd {
-  display: inline-flex;
-  align-items: center;
-  gap: $sp-8;
-  font-size: $fs-12;
-  color: var(--ink-muted);
-  white-space: nowrap;
-  min-width: 140px;
-}
-.cc-upd .cd {
-  stroke: var(--gold);
 }
 .cc-gap {
   flex: 1;
@@ -243,12 +227,10 @@ html.mj-fit.mj-zoomed body {
   @include mixins.cover;
   z-index: $z-screen;
   background: var(--canvas-0);
-
   @include mixins.form(flow) {
     position: fixed;
   }
 }
-
 .mj-cc.cc-paged .cc-grid > :not(.cc-bar),
 .mj-cc.cc-paged .mj-drawer,
 .mj-cc.cc-paged .mj-scrim,
@@ -279,7 +261,6 @@ html.mj-fit.mj-zoomed body {
   vector-effect: non-scaling-stroke;
   filter: drop-shadow(0 0 $sp-12 var(--band));
 }
-
 .cc-dash.cc-inactive > * {
   visibility: hidden;
 }
@@ -289,7 +270,6 @@ html.mj-fit.mj-zoomed body {
   transition-duration: 0s !important;
   transition-delay: 0s !important;
 }
-
 .cc-dash > .mj-ambient .mj-breathe,
 .cc-dash > .mj-horizon .drift {
   animation-play-state: paused;

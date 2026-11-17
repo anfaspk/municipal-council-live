@@ -2,13 +2,9 @@ import { Geo, GEO } from '../../domain/geo/geo.data';
 import { boundsOf, pathRings } from '../../domain/geo/shapes';
 import { normalizeAr } from '../../domain/validate/search';
 import { KeyInfo, screenKey } from '../../shared/motion/screen-keys';
-
 export type MapSource = Pick<Geo, 'w' | 'h' | 'g' | 'wilPt' | 'outline'>;
-
 export const SCENE_IMG = 'assets/winners/stage-night.avif';
-
 export const WIL_STEP = 14000;
-
 export interface GovCard {
   id: string;
   apiId: number;
@@ -16,7 +12,6 @@ export interface GovCard {
   wils: number;
   n: number;
 }
-
 export function govCards(
   names: ReadonlyMap<string, { name: string; wils: number }>,
   geo: MapSource = GEO,
@@ -36,7 +31,6 @@ export function govCards(
       };
     });
 }
-
 export interface MapGov {
   id: string;
   d: string;
@@ -57,7 +51,6 @@ export interface OmanMap {
   pts: MapPoint[];
 }
 const r1 = (x: number) => Math.round(x * 10) / 10;
-
 export function omanMap(geo: MapSource = GEO): OmanMap {
   return {
     view: '0 0 ' + geo.w + ' ' + geo.h,
@@ -70,7 +63,6 @@ export function omanMap(geo: MapSource = GEO): OmanMap {
       .map((p) => ({ id: p.i, x: p.c[0], y: p.c[1] })),
   };
 }
-
 export interface RegionMap {
   view: string;
   d: string;
@@ -101,7 +93,6 @@ export function regionMap(
     size: r1(Math.min(vw, vh)),
   };
 }
-
 export function titleParts(name: string, kind: string): { kind: string; name: string } {
   const n = name.trim();
   return { kind: !n || n.startsWith(kind) ? '' : kind, name: n };
@@ -110,7 +101,6 @@ export const titled = (name: string, kind: string): string => {
   const t = titleParts(name, kind);
   return t.kind ? t.kind + ' ' + t.name : t.name;
 };
-
 export function matchWils(names: readonly string[], q: string): number[] {
   const words = normalizeAr(q).split(' ').filter(Boolean);
   return names.flatMap((n, i) => {
@@ -118,16 +108,13 @@ export function matchWils(names: readonly string[], q: string): number[] {
     return words.every((w) => t.includes(w)) ? [i] : [];
   });
 }
-
 export type WinnersLayout = 'one' | 'two' | 'many';
 export const layoutOf = (n: number): WinnersLayout => (n <= 1 ? 'one' : n === 2 ? 'two' : 'many');
-
+export const posKey = (pos: number): string => (pos === 1 || pos === 2 ? `wnPos${pos}` : 'wnPos');
 export const placeholders = (seats: number | null): number[] =>
   Array.from({ length: Math.min(4, Math.max(1, seats ?? 1)) }, (_, i) => i);
-
 export const stepIndex = (i: number, n: number, step: number): number =>
   n <= 0 ? 0 : (((i + step) % n) + n) % n;
-
 export interface Spark {
   a: number;
   d: number;
@@ -147,7 +134,6 @@ export function sparks(n: number, seed = 7): Spark[] {
     t: Math.round(next() * 260),
   }));
 }
-
 function seeded(seed: number): () => number {
   let x = Math.max(1, Math.floor(seed) % 2147483647);
   return () => {
@@ -171,7 +157,6 @@ export function starfield(
     return x + 'px ' + y + 'px 0 ' + s + 'px';
   }).join(',');
 }
-
 export type WinnersKey =
   | { type: 'tab' }
   | { type: 'fullscreen' }

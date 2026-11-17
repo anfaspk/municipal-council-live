@@ -51,9 +51,7 @@ import { WfTPipe } from './wf-t.pipe';
 import { WfWideComponent } from './wf-wide.component';
 import { WfWilsComponent } from './wf-wils.component';
 import { BAR, cardSize, govKey, govOfKey, segStates } from './winners-flow.model';
-
 const TOAST_MS = 3000;
-
 @Component({
   selector: 'div[winnersFlow]',
   imports: [
@@ -100,7 +98,6 @@ export class WinnersFlowComponent {
   private readonly walk = new SlideClock();
   protected readonly counting = inject(ServerClock).counting;
   protected readonly comp = injectScreenComp();
-
   protected readonly label = wf('wfLabel');
   protected readonly bar = BAR;
   protected readonly scene = SCENE_IMG;
@@ -115,7 +112,6 @@ export class WinnersFlowComponent {
   protected readonly sheet = signal<'wils' | 'menu' | null>(null);
   protected readonly toast = signal('');
   protected readonly say = signal('');
-
   protected readonly card = computed(
     () => this.view.cards().find((c) => c.id === this.gov()) ?? null,
   );
@@ -130,12 +126,11 @@ export class WinnersFlowComponent {
   protected readonly stopped = computed(() => this.paused() || this.held() || !!this.sheet());
   protected readonly govTitle = computed(() => {
     const c = this.card();
-    return c ? titled(c.name, wf('wnGovWord')) : '';
+    return c ? titled(c.name, wf('wnGovLabel')) : '';
   });
   protected readonly sheetLabel = computed(() =>
     this.sheet() === 'menu' ? wf('wfMenu') : wf('wfWilsOf', { gov: this.govTitle() }),
   );
-
   private opened = false;
   private pendWil: number | null = null;
   private stepSet = false;
@@ -143,7 +138,6 @@ export class WinnersFlowComponent {
   private focusDue = false;
   private toastT?: ReturnType<typeof setTimeout>;
   private swallow = false;
-
   constructor() {
     effect(() => {
       const on = this.screen.is('winners');
@@ -195,7 +189,6 @@ export class WinnersFlowComponent {
       clearTimeout(this.toastT);
     });
   }
-
   private open(): void {
     const handoff = this.screen.takeHandoff(),
       link = this.opened && !handoff ? null : this.screen.takeBootWil(),
@@ -226,8 +219,6 @@ export class WinnersFlowComponent {
     this.stopNav = null;
     this.nav.back('level');
   }
-
-
   protected pick(id: string, how: 'down' | 'side' = 'down'): void {
     if (!Object.hasOwn(GEO.g, id)) return;
     if (how === 'down') this.nav.push('level', { wn: govKey(id) }, location.href);
@@ -263,8 +254,6 @@ export class WinnersFlowComponent {
     this.sheet.set(null);
     if (s !== 'winners') this.screen.show(s);
   }
-
-
   protected choose(i: number, fromSheet = false): void {
     if (fromSheet) this.focusName();
     this.sheet.set(null);
@@ -301,7 +290,6 @@ export class WinnersFlowComponent {
       w.name + ': ' + (w.published ? w.winners.map((c) => c.name).join('، ') : wf('wnPending')),
     );
   }
-
   protected tap(e: MouseEvent): void {
     if (this.swallow) return void (this.swallow = false);
     const target = e.target as Element;
@@ -314,8 +302,6 @@ export class WinnersFlowComponent {
     const box = this.host.getBoundingClientRect();
     this.move(tapZone(e.clientX, box.left, box.width, true) === 'next' ? 1 : -1);
   }
-
-
   protected share(c: WCand | null): void {
     const g = this.gov(),
       w = this.wil();
@@ -326,13 +312,11 @@ export class WinnersFlowComponent {
     this.toast.set(text);
     this.toastT = setTimeout(() => this.toast.set(''), TOAST_MS);
   }
-
   protected title(w: WWil): { kind: string; name: string } {
     return titleParts(w.name, wf('wnWilayat'));
   }
   protected size = cardSize;
   protected seatsOf = (w: WWil): number[] => placeholders(w.seats);
-
   private focusName(): void {
     this.focusDue = true;
     afterNextRender(
@@ -345,8 +329,6 @@ export class WinnersFlowComponent {
       { injector: this.injector },
     );
   }
-
-
   protected onKey(e: KeyboardEvent): void {
     if (!this.isOpen() || this.sheet() || e.defaultPrevented) return;
     const target = e.target as HTMLElement | null;

@@ -1,9 +1,6 @@
 @if (wil(); as w) {
   @let g = gov()!;
-  <div class="dt-c-gauge" [class]="band()">
-    <div class="gwrap" [size]="gauge" [label]="'dtKind.wil' | dtT" [sub]="w.name" [value]="t()" [gid]="'dtg'" [changeMs]="1400"></div>
-  </div>
-  <div class="dt-c-cmp dt-cmpb" [model]="cmp()" [name]="w.name"></div>
+  <div class="dt-c-cmp dt-cmpb mj-glass" [model]="cmp()"></div>
   <section class="dt-card dt-c-flow mj-glass" [style.--j]="0" aria-labelledby="dt-h-flow">
     <h3 class="mj-sr" id="dt-h-flow">{{ 'dtFlowT' | dtT }}</h3>
     <div class="dt-flow" [steps]="flow()"></div>
@@ -40,19 +37,19 @@
   </section>
   <section class="dt-card dt-c-rhythm mj-glass" [style.--j]="4" aria-labelledby="dt-h-rhythm">
     <span class="mj-crenel"></span>
-    <div class="dt-rhy" [series]="series()" [ref]="govSeries()" [name]="w.name" [refName]="g.ar"></div>
+    <div class="dt-rhy" [series]="series()" [ref]="govSeries()" [refName]="g.ar"></div>
   </section>
   <section class="dt-card dt-c-ages mj-glass" [style.--j]="5" aria-labelledby="dt-h-ages">
     <span class="mj-crenel"></span>
     <div class="mj-panel-head dt-chd">
-      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-ages">{{ 'dtT.ages' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.ages' | dtT }}</p></div>
+      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-ages">{{ 'dtT.ages' | dtT }}</h3></div>
     </div>
     <div class="dt-ageb" [ages]="w.ages"></div>
   </section>
   <section class="dt-card dt-c-gender mj-glass" [style.--j]="6" aria-labelledby="dt-h-gender">
     <span class="mj-crenel"></span>
     <div class="mj-panel-head dt-chd">
-      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-gender">{{ 'dtT.gender' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.gender' | dtT }}</p></div>
+      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-gender">{{ 'dtT.gender' | dtT }}</h3></div>
     </div>
     <div class="dt-gnd" [reg]="reg()" [voted]="voted()"></div>
   </section>

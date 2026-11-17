@@ -1,7 +1,5 @@
 @use 'sass:meta';
-
 @layer tokens, base, app, motion, states;
-
 @layer tokens {
   @include meta.load-css('styles/tokens');
 }
@@ -15,6 +13,7 @@
   @include meta.load-css('styles/components/kpi');
   @include meta.load-css('styles/components/gauge');
   @include meta.load-css('styles/components/gender-split');
+  @include meta.load-css('styles/components/portrait');
   @include meta.load-css('styles/overlays');
   @include meta.load-css('styles/screens/command-center');
   @include meta.load-css('styles/components/insights-slot');

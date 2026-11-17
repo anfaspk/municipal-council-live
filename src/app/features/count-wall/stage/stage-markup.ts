@@ -4,15 +4,14 @@ import { pct } from '../../../domain/format';
 import { GEO } from '../../../domain/geo/geo.data';
 import { Pt } from '../../../domain/geo/shapes';
 import { html, Markup } from '../../../shared/ui/markup';
+import { picClass, portraitOk } from '../../../shared/ui/portrait';
 import { f1, f2 } from './stage-camera';
-
 export const STATUS_LABEL: Record<CSt, string> = {
   await: 'stAwait',
   count: 'stCount',
   pend: 'cxCountedSt',
   decl: 'stDecl',
 };
-
 export function stGlyph(st: CSt, s = 16): Markup {
   const h = s / 2,
     r = s * 0.38,
@@ -27,11 +26,10 @@ export function stGlyph(st: CSt, s = 16): Markup {
   return html`<svg class="cxg ${st}" width="${s}" height="${s}" viewBox="0 0 ${s} ${s}" style="--sw:${f2(sw)}px" aria-hidden="true">${body}</svg>`;
 }
 export function avatar(c: CCand): Markup {
-  return c.photo
-    ? html`<i class="cx-av ph "><img src="${c.photo}" alt="" decoding="async"></i>`
+  return portraitOk(c.photo)
+    ? html`<i class="cx-av ph "><b>${c.ini}</b><img class="${picClass(c.photo)}" src="${c.photo}" alt="" decoding="async"></i>`
     : html`<i class="cx-av ">${c.ini}</i>`;
 }
-
 export function stageMarkup(u: string, govName: (id: string) => string | null): Markup {
   const paths = Object.entries(GEO.g).map(
     ([id, g]) =>
@@ -40,9 +38,8 @@ export function stageMarkup(u: string, govName: (id: string) => string | null): 
   const keys = (['decl', 'pend', 'count', 'await'] as CSt[]).map(
     (k) => html`<span class="${k}">${stGlyph(k, 14)}${ct(STATUS_LABEL[k])}</span>`,
   );
-  return html`<div class="cx-grid" aria-hidden="true"></div><svg class="cx-geo" aria-hidden="true"><defs><pattern id="${u}-dots" width="11" height="11" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.05"/></pattern><linearGradient id="${u}-sweep" x1="0" y1="0" x2="1" y2="0" gradientTransform="rotate(18 .5 .5)"><stop offset="0" class="w0"/><stop offset=".42" class="w1"/><stop offset=".5" class="w2"/><stop offset=".58" class="w1"/><stop offset="1" class="w0"/></linearGradient><radialGradient id="${u}-fill" cx="50%" cy="45%" r="70%"><stop offset="0" class="s0"/><stop offset="1" class="s1"/></radialGradient><linearGradient id="${u}-scan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="k0"/><stop offset=".78" class="k1"/><stop offset=".97" class="k2"/><stop offset="1" class="k3"/></linearGradient><clipPath id="${u}-clip"><path class="cx-clipp"/></clipPath></defs><g class="cx-cam">${paths}</g><path class="cx-area" clip-path="url(#${u}-clip)" fill="url(#${u}-fill)" d="M0 0H4000V4000H0Z"/><rect class="cx-dots" clip-path="url(#${u}-clip)" fill="url(#${u}-dots)" width="100%" height="100%"/><g clip-path="url(#${u}-clip)"><rect class="cx-scan" fill="url(#${u}-scan)" x="0" y="0" width="0" height="0"/><rect class="cx-sweep" fill="url(#${u}-sweep)" x="0" y="0" width="0" height="0"/></g><path class="cx-hot" pathLength="1"/><path class="cx-edgeg"/><path class="cx-edge" pathLength="1"/><path class="cx-comet" pathLength="1"/><path class="cx-comet c2" pathLength="1"/></svg><svg class="cx-ov"><g class="cx-natg"></g><g class="cx-nodes"></g></svg><div class="cx-labels"></div><div class="cx-lock" aria-hidden="true"><i></i><i></i><i></i><i></i><span></span></div><div class="cx-hud" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="cx-legend"><div class="cx-key">${keys}</div><div class="cx-hint"></div></div>`;
+  return html`<svg class="cx-geo" aria-hidden="true"><defs><pattern id="${u}-dots" width="11" height="11" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.05"/></pattern><linearGradient id="${u}-sweep" x1="0" y1="0" x2="1" y2="0" gradientTransform="rotate(18 .5 .5)"><stop offset="0" class="w0"/><stop offset=".42" class="w1"/><stop offset=".5" class="w2"/><stop offset=".58" class="w1"/><stop offset="1" class="w0"/></linearGradient><radialGradient id="${u}-fill" cx="50%" cy="45%" r="70%"><stop offset="0" class="s0"/><stop offset="1" class="s1"/></radialGradient><linearGradient id="${u}-scan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="k0"/><stop offset=".78" class="k1"/><stop offset=".97" class="k2"/><stop offset="1" class="k3"/></linearGradient><clipPath id="${u}-clip"><path class="cx-clipp"/></clipPath></defs><g class="cx-cam">${paths}</g><path class="cx-area" clip-path="url(#${u}-clip)" fill="url(#${u}-fill)" d="M0 0H4000V4000H0Z"/><rect class="cx-dots" clip-path="url(#${u}-clip)" fill="url(#${u}-dots)" width="100%" height="100%"/><g clip-path="url(#${u}-clip)"><rect class="cx-scan" fill="url(#${u}-scan)" x="0" y="0" width="0" height="0"/><rect class="cx-sweep" fill="url(#${u}-sweep)" x="0" y="0" width="0" height="0"/></g><path class="cx-hot" pathLength="1"/><path class="cx-edgeg"/><path class="cx-edge" pathLength="1"/><path class="cx-comet" pathLength="1"/><path class="cx-comet c2" pathLength="1"/></svg><svg class="cx-ov"><g class="cx-natg"></g><g class="cx-nodes"></g></svg><div class="cx-labels"></div><div class="cx-lock" aria-hidden="true"><i></i><i></i><i></i><i></i><span></span></div><div class="cx-hud" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="cx-legend"><div class="cx-key">${keys}</div><div class="cx-hint"></div></div>`;
 }
-
 export function nodeInner(w: CWil): Markup {
   const r = countRace(w),
     lead = r.top[0],
@@ -50,8 +47,8 @@ export function nodeInner(w: CWil): Markup {
   const core =
     st === 'await' || !w.counted || !lead
       ? html`<circle class="dot" r="2.6"/>`
-      : lead.photo
-        ? html`<image class="ph" href="${lead.photo}" x="-12" y="-12" width="24" height="24" preserveAspectRatio="xMidYMid slice"/><circle class="rim" r="12"/>`
+      : portraitOk(lead.photo)
+        ? html`<text class="ini" y="4.2" aria-hidden="true">${lead.ini}</text><image class="ph ${picClass(lead.photo)}" href="${lead.photo}" x="-12" y="-12" width="24" height="24" preserveAspectRatio="xMidYMid slice"/><circle class="rim" r="12"/>`
         : html`<text class="ini" y="4.2" aria-hidden="true">${lead.ini}</text>`;
   return html`<circle class="hit" r="30"/><circle class="halo" r="24"/><g class="tk"><circle r="20.5" pathLength="120"/></g><circle class="trk" r="15"/><circle class="arc" r="15" pathLength="100" stroke-dasharray="${f2(st === 'count' ? r.p : st === 'await' ? 0 : 100)} 100" transform="rotate(-90)"/><circle class="core" r="10.5"/>${core}`;
 }

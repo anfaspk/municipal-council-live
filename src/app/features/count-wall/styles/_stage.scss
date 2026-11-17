@@ -1,8 +1,6 @@
 @use '../../../../styles/mixins';
 @use '../../../../styles/scales' as *;
-
 @use 'status';
-
 .cx-stage {
   position: relative;
   min-width: 0;
@@ -13,19 +11,6 @@
     linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent),
     linear-gradient(180deg, transparent, #000 5%, #000 95%, transparent);
   mask-composite: intersect;
-}
-.cx-grid {
-  @include mixins.cover;
-  pointer-events: none;
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--data-cyan) 7%, transparent) 1px, transparent 1px),
-    linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--data-cyan) 7%, transparent) 1px,
-      transparent 1px
-    );
-  background-size: 44px 44px;
-  mask-image: radial-gradient(70% 70% at 50% 50%, #000, transparent);
 }
 .cx-geo,
 .cx-ov {
@@ -119,14 +104,11 @@
 .m-nat .cx-edgeg {
   opacity: 0;
 }
-
-
 @keyframes cx-spin {
   to {
     transform: rotate(360deg);
   }
 }
-
 .cx-n {
   --c: var(--ink-muted);
   pointer-events: auto;

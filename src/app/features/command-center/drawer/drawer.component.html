@@ -4,8 +4,7 @@
   <div class="dw-head">
     <span class="dsw mj-sw" [class]="drawer.band()"></span>
     <div class="dw-ttl">
-      <div class="mj-micro gold dw-rk">{{ 'of11' | t: { n: s.rank } }} · {{ drawer.band() | t }}</div>
-      <h2 id="dw-title">{{ s.g.ar }}</h2>
+      <h2 id="dw-title">{{ title() }}</h2>
     </div>
     <button class="mj-btn icon dclose" type="button" [attr.aria-label]="'close' | t" [title]="('close' | t) + ' (Esc)'" (click)="state.close()">
       <svg [mjIcon]="'close'"></svg>

@@ -1,9 +1,7 @@
 @use 'sass:meta';
 @use '../../../../styles/scales' as *;
 @use '../../../../styles/mixins';
-
 @layer tokens, base, app, motion, states;
-
 @layer app {
   .dt-page {
     position: absolute;
@@ -35,33 +33,32 @@
   }
   .dt-gov {
     grid-template-areas:
-      'h h h h h gauge gauge cmp cmp cmp cmp cmp'
+      'h h h h h cmp cmp cmp cmp glance glance glance'
       'flow flow flow flow flow flow flow flow flow flow flow flow'
       'region region region wilayat wilayat wilayat rhythm rhythm rhythm rhythm rhythm rhythm'
       'region region region wilayat wilayat wilayat ages ages ages gender gender gender';
   }
   .dt-wil {
     grid-template-areas:
-      'h h h h h gauge gauge cmp cmp cmp cmp cmp'
+      'h h h h h cmp cmp cmp cmp cmp cmp cmp'
       'flow flow flow flow flow flow flow flow flow flow flow flow'
       'locator locator locator villages villages villages rhythm rhythm rhythm rhythm rhythm rhythm'
       'bands bands bands villages villages villages ages ages ages gender gender gender';
   }
   .dt-vil {
     grid-template-areas:
-      'h h h h h gauge gauge cmp cmp cmp cmp cmp'
+      'h h h h h cmp cmp cmp cmp cmp cmp cmp'
       'flow flow flow flow flow flow flow flow flow flow flow flow'
       'place place place place place place place place rate rate rate rate'
       'ages ages ages ages gender gender gender gender rate rate rate rate';
   }
-  @each $c in gauge, cmp, flow, region, wilayat, rhythm, ages, gender, locator, villages, bands,
+  @each $c in cmp, glance, flow, region, wilayat, rhythm, ages, gender, locator, villages, bands,
     place, rate
   {
     .dt-page .dt-c-#{$c} {
       grid-area: $c;
     }
   }
-
   .dt-page .dt-card {
     position: relative;
     display: flex;
@@ -124,14 +121,12 @@
     color: var(--ink-muted);
     font-size: $fs-12;
   }
-
   @keyframes dt-in {
     from {
       opacity: 0;
       transform: translateY(14px) scale(0.985);
     }
   }
-
   .dt-vt .dt-page .dt-crumbs {
     view-transition-name: dt-crumbs;
   }
@@ -141,7 +136,7 @@
   .dt-vt:not(.dt-vt-head) .dt-page :is(.dt-c-region, .dt-c-locator) {
     view-transition-name: dt-place;
   }
-  .dt-vt:not(.dt-vt-head) .dt-page .dt-c-gauge {
+  .dt-vt:not(.dt-vt-head) .dt-page .dt-hgauge {
     view-transition-name: dt-gauge;
   }
   .dt-vt-head {
@@ -164,7 +159,6 @@
     object-fit: none;
   }
 }
-
 @layer app {
   @include meta.load-css('charts/charts');
   @include meta.load-css('charts/charts-html');
@@ -176,14 +170,15 @@
   @include meta.load-css('parts/rhythm');
   @include meta.load-css('parts/cols');
   @include meta.load-css('gov/region');
+  @include meta.load-css('gov/glance');
   @include meta.load-css('wil/wil');
   @include meta.load-css('vil/vil');
-
   @media (forced-colors: active) {
     .dt-page :is(.dt-svg, .dt-fill, .dt-seg, .dt-sw, .mj-sw),
     .dt-page
       :is(
         .dt-cmp-fill,
+        .dt-gn-seg,
         .dt-step-bar,
         .dt-gnd-split,
         .dt-gnd-track,
@@ -207,7 +202,6 @@
     }
   }
 }
-
 @mixin region-still {
   .dt-rg-scan,
   .dt-rg-pin .ring,
@@ -226,7 +220,6 @@
     animation: none;
   }
 }
-
 @layer motion {
   @media (prefers-reduced-motion: reduce) {
     .dt-page .dt-top,
@@ -239,7 +232,7 @@
     .dt-page .dt-rhy-bar,
     .dt-page .dt-vcol i,
     .dt-page .dt-c-cmp,
-    .dt-page .dt-c-gauge,
+    .dt-page .dt-c-glance,
     .dt-page .dt-rg-halo,
     .dt-page .dt-rg-ext use,
     .dt-page .dt-rg-face,
@@ -255,7 +248,6 @@
     }
   }
 }
-
 @layer states {
   .dt-page.dt-still {
     @include region-still;

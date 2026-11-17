@@ -28,14 +28,13 @@ import { DrawerVillagesComponent } from './drawer-villages.component';
 import { DrawerWilayatComponent } from './drawer-wilayat.component';
 import { SortKey, Tab, tabDir, tabKey, TABS } from './drawer.model';
 import { DrawerState } from './drawer.state';
-
+import { t } from '../../../core/i18n/i18n';
 const TAB_ITEMS: { k: Tab; icon: IconName; label: string }[] = [
   { k: 'ov', icon: 'gauge', label: 'tabOverview' },
   { k: 'wil', icon: 'layers', label: 'tabWil' },
   { k: 'vil', icon: 'village', label: 'tabVil' },
 ];
 const SETTLE_MS = 1100;
-
 @Component({
   selector: 'div.mj-drawer',
   imports: [
@@ -69,6 +68,11 @@ export class DrawerComponent {
     if (this.open())
       trapTab(this.host, e as KeyboardEvent, 'button, select, input, [tabindex="0"]');
   }
+  protected readonly title = computed(() => {
+    const name = (this.drawer.snap()?.g.ar ?? '').trim();
+    const kind = t('govLabel');
+    return !name || name.startsWith(kind) ? name : kind + ' ' + name;
+  });
   protected readonly crumbWil = computed(() =>
     this.drawer.tab() === 'vil' ? this.drawer.wil() : null,
   );
@@ -76,10 +80,8 @@ export class DrawerComponent {
     const n = this.drawer.w()?.vil?.length;
     return n === undefined ? '' : String(n);
   });
-
   private readonly stats = inject(TurnoutStore);
   private readonly page = inject(DetailState);
-
   private readonly updates = inject(ScreenUpdates);
   private readonly counters = inject(CountUpGroup);
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
@@ -88,7 +90,6 @@ export class DrawerComponent {
   private hot: string | null = null;
   private animAt = 0;
   private later: ReturnType<typeof setTimeout> | null = null;
-
   constructor() {
     effect(() => {
       const id = this.state.pinned();
@@ -124,7 +125,6 @@ export class DrawerComponent {
       if (this.later) clearTimeout(this.later);
     });
   }
-
   private follow(id: string | null): void {
     if (id === this.gid) return;
     if (!id) {
@@ -160,7 +160,6 @@ export class DrawerComponent {
     this.stats.watchVillage(null);
     this.open.set(false);
   }
-
   private rewatch(): void {
     const d = this.drawer;
     if (!this.gid) return;
@@ -179,7 +178,6 @@ export class DrawerComponent {
     const w = this.wid();
     if (w !== null) this.openPage(w, vid);
   }
-
   private wid(): number | null {
     const w = this.gid
       ? this.stats.gov(this.gid)?.wils.find((x) => x.name === this.drawer.wil())
@@ -192,7 +190,6 @@ export class DrawerComponent {
   private afterRender(fn: () => void): void {
     afterNextRender(fn, { injector: this.injector });
   }
-
   private build(): void {
     this.afterRender(() => {
       const host = this.host,
@@ -240,7 +237,6 @@ export class DrawerComponent {
       this.state.wilSel.set(d.wil());
     }
   }
-
   private showPane(tab: Tab, dir: number): void {
     const inn = this.pane(tab);
     if (!inn) return;
@@ -282,7 +278,6 @@ export class DrawerComponent {
     x = -(pick.scrollWidth - pick.clientWidth - x);
     pick.scrollTo({ left: x, behavior: smooth && !reducedMotion() ? 'smooth' : 'auto' });
   }
-
   protected tabGo(tab: Tab): void {
     const d = this.drawer;
     if (tab === d.tab() || !this.gid) return;
@@ -355,7 +350,6 @@ export class DrawerComponent {
     this.afterRender(() => this.anim('vil'));
   }
 }
-
 let pages: Promise<unknown> | null = null;
 function prefetchPages(): void {
   pages ??= import('../detail/detail-page.component').catch(() => (pages = null));

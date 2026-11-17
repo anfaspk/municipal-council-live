@@ -15,8 +15,8 @@ import { CountUpDirective, CountUpGroup } from '../../../shared/motion/count-up.
 import { WinnerPhotos } from '../winner-photos';
 import { WfIconComponent } from './wf-icon.component';
 import { WfTPipe } from './wf-t.pipe';
+import { posKey } from '../winners.model';
 import { CardSize } from './winners-flow.model';
-
 @Component({
   selector: 'article[wfCard]',
   imports: [CountUpDirective, WfIconComponent, WfTPipe],
@@ -27,7 +27,7 @@ import { CardSize } from './winners-flow.model';
         <span class="wf-ini" aria-hidden="true">{{ cand().ini }}</span>
         @if (photo(); as p) {<img class="wf-img" [class.on]="shown()" [src]="p" alt="" width="300" height="360" decoding="async" [attr.fetchpriority]="first() ? 'high' : null" (load)="loaded.set(p)" (error)="broken.set(p)">}
       </div>
-      <span class="wf-seal"><span class="wf-medal" aria-hidden="true"><svg wfIcon="check"></svg></span>{{ 'wnElected' | wfT }}</span>
+      <span class="wf-seal"><span class="wf-medal" aria-hidden="true"><svg wfIcon="check"></svg></span>{{ posKey(cand().pos) | wfT: { n: cand().pos } }}</span>
     </div>
     <div class="wf-plate">
       <h3 class="wf-cname">{{ cand().name }}</h3>
@@ -47,8 +47,8 @@ export class WfCardComponent {
   readonly first = input(false);
   readonly still = input(false);
   readonly shared = output<void>();
-
   private readonly photos = inject(WinnerPhotos);
+  protected readonly posKey = posKey;
   protected readonly broken = signal<string | null>(null);
   protected readonly loaded = signal<string | null>(null);
   protected readonly photo = computed(() => {
@@ -64,7 +64,6 @@ export class WfCardComponent {
     const p = this.cand().share;
     return p === null ? null : Math.max(0, Math.min(1, p / 100));
   });
-
   constructor() {
     const group = inject(CountUpGroup);
     afterNextRender(() => {

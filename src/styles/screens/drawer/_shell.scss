@@ -1,6 +1,5 @@
 @use '../../mixins';
 @use '../../scales' as *;
-
 .mj-drawer.dw {
   width: 620px;
   box-shadow:
@@ -93,7 +92,6 @@
   height: 14px;
 }
 .dw-head .dclose,
-.dw-note .mj-chip.sample,
 .map-rail .mr-tools .mj-seg {
   flex: none;
 }
@@ -267,7 +265,6 @@
 .dw-pane > * + * {
   margin-top: $sp-14;
 }
-
 .mj-drawer.dw-new * {
   transition: none !important;
 }

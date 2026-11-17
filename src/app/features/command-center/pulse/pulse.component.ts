@@ -16,7 +16,6 @@ import { OdometerComponent } from '../../../shared/motion/odometer.component';
 import { GlyphComponent } from '../../../shared/ui/glyph.component';
 import { TPipe } from '../../../shared/ui/t.pipe';
 import { PulseSide, pulseView } from './pulse.model';
-
 interface Half {
   share: string;
   k: number;
@@ -30,7 +29,6 @@ interface Row {
   f: Half;
   aria: string;
 }
-
 @Component({
   selector: 'div[gpPulse]',
   imports: [GlyphComponent, OdometerComponent, TPipe],
@@ -39,8 +37,7 @@ interface Row {
   template: `@let v = view();
     <div class="mj-panel-head">
       <div class="mj-ph-l">
-        <span class="mj-micro gold">{{ 'gender' | t }}</span
-        ><span class="mj-panel-title">{{ 'gpTitle' | t }}</span>
+        <span class="mj-micro gold">{{ 'gender' | t }}</span>
       </div>
     </div>
     <div class="gp-body mj-z" [class.gp-on]="on()">
@@ -55,7 +52,7 @@ interface Row {
           </div>
           @if ($first) {
             <div class="gp-gap">
-              <span>{{ 'gpGapL' | t }}</span><b data-fig="pulse.gap">{{ v.gap ?? '—' }}</b>
+              <span>{{ 'gpGapL' | t }}</span>
             </div>
           }
         }
@@ -95,7 +92,6 @@ export class PulseComponent {
     ];
   });
   protected readonly on = signal(false);
-
   constructor() {
     const delay = inject(BootFlag).first ? 900 : 60;
     let timer = 0;
@@ -104,11 +100,9 @@ export class PulseComponent {
     });
     inject(DestroyRef).onDestroy(() => clearTimeout(timer));
   }
-
   protected count(n: number | null): string {
     return n === null ? '—' : fmt(n);
   }
-
   private row(
     key: Row['key'],
     label: string,

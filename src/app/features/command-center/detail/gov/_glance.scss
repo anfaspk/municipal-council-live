@@ -1,0 +1,144 @@
+@use '../../../../../styles/scales' as *;
+@use '../../../../../styles/mixins';
+.dt-page .dt-c-glance {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-10;
+  min-width: 0;
+  min-height: 0;
+  padding: $sp-16 $sp-20;
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+  animation: dt-in $t-700 var(--ease-expo) $t-300 both;
+}
+.dt-glance {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: $sp-8;
+  min-height: 0;
+}
+.dt-glance .dt-gn-bar {
+  position: relative;
+  flex: none;
+  height: 26px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--hairline);
+}
+.dt-glance .dt-gn-bar:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+.dt-glance .dt-gn-seg {
+  position: absolute;
+  inset: 0;
+  transform: translateX(calc(var(--x, 0) * -100%));
+  transition: transform $t-900 var(--ease-expo);
+}
+.dt-glance .dt-gn-seg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--band);
+  transform: scaleX(var(--w, 0));
+  transform-origin: 100% 50%;
+  transition: transform $t-900 var(--ease-expo);
+}
+.dt-glance .dt-gn-seg.on::before {
+  filter: brightness(1.15);
+}
+.dt-glance .dt-gn-seg b {
+  position: relative;
+  display: block;
+  width: calc(var(--w, 0) * 100%);
+  color: var(--on-gold);
+  font: 700 #{$fs-13}/ 26px var(--font-display);
+  text-align: center;
+}
+.dt-glance .dt-gn-key {
+  display: flex;
+  gap: $sp-14;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dt-glance .dt-gn-key li {
+  display: inline-flex;
+  align-items: center;
+  gap: $sp-6;
+  color: var(--ink-muted);
+  font: 600 #{$fs-11}/ 1 var(--font-sans);
+  @include mixins.arabic;
+}
+.dt-glance .dt-gn-key .mj-sw {
+  width: 10px;
+  height: 10px;
+}
+.dt-glance .dt-gn-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $sp-8;
+  margin-block-start: $sp-4;
+}
+.dt-glance .dt-gn-fact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $sp-3;
+  min-width: 0;
+  margin: 0;
+  padding: $sp-8 $sp-10;
+  border: 0;
+  border-radius: $r-12;
+  background: var(--glass-fill);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  color: var(--ink);
+  font: inherit;
+  text-align: start;
+}
+.dt-glance button.dt-gn-fact {
+  cursor: pointer;
+  transition: background-color $t-200 var(--ease-std);
+  @include mixins.hit;
+}
+@include mixins.hover {
+  .dt-glance button.dt-gn-fact:hover {
+    background: var(--glass-fill-strong);
+  }
+}
+.dt-glance .dt-gn-fact:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+.dt-glance .dt-gn-k {
+  max-width: 100%;
+  color: var(--ink-muted);
+  font: 600 #{$fs-11}/ 1.2 var(--font-sans);
+  @include mixins.arabic;
+  @include mixins.ellipsis;
+}
+.dt-glance .dt-gn-n {
+  max-width: 100%;
+  color: var(--ink);
+  font: 700 #{$fs-15}/ 1.25 var(--font-sans);
+  @include mixins.arabic;
+  @include mixins.ellipsis;
+}
+.dt-glance .dt-gn-v {
+  max-width: 100%;
+  color: var(--band-ink, var(--gold-ink));
+  font: 700 #{$fs-13}/ 1.2 var(--font-display);
+  @include mixins.arabic;
+  @include mixins.ellipsis;
+}
+.dt-glance .peak .dt-gn-n {
+  color: var(--gold-ink);
+  font-family: var(--font-display);
+}
+.dt-glance .peak .dt-gn-v {
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+}

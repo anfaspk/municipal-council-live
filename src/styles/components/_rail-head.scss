@@ -1,6 +1,5 @@
 @use '../mixins';
 @use '../scales' as *;
-
 .cc-rail-heading {
   font-weight: 600;
   color: var(--gold-ink);
@@ -48,11 +47,6 @@
   width: 10px;
   height: 10px;
   border-radius: $r-3;
-}
-.mr-sub .mj-chip.sample {
-  height: 17px;
-  font-size: $fs-9;
-  padding: 0 $sp-6;
 }
 .mr-tools {
   display: flex;

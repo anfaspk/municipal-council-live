@@ -1,6 +1,4 @@
-@use '../../../../styles/mixins';
 @use '../../../../styles/scales' as *;
-
 .rs-two {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -167,59 +165,6 @@
     0 0 0 4px color-mix(in srgb, var(--stat-pending) 75%, transparent),
     0 18px 40px -16px var(--shadow-ink-70);
 }
-.rs-nx {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto 34px 46px minmax(0, 1fr) 240px auto auto;
-  align-items: center;
-  column-gap: $sp-14;
-  min-height: 60px;
-  padding: $sp-6 $sp-18;
-  border-radius: $r-16;
-  background: linear-gradient(
-    270deg,
-    color-mix(in srgb, var(--stat-pending) 12%, transparent),
-    color-mix(in srgb, var(--stat-pending) 3%, transparent)
-  );
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--stat-pending) 36%, transparent);
-}
-.rs-nx::before {
-  content: '';
-  position: absolute;
-  inset-inline: 0;
-  inset-block-start: -$sp-12;
-  border-block-start: 2px dashed color-mix(in srgb, var(--gold) 70%, transparent);
-  pointer-events: none;
-}
-.rs-cut {
-  position: absolute;
-  inset-block-start: -$sp-22;
-  inset-inline-start: $sp-24;
-  padding: $sp-2 $sp-12;
-  border-radius: var(--radius-pill);
-  font: 700 #{$fs-13}/ 1.4 var(--font-arabic);
-  color: var(--gold-ink);
-  background: var(--canvas-0);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 55%, transparent);
-}
-.rs-nx .mj-micro {
-  padding-inline-end: $sp-4;
-  font: 700 #{$fs-15}/ 1.2 var(--font-arabic);
-  letter-spacing: 0;
-  color: var(--stat-pending);
-}
-.rs-nx .rs-rk {
-  font: 700 #{$fs-16}/ 1 var(--font-display);
-  color: var(--ink-muted);
-  text-align: center;
-}
-.rs-nx .rs-nm {
-  font: 600 #{$fs-19}/ 1.3 var(--font-arabic);
-  @include mixins.ellipsis;
-}
-.rs-nx > b {
-  font: 700 #{$fs-24}/ 1 var(--font-display);
-}
 .rs-need {
   display: flex;
   flex-direction: column;
@@ -239,56 +184,6 @@
 .rs-need em.out {
   color: var(--ink-muted);
 }
-@keyframes rs-pulse {
-  50% {
-    box-shadow:
-      0 0 0 6px color-mix(in srgb, var(--stat-pending) 18%, transparent),
-      0 0 22px color-mix(in srgb, var(--stat-pending) 60%, transparent);
-  }
-}
-.rs-nx.tight {
-  animation: rs-pulse $t-1600 ease-in-out infinite;
-  box-shadow: inset 0 0 0 1.5px var(--stat-pending);
-}
-.rs-ten {
-  position: relative;
-  height: 30px;
-  border-radius: $r-8;
-  background: color-mix(in srgb, var(--ink) 6%, transparent);
-  overflow: hidden;
-}
-.rs-ten i {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  inset-inline-start: 0;
-  width: 100%;
-  background: linear-gradient(
-    270deg,
-    color-mix(in srgb, var(--stat-pending) 25%, transparent),
-    color-mix(in srgb, var(--stat-pending) 65%, transparent)
-  );
-}
-.rs-ten::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  inset-inline-end: 0;
-  border-inline-end: 2px dashed var(--gold);
-}
-.rs-ten span {
-  position: relative;
-  display: block;
-  padding-inline-start: $sp-10;
-  font: 600 #{$fs-13}/ 30px var(--font-sans);
-  color: var(--ink);
-  white-space: nowrap;
-}
-.rs-enter .rs-nx {
-  animation: rs-in $t-700 var(--ease-expo) backwards;
-  animation-delay: calc(var(--d, 0) * $t-1000);
-}
 .rs-grid {
   display: grid;
   grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
@@ -307,8 +202,7 @@
   min-height: 0;
 }
 .rs-bar i,
-.rs-fill,
-.rs-ten i {
+.rs-fill {
   transform: scaleX(var(--w));
   transform-origin: right;
   transition: transform $t-800 var(--ease-expo);
@@ -317,13 +211,12 @@
   animation: rs-in $t-700 var(--ease-expo) backwards;
   animation-delay: calc(var(--d, 0) * $t-1000);
 }
-.mj-tv.tva-still :is(.rs-bar i, .rs-fill, .rs-ten i) {
+.mj-tv.tva-still :is(.rs-bar i, .rs-fill) {
   transition: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
   .rs-bar i,
-  .rs-fill,
-  .rs-ten i {
+  .rs-fill {
     transition: none !important;
   }
 }

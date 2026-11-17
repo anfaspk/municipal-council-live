@@ -4,14 +4,10 @@ import { IconComponent } from '../../../../shared/ui/icon.component';
 import { DASH } from '../charts/chart';
 import { DtTPipe } from '../dt-t.pipe';
 import { Compare } from './place.model';
-
 @Component({
   selector: 'div.dt-cmpb',
   imports: [DtTPipe, IconComponent],
   template: `@let m = model();
-<div class="mj-panel-head dt-chd">
-  <div class="mj-ph-l"><span class="mj-micro gold">{{ 'dtCmpT' | dtT: { p: name() } }}</span><span class="mj-panel-title dt-cs">{{ 'dtCmpS' | dtT }}</span></div>
-</div>
 <ul class="dt-cmp-rows">
   @for (r of m.rows; track r.key) {
     <li class="dt-cmp-row" [class]="r.key + ' ' + (r.band ?? '')">
@@ -37,7 +33,6 @@ import { Compare } from './place.model';
 })
 export class CompareComponent {
   readonly model = input.required<Compare>();
-  readonly name = input.required<string>();
   protected readonly pct = pct;
   protected readonly dash = DASH;
 }

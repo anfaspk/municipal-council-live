@@ -1,6 +1,5 @@
 @use '../../../../styles/mixins';
 @use '../../../../styles/scales' as *;
-
 .wn-pick {
   position: absolute;
   inset-block: var(--wn-top) var(--tv-title-y);
@@ -16,7 +15,8 @@
   animation: wn-rise $t-900 var(--ease-expo) both;
 }
 .wn-pick-h {
-  margin: $sp-14 0 $sp-8;
+  margin: $sp-14 0 (-$sp-6);
+  padding-block-end: $sp-14;
   font: 700 #{$fs-76}/ 1.15 var(--font-sans);
   background: linear-gradient(180deg, var(--wn-g1), var(--wn-g2) 70%, var(--wn-g3));
   background-clip: text;
@@ -44,7 +44,6 @@
   height: 20px;
   color: var(--stat-pending);
 }
-
 .wn-govs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -172,7 +171,6 @@
   opacity: 1;
   transform: translateX(-6px);
 }
-
 .wn-pick-map {
   position: relative;
   display: flex;
@@ -262,7 +260,6 @@
   font: 500 #{$fs-16}/ 1 var(--font-sans);
   color: var(--ink-muted);
 }
-
 @keyframes wn-sheen {
   from {
     transform: translateX(150%);

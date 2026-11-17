@@ -34,18 +34,6 @@
     }
   </div>
 }
-@if (!duel && !nextInGrid() && r.next; as nx) {
-  <div class="rs-nx" [class.tight]="nx.tight" [attr.data-id]="nx.id" style="--d:.24">
-    <span class="rs-cut">{{ 'resLine' | t }}</span>
-    <span class="mj-micro rs-nxl">{{ (nx.tight ? 'resTight' : 'resNextIn') | t }}</span>
-    <span class="rs-rk mj-num">{{ nx.rank }}</span>
-    <span class="rs-av sm" mjRaceAv [cand]="nx"></span>
-    <span class="rs-nm">{{ nx.name }}</span>
-    <div class="rs-ten" [title]="'resOfSeat' | t: { p: (nx.ofSeat | pct), s: r.seats }"><i [style.--w]="nx.ofSeatW"></i><span class="mj-num"><bdi>{{ nx.ofSeat | pct }}</bdi>&ngsp;{{ 'resOfSeatS' | t: { s: r.seats } }}</span></div>
-    <b class="mj-num rs-val">{{ nx.v | fmt }}</b>
-    <span class="rs-need mj-num">{{ 'resNeed' | t: { n: (nx.need | fmt), s: r.seats } }}@if (nx.trend; as tr) {<em [class]="tr.closing ? 'in' : 'out'">{{ (tr.closing ? 'resClosing' : 'resWidening') | t: { n: (tr.n | fmt), m: tr.min } }}</em>}</span>
-  </div>
-}
 @if (gridCandidates().length || extraGridRows()) {
   <div class="rs-rest" style="--d:.3">
     @if (!r.seatCards.length) {<span class="mj-micro rs-all">{{ 'resAll' | t }}</span>}

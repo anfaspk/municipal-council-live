@@ -15,11 +15,9 @@ import { reducedMotion } from '../motion/reduced-motion';
 import { tween } from '../motion/tween';
 import { easeExpo } from '../motion/easing';
 import { pct, pctNum } from '../../domain/format';
-
 const SVGNS = 'http://www.w3.org/2000/svg';
 const f2 = (n: number) => n.toFixed(2),
   f1 = (n: number) => n.toFixed(1);
-
 @Component({
   selector: '.gwrap',
   host: { class: 'mj-gauge', '[style.height.px]': 'size()', '[style.width.px]': 'size()' },
@@ -35,10 +33,10 @@ export class GaugeComponent implements AfterViewInit {
   readonly introMs = input(1600);
   readonly changeMs = input(1600);
   readonly gid = input('g2');
+  readonly fig = input('');
   get id() {
     return this.gid();
   }
-
   private readonly el: HTMLElement = inject(ElementRef).nativeElement;
   private readonly frames = inject(FrameLoop);
   private readonly scope = inject(FRAME_SCOPE);
@@ -50,7 +48,6 @@ export class GaugeComponent implements AfterViewInit {
   private tw: FrameHandle | null = null;
   private sparkHold: FrameHandle | null = null;
   private drawn = false;
-
   constructor() {
     inject(DestroyRef).onDestroy(() => {
       this.tw?.stop();
@@ -64,7 +61,6 @@ export class GaugeComponent implements AfterViewInit {
       });
     });
   }
-
   get s() {
     return this.size();
   }
@@ -160,7 +156,6 @@ export class GaugeComponent implements AfterViewInit {
     const s = this.start;
     return { cx: f1(s[0]), cy: f1(s[1]), r: this.sw * 0.75 };
   }
-
   ngAfterViewInit(): void {
     const q = <T extends Element>(s: string) => this.el.querySelector<T>(s)!;
     this.val = q('.val');
@@ -169,7 +164,6 @@ export class GaugeComponent implements AfterViewInit {
     this.sparks = q('.sparks');
     if (!reducedMotion()) this.startSparks();
   }
-
   private set(p: number, dur: number): void {
     const from = this.cur;
     this.cur = p;
@@ -185,7 +179,6 @@ export class GaugeComponent implements AfterViewInit {
     this.el.setAttribute('aria-label', pct(p));
     this.el.style.setProperty('--gp', p.toFixed(2));
   }
-
   private draw(p: number): void {
     const d = p.toFixed(2) + ' 100';
     this.val.setAttribute('stroke-dasharray', d);

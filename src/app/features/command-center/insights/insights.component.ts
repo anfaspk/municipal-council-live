@@ -42,16 +42,14 @@ import {
 } from './insights.model';
 import { InsightsWilayatComponent } from './insights-wilayat.component';
 import { TouchHold } from '../../../shared/motion/touch-hold';
-
 const SLIDES = [
-  { k: 'gen', t: 'ixGenT', s: 'ixGenS', tag: 'live' },
-  { k: 'wil', t: 'ixWilT', s: 'ixWilS', tag: 'live' },
-  { k: 'age', t: 'ixAgeT', s: 'ixAgeS', tag: 'live' },
+  { k: 'gen', t: 'ixGenT', s: 'ixGenS' },
+  { k: 'wil', t: 'ixWilT', s: 'ixWilS' },
+  { k: 'age', t: 'ixAgeT', s: 'ixAgeS' },
 ] as const;
 const SLIDE_COUNT = SLIDES.length,
   EVERY = 10000,
   EVERY_FILL: KeyframeAnimationOptions = { duration: EVERY, fill: 'forwards' };
-
 @Component({
   selector: 'div.ixw',
   imports: [
@@ -87,7 +85,6 @@ export class InsightsComponent implements AfterViewInit {
   protected readonly age = signal<AgeView | null>(null);
   protected readonly gen = signal<GenView | null>(null);
   protected readonly wil = signal<WilView | null>(null);
-
   private readonly destroyRef = inject(DestroyRef);
   private readonly injector = inject(Injector);
   private readonly el: HTMLElement = inject(ElementRef).nativeElement;
@@ -115,7 +112,6 @@ export class InsightsComponent implements AfterViewInit {
   private titleEls!: NodeListOf<HTMLElement>;
   private tabEls!: NodeListOf<HTMLElement>;
   private dock!: HTMLElement;
-
   constructor() {
     effect(() => {
       const g = this.state.side();
@@ -132,10 +128,7 @@ export class InsightsComponent implements AfterViewInit {
       document.removeEventListener('visibilitychange', this.onVis);
     });
   }
-
-  protected tag = (k: string) => t(k).toUpperCase();
   protected slideLabel = (i: number) => t('ixOf', { i: i + 1, n: SLIDE_COUNT, t: t(SLIDES[i]!.t) });
-
   ngAfterViewInit(): void {
     const el = this.el;
     this.slideEls = el.querySelectorAll('.ix-slide');
@@ -168,7 +161,6 @@ export class InsightsComponent implements AfterViewInit {
     this.updates.side.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((e) => {
       if (e.type === 'pull' || e.type === 'resume') this.update(this.stats.national().voted);
     });
-
     this.frames.once({
       write: () => {
         if (this.dead) return;
@@ -196,7 +188,6 @@ export class InsightsComponent implements AfterViewInit {
       },
     });
   }
-
   private scope(): Scope {
     const n = this.stats.national(),
       id = this.scopeId(),
@@ -230,7 +221,6 @@ export class InsightsComponent implements AfterViewInit {
       { injector: this.injector },
     );
   }
-
   private buildIn(i: number): void {
     const slide = this.slideEls[i]!;
     slide.classList.remove('ix-build', 'ix-still');
@@ -245,12 +235,10 @@ export class InsightsComponent implements AfterViewInit {
       if (age) replayAges(age);
     }
   }
-
   private ink(k: number, instant?: boolean): void {
     moveInk(this.dock, this.tabEls[k]!, this.inkK < 0 ? null : this.tabEls[this.inkK]!, !!instant);
     this.inkK = k;
   }
-
   protected tabClick(e: Event): void {
     const tb = (e.target as Element).closest('.ix-tab');
     if (tb) this.go(Array.prototype.indexOf.call(this.tabEls, tb), true);
@@ -277,7 +265,6 @@ export class InsightsComponent implements AfterViewInit {
     this.sync();
     this.srEl().nativeElement.textContent = t(this.paused() ? 'ixPausedSr' : 'ixPlay');
   }
-
   private go(k: number, user: boolean): void {
     k = ((k % SLIDE_COUNT) + SLIDE_COUNT) % SLIDE_COUNT;
     if (k === this.cur) return;
@@ -327,7 +314,6 @@ export class InsightsComponent implements AfterViewInit {
     this.titleEls.forEach((tt) => tt.classList.remove('was'));
     this.sync();
   }
-
   private running(): boolean {
     return (
       !this.paused() &&
@@ -360,7 +346,6 @@ export class InsightsComponent implements AfterViewInit {
       bar.currentTime = at;
     }
   }
-
   private setGov(id: string | null): void {
     const v = id || 'all';
     if (v === this.scopeId()) return;

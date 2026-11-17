@@ -7,12 +7,14 @@ import {
 } from '@angular/core';
 import { ServerClock } from '../../core/clock/server-clock.service';
 import { t } from '../../core/i18n/i18n';
+import { Fullscreen } from '../../core/screen/fullscreen';
 import { ViewportState } from '../../core/screen/viewport.state';
+import { screenKey } from '../../shared/motion/screen-keys';
 import { AmbientComponent } from '../../shared/ui/ambient.component';
 import { LOGO, LOGO_DARK, logoFor, MOI_LOGO, MOI_LOGO_DARK } from '../../shared/ui/brand';
 import { HorizonComponent } from '../../shared/ui/horizon.component';
+import { IconComponent } from '../../shared/ui/icon.component';
 import { loadTheme, themeOf } from '../command-center/theme-pref';
-
 const STR = {
   title: t('cdnTitle'),
   moi: t('moiLogoAlt'),
@@ -23,6 +25,8 @@ const STR = {
   m: t('cdnM'),
   s: t('cdnS'),
   note: t('cdnNote'),
+  full: t('full'),
+  fullOff: t('fullOff'),
 };
 const DATE = new Intl.DateTimeFormat('ar-u-nu-latn', {
   day: 'numeric',
@@ -31,10 +35,9 @@ const DATE = new Intl.DateTimeFormat('ar-u-nu-latn', {
   timeZone: 'Asia/Muscat',
 });
 const two = (n: number) => (n < 10 ? '0' : '') + n;
-
 @Component({
   selector: 'app-countdown',
-  imports: [AmbientComponent, HorizonComponent],
+  imports: [AmbientComponent, HorizonComponent, IconComponent],
   host: {
     class: 'mj-root mj-countdown',
     '[class.cdn-flow]': 'flow()',
@@ -43,10 +46,12 @@ const two = (n: number) => (n < 10 ? '0' : '') + n;
     '[attr.data-theme]': 'theme()',
     dir: 'rtl',
     lang: 'ar',
+    '(document:keydown)': 'onKey($event)',
   },
   template: `
     <div class="mj-ambient"></div>
     <div class="mj-horizon"></div>
+    @if (full.offered()) {<button class="mj-btn icon cdn-full" type="button" [title]="full.on() ? s().fullOff : s().full" [attr.aria-label]="full.on() ? s().fullOff : s().full" (click)="full.toggle()"><svg [mjIcon]="full.on() ? 'shrink' : 'expand'"></svg></button>}
     <main class="cdn-in">
       <span class="cdn-logos"><img [attr.src]="logos().moi.src" [attr.srcset]="logos().moi.srcset" [alt]="s().moi" decoding="async" width="790" height="875"><i aria-hidden="true"></i><img [attr.src]="logos().el.src" [attr.srcset]="logos().el.srcset" [alt]="s().title" decoding="async" width="1000" height="1082"></span>
       <h1 class="cdn-title">{{ s().title }}</h1>
@@ -68,6 +73,7 @@ const two = (n: number) => (n < 10 ? '0' : '') + n;
 export class CountdownComponent {
   private readonly clock = inject(ServerClock);
   protected readonly viewport = inject(ViewportState);
+  protected readonly full = inject(Fullscreen);
   readonly s = (): typeof STR => STR;
   protected readonly flow = computed(() => this.viewport.dashForm() === 'flow');
   protected readonly theme = computed(() =>
@@ -81,7 +87,11 @@ export class CountdownComponent {
       el: logoFor(night ? LOGO_DARK : LOGO, flow),
     };
   });
-
+  protected onKey(e: KeyboardEvent): void {
+    if (e.repeat || screenKey(e)?.type !== 'fullscreen') return;
+    e.preventDefault();
+    this.full.toggle();
+  }
   readonly parts = computed(() => {
     const t = Math.max(0, Math.ceil((this.clock.left() ?? 0) / 1000));
     return {

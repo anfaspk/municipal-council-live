@@ -15,9 +15,7 @@ import { EasePathDirective } from '../charts/ease-path.directive';
 import { dt } from '../detail-strings';
 import { DtTPipe } from '../dt-t.pipe';
 import { hourLabel, Rhythm, rhythmModel, RhythmSeries } from './rhythm.model';
-
 export type RhythmView = 'bars' | 'cum';
-
 @Component({
   selector: 'div.dt-rhy-plot',
   imports: [ChartDirective, EasePathDirective],
@@ -91,13 +89,12 @@ export class RhythmPlotComponent {
     });
   });
 }
-
 @Component({
   selector: 'div.dt-rhy',
   imports: [DtTPipe, RhythmPlotComponent, SegComponent],
   template: `@let pk = peak();
 <div class="mj-panel-head dt-chd">
-  <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" [id]="hid()">{{ 'dtT.rhythm' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.rhythm.' + view() | dtT }}</p></div>
+  <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" [id]="hid()">{{ 'dtT.rhythm' | dtT }}</h3>@if (view() === 'cum') {<p class="mj-panel-title dt-cs">{{ 'dtS.rhythm.cum' | dtT }}</p>}</div>
   <div class="dt-chd-end">
     @if (pk && view() === 'bars') {<p class="dt-stat"><span>{{ 'dtPeak' | dtT }}</span><b class="mj-num">{{ 'dtPeakV' | dtT: { h: pk.label, n: fmt(pk.v) } }}</b></p>}
     <div class="dt-sort mj-seg" [items]="views" [value]="view()" (valueChange)="view.set($any($event))" [attr.aria-label]="'dtRhyL' | dtT"></div>

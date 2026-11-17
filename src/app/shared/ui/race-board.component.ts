@@ -13,12 +13,11 @@ import { CountUpDirective, CountUpGroup } from '../motion/count-up.directive';
 import { FRAME_SCOPE, FrameLoop } from '../motion/frame-loop.service';
 import { reducedMotion } from '../motion/reduced-motion';
 import { restartAnimation } from '../motion/restart-animation';
-import { FmtPipe, PctPipe, SharePipe } from './format.pipes';
+import { FmtPipe, SharePipe } from './format.pipes';
 import { IconComponent } from './icon.component';
 import { RaceAvatarComponent } from './race-avatar.component';
 import { RaceView, restGrid } from './race-board.model';
 import { TvTPipe as TPipe } from './tv-t.pipe';
-
 interface Place {
   x: number;
   y: number;
@@ -26,7 +25,6 @@ interface Place {
   seat: boolean;
   card: boolean;
 }
-
 function placeOf(n: HTMLElement, board: HTMLElement): { x: number; y: number } {
   let x = 0,
     y = 0,
@@ -38,18 +36,9 @@ function placeOf(n: HTMLElement, board: HTMLElement): { x: number; y: number } {
   }
   return { x, y };
 }
-
 @Component({
   selector: 'div[mjRaceBoard]',
-  imports: [
-    CountUpDirective,
-    FmtPipe,
-    PctPipe,
-    SharePipe,
-    TPipe,
-    IconComponent,
-    RaceAvatarComponent,
-  ],
+  imports: [CountUpDirective, FmtPipe, SharePipe, TPipe, IconComponent, RaceAvatarComponent],
   providers: [CountUpGroup],
   host: { class: 'rs-race', '[class.rs-dense]': 'grid().dense' },
   templateUrl: './race-board.component.html',
@@ -59,26 +48,22 @@ function placeOf(n: HTMLElement, board: HTMLElement): { x: number; y: number } {
 })
 export class RaceBoardComponent {
   readonly race = input.required<RaceView>({ alias: 'mjRaceBoard' });
-
-  readonly nextInGrid = input(false);
   readonly drawWins = input<readonly string[]>([]);
   readonly extraGridRows = input(0);
   protected readonly gridCandidates = computed(() => {
     const r = this.race();
-    return this.nextInGrid() && r.next ? [{ ...r.next, d: '0.22' }, ...r.rest] : r.rest;
+    return !this.duelNext() && r.next ? [{ ...r.next, d: '0.22' }, ...r.rest] : r.rest;
   });
   protected readonly grid = computed(() =>
     restGrid(this.gridCandidates().length + this.extraGridRows()),
   );
   protected readonly duelNext = computed(() => {
     const r = this.race();
-    return r.seatCards.length === 1 && !this.nextInGrid() ? r.next : null;
+    return r.seatCards.length === 1 ? r.next : null;
   });
-
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
   private readonly counts = inject(CountUpGroup);
   private places = new Map<string, Place>();
-
   constructor() {
     afterRenderEffect(() => {
       this.race();
@@ -95,11 +80,9 @@ export class RaceBoardComponent {
     );
     inject(DestroyRef).onDestroy(() => first.stop());
   }
-
   private still(): boolean {
     return reducedMotion() || !!this.host.closest('.tva-still');
   }
-
   private moved(): void {
     const now = new Map<string, Place>(),
       nodes = Array.from(this.host.querySelectorAll<HTMLElement>('[data-id]'));

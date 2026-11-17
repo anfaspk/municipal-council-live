@@ -1,12 +1,8 @@
 @use '../../../../styles/scales' as *;
 @use '../../../../styles/mixins';
-
 .cx-race {
   flex: 1;
   gap: $sp-14;
-}
-.cx-race .rs-nx {
-  margin-block-start: $sp-12;
 }
 .cx-race .rs-rest {
   display: flex;

@@ -1,8 +1,6 @@
 @use '../../../styles/scales' as *;
 @use '../../../styles/mixins';
-
 @layer tokens, base, app, motion, states;
-
 @layer app {
   .mj-countdown {
     position: fixed;
@@ -11,6 +9,12 @@
     place-items: center;
     overflow: hidden;
     text-align: center;
+  }
+  .mj-countdown .cdn-full {
+    position: absolute;
+    inset-block-start: calc(var(--safe-top) + #{$sp-16});
+    inset-inline-end: calc(var(--safe-left) + #{$sp-16});
+    z-index: $z-2;
   }
   .mj-countdown .cdn-in {
     position: relative;
@@ -78,10 +82,8 @@
   .mj-countdown .cdn-note {
     opacity: 0.7;
   }
-
   .mj-countdown.cdn-flow {
     @include mixins.frame;
-
     overflow-y: auto;
     place-items: safe center;
     padding-block: var(--safe-top) var(--safe-bottom);

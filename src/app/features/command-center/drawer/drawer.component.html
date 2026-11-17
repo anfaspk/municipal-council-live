@@ -12,7 +12,7 @@
     </button>
   </div>
   <nav class="dw-crumbs" [attr.aria-label]="'crumbsL' | t">
-    <button type="button" class="cr" data-cr="oman" (click)="state.close()"><svg [mjIcon]="'home'"></svg><span>{{ 'crumbOman' | t }}</span></button>
+    <button type="button" class="cr" data-cr="oman" (click)="state.close()"><svg [mjIcon]="'home'"></svg><span>{{ 'tvOman' | t }}</span></button>
     <span class="sep" aria-hidden="true"><svg [mjIcon]="'next'"></svg></span>
     @if (crumbWil(); as wn) {
       <button type="button" class="cr" data-cr="gov" (click)="tabGo('wil')">{{ s.g.ar }}</button>

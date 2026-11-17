@@ -23,7 +23,7 @@
       <div class="rs-hero rs-chal" [class.tight]="nx.tight" [attr.data-id]="nx.id" style="--d:.17">
         <div class="rs-por"><span class="rs-av lg" mjRaceAv [cand]="nx"></span><span class="rs-coin mj-num" aria-hidden="true">{{ nx.rank }}</span></div>
         <div class="rs-hi">
-          <span class="rs-lead">{{ (nx.tight ? 'resTight' : 'resNextIn') | t }}</span>
+          <span class="rs-lead">{{ 'resSeat' | t: { n: nx.rank } }}</span>
           <b class="rs-nm">{{ nx.name }}</b>
           <div class="rs-v"><b class="mj-num rs-val" [mjCountUp]="nx.v" [countDuration]="1400" countGroup="rs"></b>@if (nx.share !== null) {<span class="rs-sh mj-num"><bdi>{{ nx.share | share }}</bdi></span>}</div>
           <span class="rs-need mj-num">{{ 'resNeed' | t: { n: (nx.need | fmt), s: r.seats } }}@if (nx.trend; as tr) {<em [class]="tr.closing ? 'in' : 'out'">{{ (tr.closing ? 'resClosing' : 'resWidening') | t: { n: (tr.n | fmt), m: tr.min } }}</em>}</span>

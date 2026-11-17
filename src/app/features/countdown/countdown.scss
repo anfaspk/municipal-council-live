@@ -22,10 +22,20 @@
     padding: $sp-24 $sp-16;
     width: min(1100px, 100%);
   }
-  .mj-countdown .cdn-logo {
+  .mj-countdown .cdn-logos {
+    display: flex;
+    align-items: center;
+    gap: clamp($sp-14, 2.4vh, $sp-24);
+  }
+  .mj-countdown .cdn-logos img {
     display: block;
     height: clamp(64px, 12vh, 120px);
     width: auto;
+  }
+  .mj-countdown .cdn-logos i {
+    inline-size: 1px;
+    block-size: clamp(40px, 8vh, 80px);
+    background: var(--hairline);
   }
   .mj-countdown .cdn-title {
     margin: 0;
@@ -82,8 +92,6 @@
     width: min(560px, 100%);
   }
   .cdn-flow .cdn-logos {
-    display: flex;
-    align-items: center;
     gap: $sp-14;
     margin-block-end: $sp-10;
   }

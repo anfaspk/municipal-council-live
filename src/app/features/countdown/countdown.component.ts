@@ -16,7 +16,7 @@ import { loadTheme, themeOf } from '../command-center/theme-pref';
 const STR = {
   title: t('cdnTitle'),
   moi: t('moiLogoAlt'),
-  sub: t('sub'),
+  sub: t('cdnSub'),
   opens: t('cdnOpens'),
   d: t('cdnD'),
   h: t('cdnH'),
@@ -48,11 +48,7 @@ const two = (n: number) => (n < 10 ? '0' : '') + n;
     <div class="mj-ambient"></div>
     <div class="mj-horizon"></div>
     <main class="cdn-in">
-      @if (flow()) {
-        <span class="cdn-logos"><img [attr.src]="logos().moi.src" [attr.srcset]="logos().moi.srcset" [alt]="s().moi" decoding="async" width="790" height="875"><i aria-hidden="true"></i><img [attr.src]="logos().el.src" [attr.srcset]="logos().el.srcset" [alt]="s().title" decoding="async" width="1000" height="1082"></span>
-      } @else {
-        <img class="cdn-logo" src="assets/logos/election-logo-2026-dark.png" [alt]="s().title" decoding="async" width="1000" height="1082">
-      }
+      <span class="cdn-logos"><img [attr.src]="logos().moi.src" [attr.srcset]="logos().moi.srcset" [alt]="s().moi" decoding="async" width="790" height="875"><i aria-hidden="true"></i><img [attr.src]="logos().el.src" [attr.srcset]="logos().el.srcset" [alt]="s().title" decoding="async" width="1000" height="1082"></span>
       <h1 class="cdn-title">{{ s().title }}</h1>
       <div class="mj-micro cdn-sub">{{ s().sub }}</div>
       <div class="cdn-opens mj-micro gold">{{ s().opens }}</div>
@@ -78,10 +74,11 @@ export class CountdownComponent {
     this.flow() ? themeOf(loadTheme(), 'flow', this.viewport.scheme()) : 'night',
   );
   protected readonly logos = computed(() => {
-    const night = this.theme() === 'night';
+    const night = this.theme() === 'night',
+      flow = this.flow();
     return {
-      moi: logoFor(night ? MOI_LOGO_DARK : MOI_LOGO, true),
-      el: logoFor(night ? LOGO_DARK : LOGO, true),
+      moi: logoFor(night ? MOI_LOGO_DARK : MOI_LOGO, flow),
+      el: logoFor(night ? LOGO_DARK : LOGO, flow),
     };
   });
 

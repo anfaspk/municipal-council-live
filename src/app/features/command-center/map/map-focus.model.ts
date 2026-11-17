@@ -42,7 +42,6 @@ function genderRow(
   cls = '',
   totCls = '',
 ): GenderRow {
-  /* The voters' row is named apart from the shared key (Arabic review 2026-11-17). */
   const label = t(id === 'votesCast' ? 'focusVoted' : id);
   const pm = total ? (m / total) * 100 : 50;
   const aria =

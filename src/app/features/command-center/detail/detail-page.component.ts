@@ -67,7 +67,7 @@ export class DetailPageComponent {
     this.hold.tick();
     if (!at) return null;
     const vils = at.wil === undefined ? undefined : this.stats.villages(at.wil);
-    return detailHead(at, this.stats.govs(), vils, dt('crumbOman'));
+    return detailHead(at, this.stats.govs(), vils, dt('tvOman'));
   });
   protected readonly updated = computed(() => {
     const at = this.detail.at();

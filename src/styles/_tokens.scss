@@ -59,9 +59,6 @@
   --mv-body-edge: rgba(255, 255, 255, 0.32);
   --mv-body-glow: rgba(56, 189, 248, 0.22);
   --mv-shadow: rgba(2, 6, 24, 0.8);
-  --mv-dc-top: rgba(255, 255, 255, 0.42);
-  --mv-dc-left: rgba(255, 255, 255, 0.18);
-  --mv-dc-right: rgba(11, 20, 48, 0.55);
 }
 
 [data-theme='daylight'] {
@@ -119,9 +116,6 @@
   --mv-body-edge: rgba(122, 88, 34, 0.45);
   --mv-body-glow: rgba(122, 88, 34, 0.22);
   --mv-shadow: rgba(122, 88, 34, 0.45);
-  --mv-dc-top: rgba(255, 255, 255, 0.9);
-  --mv-dc-left: rgba(255, 255, 255, 0.6);
-  --mv-dc-right: rgba(122, 88, 34, 0.22);
 }
 
 @media (prefers-contrast: more) {

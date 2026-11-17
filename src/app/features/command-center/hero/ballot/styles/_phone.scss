@@ -9,7 +9,7 @@
 .mv-float {
   position: absolute;
   inset-inline: 0;
-  top: $sp-86;
+  top: $sp-48;
   inline-size: 88px;
   block-size: 157px;
   margin-inline: auto;
@@ -20,7 +20,6 @@
   inline-size: 100%;
   block-size: 100%;
   transform-style: preserve-3d;
-  transform: rotateX(9deg) rotateY(-22deg) rotateZ(1.5deg);
 }
 .mv-edge,
 .mv-body,

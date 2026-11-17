@@ -208,9 +208,13 @@ export class CountStore {
     this.state.set(region.govs);
     region.wanted.forEach((id) => this.dirty.add(id));
     this.collect(evs, region.events);
-    const focused = (id: number) => +(this.index().govOf(id)?.id === this.focusGov);
-    const dirty = [...this.dirty].sort((a, b) => focused(b) - focused(a)),
-      want = dirty.slice(0, (first ? dirty.filter(focused).length : 0) + DETAIL_MAX);
+    const index = this.index(),
+      rank = (id: number) => {
+        const w = index.wil(id);
+        return (index.govOf(id)?.id === this.focusGov ? 2 : 0) + (w?.conflict || w?.drawn ? 1 : 0);
+      };
+    const dirty = [...this.dirty].sort((a, b) => rank(b) - rank(a)),
+      want = dirty.slice(0, (first ? dirty.filter((id) => rank(id) > 0).length : 0) + DETAIL_MAX);
     const det = await Promise.allSettled(
       want.map((id) => this.api.get(endpoints.countWilayat(id), { signal })),
     );

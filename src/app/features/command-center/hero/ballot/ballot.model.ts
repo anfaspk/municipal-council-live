@@ -88,88 +88,20 @@ export function frameKey(f: BallotFrame): string {
   ].join('|');
 }
 
-export interface Line {
-  x1: string;
-  y1: string;
-  x2: string;
-  y2: string;
-}
 export interface Spot {
   x: string;
   y: string;
 }
-export interface Tower {
-  right: string;
-  left: string;
-  top: string;
-  leds: Line[];
-  delay: string;
-}
 export interface BallotArt {
-  ticks: Line[];
-  base: string;
-  towers: Tower[];
   mesh: { delay: string; dots: Spot[] }[];
   code: Spot[];
   dust: { x: string; y: string; delay: string }[];
   sparks: string;
 }
 
-export const RING_R = 62;
-
 export function ballotArt(seed = 4026): BallotArt {
   const rnd = rng(seed),
     f = (n: number) => n.toFixed(1);
-  const ticks: Line[] = [];
-  for (let i = 0; i < 60; i++) {
-    const a = (i / 60) * Math.PI * 2,
-      r1 = 74,
-      r2 = i % 5 ? 71 : 68;
-    ticks.push({
-      x1: f(80 + Math.sin(a) * r1),
-      y1: f(80 - Math.cos(a) * r1),
-      x2: f(80 + Math.sin(a) * r2),
-      y2: f(80 - Math.cos(a) * r2),
-    });
-  }
-  const xy = (x: number, y: number, z: number): [string, string] => [
-    f(40 + (x - y) * 0.866),
-    f(50 + (x + y) * 0.5 - z),
-  ];
-  const pt = (x: number, y: number, z: number) => xy(x, y, z).join(',');
-  const quad = (...p: string[]) => p.join(' ');
-  const T = [
-    { x: -9, y: -9, h: 25 },
-    { x: 9, y: -11, h: 19 },
-    { x: -11, y: 9, h: 17 },
-    { x: 8, y: 8, h: 22 },
-  ].sort((p, q) => p.x + p.y - (q.x + q.y));
-  const towers = T.map(({ x, y, h }, i): Tower => {
-    const a = 5.5,
-      leds: Line[] = [];
-    for (let z = 4; z < h - 2; z += 4) {
-      const [x1, y1] = xy(x - a + 1.6, y + a, z),
-        [x2, y2] = xy(x - a + 5.2, y + a, z);
-      leds.push({ x1, y1, x2, y2 });
-    }
-    return {
-      right: quad(
-        pt(x + a, y - a, 0),
-        pt(x + a, y + a, 0),
-        pt(x + a, y + a, h),
-        pt(x + a, y - a, h),
-      ),
-      left: quad(
-        pt(x - a, y + a, 0),
-        pt(x + a, y + a, 0),
-        pt(x + a, y + a, h),
-        pt(x - a, y + a, h),
-      ),
-      top: quad(pt(x - a, y - a, h), pt(x + a, y - a, h), pt(x + a, y + a, h), pt(x - a, y + a, h)),
-      leds,
-      delay: (i * 0.75).toFixed(2) + 's',
-    };
-  });
   const mesh: BallotArt['mesh'] = [];
   for (let my = 13; my <= 37; my += 3.4) {
     const dots: Spot[] = [];
@@ -199,6 +131,5 @@ export function ballotArt(seed = 4026): BallotArt {
       at = (Math.cos(a) * d).toFixed(0) + 'px ' + (Math.sin(a) * d * 0.4).toFixed(0) + 'px';
     return at + ' 0 0 var(--mv-c), ' + at + ' 6px 0 var(--mv-c)';
   }).join(', ');
-  const base = quad(pt(-22, -22, 0), pt(22, -22, 0), pt(22, 22, 0), pt(-22, 22, 0));
-  return { ticks, base, towers, mesh, code, dust, sparks };
+  return { mesh, code, dust, sparks };
 }

@@ -3,7 +3,7 @@
 .mv-fx {
   position: absolute;
   inset-inline: 0;
-  top: $sp-150;
+  top: $sp-112;
   block-size: 0;
   direction: ltr;
   pointer-events: none;
@@ -38,7 +38,7 @@
 .mv-plus {
   position: absolute;
   inset-inline-start: 50%;
-  top: -$sp-142;
+  top: -$sp-108;
   unicode-bidi: isolate;
   font: 800 #{$fs-13} var(--font-display);
   color: var(--mv-c);
@@ -49,7 +49,7 @@
 .mv-sparks {
   position: absolute;
   inset-inline-start: 50%;
-  top: -$sp-112;
+  top: -$sp-88;
   inline-size: 3px;
   block-size: 3px;
   margin-inline-start: -$sp-1-5;
@@ -67,75 +67,6 @@
   .mv-sparks {
     animation: mv-sparks $t-1400 var(--mv-e) $t-1700 forwards;
   }
-  .mv-head {
-    animation: mv-head $t-1600 var(--mv-e) $t-1700;
-  }
-  .mv-echo {
-    animation: mv-echo $t-2000 linear $t-1700;
-  }
-  .mv-dcg {
-    animation: mv-dc $t-2000 var(--mv-e) $t-1700;
-  }
-}
-.mv.hit {
-  .mv-head {
-    animation: mv-head $t-1600 var(--mv-e);
-  }
-  .mv-echo {
-    animation: mv-echo $t-2000 linear;
-  }
-  .mv-dcg {
-    animation: mv-dc $t-2000 var(--mv-e);
-  }
-}
-
-@keyframes mv-head {
-  12% {
-    transform: scale(1.8);
-  }
-  19% {
-    transform: scale(1.3);
-  }
-  31% {
-    transform: scale(1.9);
-  }
-  37% {
-    transform: scale(1.4);
-  }
-  62% {
-    transform: scale(2);
-  }
-}
-@keyframes mv-echo {
-  0%,
-  15%,
-  30% {
-    opacity: 0.85;
-    transform: scale(1);
-  }
-  14.9%,
-  29.9% {
-    opacity: 0.67;
-    transform: scale(1.05);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.24);
-  }
-}
-@keyframes mv-dc {
-  0%,
-  15%,
-  30% {
-    opacity: 1;
-  }
-  10%,
-  25% {
-    opacity: 0.45;
-  }
-  100% {
-    opacity: 0;
-  }
 }
 @keyframes mv-pk {
   0% {
@@ -143,20 +74,20 @@
     opacity: 0;
   }
   18% {
-    transform: translate(-50%, -50%) translate(calc(var(--w) * 0.3), -16px) rotate(70deg) scale(1);
+    transform: translate(-50%, -50%) translate(calc(var(--w) * 0.3), -13px) rotate(70deg) scale(1);
     opacity: 1;
   }
   50% {
-    transform: translate(-50%, -50%) translate(var(--w), -52px) rotate(140deg) scale(0.95);
+    transform: translate(-50%, -50%) translate(var(--w), -41px) rotate(140deg) scale(0.95);
     opacity: 1;
   }
   82% {
-    transform: translate(-50%, -50%) translate(calc(var(--w) * 0.4), -90px) rotate(200deg)
+    transform: translate(-50%, -50%) translate(calc(var(--w) * 0.4), -71px) rotate(200deg)
       scale(0.7);
     opacity: 0.9;
   }
   100% {
-    transform: translate(-50%, -50%) translate(0, -112px) rotate(225deg) scale(0.25);
+    transform: translate(-50%, -50%) translate(0, -88px) rotate(225deg) scale(0.25);
     opacity: 0;
   }
 }

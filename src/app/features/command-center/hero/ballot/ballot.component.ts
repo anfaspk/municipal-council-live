@@ -4,21 +4,14 @@ import {
   Component,
   computed,
   DestroyRef,
-  effect,
   ElementRef,
   inject,
-  signal,
-  untracked,
   ViewEncapsulation,
 } from '@angular/core';
-import { TurnoutStore } from '../../../../data/turnout.store';
 import { FRAME_SCOPE, FrameLoop } from '../../../../shared/motion/frame-loop.service';
-import { reducedMotion } from '../../../../shared/motion/reduced-motion';
 import { ornaments } from '../../../../shared/motion/effects-tier';
-import { restartAnimation } from '../../../../shared/motion/restart-animation';
 import { LOGO_DARK, logoFor } from '../../../../shared/ui/brand';
 import { ViewportState } from '../../../../core/screen/viewport.state';
-import { uid } from '../../../../shared/ui/uid';
 import { bt } from './ballot-strings';
 import {
   BALLOT_STILL,
@@ -40,18 +33,14 @@ import {
   host: {
     class: 'mj-ballot mv',
     'aria-hidden': 'true',
-    '[style.--mv-level]': 'level()',
-    '[style.--mv-ld]': 'sweep()',
   },
 })
 export class BallotComponent {
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
-  private readonly stats = inject(TurnoutStore);
   private readonly frames = inject(FrameLoop);
   private readonly scope = inject(FRAME_SCOPE);
   protected readonly art = ballotArt();
   protected readonly steps = STEPS;
-  protected readonly gid = uid('mvg');
   private readonly viewport = inject(ViewportState);
   protected readonly logo = computed(() => logoFor(LOGO_DARK, this.viewport.form() === 'flow'));
   protected readonly s = {
@@ -73,11 +62,6 @@ export class BallotComponent {
     recorded: bt('mvRecorded'),
     secure: bt('mvSecure'),
   };
-  private readonly shown = signal(!ornaments());
-  protected readonly level = computed(() =>
-    this.shown() ? Math.max(0, Math.min(1, this.stats.turnout() / 100)).toFixed(4) : '0',
-  );
-  protected readonly sweep = signal(ornaments() ? '1800ms' : '0ms');
 
   constructor() {
     const destroyRef = inject(DestroyRef);
@@ -106,8 +90,6 @@ export class BallotComponent {
               at %= LOOP;
               first = false;
             }
-            if (!this.shown()) this.shown.set(true);
-            else if (this.sweep() !== '1200ms' && at > 2000) this.sweep.set('1200ms');
             const f = ballotAt(at, first),
               k = frameKey(f);
             if (k !== key) paint(this.host, parts, f);
@@ -118,20 +100,6 @@ export class BallotComponent {
         this.scope,
       );
       destroyRef.onDestroy(() => handle.stop());
-    });
-    let seen: number | null = null;
-    effect(() => {
-      const voted = this.stats.national().voted;
-      untracked(() => {
-        if (
-          seen !== null &&
-          voted !== seen &&
-          !reducedMotion() &&
-          !this.frames.isPaused(this.scope)
-        )
-          restartAnimation(this.host, 'hit');
-        seen = voted;
-      });
     });
   }
 }

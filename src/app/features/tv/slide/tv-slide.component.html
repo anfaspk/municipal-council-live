@@ -5,7 +5,7 @@
   <i class="tv-sep"></i>
   <img class="tv-logo night" [src]="logoDark" alt="" decoding="async" width="1000" height="1082">
   <img class="tv-logo day" [src]="logo" alt="" decoding="async" width="1000" height="1082">
-  <div class="tv-ttl"><b>{{ 'tvTitle' | t }}</b><span>{{ 'tvLiveAcross' | t }}</span></div>
+  <div class="tv-ttl"><b>{{ 'title' | t }}</b><span>{{ 'liveAcross' | t }}</span></div>
   @if (phase() === 'soon') {
     <span class="tv-int-cd" [title]="'intSoonL' | t: { t: fromAt() ?? '' }"><svg [mjIcon]="'ballot'"></svg>{{ 'intSoon' | t }}<b class="mj-num">{{ left() }}</b></span>
   } @else if (phase() === 'open' && left(); as l) {
@@ -19,7 +19,7 @@
     <div class="tv-info">
       <div class="tv-kick" style="--i:0"><span class="tv-tag">{{ 'national' | t }}</span><span class="tv-band">{{ n.band | t }}</span></div>
       <h2 class="tv-name tv-nm-nat" style="--i:1">{{ 'natTurnout' | t }}</h2>
-      <div class="tv-sub" style="--i:2">{{ 'tvGovs' | t }}</div>
+      <div class="tv-sub" style="--i:2">{{ 'tvNatSub' | t }}</div>
       <div class="tv-big" style="--i:3"><span class="tv-pct mj-num" data-fig="tv.nat.turnout" [mjCountUp]="n.turnout" countFormat="pct" [countDuration]="2000" countGroup="show"></span></div>
       <div class="tv-in" style="--i:4"><div class="tv-stats" appTvStats fig="tv.nat" [voted]="n.voted" [reg]="n.reg"></div></div>
       <div class="tv-cards" style="--i:5">

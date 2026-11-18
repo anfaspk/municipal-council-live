@@ -1,9 +1,7 @@
 import type { Screen } from './screen-prefs';
-
 export type Form = 'stage' | 'flow';
 export type Tier = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 export type Display = 'browser' | 'standalone' | 'fullscreen';
-
 export interface LayoutEnv {
   vw: number;
   vh: number;
@@ -14,7 +12,6 @@ export interface LayoutEnv {
   coarse: boolean;
   display: Display;
 }
-
 export interface Layout {
   form: Form;
   tier: Tier;
@@ -26,7 +23,6 @@ export interface Layout {
   tight: boolean;
   scroll: boolean;
 }
-
 export type Ready = ReadonlyMap<Screen, 'phone' | 'all'>;
 export const FLOW_READY: Ready = new Map([
   ['dashboard', 'all'],
@@ -35,19 +31,16 @@ export const FLOW_READY: Ready = new Map([
   ['draw', 'all'],
   ['winners', 'all'],
 ]);
-
 export type ScreenComp = 'phone' | 'tab' | 'sign';
 export function screenComp(vw: number, vh: number, anyCoarse: boolean): ScreenComp {
   if (vw < 600 || (vw > vh && vh < 500)) return 'phone';
   return vh > vw && vw >= 900 && !anyCoarse ? 'sign' : 'tab';
 }
-
 export interface LayoutFlags {
   floor: boolean;
   ceiling: boolean;
 }
 export const LAYOUT_FLAGS: LayoutFlags = { floor: true, ceiling: true };
-
 export const DESIGN_W = 1920;
 export const DESIGN_H = 1080;
 const STAGE_MIN = { w: 900, h: 500 };
@@ -62,21 +55,17 @@ const CEILING = 1.2;
 const CEILING_BELOW = 3200;
 const MAX_ASPECT = 21 / 9;
 const TIGHT_H = 880;
-
 const STEPS = [
   0.25, 0.33, 0.5, 0.67, 0.75, 0.8, 0.9, 1.1, 1.2, 1.25, 1.33, 1.5, 1.7, 1.75, 2, 2.4, 2.5, 3, 4, 5,
 ];
-
 export function zoomOf(outerWidth: number, innerWidth: number): number {
   if (!outerWidth || !innerWidth) return 1;
   const r = outerWidth / innerWidth;
   return STEPS.find((s) => Math.abs(r - s) / s < 0.012) ?? 1;
 }
-
 export function fullscreenOffered(enabled: boolean, display: Display, on: boolean): boolean {
-  return enabled && (on || display === 'browser');
+  return enabled && (on || display !== 'standalone');
 }
-
 export function parseForm(search: string): Form | null {
   let f: string | null;
   try {
@@ -86,17 +75,14 @@ export function parseForm(search: string): Form | null {
   }
   return f === 'stage' || f === 'flow' ? f : null;
 }
-
 export function pointerKind(e: { pointerType: string }): 'touch' | 'pen' | 'mouse' {
   return e.pointerType === 'touch' || e.pointerType === 'pen' ? e.pointerType : 'mouse';
 }
-
 export type Fx = 'full' | 'lite';
 export const LITE_BELOW = 900;
 export function fxOf(form: Form, vw: number, coarse: boolean, saveData: boolean): Fx {
   return saveData || (form === 'flow' && coarse && vw < LITE_BELOW) ? 'lite' : 'full';
 }
-
 export function layoutOf(
   env: LayoutEnv,
   ready: Ready = FLOW_READY,
@@ -105,7 +91,6 @@ export function layoutOf(
 ): Layout {
   return formOf(env, ready, prev) === 'stage' ? stageOf(env, flags) : flowOf(env, ready);
 }
-
 export function formOf(env: LayoutEnv, ready: Ready = FLOW_READY, prev?: Form): Form {
   const built = ready.get(env.screen),
     keep = prev === 'stage';
@@ -120,7 +105,6 @@ export function formOf(env: LayoutEnv, ready: Ready = FLOW_READY, prev?: Form): 
     ? 'stage'
     : 'flow';
 }
-
 function stageOf(env: LayoutEnv, flags: LayoutFlags): Layout {
   const dash = env.screen === 'dashboard',
     browser = env.display === 'browser',
@@ -147,7 +131,6 @@ function stageOf(env: LayoutEnv, flags: LayoutFlags): Layout {
     scroll: width * scale > env.vw + 0.5 || height * scale > env.vh + 0.5,
   };
 }
-
 function flowOf(env: LayoutEnv, ready: Ready): Layout {
   const tier: Tier =
     ready.get(env.screen) === 'phone' || env.vw < 600 ? 'xs' : env.vw < 900 ? 'sm' : 'md';

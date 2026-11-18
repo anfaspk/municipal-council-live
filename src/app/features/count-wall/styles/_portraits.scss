@@ -1,13 +1,13 @@
 @use '../../../../styles/mixins';
 @use '../../../../styles/scales' as *;
-
 .cx-av {
   flex: none;
 }
 .cx-av.ph {
   --ring: var(--data-cyan);
   position: relative;
-  display: block;
+  display: grid;
+  place-items: center;
   overflow: hidden;
   padding: 0;
   border-radius: $radius-round;
@@ -35,6 +35,13 @@
   box-shadow:
     inset 0 0 0 1.5px var(--ring),
     inset 0 -10px 14px -10px color-mix(in srgb, var(--ring) 55%, transparent);
+}
+.cx-av.ph > b {
+  font: 700 #{$fs-11}/ 1 var(--font-sans);
+  color: var(--ink);
+}
+.cx-av.ph:has(> .mj-pic.on) > b {
+  visibility: hidden;
 }
 [data-theme='daylight'] .cx-av.ph {
   background: radial-gradient(
@@ -73,7 +80,6 @@
   stroke: var(--gold-glow);
   stroke-width: 1.8;
 }
-
 .cx-n image.ph {
   clip-path: circle(12px at 50% 50%);
 }

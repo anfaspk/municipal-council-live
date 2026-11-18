@@ -7,21 +7,18 @@ import { band } from '../../../domain/stats/turnout';
 import { pulseView } from '../pulse/pulse.model';
 import { fl } from './flow-strings';
 import { barOf, govRows, ringDash, sparkOf, type GovSort } from './flow.model';
-
 export interface FlowKpi {
   fig: string;
   label: string;
   value: string;
   foot: string;
 }
-
 @Injectable()
 export class DashboardView {
   private readonly stats = inject(TurnoutStore);
   private readonly clock = inject(ServerClock);
   readonly sort = signal<GovSort>('turnout');
   readonly moved = signal<ReadonlySet<string>>(new Set());
-
   readonly nat = computed(() => {
     const n = this.stats.national(),
       known = !n.unread.includes('registered'),
@@ -39,10 +36,9 @@ export class DashboardView {
       spark: sparkOf(n.hours),
     };
   });
-
   readonly kpis = computed((): FlowKpi[] => {
     const n = this.stats.national(),
-      has = (k: 'registered' | 'regF') => !n.unread.includes(k),
+      has = (k: 'registered') => !n.unread.includes(k),
       share = (part: number, ok: boolean) =>
         ok ? fl('flShareOf', { p: pctOf(part, n.registered) }) : '—';
     return [
@@ -59,20 +55,18 @@ export class DashboardView {
         foot: share(n.voted, has('registered')),
       },
       {
-        fig: 'kpi.regF',
-        label: t('registeredF'),
-        value: has('regF') ? fmt(n.regF) : '—',
-        foot: share(n.regF, has('regF') && has('registered')),
+        fig: 'kpi.yet',
+        label: t('yetToVote'),
+        value: has('registered') ? fmt(n.registered - n.voted) : '—',
+        foot: share(n.registered - n.voted, has('registered')),
       },
     ];
   });
-
   readonly pulse = computed(() => pulseView(this.stats.national()));
   readonly rows = computed(() =>
     govRows(this.stats.ranked(), (id) => this.stats.rankOf(id), this.sort()),
   );
   readonly govCount = computed(() => this.stats.govs().length);
-
   readonly stamp = computed(() => {
     const at = this.stats.staleAt();
     return at

@@ -3,7 +3,6 @@
   <svg mjLattice></svg>
 </div>
 <div class="mj-horizon"></div>
-<div class="ctv-glow"></div>
 <div class="cx" [class.cxr-on]="view().results">
   <div class="cx-top">
     <div class="tv-top">
@@ -112,8 +111,8 @@
     ><button
       type="button"
       class="mj-btn icon tva-theme"
-      [attr.aria-label]="text('cxTheme')"
-      [title]="text('cxTheme')"
+      [attr.aria-label]="text('theme')"
+      [title]="text('theme')"
       (click)="action.emit({ type: 'theme' })"
     >
       <svg [mjIcon]="view().theme === 'night' ? 'sun' : 'moon'"></svg></button
@@ -140,5 +139,4 @@
 >
   <svg mjIcon="close"></svg>
 </button>
-
 <ng-content select="[countBanner]" />

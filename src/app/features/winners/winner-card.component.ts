@@ -11,11 +11,9 @@ import { sharePct } from '../../domain/format';
 import { WCand } from '../../domain/winners/winners';
 import { CountUpDirective } from '../../shared/motion/count-up.directive';
 import { WinnerPhotos } from './winner-photos';
-import { sparks } from './winners.model';
+import { posKey, sparks } from './winners.model';
 import { WnTPipe } from './wn-t.pipe';
-
 const SPARKS = sparks(18);
-
 @Component({
   selector: 'article.wn-card[wnCard]',
   imports: [CountUpDirective, WnTPipe],
@@ -28,6 +26,7 @@ export class WinnerCardComponent {
   readonly cand = input.required<WCand>();
   private readonly photos = inject(WinnerPhotos);
   protected readonly sparks = SPARKS;
+  protected readonly posKey = posKey;
   private readonly broken = signal<string | null>(null);
   protected readonly photo = computed(() => {
     const p = this.cand().photo;
@@ -46,7 +45,6 @@ export class WinnerCardComponent {
     const p = this.cand().share;
     return p === null ? null : Math.max(0, Math.min(1, p / 100));
   });
-
   protected onLoad(img: HTMLImageElement): void {
     const url = this.photo();
     if (!url) return;
@@ -55,7 +53,6 @@ export class WinnerCardComponent {
       () => this.loaded.set(url),
     );
   }
-
   protected failed(): void {
     this.broken.set(this.cand().photo);
   }

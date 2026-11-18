@@ -1,9 +1,11 @@
 @if (gov(); as g) {
   @let c = cmp()!;
-  <div class="dt-c-gauge" [class]="band()">
-    <div class="gwrap" [size]="gauge" [label]="'dtKind.gov' | dtT" [sub]="g.ar" [value]="t()" [gid]="'dtg'" [changeMs]="1400"></div>
-  </div>
-  <div class="dt-c-cmp dt-cmpb" [model]="c" [name]="g.ar"></div>
+  @let gl = glance();
+  <div class="dt-c-cmp dt-cmpb mj-glass" [model]="c"></div>
+  <section class="dt-c-glance mj-glass">
+    <span class="mj-crenel"></span>
+    <div class="dt-glance" [model]="gl" (pick)="open($event)"></div>
+  </section>
   <section class="dt-card dt-c-flow mj-glass" [style.--j]="0" aria-labelledby="dt-h-flow">
     <h3 class="mj-sr" id="dt-h-flow">{{ 'dtFlowT' | dtT }}</h3>
     <div class="dt-flow" [steps]="flow()"></div>
@@ -11,7 +13,7 @@
   <section class="dt-card dt-c-region dt-hl mj-glass raised" [class]="band()" [style.--j]="1" aria-labelledby="dt-h-region">
     <span class="mj-crenel"></span>
     <div class="mj-panel-head dt-chd">
-      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-region">{{ 'dtT.region' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.region' | dtT }}</p></div>
+      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-region">{{ 'dtT.region' | dtT }}</h3></div>
     </div>
     <div class="dt-region" [gid]="g.id" [band]="band()" [name]="g.ar" [rows]="g.wils" [hot]="hot()" (pick)="open($event)" (hover)="hot.set($event)"></div>
   </section>
@@ -34,14 +36,14 @@
   <section class="dt-card dt-c-ages mj-glass" [style.--j]="4" aria-labelledby="dt-h-ages">
     <span class="mj-crenel"></span>
     <div class="mj-panel-head dt-chd">
-      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-ages">{{ 'dtT.ages' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.ages' | dtT }}</p></div>
+      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-ages">{{ 'dtT.ages' | dtT }}</h3></div>
     </div>
     <div class="dt-ageb" [ages]="g.ages"></div>
   </section>
   <section class="dt-card dt-c-gender mj-glass" [style.--j]="5" aria-labelledby="dt-h-gender">
     <span class="mj-crenel"></span>
     <div class="mj-panel-head dt-chd">
-      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-gender">{{ 'dtT.gender' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.gender' | dtT }}</p></div>
+      <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-gender">{{ 'dtT.gender' | dtT }}</h3></div>
     </div>
     <div class="dt-gnd" [reg]="reg()" [voted]="voted()"></div>
   </section>

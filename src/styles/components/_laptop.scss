@@ -1,7 +1,5 @@
 @use '../mixins';
 @use '../scales' as *;
-
-
 :where(.cc-grid) {
   @include mixins.tier(lg) {
     > .cc-hero {
@@ -14,9 +12,6 @@
     }
     .cc-hero :is(.gwrap, .hero-in .bb) {
       zoom: 0.82;
-    }
-    .cc-hero .hero-in .mid > .mj-micro {
-      white-space: nowrap;
     }
     .cc-hero .hero-title {
       font-size: $fs-20;
@@ -31,9 +26,6 @@
     .cc-hero .hs-l {
       font-size: $fs-13;
       gap: $sp-6;
-    }
-    .cc-hero .hero-stats .cap {
-      font-size: $fs-12;
     }
     .cc-kpis .mj-kpi .foot {
       font-size: $fs-11;
@@ -102,13 +94,9 @@
       .cc-hero :is(.gwrap, .hero-in .bb) {
         zoom: 0.7;
       }
-      .cc-hero .hero-in .mid > .mj-micro {
-        font-size: $fs-18;
-      }
     }
   }
 }
-
 .cc-grid {
   @include mixins.short {
     grid-template-rows: 56px clamp(260px, 29.5%, 300px) minmax(0, 1fr) 34px;
@@ -125,7 +113,6 @@
     .cc-pulse .gp-row {
       gap: $sp-4;
     }
-
     .cc-side {
       @include mixins.box;
     }
@@ -192,7 +179,6 @@
         display: none;
       }
     }
-
     .map-focus .fc-in {
       display: flex;
       flex-flow: column wrap;
@@ -204,7 +190,7 @@
       flex: none;
       inline-size: 100%;
     }
-    .map-focus :is(.fg-row.nv, .fg-turn, .fc-alt) {
+    .map-focus :is(.fg-row.nv, .fg-turn) {
       display: none;
     }
     .map-focus .fc-big {
@@ -217,7 +203,6 @@
       margin-top: $sp-5;
     }
   }
-
   @include mixins.tight {
     .cc-age .ix-gr:nth-child(even) .ix-gh {
       visibility: hidden;

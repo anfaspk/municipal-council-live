@@ -1,0 +1,17 @@
+@use '../scales' as *;
+.mj-pic {
+  opacity: 0;
+  transition: opacity $t-400 var(--ease-std);
+}
+.mj-pic.on {
+  opacity: 1;
+}
+.mj-pic.now {
+  transition: none;
+}
+.mj-av > * {
+  grid-area: 1 / 1;
+}
+.mj-av:has(> .mj-pic.on) > b {
+  visibility: hidden;
+}

@@ -9,7 +9,7 @@
       <button type="button" class="wn-gov" [class.hot]="hot() === c.id" [attr.data-g]="c.id" (click)="pick.emit(c.id)"
         (focus)="hot.set(c.id)" (blur)="hot.set(null)" (pointerenter)="hot.set(c.id)">
         <span class="wn-gov-n" aria-hidden="true">{{ two(c.n) }}</span>
-        <span class="wn-gov-t"><b> محافظة {{ c.name }}</b><small>{{ wilsLabel(c.wils) }}</small></span>
+        <span class="wn-gov-t"><b>{{ named(c.name) }}</b><small>{{ wilsLabel(c.wils) }}</small></span>
         @if (sum(c); as s) {<span class="wn-gov-p" [class.full]="s.done === s.all"
           [style.--p]="s.done / s.all"><i></i><em>{{ 'wnAnnounced' | wnT: { done: s.done, all: s.all } }}</em></span>}
         <svg class="wn-gov-go" [mjIcon]="'prev'"></svg>

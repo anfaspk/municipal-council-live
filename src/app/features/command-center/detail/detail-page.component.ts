@@ -19,6 +19,8 @@ import { keyOf } from '../../../shared/motion/screen-keys';
 import { IconComponent } from '../../../shared/ui/icon.component';
 import { DetailAt, sameAt, upOf } from './detail-url';
 import { fmt } from '../../../domain/format';
+import { turnout } from '../../../domain/stats/turnout';
+import { GaugeComponent } from '../../../shared/ui/gauge.component';
 import { dt, dtParts } from './detail-strings';
 import { detailHead } from './detail.model';
 import { ChartTip } from './charts/chart-tip';
@@ -31,10 +33,18 @@ import { GovPageComponent } from './gov/gov-page.component';
 import { VilPageComponent } from './vil/vil-page.component';
 import { WilPageComponent } from './wil/wil-page.component';
 import { viewMove } from './view-move';
-
+import { vilTurnout } from './vil/vil.model';
+const GAUGE = 176;
 @Component({
   selector: 'div.dt-page',
-  imports: [DtTPipe, GovPageComponent, IconComponent, VilPageComponent, WilPageComponent],
+  imports: [
+    DtTPipe,
+    GaugeComponent,
+    GovPageComponent,
+    IconComponent,
+    VilPageComponent,
+    WilPageComponent,
+  ],
   providers: [
     DetailHold,
     DetailFlight,
@@ -61,13 +71,12 @@ export class DetailPageComponent {
   private readonly screen = inject(ScreenState);
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
   private readonly injector = inject(Injector);
-
   protected readonly head = computed(() => {
     const at = this.detail.at();
     this.hold.tick();
     if (!at) return null;
     const vils = at.wil === undefined ? undefined : this.stats.villages(at.wil);
-    return detailHead(at, this.stats.govs(), vils, dt('crumbOman'));
+    return detailHead(at, this.stats.govs(), vils, dt('tvOman'));
   });
   protected readonly updated = computed(() => {
     const at = this.detail.at();
@@ -106,8 +115,23 @@ export class DetailPageComponent {
       'r',
     ]);
   });
+  protected readonly gauge = GAUGE;
+  protected readonly gaugeT = computed(() => {
+    const at = this.detail.at();
+    this.hold.tick();
+    if (!at) return null;
+    const g = this.stats.gov(at.gov);
+    if (at.vil !== undefined) {
+      const d = this.stats.villageDetail(at.vil);
+      return vilTurnout(
+        d?.id === at.vil ? d : undefined,
+        this.stats.villages(at.wil!)?.find((x) => x.id === at.vil),
+      );
+    }
+    const x = at.wil === undefined ? g : g?.wils.find((w) => w.id === at.wil);
+    return x ? turnout(x) : null;
+  });
   protected readonly label = computed(() => dt('dtPageL', { p: this.head()?.title ?? '…' }));
-
   constructor() {
     const key = (e: KeyboardEvent) => this.key(e),
       move = this.detail.move;
@@ -123,7 +147,6 @@ export class DetailPageComponent {
       if (at) untracked(() => this.focusTitle());
     });
   }
-
   protected go(to: DetailAt | null, sibling = false): void {
     if (!to) this.detail.close();
     else if (sibling) this.detail.sibling(to);
@@ -134,7 +157,6 @@ export class DetailPageComponent {
     if (to && at && sameAt(to, upOf(at))) this.detail.up();
     else this.go(to);
   }
-
   private focusTitle(): void {
     afterNextRender(
       () => this.host.querySelector<HTMLElement>('.dt-title')?.focus({ preventScroll: true }),

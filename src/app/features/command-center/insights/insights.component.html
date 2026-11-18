@@ -1,8 +1,8 @@
 <div class="ix-head">
   <div class="ix-hl"><span class="mj-micro ix-micro"><i class="ix-live"></i>{{ 'ixMicro' | t }} <span #scope
-        class="ix-scope" [class.gold]="!!scopeGov()"> {{ scopeName() }}</span></span>
+        class="ix-scope" [class.gold]="!!scopeGov()">{{ scopeName() }}</span></span>
     <div class="ix-titles">@for (s of slides; track s.k; let i = $index) {<div class="ix-tt" [class.on]="i === 0"><span
-          class="mj-panel-title">{{ s.t | t }}</span><span class="mj-chip sample">{{ tag(s.tag) }}</span></div>}</div>
+          class="mj-panel-title">{{ s.t | t }}</span></div>}</div>
   </div>
   <div class="ix-ctl"><label class="ix-sel"><span class="mj-sr">{{ 'govs' | t }}</span><select data-f="gov"
         [value]="scopeId()" (change)="pick($event)">

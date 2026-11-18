@@ -4,9 +4,7 @@
 <div class="dw-head">
   <span class="dsw mj-sw" [class]="drawer.band()"></span>
   <div class="dw-ttl">
-    <div class="mj-micro gold dw-rk"> محافظة {{ s.g.ar }}</div>
-    <!-- <div class="mj-micro gold dw-rk">{{ 'of11' | t: { n: s.rank } }} · {{ drawer.band() | t }}</div> -->
-    <!-- <h2 id="dw-title">{{ s.g.ar }}</h2> -->
+    <h2 id="dw-title">{{ title() }}</h2>
   </div>
   <button class="mj-btn icon dclose" type="button" [attr.aria-label]="'close' | t" [title]="('close' | t) + ' (Esc)'"
     (click)="state.close()">
@@ -14,8 +12,8 @@
   </button>
 </div>
 <nav class="dw-crumbs" [attr.aria-label]="'crumbsL' | t">
-  <button type="button" class="cr" data-cr="oman" (click)="state.close()"><svg [mjIcon]="'home'"></svg><span>{{
-      'crumbOman' | t }}</span></button>
+  <button type="button" class="cr" data-cr="oman" (click)="state.close()"><svg [mjIcon]="'home'"></svg><span>{{ 'tvOman'
+      | t }}</span></button>
   <span class="sep" aria-hidden="true"><svg [mjIcon]="'next'"></svg></span>
   @if (crumbWil(); as wn) {
   <button type="button" class="cr" data-cr="gov" (click)="tabGo('wil')">{{ s.g.ar }}</button>

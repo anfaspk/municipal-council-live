@@ -1,6 +1,5 @@
 @use '../mixins';
 @use '../scales' as *;
-
 .mj-focus {
   position: relative;
   border-radius: var(--radius-tile);
@@ -34,9 +33,6 @@
   margin-top: $sp-6;
   font-family: var(--font-arabic);
 }
-.fc-alt {
-  font-size: $fs-13;
-}
 .fc-big {
   display: flex;
   align-items: center;
@@ -57,12 +53,6 @@
 .fc-big .mj-ring {
   margin-inline-start: auto;
   filter: drop-shadow(0 0 8px color-mix(in srgb, var(--band) 60%, transparent));
-}
-.fc-band {
-  display: flex;
-  align-items: center;
-  gap: $sp-8;
-  flex-wrap: wrap;
 }
 .mj-chip.up {
   color: var(--declared);
@@ -136,7 +126,6 @@
 .mj-omap.compact .om-lab.is-hot .nm {
   display: block;
 }
-
 .mj-omap .act {
   pointer-events: none;
 }
@@ -166,7 +155,6 @@
   transform-box: fill-box;
   transform-origin: center;
 }
-
 .mj-focus .fc-big {
   margin: $sp-8 0 $sp-6;
 }

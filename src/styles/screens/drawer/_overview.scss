@@ -1,6 +1,5 @@
 @use '../../mixins';
 @use '../../scales' as *;
-
 .dw-hero {
   display: flex;
   align-items: center;
@@ -46,7 +45,6 @@
 .dw-ring .mj-ring text {
   font-size: $fs-20;
 }
-
 .dw-meter {
   position: relative;
   height: 12px;
@@ -90,7 +88,6 @@
   color: var(--gold-ink);
   white-space: nowrap;
 }
-
 .dw-kpis {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -117,12 +114,6 @@
   min-height: 26px;
   font-size: $fs-11-5;
   letter-spacing: 0;
-}
-.dw-k .mj-micro .mj-chip.sample {
-  height: 15px;
-  font-size: $fs-8-5;
-  padding: 0 $sp-5;
-  letter-spacing: 0.08em;
 }
 .dw-k b {
   font: 700 #{$fs-22}/ 1 var(--font-display);
@@ -179,7 +170,6 @@
     transform: scale(3);
   }
 }
-
 .dw-card {
   padding: $sp-16 $sp-18;
   border-radius: var(--radius-tile);

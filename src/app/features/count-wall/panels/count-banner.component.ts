@@ -9,6 +9,7 @@ import { CountAvatar, CountStar } from './panel-parts';
     ><b>{{ event().w.n }}</b
     ><span class="g">{{ name(event().gov) }}</span
     ><span class="w">
+      <!-- A name is followed directly by the next separator: no whitespace before the block ends. -->
       <!-- prettier-ignore -->
       @for (candidate of event().winners; track candidate.id) {@if (!$first) {<s></s>}<i [countAvatar]="candidate"></i>{{ candidate.ar }}}
     </span>`,

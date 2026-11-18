@@ -20,29 +20,25 @@ import {
   statusOf,
   tieDrawn,
 } from './count';
-
 export const photoOf = (
-  c?: { im?: string; imu?: string; iml?: string } | null,
+  c?: { im?: string; imu?: string; imm?: string; iml?: string } | null,
 ): string | undefined => {
-  for (const k of ['iml', 'imu'] as const) {
+  for (const k of ['imm', 'iml', 'imu'] as const) {
     const u = typeof c?.[k] === 'string' ? c[k].trim() : '';
     if (/^https?:\/\//i.test(u)) return u;
   }
   const f = typeof c?.im === 'string' ? c.im.trim() : '';
   return PHOTO_BASE && f ? PHOTO_BASE + f : undefined;
 };
-
 const place = (x: unknown): number | null => {
   const n = num(x);
   return n !== null && n >= 1 && Number.isInteger(n) ? n : null;
 };
-
 export interface CountAnswers {
   overall?: CountOverallResp;
   regions?: ReadonlyMap<number, CountRegionResp>;
   details?: ReadonlyMap<number, CountWilayatResp>;
 }
-
 export function reduceCount(prev: CGov[], answers: CountAnswers, winners = SHOW_WINNERS): CGov[] {
   let govs = prev;
   const { overall, regions, details } = answers;
@@ -72,7 +68,6 @@ export function reduceCount(prev: CGov[], answers: CountAnswers, winners = SHOW_
     });
   return govs;
 }
-
 export function blankWil(gid: string, id: number, n: string): CWil {
   return {
     id,
@@ -96,7 +91,6 @@ export function blankWil(gid: string, id: number, n: string): CWil {
     detail: false,
   };
 }
-
 function withGovs(govs: CGov[], refs: Ref[]): CGov[] {
   const out = govs.slice(),
     at = new Map<number, number>();
@@ -113,7 +107,6 @@ function withGovs(govs: CGov[], refs: Ref[]): CGov[] {
   });
   return sameList(out, govs) ? govs : out;
 }
-
 function withRows(g: CGov, rows: CWilRow[], detail: boolean, winners: boolean): CGov {
   const wil = g.wil.slice(),
     at = new Map<number, number>();
@@ -134,7 +127,6 @@ function withRows(g: CGov, rows: CWilRow[], detail: boolean, winners: boolean): 
   });
   return sameList(wil, g.wil) ? g : { ...g, wil };
 }
-
 function applyRow(w: CWil, r: CWilRow, detail: boolean, winners: boolean): CWil {
   const lcl = r.lCL || [],
     wcl = r.wCL || [];
@@ -174,7 +166,6 @@ function applyRow(w: CWil, r: CWilRow, detail: boolean, winners: boolean): CWil 
   next.leaders = sameList(leaders, w.leaders) ? w.leaders : leaders;
   return sameFields(next, w) ? w : next;
 }
-
 function mergeCands(cands: CCand[], rows: CCandRow[]): CCand[] {
   const by = new Map(cands.map((c) => [c.id, c]));
   const out = rows
@@ -212,7 +203,6 @@ function markWinners(cands: CCand[], rows: CCandRow[], before: CCand[]): CCand[]
   });
   return sameList(out, cands) ? cands : out;
 }
-
 function mapList<T>(list: T[], fn: (x: T) => T): T[] {
   const out = list.map(fn);
   return sameList(out, list) ? list : out;

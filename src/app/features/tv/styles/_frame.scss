@@ -1,6 +1,5 @@
 @use '../../../../styles/mixins';
 @use '../../../../styles/scales' as *;
-
 .mj-tv {
   @include mixins.cover;
   z-index: $z-screen;
@@ -64,7 +63,6 @@
     transparent 72%
   );
 }
-
 .tv-top {
   position: relative;
   display: flex;
@@ -138,7 +136,6 @@
   color: var(--ink-muted);
   letter-spacing: 0.06em;
 }
-
 .tv-body {
   --tv-extra: calc(max(0px, 100cqi - 1944px) * 0.75);
   position: relative;
@@ -182,28 +179,7 @@
   text-transform: uppercase;
   color: var(--gold-ink);
   letter-spacing: 0;
-  font-size: $fs-18;
-}
-.tv-band {
-  display: inline-flex;
-  align-items: center;
-  gap: $sp-8;
-  padding: $sp-8 $sp-14;
-  border-radius: var(--radius-pill);
-  color: var(--band-ink);
-  background: color-mix(in srgb, var(--band) 12%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--band) 40%, transparent);
-  letter-spacing: 0.06em;
-  text-transform: none;
-  font-size: $fs-15;
-}
-.tv-band::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: $radius-round;
-  background: currentcolor;
-  box-shadow: 0 0 10px currentcolor;
+  font-size: $fs-38;
 }
 .tv-name {
   margin: 0;

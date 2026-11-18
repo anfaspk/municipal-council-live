@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@angular/core';
 import { CountUpDirective } from '../../../shared/motion/count-up.directive';
-
 @Component({
   selector: 'div.dw-k',
   imports: [CountUpDirective],
-  // prettier-ignore
   template: `<span class="mj-micro">@if (live()) {<i class="dw-live"></i>}{{ label() }}</span>
     @let v = value();
     @if (v === null) {

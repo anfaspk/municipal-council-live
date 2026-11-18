@@ -1,7 +1,5 @@
 @use '../../../../../styles/scales' as *;
 @use '../../../../../styles/mixins';
-
-
 .dt-page .dt-c-flow {
   justify-content: center;
   padding-block: $sp-14;
@@ -97,13 +95,6 @@
 }
 .dt-flow .dt-step.not .dt-step-n {
   color: var(--stat-pending);
-}
-.dt-flow .dt-step-of {
-  grid-area: of;
-  color: var(--gold-ink);
-  font: 700 #{$fs-13}/ 1.2 var(--font-sans);
-  @include mixins.arabic;
-  white-space: nowrap;
 }
 .dt-flow .dt-step-bar {
   grid-area: bar;

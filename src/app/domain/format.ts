@@ -1,8 +1,6 @@
-
 export interface Named {
   ar: string;
 }
-
 const WHOLE = new Intl.NumberFormat('en-US');
 const MUSCAT_CLOCK = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Asia/Muscat',
@@ -10,13 +8,12 @@ const MUSCAT_CLOCK = new Intl.DateTimeFormat('en-GB', {
   minute: '2-digit',
   hour12: false,
 });
-
 export const fmt = (n: number): string => WHOLE.format(Math.round(n));
-
 const EPS = 1e-9;
 const two = (h: number): string => {
-  const s = String(Math.abs(h)).padStart(3, '0');
-  return (h < 0 ? '-' : '') + s.slice(0, -2) + '.' + s.slice(-2);
+  const s = String(Math.abs(h)).padStart(3, '0'),
+    d = s.slice(-2);
+  return (h < 0 ? '-' : '') + s.slice(0, -2) + (d === '00' ? '' : '.' + d);
 };
 const cutOf = (x: number): number =>
   Number.isFinite(x) ? Math.sign(x) * Math.floor(Math.abs(x) * 100 + EPS) : 0;
@@ -40,10 +37,10 @@ export function sharePct(x: number | string | null | undefined): string {
   if (x === null || x === undefined || x === '') return '';
   const m = /^(\d+)(?:\.(\d+))?$/.exec(typeof x === 'number' ? String(x) : x.trim());
   if (!m) return typeof x === 'number' ? pct(x) : '';
-  return String(+m[1]!) + '.' + ((m[2] ?? '') + '00').slice(0, 2) + '%';
+  const d = ((m[2] ?? '') + '00').slice(0, 2);
+  return String(+m[1]!) + (d === '00' ? '' : '.' + d) + '%';
 }
 export const clockStr = (ms: number): string => MUSCAT_CLOCK.format(ms);
-
 const ESC: Record<string, string> = {
   '&': '&amp;',
   '<': '&lt;',

@@ -19,7 +19,7 @@
       ><em class="mj-num">{{ text('cxGenderSplit', { m: number(gender().m), f: number(gender().f) }) }}</em>
     </div>
     <div class="cx-st l">
-      <span>{{ text('cxClosest') }}</span><!-- prettier-ignore -->
+      <span>{{ text('cxClosest') }}</span>
       <b class="mj-num">@if (resultView.closest; as close) {<bdi dir="ltr">+{{ number(close.gap) }}</bdi>} @else {—}</b
       ><em>{{ resultView.closest?.w?.n || '' }}</em>
     </div>

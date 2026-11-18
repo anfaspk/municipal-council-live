@@ -1,8 +1,6 @@
 @use '../../../../styles/mixins';
 @use '../../../../styles/scales' as *;
-
 @layer tokens, base, app, motion, states;
-
 @layer app {
   .gp-in {
     flex: 1;
@@ -21,7 +19,6 @@
     justify-content: space-evenly;
     gap: $sp-10;
   }
-
   .gp-sexes {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -98,14 +95,9 @@
     white-space: nowrap;
   }
   .gp-gap span {
-    font: 600 #{$fs-9-5}/ 1.2 var(--font-arabic);
-    color: var(--ink-muted);
-  }
-  .gp-gap b {
     font: 700 #{$fs-11-5}/ 1.2 var(--font-arabic);
     color: var(--gold-ink);
   }
-
   .gp-row {
     display: flex;
     flex-direction: column;
@@ -153,7 +145,6 @@
     color: var(--ink-muted);
     white-space: nowrap;
   }
-
   .gp-split {
     position: relative;
     display: grid;
@@ -197,7 +188,6 @@
     background: linear-gradient(90deg, var(--female-deep), var(--female));
     box-shadow: 0 0 12px color-mix(in srgb, var(--female) 45%, transparent);
   }
-
   .gp-foot {
     margin-top: $sp-8;
     padding-top: $sp-8;
@@ -206,7 +196,6 @@
     color: var(--gold-ink);
     white-space: nowrap;
   }
-
   @media (forced-colors: active) {
     .gp-in :is(.gp-fill, .gp-split, .gp-g) {
       forced-color-adjust: none;

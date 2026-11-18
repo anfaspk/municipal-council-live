@@ -11,15 +11,13 @@ import { pctOf } from '../../../domain/format';
 import { BaseField } from '../../../domain/stats/stats';
 import { BootFlag } from '../../../shared/motion/boot';
 import { Kpi, KpiTileComponent } from '../../../shared/ui/kpi-tile.component';
-
 const share = (part: number, whole: number): number => (whole ? (part / whole) * 100 : 0);
-
 @Component({
   selector: 'section.cc-kpis',
   imports: [KpiTileComponent],
   template: `<div class="mj-glass mj-tile k1" [kpi]="tiles()[0]" [value]="values()[0]" fig="kpi.population"></div>
     <div class="mj-glass mj-tile k2" [kpi]="tiles()[1]" [value]="values()[1]" fig="kpi.registered"></div>
-    <div class="mj-glass mj-tile k3" [kpi]="tiles()[2]" [value]="values()[2]" fig="kpi.regF"></div>
+    <div class="mj-glass mj-tile k3" [kpi]="tiles()[2]" [value]="values()[2]" fig="kpi.yet"></div>
     <div class="mj-glass mj-tile k4" [kpi]="tiles()[3]" [value]="values()[3]" fig="kpi.voted"></div>`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,7 +32,7 @@ export class KpisComponent {
       return [
         known('population', n.population),
         known('registered', n.registered),
-        known('regF', n.regF),
+        known('registered', n.registered - n.voted),
         n.voted,
       ];
     },
@@ -65,13 +63,13 @@ export class KpisComponent {
         instant,
       },
       {
-        label: t('registeredF'),
+        label: t('yetToVote'),
         icon: 'people',
-        ring: share(n.regF, n.registered),
-        ringColor: 'var(--female)',
-        foot: of('regF', 'registered', n.regF, n.registered) + ' ' + t('ofRegd'),
+        ring: share(n.registered - n.voted, n.registered),
+        ringColor: 'var(--gold)',
+        foot: of(null, 'registered', n.registered - n.voted, n.registered) + ' ' + t('ofRegd'),
         spark: zero,
-        sparkColor: 'var(--female)',
+        sparkColor: 'var(--gold)',
         instant,
       },
       {

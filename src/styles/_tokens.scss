@@ -22,8 +22,8 @@
   --medal-silver: var(--c-silver-300);
   --medal-bronze: var(--c-bronze-400);
   --male: var(--c-green-500);
-  --male-neon: var(--c-green-300);
-  --female: var(--c-red-500);
+  --male-neon: var(--c-green-400);
+  --female: var(--c-red-400);
   --female-deep: var(--c-red-700);
   --live: var(--c-rose-500);
   --declared: var(--c-emerald-400);
@@ -59,9 +59,6 @@
   --mv-body-edge: rgba(255, 255, 255, 0.32);
   --mv-body-glow: rgba(56, 189, 248, 0.22);
   --mv-shadow: rgba(2, 6, 24, 0.8);
-  --mv-dc-top: rgba(255, 255, 255, 0.42);
-  --mv-dc-left: rgba(255, 255, 255, 0.18);
-  --mv-dc-right: rgba(11, 20, 48, 0.55);
 }
 
 [data-theme='daylight'] {
@@ -83,9 +80,9 @@
   --medal-silver: var(--c-silver-400);
   --medal-bronze: var(--c-bronze-500);
   --male: var(--c-green-700);
-  --male-neon: var(--c-green-500);
+  --male-neon: var(--c-green-800);
   --female: var(--c-red-700);
-  --female-deep: var(--c-rose-700);
+  --female-deep: var(--c-red-800);
   --live: var(--c-rose-700);
   --declared: var(--c-emerald-800);
   --stat-voted: var(--c-emerald-800);
@@ -119,12 +116,10 @@
   --mv-body-edge: rgba(122, 88, 34, 0.45);
   --mv-body-glow: rgba(122, 88, 34, 0.22);
   --mv-shadow: rgba(122, 88, 34, 0.45);
-  --mv-dc-top: rgba(255, 255, 255, 0.9);
-  --mv-dc-left: rgba(255, 255, 255, 0.6);
-  --mv-dc-right: rgba(122, 88, 34, 0.22);
 }
 
 @media (prefers-contrast: more) {
+
   :root,
   [data-theme='night'] {
     --ink-muted: var(--c-sand-50);
@@ -133,6 +128,7 @@
     --hairline: rgba(255, 255, 255, 0.3);
     --dw-glass-stroke: rgba(255, 255, 255, 0.5);
   }
+
   [data-theme='daylight'] {
     --ink-muted: var(--c-navy-850);
     --glass-fill: rgba(255, 255, 255, 0.85);
@@ -170,9 +166,11 @@
   --c-red-400: #ff4d5e;
   --c-red-500: #e53945;
   --c-red-700: #c62834;
+  --c-red-800: #a01f2a;
   --c-rose-500: #ff3b5c;
   --c-rose-600: #d6203a;
   --c-rose-700: #c81d36;
+  --c-green-400: #4ade80;
   --c-green-500: #22c55e;
   --c-green-700: #2e7d32;
   --c-green-800: #1f5f24;
@@ -315,7 +313,6 @@
   --dur-ui: 280ms;
   --dur-panel: 700ms;
   --dur-count: 1600ms;
-  --dur-beacon: 1600ms;
   --dur-stagger: 60ms;
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -347,6 +344,7 @@
 }
 
 @include mixins.coarse {
+
   :root,
   [data-form='flow'] {
     --hit: 44px;

@@ -3,6 +3,7 @@ import { ScreenState } from '../../core/screen/screen.state';
 import { ct } from '../../core/i18n/count-strings';
 import { CEvent, CGov, CWil } from '../../domain/count/count';
 import { ListPager } from '../../shared/motion/list-pager';
+import { warmPortraits } from '../../shared/ui/portrait';
 import { govWalk, natWalk } from './count-wall.model';
 import { DrawFocus } from './draw/draw-focus';
 import { WilayatPanel } from './panels/wilayat-panel.component';
@@ -10,27 +11,19 @@ import { STATUS_LABEL } from './stage/stage-markup';
 import { Face, Origin, WallFaces } from './wall-faces';
 import { cssEscape, LiveHost, RACE_SCROLL, WallLive } from './wall-live';
 import { WallPlayback } from './wall-playback';
-
 export interface ScreensHost extends Omit<LiveHost, 'manualHold' | 'selectWil' | 'backToList'> {
   play: WallPlayback;
   wilPanel(face: Face): WilayatPanel | undefined;
   detectChanges(): void;
-
   say(text: string, polite: boolean): void;
-
   sec(): number;
 }
-
 export class WallScreens {
-
   readonly live: WallLive;
-
   private readonly drawBack = inject(DrawFocus);
   private readonly screen = inject(ScreenState);
-
   private link: string | null = null;
   private linkWil: number | null = null;
-
   private readonly pager: ListPager;
   constructor(private readonly h: ScreensHost) {
     this.pager = new ListPager(h.frames, h.play.clock, 'wall');
@@ -41,25 +34,21 @@ export class WallScreens {
       backToList: (user) => this.backToList(user),
     });
   }
-
   fromDraw(): string | null {
     const b = this.drawBack.takeBack();
     this.h.state.pendWil = b?.n ?? null;
     return b?.gid ?? null;
   }
-
   fromLink(): string | null {
     const b = this.screen.takeBootWil();
     this.linkWil = b?.wil ?? null;
     return (this.link = b?.gov ?? null);
   }
-
   regionOf(gid?: string | null): string {
     const g = this.link;
     if (g && this.h.feed.gov(g)) this.link = null;
     return gid || g || this.screen.region();
   }
-
   natHot(id: string | null): void {
     this.h.stage().natHot(id);
     this.h.faces
@@ -67,7 +56,6 @@ export class WallScreens {
       ?.querySelectorAll('.cx-gr')
       .forEach((b) => b.classList.toggle('hot', b.getAttribute('data-g') === id));
   }
-
   private candIds(w: CWil): string {
     return w.cands
       .map((c) => c.id)
@@ -92,11 +80,9 @@ export class WallScreens {
     }
     const panel = this.h.wilPanel(f);
     panel?.updateHead(gv, w);
-
     panel?.updateRace(w);
     this.h.detectChanges();
   }
-
   goNat(instant?: boolean): void {
     this.pager.stop();
     Object.assign(this.h.state, { mode: 'nat', gov: null, wil: null, natHot: null });
@@ -165,7 +151,6 @@ export class WallScreens {
     f.querySelector('.cx-w[data-w="' + wn + '"],.cxr-c[data-w="' + wn + '"]')?.classList.add('was');
     this.h.stage().returnToGovernorate();
   }
-
   planNat(): void {
     const ids = this.h.feed.govs.map((g) => g.id),
       walk = natWalk(ids.length, this.h.sec()),
@@ -181,13 +166,14 @@ export class WallScreens {
   planGov(gv: CGov): void {
     const walk = govWalk(gv.wil.length, this.h.sec()),
       clock = this.h.play.clock;
-
     const cycle = (k: number, s: number) => {
       if (k > 0) clock.at(s, () => this.h.stage().relock());
+      clock.at(s, () => this.warm(gv.wil[0]));
       gv.wil.forEach((w, i) => {
         clock.at(s + walk.hold + i * walk.per, () => {
           const cur = this.h.feed.wilById(w.id);
           if (cur) this.selectWil(cur, false);
+          this.warm(gv.wil[i + 1]);
         });
       });
       clock.at(s + walk.back, () => this.backToList(false));
@@ -195,7 +181,10 @@ export class WallScreens {
     };
     cycle(0, walk.start(0));
   }
-
+  private warm(w: CWil | undefined): void {
+    const cur = w && this.h.feed.wilById(w.id);
+    if (cur) warmPortraits(cur.cands.map((c) => c.photo));
+  }
   private page(user?: boolean): void {
     this.pager.stop();
     if (user) return;
@@ -206,7 +195,6 @@ export class WallScreens {
       wait: (ms) => clock.shift(clock.now(), ms),
     });
   }
-
   answer(e: CEvent): void {
     const state = this.h.state;
     if (e.listed) {

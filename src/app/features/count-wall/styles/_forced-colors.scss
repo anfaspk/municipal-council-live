@@ -7,10 +7,10 @@
   .cx-w:focus-visible {
     outline: 2px solid highlight;
   }
-  .cx-race :is(.rs-fill, .rs-bar i, .rs-ten i, .rs-coin) {
+  .cx-race :is(.rs-fill, .rs-bar i, .rs-coin) {
     forced-color-adjust: none;
   }
-  .cx-race :is(.rs-hero, .rs-nx, .rs-row) {
+  .cx-race :is(.rs-hero, .rs-row) {
     outline: 1px solid canvastext;
     outline-offset: -1px;
   }

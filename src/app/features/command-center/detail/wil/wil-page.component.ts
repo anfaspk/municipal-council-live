@@ -8,8 +8,7 @@ import {
 } from '@angular/core';
 import { TurnoutStore } from '../../../../data/turnout.store';
 import { Counts } from '../../../../domain/stats/stats';
-import { band, turnout } from '../../../../domain/stats/turnout';
-import { GaugeComponent } from '../../../../shared/ui/gauge.component';
+import { turnout } from '../../../../domain/stats/turnout';
 import { BandStripComponent } from '../charts/band-strip.component';
 import { DetailHold } from '../detail-hold';
 import { dt } from '../detail-strings';
@@ -24,9 +23,6 @@ import { compareModel, flowModel } from '../parts/place.model';
 import { RhythmComponent } from '../parts/rhythm.component';
 import { LocatorCardComponent } from './locator-card.component';
 import { VillagesComponent } from './villages.component';
-
-const GAUGE = 204;
-
 @Component({
   selector: 'div[dtWilPage]',
   imports: [
@@ -35,7 +31,6 @@ const GAUGE = 204;
     CompareComponent,
     DtTPipe,
     FlowComponent,
-    GaugeComponent,
     GenderComponent,
     LocatorCardComponent,
     RhythmComponent,
@@ -50,12 +45,9 @@ export class WilPageComponent {
   readonly wid = input.required<number>();
   readonly rank = input<number | null>(null);
   readonly of = input<number | null>(null);
-
   private readonly stats = inject(TurnoutStore);
   private readonly detail = inject(DetailState);
   private readonly hold = inject(DetailHold);
-  protected readonly gauge = GAUGE;
-
   protected readonly gov = computed(() => this.stats.gov(this.gid()));
   protected readonly wil = computed(() => this.gov()?.wils.find((w) => w.id === this.wid()));
   private readonly own = computed(() => {
@@ -70,7 +62,6 @@ export class WilPageComponent {
     const w = this.wil();
     return w ? turnout(w) : 0;
   });
-  protected readonly band = computed(() => band(this.t()));
   protected readonly cmp = computed(() => {
     const g = this.gov(),
       w = this.wil();
@@ -102,7 +93,6 @@ export class WilPageComponent {
   protected readonly strip = computed(() =>
     (this.villages() ?? []).map((v) => ({ id: v.id, name: v.ar, t: v.t })),
   );
-
   protected sibling(wil: number): void {
     this.detail.sibling({ gov: this.gid(), wil });
   }

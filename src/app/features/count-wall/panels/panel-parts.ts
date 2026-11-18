@@ -3,25 +3,37 @@ import {
   Component,
   computed,
   input,
+  signal,
   ViewEncapsulation,
 } from '@angular/core';
 import { CCand, CSt } from '../../../domain/count/count';
 import { ct } from '../../../core/i18n/count-strings';
 import { fmt, pctOf } from '../../../domain/format';
 import { starPoints } from '../../../shared/ui/ornament';
-
+import { markBroken, picLoaded, portraitOk, portraitReady } from '../../../shared/ui/portrait';
 @Component({
   selector: 'i[countAvatar], span[countAvatar]',
-  // prettier-ignore
-  template: `@if (candidate().photo) {<img [src]="candidate().photo" alt="" decoding="async" />} @else {{{ candidate().ini }}}`,
-  host: { class: 'cx-av', '[class.ph]': '!!candidate().photo' },
+  template: `@if (photo(); as p) {<b>{{ candidate().ini }}</b><img class="mj-pic" [class.on]="now()" [class.now]="now()" [src]="p" alt="" decoding="async" (load)="loaded($event)" (error)="failed()" />} @else {{{ candidate().ini }}}`,
+  host: { class: 'cx-av', '[class.ph]': '!!photo()' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountAvatar {
   readonly candidate = input.required<CCand>({ alias: 'countAvatar' });
+  private readonly bad = signal<string | null>(null);
+  protected readonly photo = computed(() => {
+    const p = this.candidate().photo;
+    return p !== this.bad() && portraitOk(p) ? p : null;
+  });
+  protected readonly now = computed(() => portraitReady(this.photo()));
+  protected loaded(e: Event): void {
+    picLoaded(e.target as Element);
+  }
+  protected failed(): void {
+    markBroken(this.photo());
+    this.bad.set(this.photo());
+  }
 }
-
 @Component({
   selector: 'svg[countStar]',
   template: '<svg:polygon [attr.points]="points" />',
@@ -32,7 +44,6 @@ export class CountAvatar {
 export class CountStar {
   protected readonly points = starPoints(12, 12, 11);
 }
-
 @Component({
   selector: 'svg[countStatus]',
   template: `@let g = geometry();
@@ -74,7 +85,6 @@ export class CountStatus {
     };
   });
 }
-
 @Component({
   selector: 'div[countStats]',
   template: `<div class="cx-st c">
@@ -115,7 +125,6 @@ export class CountStats {
     return this.fig() ? this.fig() + '.' + k : null;
   }
 }
-
 @Component({
   selector: 'div.cx-th',
   template: `<span>{{ first() }}</span

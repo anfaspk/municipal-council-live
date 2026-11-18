@@ -93,8 +93,8 @@ export class App {
       else this.stats.stop();
     });
     effect((onCleanup) => {
-      if (this.clock.counting() && !this.screen.is('dashboard') && !this.screen.is('tv')) return;
       if (this.stats.ready()) return forgetDown();
+      if (this.clock.counting() && !this.screen.is('dashboard') && !this.screen.is('tv')) return;
       if (this.clock.phase() === 'live')
         onCleanup(watchDown(API_BASE + '/' + endpoints.statsOverall.path));
     });

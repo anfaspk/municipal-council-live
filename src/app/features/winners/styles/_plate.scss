@@ -1,5 +1,5 @@
+@use '../../../../styles/mixins';
 @use '../../../../styles/scales' as *;
-
 .wn-elect {
   position: relative;
   z-index: $z-3;
@@ -40,7 +40,6 @@
   width: 20px;
   height: 20px;
 }
-
 .wn-plate {
   position: relative;
   width: 100%;
@@ -74,17 +73,16 @@
   pointer-events: none;
 }
 .wn-cname {
-  display: -webkit-box;
+  --cap: #{$fs-28};
+  @include mixins.ellipsis;
   margin: 0;
   max-width: 100%;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
   font: 700 #{$fs-28}/ 1.35 var(--font-sans);
-  text-wrap: balance;
+  font-size: clamp(#{$fs-12}, calc((var(--cw) - 2 * #{$sp-24}) * 2 / var(--len, 1)), var(--cap));
+  line-height: calc(var(--cap) * 1.35);
 }
 .wn-cards.many .wn-cname {
-  font-size: $fs-21;
+  --cap: #{$fs-21};
 }
 .wn-fig {
   display: flex;
@@ -141,7 +139,6 @@
   animation: wn-grow $t-1500 var(--ease-expo) both;
   animation-delay: calc(var(--at) + #{$t-1400});
 }
-
 .wn-card.wait .wn-frame {
   background: color-mix(in srgb, var(--wn-sky-0) 70%, transparent);
   box-shadow: none;
@@ -180,10 +177,12 @@
 }
 .wn-card.wait .wn-cname {
   font-size: $fs-21;
+  line-height: 1.35;
+  white-space: normal;
+  text-wrap: balance;
   font-weight: 600;
   color: var(--wn-plate-muted);
 }
-
 @keyframes wn-stamp {
   0% {
     transform: scale(1.9);

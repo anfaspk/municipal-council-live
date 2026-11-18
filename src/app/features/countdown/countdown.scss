@@ -1,8 +1,6 @@
 @use '../../../styles/scales' as *;
 @use '../../../styles/mixins';
-
 @layer tokens, base, app, motion, states;
-
 @layer app {
   .mj-countdown {
     position: fixed;
@@ -11,6 +9,12 @@
     place-items: center;
     overflow: hidden;
     text-align: center;
+  }
+  .mj-countdown .cdn-full {
+    position: absolute;
+    inset-block-start: calc(var(--safe-top) + #{$sp-16});
+    inset-inline-end: calc(var(--safe-left) + #{$sp-16});
+    z-index: $z-2;
   }
   .mj-countdown .cdn-in {
     position: relative;
@@ -22,10 +26,20 @@
     padding: $sp-24 $sp-16;
     width: min(1100px, 100%);
   }
-  .mj-countdown .cdn-logo {
+  .mj-countdown .cdn-logos {
+    display: flex;
+    align-items: center;
+    gap: clamp($sp-14, 2.4vh, $sp-24);
+  }
+  .mj-countdown .cdn-logos img {
     display: block;
     height: clamp(64px, 12vh, 120px);
     width: auto;
+  }
+  .mj-countdown .cdn-logos i {
+    inline-size: 1px;
+    block-size: clamp(40px, 8vh, 80px);
+    background: var(--hairline);
   }
   .mj-countdown .cdn-title {
     margin: 0;
@@ -68,10 +82,8 @@
   .mj-countdown .cdn-note {
     opacity: 0.7;
   }
-
   .mj-countdown.cdn-flow {
     @include mixins.frame;
-
     overflow-y: auto;
     place-items: safe center;
     padding-block: var(--safe-top) var(--safe-bottom);
@@ -82,8 +94,6 @@
     width: min(560px, 100%);
   }
   .cdn-flow .cdn-logos {
-    display: flex;
-    align-items: center;
     gap: $sp-14;
     margin-block-end: $sp-10;
   }

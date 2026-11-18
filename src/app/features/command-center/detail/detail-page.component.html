@@ -28,8 +28,14 @@
       <button type="button" class="dt-navb dt-prev" [disabled]="!h.prev" [attr.aria-label]="h.prev ? ('dtPrev' | dtT: { p: h.prev.name }) : ('dtPrev0' | dtT)" [title]="h.prev ? ('dtPrev' | dtT: { p: h.prev.name }) : ''" (click)="h.prev && go(h.prev.at, true)"><svg [mjIcon]="'next'"></svg><span>{{ h.prev?.name ?? ('dtPrev0' | dtT) }}</span></button>
       <button type="button" class="dt-navb dt-next" [disabled]="!h.next" [attr.aria-label]="h.next ? ('dtNext' | dtT: { p: h.next.name }) : ('dtNext0' | dtT)" [title]="h.next ? ('dtNext' | dtT: { p: h.next.name }) : ''" (click)="h.next && go(h.next.at, true)"><span>{{ h.next?.name ?? ('dtNext0' | dtT) }}</span><svg [mjIcon]="'prev'"></svg></button>
     </div>
-    <button type="button" class="mj-btn icon dt-close" [attr.aria-label]="'dtClose' | dtT" [title]="('dtClose' | dtT) + ' (Esc)'" (click)="go(null)"><svg [mjIcon]="'close'"></svg></button>
+    @let gt = gaugeT();
+    @if (gt !== null) {
+      <div class="gwrap dt-hgauge" [size]="gauge" [label]="'dtKind.' + h.level | dtT" [sub]="h.title ?? ''" [value]="gt" [gid]="'dtg'" [changeMs]="1400"></div>
+    } @else {
+      <div class="dt-skel dial dt-hgauge" aria-hidden="true"></div>
+    }
   </div>
+  <button type="button" class="mj-btn icon dt-close" [attr.aria-label]="'dtClose' | dtT" [title]="('dtClose' | dtT) + ' (Esc)'" (click)="go(null)"><svg [mjIcon]="'close'"></svg></button>
   @if (h.level === 'gov') {
     <div class="dt-grid" dtGovPage [gid]="detail.at()?.gov ?? ''" [rank]="h.rank" [of]="h.of"></div>
   } @else if (h.level === 'wil') {

@@ -1,33 +1,18 @@
 @use '../../../../../styles/scales' as *;
 @use '../../../../../styles/mixins';
-
-
-.dt-page .dt-c-gauge {
-  position: relative;
-  z-index: $z-3;
-  display: grid;
-  place-items: center;
-  min-width: 0;
-  animation: dt-in $t-700 var(--ease-expo) $t-100 both;
-}
-.dt-page .dt-c-gauge .dt-skel.dial {
-  width: 180px;
-  height: 180px;
-  border-radius: $radius-round;
-}
-
 .dt-page .dt-c-cmp {
   position: relative;
-  z-index: $z-3;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: $sp-10;
+  gap: $sp-12;
   min-width: 0;
-  padding-block: $sp-18;
-  padding-inline: $sp-28 $sp-12;
-  margin-inline-end: $sp-56;
+  padding: $sp-18 $sp-22;
+  border-radius: var(--radius-panel);
   animation: dt-in $t-700 var(--ease-expo) $t-200 both;
+}
+:is(.dt-wil, .dt-vil) .dt-c-cmp {
+  padding-inline-end: $sp-60;
 }
 .dt-cmpb .dt-cmp-rows {
   display: flex;
@@ -39,7 +24,7 @@
 }
 .dt-cmpb .dt-cmp-row {
   display: grid;
-  grid-template-columns: 128px minmax(0, 1fr) 84px;
+  grid-template-columns: 104px minmax(0, 1fr) 84px;
   align-items: center;
   gap: $sp-14;
 }

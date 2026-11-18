@@ -1,6 +1,5 @@
 @use '../mixins';
 @use '../scales' as *;
-
 .hero-in {
   display: grid;
   grid-template-columns: 236px minmax(0, 1fr) 200px;
@@ -14,9 +13,9 @@
   flex-direction: column;
 }
 .hero-title {
-  font: 600 #{$fs-22}/ 28px var(--font-sans);
-  color: var(--ink);
-  margin: $sp-10 0 $sp-30;
+  font: 600 #{$fs-24}/ 28px var(--font-sans);
+  color: var(--gold-ink);
+  margin: 0 0 $sp-30;
   letter-spacing: 0;
   white-space: nowrap;
   font-family: var(--font-arabic);
@@ -85,16 +84,4 @@
 [data-theme='daylight'] .hs.voted b,
 [data-theme='daylight'] .hs.yet b {
   text-shadow: none;
-}
-.hero-stats .cap {
-  font-size: $fs-14;
-  line-height: 16px;
-  color: var(--ink-muted);
-  @include mixins.ellipsis;
-}
-.hs.voted .cap span,
-.hs.yet .cap span {
-  color: var(--ink);
-  font-weight: 600;
-  font-family: var(--font-display);
 }

@@ -1,7 +1,6 @@
 @use 'sass:list';
 @use '../../../../styles/mixins';
 @use '../../../../styles/scales' as *;
-
 .ctv-root {
   position: absolute;
   inset: 0;
@@ -9,8 +8,6 @@
   height: 100%;
   z-index: $z-screen;
 }
-
-
 .ct-st {
   display: inline-flex;
   align-items: center;
@@ -36,33 +33,11 @@ $chips: (
     color: #{$c};
   }
 }
-
-
 @keyframes ctc-spin {
   to {
     transform: rotate(360deg);
   }
 }
-
-.ct-tv .ctv-glow {
-  @include mixins.cover;
-  pointer-events: none;
-  background: radial-gradient(
-    46% 60% at 26% 54%,
-    color-mix(in srgb, var(--data-cyan) 10%, transparent),
-    transparent 70%
-  );
-}
-.ct-root .mj-lattice {
-  mask-image:
-    linear-gradient(90deg, transparent 900px, #000 964px),
-    linear-gradient(180deg, #000 110px, transparent 150px, transparent 930px, #000 975px),
-    linear-gradient(
-      color-mix(in srgb, #000 40%, transparent),
-      color-mix(in srgb, #000 40%, transparent)
-    );
-}
-
 .ctv-pill {
   display: inline-flex;
   align-items: center;
@@ -126,13 +101,11 @@ $chips: (
   box-shadow: none;
   animation: none;
 }
-
 .ctv-name {
   margin: 0;
   font: 700 #{$fs-76}/ 1.02 var(--font-sans);
   @include mixins.arabic;
 }
-
 .ctv-name .alt {
   font: 600 0.62em/1 var(--font-arabic);
   color: var(--gold-ink);
@@ -141,14 +114,12 @@ $chips: (
   letter-spacing: -0.02em;
   font-size: 0.55em;
 }
-
 .tva-opts .tva-sep {
   flex: none;
   width: 1px;
   height: 24px;
   background: var(--hairline);
 }
-
 .cx {
   @include mixins.cover;
   z-index: $z-2;
@@ -171,7 +142,6 @@ $chips: (
 .cx-next {
   opacity: 1;
 }
-
 .mj-tv .tv-dash {
   position: absolute;
   top: calc(var(--tv-title-y) + $sp-14);
@@ -194,7 +164,6 @@ $chips: (
 .ct-tv .tva-state {
   inset-inline-end: 38%;
 }
-
 .tv-prog i.cur {
   height: 6px;
 }
@@ -202,7 +171,6 @@ $chips: (
   transform: none;
   box-shadow: 0 0 10px var(--gold);
 }
-
 .cxg {
   flex: none;
   overflow: visible;

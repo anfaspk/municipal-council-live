@@ -1,13 +1,6 @@
 @let d = data();
 @let t = turnoutNow();
-<div class="dt-c-gauge" [class]="band() ?? ''">
-  @if (t !== null) {
-    <div class="gwrap" [size]="gauge" [label]="'dtKind.vil' | dtT" [sub]="row()?.ar ?? ''" [value]="t" [gid]="'dtg'" [changeMs]="1400"></div>
-  } @else {
-    <div class="dt-skel dial" aria-hidden="true"></div>
-  }
-</div>
-<div class="dt-c-cmp dt-cmpb" [model]="cmp()" [name]="row()?.ar ?? '…'"></div>
+<div class="dt-c-cmp dt-cmpb mj-glass" [model]="cmp()"></div>
 <section class="dt-card dt-c-flow mj-glass" [style.--j]="0" aria-labelledby="dt-h-flow">
   <h3 class="mj-sr" id="dt-h-flow">{{ 'dtFlowT' | dtT }}</h3>
   @if (flow(); as f) {
@@ -48,7 +41,7 @@
 <section class="dt-card dt-c-ages mj-glass" [style.--j]="3" aria-labelledby="dt-h-ages">
   <span class="mj-crenel"></span>
   <div class="mj-panel-head dt-chd">
-    <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-ages">{{ 'dtT.ages' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.ages' | dtT }}</p></div>
+    <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-ages">{{ 'dtT.ages' | dtT }}</h3></div>
   </div>
   @if (d) {
     <div class="dt-ageb" [ages]="d.ages?.voted ?? null"></div>
@@ -60,7 +53,7 @@
 <section class="dt-card dt-c-gender mj-glass" [style.--j]="4" aria-labelledby="dt-h-gender">
   <span class="mj-crenel"></span>
   <div class="mj-panel-head dt-chd">
-    <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-gender">{{ 'dtT.gender' | dtT }}</h3><p class="mj-panel-title dt-cs">{{ 'dtS.gender' | dtT }}</p></div>
+    <div class="mj-ph-l"><h3 class="mj-micro gold dt-ch" id="dt-h-gender">{{ 'dtT.gender' | dtT }}</h3></div>
   </div>
   @if (d) {
     <div class="dt-gnd" [reg]="d.reg" [voted]="d.voted"></div>

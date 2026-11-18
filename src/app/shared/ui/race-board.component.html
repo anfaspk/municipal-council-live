@@ -6,9 +6,9 @@
     <div class="rs-por"><span class="rs-av lg" mjRaceAv [cand]="c"></span><span class="rs-coin mj-num"
         aria-hidden="true">{{ c.seat }}</span></div>
     <div class="rs-hi">
-      <span class="rs-lead"><svg [mjIcon]="'crown'"></svg>{{ 'resSeat' | t: { n: c.seat } }}@if
+      <span class="rs-lead"><svg [mjIcon]="'crown'"></svg>{{ (c.seat <= 2 ? 'resSeat' + c.seat : 'resSeat') | t: { n: c.seat } }}@if
         (drawWins().includes(c.id)) {<em class="rs-drawn">{{ 'resDrawn' | t }}</em>}</span>
-      <b class="rs-nm">{{ c.name }}</b>
+      <b class="rs-nm" [mjFitLine]="c.name">{{ c.name }}</b>
       <div class="rs-v"><b class="mj-num rs-val" [mjCountUp]="c.v" [countDuration]="1400" countGroup="rs"></b>@if
         (c.share !== null) {<span class="rs-sh mj-num"><bdi>{{ c.share | share }}</bdi></span>}</div>
       @if (c.mo; as m) {
@@ -32,7 +32,7 @@
         aria-hidden="true">{{ nx.rank }}</span></div>
     <div class="rs-hi">
       <span class="rs-lead">{{ 'resSeat' | t: { n: nx.rank } }}</span>
-      <b class="rs-nm">{{ nx.name }}</b>
+      <b class="rs-nm" [mjFitLine]="nx.name">{{ nx.name }}</b>
       <div class="rs-v"><b class="mj-num rs-val" [mjCountUp]="nx.v" [countDuration]="1400" countGroup="rs"></b>@if
         (nx.share !== null) {<span class="rs-sh mj-num"><bdi>{{ nx.share | share }}</bdi></span>}</div>
       <span class="rs-need mj-num">{{ 'resNeed' | t: { n: (nx.need | fmt), s: r.seats } }}@if (nx.trend; as tr) {<em
@@ -54,7 +54,7 @@
     <div class="rs-row" [attr.data-id]="c.id" [style.--d]="c.d" [style.--w]="c.w">
       <i class="rs-fill"></i><span class="rs-rk mj-num">{{ c.rank }}</span><span class="rs-av sm" mjRaceAv
         [cand]="c"></span>
-      <span class="rs-nm">{{ c.name }}</span><span class="rs-fig"><b class="mj-num rs-val">{{ c.v | fmt }}</b>@if
+      <span class="rs-nm" [mjFitLine]="c.name">{{ c.name }}</span><span class="rs-fig"><b class="mj-num rs-val">{{ c.v | fmt }}</b>@if
         (c.share !== null) {<span class="rs-sh mj-num"><bdi>{{ c.share | share }}</bdi></span>}</span>
     </div>
     }

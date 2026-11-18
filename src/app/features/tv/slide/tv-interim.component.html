@@ -21,7 +21,7 @@
                   <div class="tv-seat" [style.--k]="k < 8 ? k : 8">
                     <span class="tv-iav md" mjRaceAv [cand]="c"></span>
                     <div class="who">
-                      <span class="tv-ih-badge"><svg [mjIcon]="'crown'"></svg>{{ (f.seats > 1 ? 'resSeat' : 'intLead') | t: { n: k + 1 } }}</span>
+                      <span class="tv-ih-badge"><svg [mjIcon]="'crown'"></svg>{{ (f.seats > 1 ? (k < 2 ? 'resSeat' + (k + 1) : 'resSeat') : 'intLead') | t: { n: k + 1 } }}</span>
                       <b class="nm">{{ c.name }}</b>
                     </div>
                     <div class="pc"><b class="mj-num" [attr.data-fig]="'tv.int.' + c.id + '.votes'">{{ c.v | fmt }}</b><span class="mj-num" [attr.data-fig]="'tv.int.' + c.id + '.share'">{{ c.vP | share }}</span></div>

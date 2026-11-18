@@ -61,6 +61,8 @@ const STR: Record<string, string> = {
   cxTabRace: 'السباق كاملًا',
   cxTabsL: 'طرق عرض نتيجة الولاية',
   cxSeat: 'المركز {n}',
+  cxSeat1: 'الفائز الاول',
+  cxSeat2: 'الفائز الثاني',
   cxVotesW: 'صوتًا',
   cxOfValid: 'من الأصوات المدلى بها',
   cxMarginL: 'الفارق عن {n}',

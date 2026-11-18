@@ -17,6 +17,7 @@ import { CDraw, drawFromCount, tieKind, tieReopened } from '../../../domain/conf
 import { CWil } from '../../../domain/count/count';
 import { ct } from '../../../core/i18n/count-strings';
 import { fmt, sharePct } from '../../../domain/format';
+import { FitLineDirective } from '../../../shared/ui/fit-line.directive';
 import { IconComponent } from '../../../shared/ui/icon.component';
 import { RaceBoardComponent } from '../../../shared/ui/race-board.component';
 import { raceView } from '../../../shared/ui/race-board.model';
@@ -30,7 +31,7 @@ const NONE: readonly string[] = [];
 @Component({
   selector: 'div[countRacePanel]',
   templateUrl: './race-panel.component.html',
-  imports: [CountStatus, IconComponent, RaceBoardComponent],
+  imports: [CountStatus, FitLineDirective, IconComponent, RaceBoardComponent],
   host: { '[class.rs-enter]': 'entering()' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

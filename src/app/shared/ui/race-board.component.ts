@@ -13,6 +13,7 @@ import { CountUpDirective, CountUpGroup } from '../motion/count-up.directive';
 import { FRAME_SCOPE, FrameLoop } from '../motion/frame-loop.service';
 import { reducedMotion } from '../motion/reduced-motion';
 import { restartAnimation } from '../motion/restart-animation';
+import { FitLineDirective } from './fit-line.directive';
 import { FmtPipe, SharePipe } from './format.pipes';
 import { IconComponent } from './icon.component';
 import { RaceAvatarComponent } from './race-avatar.component';
@@ -38,7 +39,7 @@ function placeOf(n: HTMLElement, board: HTMLElement): { x: number; y: number } {
 }
 @Component({
   selector: 'div[mjRaceBoard]',
-  imports: [CountUpDirective, FmtPipe, SharePipe, TPipe, IconComponent, RaceAvatarComponent],
+  imports: [CountUpDirective, FitLineDirective, FmtPipe, SharePipe, TPipe, IconComponent, RaceAvatarComponent],
   providers: [CountUpGroup],
   host: { class: 'rs-race', '[class.rs-dense]': 'grid().dense' },
   templateUrl: './race-board.component.html',

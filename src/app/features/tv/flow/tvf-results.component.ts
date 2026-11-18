@@ -43,7 +43,7 @@ import { TvfTPipe } from './tvf-t.pipe';
               @for (c of f.leaders; track c.id; let k = $index) {
                 <article class="tvf-seat" [class.one]="f.seats < 2">
                   <span class="tvf-av" [class]="f.seats > 1 ? 'md' : 'lg'" mjRaceAv [cand]="c"></span>
-                  <div class="tvf-who"><span class="tvf-badge"><svg tvfIcon="crown"></svg>{{ (f.seats > 1 ? 'resSeat' : 'intLead') | tvfT: { n: k + 1 } }}</span><b class="tvf-nm">{{ c.name }}</b></div>
+                  <div class="tvf-who"><span class="tvf-badge"><svg tvfIcon="crown"></svg>{{ (f.seats > 1 ? (k < 2 ? 'resSeat' + (k + 1) : 'resSeat') : 'intLead') | tvfT: { n: k + 1 } }}</span><b class="tvf-nm">{{ c.name }}</b></div>
                   <div class="tvf-vp"><b [attr.data-fig]="'tv.int.' + c.id + '.votes'">{{ c.v | fmt }}</b><span [attr.data-fig]="'tv.int.' + c.id + '.share'">{{ c.vP | share }}</span></div>
                 </article>
               }

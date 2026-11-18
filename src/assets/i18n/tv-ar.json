@@ -7,6 +7,8 @@
   "resSeatsN": "عدد الأعضاء: {n}",
   "resCands": "{n|cand}",
   "resSeat": "المركز {n}",
+  "resSeat1": "الفائز الاول",
+  "resSeat2": "الفائز الثاني",
   "resDrawn": "بالقرعة",
   "resNextIn": "التالي في الترتيب",
   "resNeed": "الفارق {n|vote} عن المركز {s}",

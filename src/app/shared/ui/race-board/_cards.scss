@@ -141,14 +141,12 @@
   filter: drop-shadow(0 0 8px var(--gold-glow));
 }
 .rs-hero .rs-nm {
-  display: -webkit-box;
+  display: block;
+  align-self: stretch;
   max-width: 100%;
-  overflow: hidden;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   font: 700 #{$fs-28}/ 1.28 var(--font-arabic);
   letter-spacing: 0;
-  text-wrap: balance;
+  @include mixins.ellipsis;
 }
 .rs-v {
   display: flex;

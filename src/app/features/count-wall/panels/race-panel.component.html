@@ -27,7 +27,7 @@
           <rect x="3.5" y="2.5" width="13" height="15" rx="2.5" />
           <path d="M7.5 7.5l5 5M12.5 7.5l-5 5" /></svg
       ></span>
-      <span class="rs-nm">{{ text('cxNota') }}</span>
+      <span class="rs-nm" [mjFitLine]="text('cxNota')">{{ text('cxNota') }}</span>
       <span class="rs-fig"><b class="mj-num rs-val">{{ number(w.nota || 0) }}</b>@if (w.notaP !== null) {<span class="rs-sh mj-num"><bdi>{{ share(w.notaP) }}</bdi></span>}</span>
     </div>
   </div>

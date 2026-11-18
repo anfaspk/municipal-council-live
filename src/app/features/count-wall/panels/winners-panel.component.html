@@ -10,7 +10,7 @@
     <div class="cxr-card" [style.--k]="k">
       <span class="seat"
         ><i class="mj-num">{{ k + 1 }}</i
-        >{{ text('cxSeat', { n: k + 1 }) }}</span
+        >{{ text(k < 2 ? 'cxSeat' + (k + 1) : 'cxSeat', { n: k + 1 }) }}</span
       ><span class="por"
         ><i class="ring"></i><span class="xl" [countAvatar]="c"></span
         ><i class="badge"><svg countStar></svg>{{ text('cxWinner') }}</i></span

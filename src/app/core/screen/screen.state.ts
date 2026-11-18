@@ -17,6 +17,7 @@ import {
   loadScreenPrefs,
   govOfWil,
   parseScreenBoot,
+  winnersSearch,
   wilIds,
   readReload,
   RELOAD_GUARD,
@@ -91,6 +92,7 @@ export class ScreenState {
 
   private apply(s: Screen): void {
     if (this._screen() === s) return;
+    if (this._screen() === 'winners') this.address(winnersSearch(location.search, undefined));
     this._screen.set(s);
     if (s !== 'dashboard') return;
     this._built.set(true);
@@ -105,6 +107,14 @@ export class ScreenState {
     };
     restore();
     afterNextRender(restore, { injector: this.injector });
+  }
+
+  winnersAddress(region: string | null): void {
+    if (this.is('winners')) this.address(winnersSearch(location.search, region));
+  }
+  private address(search: string): void {
+    if (search === location.search) return;
+    history.replaceState(history.state, '', location.pathname + search + location.hash);
   }
 
   leave(s: Screen): void {

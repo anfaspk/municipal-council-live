@@ -9,7 +9,7 @@
   <section class="cc-kpis" data-boot [inert]="paged" [attr.aria-label]="'kpisL' | t"></section>
   <section class="cc-map mj-glass" data-boot [inert]="covered" [attr.aria-label]="'map' | t" (pointerenter)="tourEnter()" (pointerleave)="tourLeave()" (focusin)="tourFocus(true)" (focusout)="tourFocus(false, $event)"><span class="mj-crenel"></span>
     <div class="map-rail mj-z"></div>
-    <div class="map-wrap mj-z"><div class="map-stage" dir="ltr"></div><div class="map-bands mj-glass raised" [govs]="stats.govs()"></div></div>
+    <div class="map-wrap mj-z"><div class="map-stage" dir="ltr"></div></div>
     <div class="map-focus mj-z"></div></section>
   <div class="cc-side" [inert]="covered"><section class="cc-age ix-card mj-glass" data-boot [attr.aria-label]="'ixTabs' | t"><span class="mj-crenel"></span><div class="ixw mj-z"></div></section>
     <section class="cc-podium mj-glass" data-boot [attr.aria-label]="'podium' | t"></section></div>

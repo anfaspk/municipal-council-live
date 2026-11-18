@@ -32,8 +32,9 @@ export interface WilPoint {
 export const wilPoints = (g: Gov): WilPoint[] =>
   g.wils.map((r) => ({ id: r.id, name: r.name, t: r.reg ? (r.voted / r.reg) * 100 : 0 }));
 
-export const sideFill = (b: Band, last: boolean): string =>
-  'color-mix(in oklab, var(--band-' + b + ') ' + (last ? 70 : 52) + '%, #02040c)';
+export const regionFill = (id: string): string => 'var(--gov-' + id + ')';
+export const sideFill = (fill: string, last: boolean): string =>
+  'color-mix(in oklab, ' + fill + ' ' + (last ? 70 : 52) + '%, #02040c)';
 
 const state = (hot: boolean, pinned: boolean): string =>
   (hot ? ' is-hot' : '') + (pinned ? ' is-pinned' : '');

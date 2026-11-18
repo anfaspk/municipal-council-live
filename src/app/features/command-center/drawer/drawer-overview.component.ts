@@ -68,7 +68,7 @@ export class DrawerOverviewComponent {
       yetSub: pctOf(g.reg - g.voted, g.reg) + ' ' + t('remainingWord'),
       top: dSort(s.rows, 'turnout', (r) => r.name).slice(0, 3),
       count: s.rows.length,
-      color: 'var(--band-' + b + ')',
+      color: 'var(--rg)',
       spark: sparkGeom(curve.vals, 540, 92, { min: 0, max: Math.max(100, tg) }),
       hours: hourLabels(curve.from, curve.to, 5),
     };

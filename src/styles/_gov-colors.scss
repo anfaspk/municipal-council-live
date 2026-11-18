@@ -1,0 +1,56 @@
+
+:root {
+  --c-steel-600: #638caa;
+  --c-steel-550: #6c96bc;
+  --c-terracotta-600: #a76550;
+  --c-terracotta-500: #bc745d;
+  --c-dusk-700: #4c6a81;
+  --c-dusk-600: #5f819b;
+  --c-stone-400: #b5a891;
+  --c-stone-450: #aba08d;
+  --c-aqua-200: #a4dbd1;
+  --c-aqua-300: #96d0c5;
+  --c-rosewood-600: #b07482;
+  --c-rosewood-550: #b2738a;
+  --c-peach-400: #dea287;
+  --c-peach-450: #d69a80;
+  --c-sand-300: #e5d09f;
+  --c-sand-400: #d8c493;
+  --c-sea-600: #378f95;
+  --c-sea-500: #3f9da3;
+  --c-sage-400: #84ae97;
+  --c-sage-450: #7eac92;
+  --c-lavender-400: #ad97ce;
+  --c-lavender-450: #a98fce;
+
+  --gov-shade: var(--c-navy-950);
+}
+
+:root,
+[data-theme='night'] {
+  --gov-1: var(--c-steel-550);
+  --gov-2: var(--c-terracotta-500);
+  --gov-3: var(--c-dusk-600);
+  --gov-4: var(--c-stone-450);
+  --gov-5: var(--c-aqua-300);
+  --gov-6: var(--c-rosewood-550);
+  --gov-7: var(--c-peach-450);
+  --gov-8: var(--c-sand-400);
+  --gov-9: var(--c-sea-500);
+  --gov-10: var(--c-sage-450);
+  --gov-11: var(--c-lavender-450);
+}
+
+[data-theme='daylight'] {
+  --gov-1: var(--c-steel-600);
+  --gov-2: var(--c-terracotta-600);
+  --gov-3: var(--c-dusk-700);
+  --gov-4: var(--c-stone-400);
+  --gov-5: var(--c-aqua-200);
+  --gov-6: var(--c-rosewood-600);
+  --gov-7: var(--c-peach-400);
+  --gov-8: var(--c-sand-300);
+  --gov-9: var(--c-sea-600);
+  --gov-10: var(--c-sage-400);
+  --gov-11: var(--c-lavender-400);
+}

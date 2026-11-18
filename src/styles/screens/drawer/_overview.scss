@@ -1,5 +1,6 @@
 @use '../../mixins';
 @use '../../scales' as *;
+
 .dw-hero {
   display: flex;
   align-items: center;
@@ -45,6 +46,7 @@
 .dw-ring .mj-ring text {
   font-size: $fs-20;
 }
+
 .dw-meter {
   position: relative;
   height: 12px;
@@ -56,16 +58,12 @@
   position: absolute;
   width: var(--t);
   border-radius: inherit;
-  box-shadow: 0 0 16px -2px var(--band);
+  box-shadow: 0 0 16px -2px var(--rg);
   transition: width $t-1000 var(--ease-expo);
   inset-block: 0;
   inset-inline: 0 auto;
   transform-origin: right center;
-  background: linear-gradient(
-    270deg,
-    color-mix(in srgb, var(--band) 55%, transparent),
-    var(--band)
-  );
+  background: linear-gradient(270deg, color-mix(in srgb, var(--rg) 55%, transparent), var(--rg));
 }
 .dw-meter em {
   position: absolute;
@@ -88,6 +86,7 @@
   color: var(--gold-ink);
   white-space: nowrap;
 }
+
 .dw-kpis {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -170,6 +169,7 @@
     transform: scale(3);
   }
 }
+
 .dw-card {
   padding: $sp-16 $sp-18;
   border-radius: var(--radius-tile);

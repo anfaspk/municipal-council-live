@@ -24,6 +24,7 @@ import { ranksOf } from '../../../domain/rank';
 import { Gov } from '../../../domain/stats/stats';
 import { indexGovs } from '../../../domain/stats/gov-index';
 import { Band, band, turnout } from '../../../domain/stats/turnout';
+import { govShade } from '../../../shared/ui/gov-shade';
 
 interface RailRow {
   id: string;
@@ -135,7 +136,7 @@ export class GovRailComponent {
   });
   readonly name = name;
   readonly band = band;
-  readonly turnout = turnout;
+  readonly shade = govShade;
 
   constructor() {
     effect(() => {

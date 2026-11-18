@@ -22,7 +22,7 @@ import { uid } from '../../../shared/ui/uid';
 import { name, pct } from '../../../domain/format';
 import { GEO } from '../../../domain/geo/geo.data';
 import { Gov } from '../../../domain/stats/stats';
-import { band, bandFill, turnout } from '../../../domain/stats/turnout';
+import { band, turnout } from '../../../domain/stats/turnout';
 import { CommandCenterState } from '../command-center.state';
 import { guard } from '../../../core/log/log';
 import { easeExpo } from '../../../shared/motion/easing';
@@ -76,7 +76,7 @@ export class OmanMapComponent implements AfterViewInit {
   private drillId: string | null = null;
   private zoomTw: FrameHandle | null = null;
   private wil!: MapWilayat;
-  private pats!: MapDom['pats'];
+  private grid!: MapDom['grid'];
   private sparks!: MapSparks;
 
   constructor() {
@@ -136,7 +136,7 @@ export class OmanMapComponent implements AfterViewInit {
     ({
       svg: this.svg,
       layers: this.layers,
-      pats: this.pats,
+      grid: this.grid,
       gReg: this.gReg,
       nodes: this.nodes,
     } = dom);
@@ -188,11 +188,6 @@ export class OmanMapComponent implements AfterViewInit {
       hot = g.id === this.current,
       pinned = g.id === this.pin;
     n.g.setAttribute('class', M.regionClass(b, hot, pinned));
-    n.sides.forEach((s, i) => {
-      s.style.fill = M.sideFill(b, i === M.SIDE_LAYERS - 1);
-    });
-    n.top.style.fill = bandFill(p);
-    n.pat.style.fill = b === 'high' ? 'none' : 'url(#' + this.id + '-' + b + ')';
     n.lab.className = M.labelClass(b, hot, pinned, !!M.LABEL_OFFSET[g.id]);
     n.nm.textContent = g.ar;
     n.pc.textContent = pct(p);
@@ -252,9 +247,7 @@ export class OmanMapComponent implements AfterViewInit {
     this.layers.forEach((l) => l.setAttribute('viewBox', vb));
     this.zs = Math.max(1, M.zoomOf(this.vb, this.VB0, this.tags.size));
     const k = (1 / this.zs).toFixed(4);
-    this.pats[0].setAttribute('patternTransform', 'scale(' + k + ') rotate(45)');
-    this.pats[1].setAttribute('patternTransform', 'scale(' + k + ')');
-    this.pats[2].setAttribute('patternTransform', 'scale(' + k + ')');
+    this.grid.setAttribute('patternTransform', 'scale(' + k + ')');
   }
   private wilEmit(n: string | null): void {
     if (n === this.wil.hot) return;

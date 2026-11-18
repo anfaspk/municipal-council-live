@@ -89,7 +89,8 @@ export class App {
       else this.stats.needRegions(this, 'all');
     });
     effect(() => {
-      if (this.clock.phase() === 'live') this.stats.start();
+      const winners = this.clock.counting() && this.screen.is('winners');
+      if (this.clock.phase() === 'live' && !winners) this.stats.start();
       else this.stats.stop();
     });
     effect((onCleanup) => {

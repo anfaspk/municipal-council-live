@@ -5,7 +5,7 @@ import { pathRings, Pt } from '../../../domain/geo/shapes';
 import { Gov } from '../../../domain/stats/stats';
 import { setMarkup, svgEl as el } from '../../../shared/ui/markup';
 import { mapDefs } from './oman-map-defs';
-import { LABEL_OFFSET, SIDE_LAYERS } from './oman-map.model';
+import { LABEL_OFFSET, regionFill, sideFill, SIDE_LAYERS } from './oman-map.model';
 
 export interface MapNode {
   h?: number;
@@ -14,7 +14,6 @@ export interface MapNode {
   g: SVGElement;
   sides: SVGElement[];
   top: SVGElement;
-  pat: SVGElement;
   act: SVGElement;
   edge: SVGElement;
   raised: SVGElement[];
@@ -27,7 +26,7 @@ export interface MapNode {
 export interface MapDom {
   svg: SVGElement;
   layers: SVGElement[];
-  pats: [SVGElement, SVGElement, SVGElement];
+  grid: SVGElement;
   gReg: SVGElement;
   gWil: SVGElement;
   nodes: Record<string, MapNode>;
@@ -48,8 +47,7 @@ export function buildMap(
   const svg = layer('om-svg', { role: 'group', 'aria-label': t('map') });
   const defs = el('defs', null, svg);
   setMarkup(defs, mapDefs(id));
-  const patternOf = (k: string) => defs.querySelector<SVGElement>('#' + id + '-' + k)!,
-    pats: MapDom['pats'] = [patternOf('low'), patternOf('mid'), patternOf('grid')];
+  const grid = defs.querySelector<SVGElement>('#' + id + '-grid')!;
   const ref = (k: string) => '#' + id + '-' + k,
     url = (k: string) => 'url(#' + id + '-' + k + ')';
   el('use', { href: ref('ol'), class: 'om-shadow', filter: url('soft') }, ground);
@@ -71,7 +69,6 @@ export function buildMap(
     const sides: SVGElement[] = [];
     for (let s = 0; s < SIDE_LAYERS; s++) sides.push(el('use', { ...shape, class: 'side' }, grp));
     const top = el('use', { ...shape, class: 'top' }, grp);
-    const pat = el('use', { ...shape, class: 'pat' }, grp);
     const act = el('g', { class: 'act', 'clip-path': url('c-' + g.id) }, grp);
     const edge = el('use', { ...shape, class: 'edge' }, grp);
     const [cx, cy] = GEO.g[g.id]!.c;
@@ -84,16 +81,22 @@ export function buildMap(
     nm.className = 'nm';
     lab.append(nm, pc);
     labels.appendChild(lab);
+    const fill = regionFill(g.id);
+    sides.forEach((s, i) => {
+      s.style.fill = sideFill(fill, i === SIDE_LAYERS - 1);
+    });
+    top.style.fill = fill;
     top.style.fillOpacity = '1.00';
+    grp.style.setProperty('--rg', fill);
+    lab.style.setProperty('--rg', fill);
     const rs = pathRings(GEO.g[g.id]!.d);
-    const raised = [top, pat, edge, act, hit];
+    const raised = [top, edge, act, hit];
     nodes[g.id] = {
       ax: 0,
       ay: 0,
       g: grp,
       sides,
       top,
-      pat,
       act,
       edge,
       raised,
@@ -104,5 +107,5 @@ export function buildMap(
       rs,
     };
   });
-  return { svg, layers: [ground, halo, svg], pats, gReg, gWil, nodes };
+  return { svg, layers: [ground, halo, svg], grid, gReg, gWil, nodes };
 }

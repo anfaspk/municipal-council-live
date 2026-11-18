@@ -120,7 +120,6 @@ export class FlowFollowComponent {
         else this.countStore.stop(this);
         if (win) {
           this.winners.watch(+f!.gov);
-          this.winners.show(f!.wil);
         } else if (this.screen.is('dashboard') && this.winners.region() === (f ? +f.gov : -1))
           this.winners.watch(null);
       });

@@ -43,8 +43,7 @@
 .map-rail .mj-row .mb {
   display: none;
 }
-.map-rail .mj-row .nm b,
-.map-bands .bl b {
+.map-rail .mj-row .nm b {
   font-size: $fs-13;
 }
 .map-rail .mj-crown {
@@ -57,33 +56,4 @@
 }
 .map-wrap .map-stage {
   @include mixins.cover;
-}
-.map-bands {
-  position: absolute;
-  bottom: 0;
-  inset-inline-start: 0;
-  z-index: $z-6;
-  width: 206px;
-  padding: $sp-12 $sp-14;
-  border-radius: var(--radius-tile);
-}
-.map-bands > * {
-  position: relative;
-  z-index: $z-3;
-}
-.map-bands .bandlist {
-  display: grid;
-  gap: $sp-7;
-  margin-top: $sp-8;
-}
-.map-bands .bl {
-  display: grid;
-  grid-template-columns: 12px 1fr auto;
-  gap: $sp-8;
-  align-items: center;
-  font-size: $fs-11-5;
-}
-.map-bands .bl .mj-sw {
-  width: 12px;
-  height: 12px;
 }

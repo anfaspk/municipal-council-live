@@ -4,6 +4,7 @@ import { DetailState } from '../detail/detail.state';
 import { VillageDetail } from '../../../domain/stats/place';
 import { Gov } from '../../../domain/stats/stats';
 import { band, National, turnout } from '../../../domain/stats/turnout';
+import { govShade } from '../../../shared/ui/gov-shade';
 import { bandCounts, dRows, DRow, dTop, SortKey, Tab, villageList } from './drawer.model';
 
 export interface DrawerSnap {
@@ -34,6 +35,10 @@ export class DrawerState {
     return s ? turnout(s.g) : 0;
   });
   readonly band = computed(() => band(this.gt()));
+  readonly shade = computed(() => {
+    const s = this.snap();
+    return s ? govShade(s.g.id) : null;
+  });
   readonly w = computed(() => {
     const s = this.snap(),
       n = this.wil();

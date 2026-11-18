@@ -5,7 +5,7 @@
       <div class="dw-big"><b class="mj-num" [mjCountUp]="v.t" [countFormat]="'pctNum'" [countDuration]="1000" [countGroup]="'ov'"></b><small>%</small></div>
       <div class="dw-chips">
         <span class="mj-chip sm" [class.up]="v.delta >= 0" [class.down]="v.delta < 0">{{ v.deltaText }}</span>
-        <span class="dw-bandl"><i class="mj-sw" [class]="v.band" [title]="v.band | t"></i>{{ v.band | t }}</span>
+        <span class="dw-bandl">{{ v.band | t }}</span>
       </div>
     </div>
     <div class="dw-ring" role="img" [attr.aria-label]="'of11' | t: { n: v.rank }">

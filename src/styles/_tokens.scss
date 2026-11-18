@@ -119,7 +119,6 @@
 }
 
 @media (prefers-contrast: more) {
-
   :root,
   [data-theme='night'] {
     --ink-muted: var(--c-sand-50);
@@ -128,7 +127,6 @@
     --hairline: rgba(255, 255, 255, 0.3);
     --dw-glass-stroke: rgba(255, 255, 255, 0.5);
   }
-
   [data-theme='daylight'] {
     --ink-muted: var(--c-navy-850);
     --glass-fill: rgba(255, 255, 255, 0.85);
@@ -238,7 +236,6 @@
   --shadow-ink-70: rgba(0, 0, 0, 0.7);
   --shadow-ink-80: rgba(0, 0, 0, 0.8);
   --shadow-ink-85: rgba(0, 0, 0, 0.85);
-  --pattern-ink-24: rgba(0, 0, 0, 0.24);
   --pattern-ink-30: rgba(0, 0, 0, 0.3);
   --pattern-ink-42: rgba(0, 0, 0, 0.42);
   --pattern-ink-45: rgba(0, 0, 0, 0.45);
@@ -344,7 +341,6 @@
 }
 
 @include mixins.coarse {
-
   :root,
   [data-form='flow'] {
     --hit: 44px;

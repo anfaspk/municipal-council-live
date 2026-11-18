@@ -26,7 +26,6 @@ import { num } from '../domain/stats/stats';
 import { Issue } from '../domain/stats/check';
 import { checkCountOverall, checkCountRegion, checkCountWilayat } from '../domain/validate/answers';
 import { log } from '../core/log/log';
-import { CountNames } from './count-names';
 import { IssueLog } from './issue-log';
 import { StaleClock } from './stale-clock';
 import { TurnoutStore } from './turnout.store';
@@ -118,19 +117,6 @@ export class CountStore {
       this.wanted();
       this.clock.counting();
       untracked(() => this.sync());
-    });
-    const names = inject(CountNames);
-    effect(() => {
-      const govs = this.state();
-      untracked(() =>
-        govs.forEach((g) =>
-          names.take(
-            [[g.apiId, g.ar]],
-            g.wil.map((w) => [w.id, w.ar] as const),
-            g.wil.length ? g.apiId : undefined,
-          ),
-        ),
-      );
     });
     effect((onCleanup) => {
       if (!this.screenN() || !this.clock.counting()) return;

@@ -120,13 +120,6 @@ export function winnersOf(r: WinnerResp, prev: WRegion | null = null): WRegion {
   return prev ? kept(next, prev) : next;
 }
 
-export function wilOf(r: WinnerResp, wid: number, prev: WWil | null = null): WWil | null {
-  const row = (Array.isArray(r?.wL) ? r.wL : []).find((x) => x?.w?.i === wid);
-  if (!row) return null;
-  const last = prev ? { id: r?.r?.i ?? 0, name: r?.r?.n || '', wils: [prev] } : null;
-  return winnersOf({ ...r, wL: [row] }, last).wils[0] ?? null;
-}
-
 const NONE: WCand[] = [];
 export interface WRow {
   id: number;
@@ -140,16 +133,14 @@ export function regionOf(
   prev: WRegion | null = null,
 ): WRegion {
   const old = new Map((prev?.wils ?? []).map((w) => [w.id, w]));
-  const wils = [...rows]
-    .sort((a, b) => AR.compare(a.ar, b.ar) || a.id - b.id)
-    .map(
-      (r): WWil =>
-        read.get(r.id) ??
-        kept(
-          { id: r.id, name: r.ar, seats: null, published: false, winners: NONE, unread: true },
-          old.get(r.id),
-        ),
-    );
+  const wils = rows.map(
+    (r): WWil =>
+      read.get(r.id) ??
+      kept(
+        { id: r.id, name: r.ar, seats: null, published: false, winners: NONE, unread: true },
+        old.get(r.id),
+      ),
+  );
   const next: WRegion = { id, name, wils: prev ? keptList(wils, prev.wils) : wils };
   return prev ? kept(next, prev) : next;
 }

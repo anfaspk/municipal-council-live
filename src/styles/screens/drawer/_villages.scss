@@ -264,13 +264,13 @@
   flex: none;
   width: 120px;
   height: 120px;
-  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--band) 35%, transparent));
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--rg) 20%, transparent));
 }
 .dw-ring svg {
   display: block;
 }
 .dw-ring .arc {
-  stroke: var(--band);
+  stroke: var(--rg);
   transition: stroke-dasharray $t-1000 var(--ease-expo);
 }
 .dw-rr {

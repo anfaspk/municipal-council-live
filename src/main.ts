@@ -7,8 +7,11 @@ import { log } from './app/core/log/log';
 import { isAcceptPath } from './app/domain/conflict/accept-path';
 import { isAppPath, leaveFor } from './app/core/screen/error-page';
 import { loadKit } from './app/kit-entry';
+import { openGate } from './app/features/lock/gate';
 
 async function root() {
+  if (!(await openGate()))
+    return (await import('./app/features/lock/lock.component')).LockComponent;
   if (loadKit && new URLSearchParams(location.search).has('kit')) return loadKit();
   if (isAcceptPath(location.pathname))
     return (await import('./app/features/accept/accept.component')).AcceptComponent;

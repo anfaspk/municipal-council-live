@@ -1,5 +1,4 @@
-import { computed, DestroyRef, effect, inject, Injectable, untracked } from '@angular/core';
-import { TurnoutStore } from '../../data/turnout.store';
+import { computed, inject, Injectable } from '@angular/core';
 import { WinnersStore } from '../../data/winners.store';
 import { announcedOf, WRegion } from '../../domain/winners/winners';
 import { wt } from './winners-strings';
@@ -17,16 +16,8 @@ function named(r: WRegion | null): WRegion | null {
 @Injectable()
 export class WinnersView {
   private readonly store = inject(WinnersStore);
-  private readonly stats = inject(TurnoutStore);
 
-  readonly cards = computed(() => {
-    const byStats = new Map(
-      this.stats.govs().map((g) => [g.id, { name: g.ar, wils: g.wils.length }]),
-    );
-    return govCards(byStats).map((c) =>
-      c.name ? c : { ...c, name: this.store.govName(c.apiId) || wt('wnGovWord') },
-    );
-  });
+  readonly cards = computed(() => govCards());
   readonly sums = this.store.summaries;
   readonly data = computed(() => named(this.store.data()));
   readonly load = this.store.load;
@@ -37,12 +28,4 @@ export class WinnersView {
     const at = this.store.updatedAt();
     return at ? wt(this.store.stale() ? 'wnStale' : 'wnUpdated', { at }) : null;
   });
-
-  constructor() {
-    effect(() => {
-      const want = this.store.namesWanted();
-      if (want !== undefined) untracked(() => this.store.askNames(want));
-    });
-    inject(DestroyRef).onDestroy(() => this.store.dropNames());
-  }
 }

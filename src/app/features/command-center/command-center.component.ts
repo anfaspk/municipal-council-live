@@ -17,15 +17,14 @@ import { SCREEN_FRAME, ScreenState } from '../../core/screen/screen.state';
 import { t } from '../../core/i18n/i18n';
 import { TickerStore } from '../../data/ticker.store';
 import { TurnoutStore } from '../../data/turnout.store';
+import { govShade } from '../../shared/ui/gov-shade';
 import { ScreenEvent, ScreenUpdates } from '../screens/screen-updates';
 import { name, pct } from '../../domain/format';
-import { band, bandFill, turnout } from '../../domain/stats/turnout';
 import { boot, BootFlag } from '../../shared/motion/boot';
 import { reducedMotion } from '../../shared/motion/reduced-motion';
 import { RemoteNav } from '../../shared/motion/remote-nav';
 import { keyOf } from '../../shared/motion/screen-keys';
 import { AmbientComponent } from '../../shared/ui/ambient.component';
-import { BandLegendComponent } from '../../shared/ui/band-legend.component';
 import { ConfettiComponent } from '../../shared/ui/confetti.component';
 import { HorizonComponent } from '../../shared/ui/horizon.component';
 import { starPoints } from '../../shared/ui/ornament';
@@ -57,7 +56,6 @@ import { DetailRecoverDirective } from './detail/detail-recover.directive';
     HeaderComponent,
     HeroComponent,
     TickerComponent,
-    BandLegendComponent,
     KpisComponent,
     GovRailComponent,
     PodiumComponent,
@@ -189,14 +187,13 @@ export class CommandCenterComponent implements AfterViewInit {
       rb = root.getBoundingClientRect(),
       sc = rb.width / root.offsetWidth || 1,
       sw = drEl.querySelector<HTMLElement>('.dsw'),
-      tg = turnout(g);
+      fill = govShade(id);
     const ghost = document.createElement('div');
     ghost.style.cssText =
       'position:absolute;z-index:58;border-radius:14px;pointer-events:none;transform-origin:0 0;background:' +
-      bandFill(tg) +
-      ';box-shadow:0 0 30px var(--band-' +
-      band(tg) +
-      ')';
+      fill +
+      ';box-shadow:0 0 30px ' +
+      fill;
     const x0 = (rect.left - rb.left) / sc,
       y0 = (rect.top - rb.top) / sc,
       w0 = Math.max(8, rect.width / sc),

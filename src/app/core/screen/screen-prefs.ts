@@ -65,6 +65,17 @@ export function parseScreenBoot(
   return out;
 }
 
+export function winnersSearch(search: string, region: string | null | undefined): string {
+  const q = new URLSearchParams(search);
+  for (const k of ['screen', 'region', 'wil']) q.delete(k);
+  if (region !== undefined) {
+    q.set('screen', 'winners');
+    if (region) q.set('region', region);
+  }
+  const out = q.toString();
+  return out ? '?' + out : '';
+}
+
 export const wilIds = (wilPt: Record<string, readonly { i: number }[]>): number[] =>
   Object.values(wilPt).flatMap((l) => l.map((p) => p.i));
 export function govOfWil(

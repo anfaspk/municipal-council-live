@@ -1,5 +1,6 @@
 @use '../../mixins';
 @use '../../scales' as *;
+
 .mj-drawer.dw {
   width: 620px;
   box-shadow:
@@ -15,7 +16,7 @@
   background:
     radial-gradient(
       120% 100% at 18% -10%,
-      color-mix(in srgb, var(--band) 34%, transparent),
+      color-mix(in srgb, var(--rg) 16%, transparent),
       transparent 62%
     ),
     radial-gradient(
@@ -46,7 +47,7 @@
   flex: none;
   box-shadow:
     0 0 0 1px var(--ring-light) inset,
-    0 10px 26px -8px var(--band);
+    0 8px 20px -10px var(--rg);
 }
 .dw-ttl {
   flex: 1;
@@ -265,6 +266,7 @@
 .dw-pane > * + * {
   margin-top: $sp-14;
 }
+
 .mj-drawer.dw-new * {
   transition: none !important;
 }

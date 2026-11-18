@@ -1,14 +1,17 @@
 @use 'mixins';
 @use 'scales' as *;
+
 .mj-icons {
   position: absolute;
   width: 0;
   height: 0;
   overflow: hidden;
 }
+
 .mj-track {
   stroke: var(--hairline);
 }
+
 .mj-chip {
   display: inline-flex;
   align-items: center;
@@ -90,6 +93,10 @@
   background-image: none;
   box-shadow: inset 0 0 0 1.5px var(--pattern-ring);
 }
+.mj-sw.rg {
+  background: var(--rg);
+  box-shadow: inset 0 0 0 1px var(--ring-light);
+}
 @each $b in low, mid, high {
   .#{$b} {
     --band: var(--band-#{$b});
@@ -101,6 +108,7 @@
   font-weight: 600;
   color: var(--ink-muted);
 }
+
 .mj-swipe-x,
 .mj-swipe-y {
   -webkit-touch-callout: none;
@@ -112,6 +120,7 @@
 .mj-swipe-y {
   touch-action: pan-x;
 }
+
 .mj-btn {
   display: inline-flex;
   align-items: center;

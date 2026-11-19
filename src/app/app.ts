@@ -89,8 +89,9 @@ export class App {
       else this.stats.needRegions(this, 'all');
     });
     effect(() => {
-      const winners = this.clock.counting() && this.screen.is('winners');
-      if (this.clock.phase() === 'live' && !winners) this.stats.start();
+      const on = this.screen.heading(),
+        countOnly = this.clock.counting() && on !== 'dashboard' && on !== 'tv';
+      if (this.clock.phase() === 'live' && !countOnly) this.stats.start();
       else this.stats.stop();
     });
     effect((onCleanup) => {

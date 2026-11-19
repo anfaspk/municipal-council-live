@@ -1,5 +1,6 @@
 import {
   afterNextRender,
+  computed,
   Injector,
   effect,
   Injectable,
@@ -50,6 +51,8 @@ export class ScreenState {
   private readonly _region = signal(this.boot.region ?? this.prefs.region);
   private readonly _rotation = signal<Rotation>(this.prefs.rotation);
   readonly screen = this._screen.asReadonly();
+  private readonly _toward = signal<Screen | null>(null);
+  readonly heading = computed(() => this._toward() ?? this._screen());
   readonly built = this._built.asReadonly();
   readonly region = this._region.asReadonly();
   readonly rotation = this._rotation.asReadonly();
@@ -87,7 +90,11 @@ export class ScreenState {
     const was = this._screen();
     if (s === was) return;
     if (was === 'dashboard') this.origin = document.activeElement;
-    this.swap(() => this.apply(s), false);
+    this._toward.set(s);
+    this.swap(() => {
+      if (this._toward() === s) this._toward.set(null);
+      this.apply(s);
+    }, false);
   }
 
   private apply(s: Screen): void {

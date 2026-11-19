@@ -82,6 +82,7 @@ export class CountStore {
   private readonly wanted = signal(0);
   private readonly screens = new Set<object>();
   private readonly screenN = signal(0);
+  private readonly holds = new Set<() => boolean>();
 
   get govs(): CGov[] {
     return this.state();
@@ -123,6 +124,10 @@ export class CountStore {
       if (this._ready()) return forgetDown();
       onCleanup(watchDown(API_BASE + '/' + endpoints.countOverall.path));
     });
+  }
+  holdDetails(check: () => boolean): () => void {
+    this.holds.add(check);
+    return () => this.holds.delete(check);
   }
   focus(gid: string | null): void {
     this.focusGov = gid;
@@ -199,8 +204,11 @@ export class CountStore {
         const w = index.wil(id);
         return (index.govOf(id)?.id === this.focusGov ? 2 : 0) + (w?.conflict || w?.drawn ? 1 : 0);
       };
-    const dirty = [...this.dirty].sort((a, b) => rank(b) - rank(a)),
-      want = dirty.slice(0, (first ? dirty.filter((id) => rank(id) > 0).length : 0) + DETAIL_MAX);
+    const leaving = [...this.holds].some((h) => h()),
+      dirty = [...this.dirty].sort((a, b) => rank(b) - rank(a)),
+      want = leaving
+        ? []
+        : dirty.slice(0, (first ? dirty.filter((id) => rank(id) > 0).length : 0) + DETAIL_MAX);
     const det = await Promise.allSettled(
       want.map((id) => this.api.get(endpoints.countWilayat(id), { signal })),
     );

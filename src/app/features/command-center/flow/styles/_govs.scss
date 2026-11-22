@@ -157,14 +157,6 @@ li.fl-prow {
   transform-origin: right center;
   transition: transform var(--dur-card) var(--ease-std);
 }
-.fl-track.ref::after {
-  content: '';
-  position: absolute;
-  inset-block: -$sp-4;
-  inset-inline-start: calc(var(--ref) * 100%);
-  inline-size: 2px;
-  background: var(--gold-ink);
-}
 
 .fl-map {
   inline-size: 100%;

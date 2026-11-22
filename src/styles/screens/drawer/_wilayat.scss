@@ -18,17 +18,6 @@
   inset-inline: 0 auto;
   transform-origin: right center;
 }
-.dw-br em {
-  position: absolute;
-  top: -$sp-4;
-  bottom: -$sp-4;
-  inset-inline-start: var(--a);
-  width: 2px;
-  margin-inline-start: -$sp-1;
-  border-radius: $r-2;
-  background: var(--ink);
-  opacity: 0.75;
-}
 
 .dw-wl {
   display: flex;

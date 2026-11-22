@@ -163,7 +163,11 @@ export class CountFlowComponent {
     });
     effect(() => {
       const p = this.place();
-      if (this.isOpen()) untracked(() => this.store.focus(p.k === 'nat' ? null : p.gid));
+      if (this.isOpen())
+        untracked(() => {
+          this.store.focus(p.k === 'nat' ? null : p.gid);
+          this.store.want(p.k === 'wil' ? p.wid : null);
+        });
     });
     signageWalk({
       host: this.host,
@@ -287,7 +291,7 @@ export class CountFlowComponent {
   protected share(): void {
     const w = this.view.wil();
     if (!w) return;
-    const url = location.origin + location.pathname + '?screen=wall&wil=' + w.id;
+    const url = location.origin + location.pathname + '?screen=counting&wil=' + w.id;
     void shareLink({ title: w.ar, text: cf('cfTitle') + ' · ' + w.ar, url });
   }
   protected play(): void {

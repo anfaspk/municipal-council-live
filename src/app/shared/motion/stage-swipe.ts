@@ -1,6 +1,7 @@
 import { gestureOf, type TrackPoint } from './gesture.model';
 
-const OWN = 'button, select, input, a[href], [data-pages], .rs-grid, .wn-wils, .cxd-rows';
+const OWN =
+  'button, select, input, a[href], [data-pages], .rs-grid, .wn-wils, .cxd-rows, .tv-ih-rest';
 
 export function watchStageSwipe(el: HTMLElement, go: (step: 1 | -1) => void): () => void {
   let id: number | null = null,

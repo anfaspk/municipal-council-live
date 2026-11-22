@@ -117,9 +117,6 @@ export class TvFlowComponent extends TvfPlayer {
   constructor() {
     super();
     this.still.set(reducedMotion() || this.prefs.still);
-    this.walker.left = () => this.walkLeft();
-    this.walker.wait = (ms) => this.walkWait(ms);
-    this.walker.still = () => this.still();
     effect(() => this.view.comp.set(this.comp()));
     inject(ScreenUpdates)
       .tv.pipe(takeUntilDestroyed())
@@ -144,7 +141,9 @@ export class TvFlowComponent extends TvfPlayer {
       const now = this.inter();
       untracked(() => {
         if (now) this.tabs.open();
-        if (this.isOpen() && this.keys().length && now !== this.walking()) this.show(this.k());
+        if (!this.isOpen() || !this.keys().length || now === this.walking()) return;
+        const r = this.screen.region();
+        this.show(now && r !== 'nat' ? this.keyIndex(r) : this.k());
       });
     });
     effect(() => {
@@ -305,13 +304,6 @@ export class TvFlowComponent extends TvfPlayer {
       };
       this.show(to[a.to], true);
     }
-  }
-
-  private walkWait(ms: number): void {
-    if (this.comp() !== 'sign' || !this.walking()) return;
-    this.clock.shift(this.clock.now(), ms);
-    if (this.walkEnd !== null) this.walkEnd += ms;
-    this.fill(this.walkLeft());
   }
 
 

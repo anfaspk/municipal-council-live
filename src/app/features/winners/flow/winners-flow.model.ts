@@ -24,7 +24,7 @@ export const govOfKey = (k: unknown): string | null =>
   typeof k === 'string' && /^g\d+$/.test(k) ? k.slice(1) : null;
 
 export const wilUrl = (base: string, gov: string, wil: number): string =>
-  base + '?screen=winners&region=' + gov + '&wil=' + wil;
+  base + '?screen=winner&region=' + gov + '&wil=' + wil;
 
 export function candShare(c: WCand, w: WWil): string {
   const wil = titled(w.name, wf('wnWilayat'));

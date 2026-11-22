@@ -55,7 +55,7 @@ const two = (n: number) => (n < 10 ? '0' : '') + n;
     <main class="cdn-in">
       <span class="cdn-logos"><img [attr.src]="logos().moi.src" [attr.srcset]="logos().moi.srcset" [alt]="s().moi" decoding="async" width="790" height="875"><i aria-hidden="true"></i><img [attr.src]="logos().el.src" [attr.srcset]="logos().el.srcset" [alt]="s().title" decoding="async" width="1000" height="1082"></span>
       <h1 class="cdn-title">{{ s().title }}</h1>
-      <div class="mj-micro cdn-sub">{{ s().sub }}</div>
+      <!-- <div class="mj-micro cdn-sub">{{ s().sub }}</div> -->
       <div class="cdn-opens mj-micro gold">{{ s().opens }}</div>
       <div class="cdn-clock" role="timer" [attr.aria-label]="left()">
         @for (u of units(); track u.k) {

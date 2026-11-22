@@ -18,7 +18,7 @@ import { fp } from './page-strings';
   host: { class: 'fl-list fl-pg-list' },
   template: `@for (r of view(); track r.id) {<li><button type="button" class="fl-row" (click)="pick.emit(r.id)">
       <span class="fl-rank" [class]="r.band">{{ r.rank }}</span>
-      <span class="fl-row-main"><b>{{ r.name }}</b><span class="fl-track" [class.ref]="tick() !== null" [style.--ref]="tick()" aria-hidden="true"><span class="fl-fill" [class]="r.band" [style.--k]="r.k"></span></span></span>
+      <span class="fl-row-main"><b>{{ r.name }}</b><span class="fl-track" aria-hidden="true"><span class="fl-fill" [class]="r.band" [style.--k]="r.k"></span></span></span>
       <span class="fl-row-end"><b class="fl-ink" [class]="r.band">{{ r.pct }}</b><small>{{ r.votes }}</small></span>
       <svg class="fl-go" flIcon="back"></svg></button></li>}`,
   encapsulation: ViewEncapsulation.None,
@@ -26,7 +26,6 @@ import { fp } from './page-strings';
 })
 export class PageListComponent {
   readonly rows = input.required<readonly RankRow<number>[]>();
-  readonly tick = input<number | null>(null);
   readonly pick = output<number>();
   protected readonly view = computed(() =>
     this.rows().map((r) => {

@@ -39,7 +39,7 @@
                 <span class="tv-ih-line">{{ 'intLine' | t: votes(f.margin) }}</span>
               }
             </div>
-            <div class="tv-ih-rest" #list data-pages tabindex="0" [attr.aria-label]="(f.leaders.length ? 'intRest' : 'intAll') | t">
+            <div class="tv-ih-rest" tabindex="0" [attr.aria-label]="(f.leaders.length ? 'intRest' : 'intAll') | t">
               @for (b of f.rest; track b.c.id; let k = $index) {
                 <div class="tv-ir" [style.--k]="k < 12 ? k : 12">
                   <span class="p mj-num">{{ b.c.pos }}</span>

@@ -35,8 +35,7 @@ const CYCLE = 10_000;
       <p class="fl-foot">{{ g.gap }}</p></article>
     <article mjSnapItem class="fl-card fl-ins-card" #wilCard><p class="fl-micro">{{ 'flInsMicro' | flT: { i: 2, n: 3 } }}</p><h2 class="fl-h2">{{ 'ixWilT' | t }}</h2>
       @let w = wil();
-      <ol class="fl-lead">@for (r of w.rows; track $index) {@if (r) {<li><span class="fl-rank" [class]="r.band">{{ $index + 1 }}</span><span class="fl-row-main"><b>{{ r.name }}</b><small>{{ r.sub }}</small><span class="fl-track ref" [style.--ref]="w.ref / 100" aria-hidden="true"><span class="fl-fill" [class]="r.band" [style.--k]="r.t / 100"></span></span></span><b class="fl-ink" [class]="r.band">{{ pct(r.t) }}</b></li>}}</ol>
-      <p class="fl-foot">{{ 'flWilRef' | flT: { r: w.refLabel } }}</p></article>
+      <ol class="fl-lead">@for (r of w.rows; track $index) {@if (r) {<li><span class="fl-rank" [class]="r.band">{{ $index + 1 }}</span><span class="fl-row-main"><b>{{ r.name }}</b><small>{{ r.sub }}</small><span class="fl-track" aria-hidden="true"><span class="fl-fill" [class]="r.band" [style.--k]="r.t / 100"></span></span></span><b class="fl-ink" [class]="r.band">{{ pct(r.t) }}</b></li>}}</ol></article>
     <article mjSnapItem class="fl-card fl-ins-card"><p class="fl-micro">{{ 'flInsMicro' | flT: { i: 3, n: 3 } }}</p><h2 class="fl-h2">{{ 'flAgeT' | flT }}</h2>
       @let a = age();
       <p class="fl-say small">{{ a.head }}</p>

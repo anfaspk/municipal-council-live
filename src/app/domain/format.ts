@@ -26,9 +26,12 @@ export function hundredthsOf(part: number, whole: number): number {
   else if ((q + 1) * b <= a) q++;
   return q;
 }
+export const LRM = '\u200E';
+const percent = (n: string): string => LRM + n + '%';
 export const pctNum = (x: number): string => two(cutOf(x));
-export const pct = (x: number): string => pctNum(x) + '%';
-export const pctOf = (part: number, whole: number): string => two(hundredthsOf(part, whole)) + '%';
+export const pct = (x: number): string => percent(pctNum(x));
+export const pctOf = (part: number, whole: number): string =>
+  percent(two(hundredthsOf(part, whole)));
 export const pts = (x: number): string => {
   const h = cutOf(x);
   return (h < 0 ? '' : '+') + two(h);
@@ -38,7 +41,7 @@ export function sharePct(x: number | string | null | undefined): string {
   const m = /^(\d+)(?:\.(\d+))?$/.exec(typeof x === 'number' ? String(x) : x.trim());
   if (!m) return typeof x === 'number' ? pct(x) : '';
   const d = ((m[2] ?? '') + '00').slice(0, 2);
-  return String(+m[1]!) + (d === '00' ? '' : '.' + d) + '%';
+  return percent(String(+m[1]!) + (d === '00' ? '' : '.' + d));
 }
 export const clockStr = (ms: number): string => MUSCAT_CLOCK.format(ms);
 const ESC: Record<string, string> = {

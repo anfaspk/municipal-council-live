@@ -20,8 +20,8 @@ import { fp, fpParts } from './page-strings';
   imports: [FpTPipe],
   host: { class: 'fl-pg-chart' },
   template: `@if (model().me; as me) {<p class="fl-say">@for (x of say(); track $index) {@if (x.bold) {<b>{{ x.text }}</b>} @else {{{ x.text }}}}</p>}
-    <div class="fl-pg-vcols" role="group" [attr.aria-label]="'flPgColsL' | fpT: { w: wname() }" [class.ref]="model().ref !== null" [style.--ref]="model().ref">@for (c of cols(); track c.id) {<button type="button" class="fl-pg-vcol" [class]="c.band" [class.me]="c.me" [attr.aria-current]="c.me ? 'true' : null" [attr.aria-label]="c.label" (click)="c.me || pick.emit(c.id)"><i [style.--k]="c.k" aria-hidden="true"></i></button>}</div>
-    @if (refText(); as t) {<p class="fl-foot">{{ t }}</p>}`,
+    <div class="fl-pg-vcols" role="group" [attr.aria-label]="'flPgColsL' | fpT: { w: wname() }">@for (c of cols(); track c.id) {<button type="button" class="fl-pg-vcol" [class]="c.band" [class.me]="c.me" [attr.aria-current]="c.me ? 'true' : null" [attr.aria-label]="c.label" (click)="c.me || pick.emit(c.id)"><i [style.--k]="c.k" aria-hidden="true"></i></button>}</div>
+    <p class="fl-foot">{{ 'flPgColsHint' | fpT }}</p>`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -51,10 +51,6 @@ export class PageColsComponent {
       { p: me.name, r: me.rank, n: fmt(this.villages().length), w: this.wname() },
       ['p', 'r'],
     );
-  });
-  protected readonly refText = computed(() => {
-    const t = this.wturnout();
-    return t === null ? null : fp('flPgColsRef', { w: this.wname(), t: pct(t) });
   });
 
   constructor() {

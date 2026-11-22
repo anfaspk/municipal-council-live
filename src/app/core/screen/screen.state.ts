@@ -18,7 +18,7 @@ import {
   loadScreenPrefs,
   govOfWil,
   parseScreenBoot,
-  winnersSearch,
+  screenSearch,
   wilIds,
   readReload,
   RELOAD_GUARD,
@@ -71,14 +71,26 @@ export class ScreenState {
 
   private origin: Element | null = null;
   private wallShown = false;
+  private readonly _chosen = signal(!!(this.reload?.screen ?? this.boot.screen));
+  readonly chosen = this._chosen.asReadonly();
   private handoff: string | null = null;
 
   constructor() {
     if (this.reload?.screen) writeReload({ at: this.reload.at });
+    let first = true;
     effect(() => {
+      if (this.clock.phase() === 'loading') return;
+      const atLoad = first;
+      first = false;
       if (!this.clock.counting() || this.wallShown) return;
       this.wallShown = true;
+      if (atLoad && untracked(this._chosen)) return;
       untracked(() => this.autoShow('wall'));
+    });
+    effect(() => {
+      const s = this._screen(),
+        r = s === 'winners' ? this._winRegion() : this._region();
+      if (r !== undefined) untracked(() => this.address(screenSearch(location.search, s, r)));
     });
   }
 
@@ -87,6 +99,7 @@ export class ScreenState {
   }
 
   show(s: Screen): void {
+    this._chosen.set(true);
     const was = this._screen();
     if (s === was) return;
     if (was === 'dashboard') this.origin = document.activeElement;
@@ -99,7 +112,7 @@ export class ScreenState {
 
   private apply(s: Screen): void {
     if (this._screen() === s) return;
-    if (this._screen() === 'winners') this.address(winnersSearch(location.search, undefined));
+    if (this._screen() === 'winners') this._winRegion.set(undefined);
     this._screen.set(s);
     if (s !== 'dashboard') return;
     this._built.set(true);
@@ -116,8 +129,9 @@ export class ScreenState {
     afterNextRender(restore, { injector: this.injector });
   }
 
+  private readonly _winRegion = signal<string | null | undefined>(undefined);
   winnersAddress(region: string | null): void {
-    if (this.is('winners')) this.address(winnersSearch(location.search, region));
+    if (this.is('winners')) this._winRegion.set(region);
   }
   private address(search: string): void {
     if (search === location.search) return;
@@ -163,6 +177,7 @@ export class ScreenState {
       const from = this._screen();
       if (from === to || (to === 'wall' && (from === 'winners' || from === 'draw'))) return;
       this.show(to);
+      this._chosen.set(false);
       this._auto.set({ from, to, n: (this._auto()?.n ?? 0) + 1 });
     });
   }
@@ -173,7 +188,9 @@ export class ScreenState {
   }
 
   setRegion(r: string): void {
-    if (!isRegion(r, this.govs) || r === this._region()) return;
+    if (!isRegion(r, this.govs)) return;
+    this._chosen.set(true);
+    if (r === this._region()) return;
     this._region.set(r);
     this.save();
   }

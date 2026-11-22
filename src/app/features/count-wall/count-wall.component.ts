@@ -208,7 +208,7 @@ export class CountWallComponent implements AfterViewInit {
         if (e.type === 'ready') {
           this.state.done = this.feed.done();
           this.state.res = this.feed.done() && SHOW_WINNERS;
-          if (this.tvOn()) this.mount(this.tvK || this.regionK());
+          if (this.tvOn()) this.mount(this.regionK(this.tvK ? this.tvList[this.tvK] : null));
         } else this.pacer.deliver(e.events, e.complete);
       });
     }

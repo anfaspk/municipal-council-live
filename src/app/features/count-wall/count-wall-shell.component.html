@@ -6,13 +6,24 @@
 <div class="cx" [class.cxr-on]="view().results">
   <div class="cx-top">
     <div class="tv-top">
-      <img class="tv-logo night" [src]="moiDark" alt="" decoding="async" width="790" height="875" /><img class="tv-logo day" [src]="moi" alt="" decoding="async" width="790" height="875" /><i
+      <img
+        class="tv-logo night"
+        [src]="moiDark"
+        alt=""
+        decoding="async"
+        width="790"
+        height="875"
+      /><img class="tv-logo day" [src]="moi" alt="" decoding="async" width="790" height="875" /><i
         class="tv-sep"
       ></i
-      ><img class="tv-logo night" [src]="darkLogo" alt="" decoding="async" width="1000" height="1082" /><img
-        class="tv-logo day"
-        [src]="logo"
-        alt="" decoding="async" width="1000" height="1082" />
+      ><img
+        class="tv-logo night"
+        [src]="darkLogo"
+        alt=""
+        decoding="async"
+        width="1000"
+        height="1082"
+      /><img class="tv-logo day" [src]="logo" alt="" decoding="async" width="1000" height="1082" />
       <div class="tv-ttl">
         <b>{{ text('cTitle') }}</b
         ><span>{{ view().subtitle }}</span>
@@ -115,16 +126,19 @@
       [title]="text('theme')"
       (click)="action.emit({ type: 'theme' })"
     >
-      <svg [mjIcon]="view().theme === 'night' ? 'sun' : 'moon'"></svg></button
-    >@if (full.offered()) {<button
-      type="button"
-      class="mj-btn icon tva-full"
-      [attr.aria-label]="text(full.on() ? 'fullOff' : 'full')"
-      [title]="text(full.on() ? 'fullOff' : 'full') + ' (F)'"
-      (click)="action.emit({ type: 'fullscreen' })"
-    >
-      <svg [mjIcon]="full.on() ? 'shrink' : 'expand'"></svg>
-    </button>}
+      <svg [mjIcon]="view().theme === 'night' ? 'sun' : 'moon'"></svg>
+    </button>
+    @if (full.offered()) {
+      <button
+        type="button"
+        class="mj-btn icon tva-full"
+        [attr.aria-label]="text(full.on() ? 'fullOff' : 'full')"
+        [title]="text(full.on() ? 'fullOff' : 'full') + ' (F)'"
+        (click)="action.emit({ type: 'fullscreen' })"
+      >
+        <svg [mjIcon]="full.on() ? 'shrink' : 'expand'"></svg>
+      </button>
+    }
   </div>
 </div>
 <div class="tva-live" aria-live="off" aria-atomic="true"></div>

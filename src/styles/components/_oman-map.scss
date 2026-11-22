@@ -51,6 +51,12 @@
 }
 .mj-omap .rg {
   cursor: pointer;
+}
+.mj-omap:focus,
+.mj-omap :focus {
+  outline: none;
+}
+html.mj-remote .mj-omap :focus-visible {
   outline: none;
 }
 .mj-omap .om-svg.has-hot .rg:not(.is-hot) {

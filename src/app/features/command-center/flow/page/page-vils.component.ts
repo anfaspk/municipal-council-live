@@ -32,7 +32,7 @@ import { PageListComponent } from './page-list.component';
     @if (villages() === undefined) {<div class="fl-skel-rows" aria-hidden="true">@for (i of skel; track i) {<i></i>}</div>}
     @else if (!villages()!.length) {<p class="fl-say small">{{ 'flPgNoVils' | fpT }}</p>}
     @else if (!rows().length) {<div class="fl-pg-empty"><p class="fl-say small">{{ 'flPgNoMatch' | fpT }}</p><button type="button" class="fl-btn" (click)="clear()">{{ 'flPgShowAll' | fpT }}</button></div>}
-    @else {<ol flPgList [rows]="rows()" [tick]="tick()" (pick)="pick.emit($event)"></ol>}`,
+    @else {<ol flPgList [rows]="rows()" (pick)="pick.emit($event)"></ol>}`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -57,10 +57,6 @@ export class PageVilsComponent {
     const s = this.sort(),
       m = rankedModel(villageRows(this.shown()), s === 'low' ? 'turnout' : s, this.ref());
     return s === 'low' ? lowFirst(m.rows) : m.rows;
-  });
-  protected readonly tick = computed(() => {
-    const r = this.ref();
-    return r === null ? null : Math.min(1, Math.max(0, r / 100));
   });
   protected readonly status = computed(() =>
     fp('flPgShown', { n: this.shown().length, m: this.all() }),

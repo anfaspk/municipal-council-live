@@ -1,83 +1,372 @@
 @if (v.head(); as h) {
-<div class="fl-pg-slim" [class.on]="slim()" [inert]="!slim()" [attr.aria-hidden]="slim() ? null : 'true'">
-  <button type="button" class="fl-btn icon quiet" [attr.aria-label]="'flPgUp' | fpT" [title]="'flPgUp' | fpT" (click)="detail.up()"><svg flIcon="fwd"></svg></button>
-  <span class="fl-pg-slim-t"><small>{{ crumbLine() }}</small><b>{{ h.title ?? '…' }}</b></span>
-  <b class="fl-ink fl-pg-slim-f" [class]="v.band() ?? ''">{{ v.pct() }}</b>
-  <button type="button" class="fl-btn icon quiet" [attr.aria-label]="'flPgClose' | fpT" [title]="'flPgClose' | fpT" (click)="detail.close()"><svg flIcon="close"></svg></button>
-</div>
-<header class="fl-pg-head" mjSwipe="x" (swipeNext)="go(h.next)" (swipePrev)="go(h.prev)">
-  <div class="fl-pg-bar">
-    <nav class="fl-pg-crumbs" [attr.aria-label]="'flPgCrumbs' | fpT"><ol>@for (c of v.crumbs(); track $index; let first = $first) {<li>@if (!first) {<svg class="sep" flIcon="back"></svg>}@if (c.current) {<span aria-current="page">{{ c.label }}</span>} @else {<button type="button" [attr.aria-label]="c.full" (click)="crumb(c.to)">{{ c.label }}</button>}</li>}</ol></nav>
-    @if (followAt()) {<button type="button" class="fl-btn icon quiet fl-follow-t" [class.on]="followed()" [attr.aria-pressed]="followed()" [attr.aria-label]="'flFollow' | fpT" [title]="(followed() ? 'flFollowing' : 'flFollow') | fpT" (click)="toggleFollow()"><svg flIcon="star"></svg></button>}
-    <button type="button" class="fl-btn icon quiet" [attr.aria-label]="'flPgShare' | fpT" [title]="'flPgShare' | fpT" (click)="share()"><svg flIcon="share"></svg></button>
-    <button type="button" class="fl-btn icon quiet" [attr.aria-label]="'flPgClose' | fpT" [title]="'flPgClose' | fpT" (click)="detail.close()"><svg flIcon="close"></svg></button>
+  <div
+    class="fl-pg-slim"
+    [class.on]="slim()"
+    [inert]="!slim()"
+    [attr.aria-hidden]="slim() ? null : 'true'"
+  >
+    <button
+      type="button"
+      class="fl-btn icon quiet"
+      [attr.aria-label]="'flPgUp' | fpT"
+      [title]="'flPgUp' | fpT"
+      (click)="detail.up()"
+    >
+      <svg flIcon="fwd"></svg>
+    </button>
+    <span class="fl-pg-slim-t"
+      ><small>{{ crumbLine() }}</small
+      ><b>{{ h.title ?? '…' }}</b></span
+    >
+    <b class="fl-ink fl-pg-slim-f" [class]="v.band() ?? ''">{{ v.pct() }}</b>
+    <button
+      type="button"
+      class="fl-btn icon quiet"
+      [attr.aria-label]="'flPgClose' | fpT"
+      [title]="'flPgClose' | fpT"
+      (click)="detail.close()"
+    >
+      <svg flIcon="close"></svg>
+    </button>
   </div>
-  <p class="fl-pg-kind">{{ 'flPgKind-' + h.level | fpT }}</p>
-  <h1 class="fl-pg-name" tabindex="-1">{{ h.title ?? ('flPgLoading' | fpT) }}</h1>
-  @if (v.say(); as s) {<p class="fl-say">@for (x of s; track $index) {@if (x.bold) {<b [attr.data-fig]="x.key === 'v' ? 'place.voted' : 'place.registered'">{{ x.text }}</b>} @else {{{ x.text }}}}</p>}
-  <div class="fl-chips">
-    @if (v.rank(); as r) {<span class="fl-chip">{{ r }}</span>}
-    @if (v.band(); as b) {<span class="fl-chip band" [class]="b"><i aria-hidden="true"></i>{{ 'flBand-' + b | fpT }}</span>}
-    @if (v.stamp(); as s) {<span class="fl-chip quiet" [class.stale]="s.stale" [attr.role]="s.stale ? 'status' : null">{{ s.text }}</span>}
-  </div>
-  <div class="fl-pg-pills">
-    <button type="button" class="fl-pg-pill" [disabled]="!h.prev" [attr.aria-label]="h.prev ? ('flPgPrevL' | fpT: { p: h.prev.name }) : ('flPgPrev' | fpT)" (click)="go(h.prev)"><svg flIcon="fwd"></svg><span><small>{{ 'flPgPrev' | fpT }}</small><b>{{ h.prev?.name ?? '—' }}</b></span></button>
-    <button type="button" class="fl-pg-pill end" [disabled]="!h.next" [attr.aria-label]="h.next ? ('flPgNextL' | fpT: { p: h.next.name }) : ('flPgNext' | fpT)" (click)="go(h.next)"><span><small>{{ 'flPgNext' | fpT }}</small><b>{{ h.next?.name ?? '—' }}</b></span><svg flIcon="back"></svg></button>
-  </div>
-</header>
-<span class="fl-pg-sent" #sent aria-hidden="true"></span>
-@if (wide() && h.level === 'vil') {@if (sibs(); as list) {<nav class="fl-pg-sibs" [attr.aria-label]="'flPgSibsL' | fpT: { p: v.wil()?.name ?? '' }"><p class="fl-micro">{{ 'flPgSibsL' | fpT: { p: v.wil()?.name ?? '' } }}</p><ol class="fl-plain">@for (x of list; track x.id) {<li><button type="button" class="fl-prow" [class.lit]="x.on" [attr.aria-current]="x.on ? 'page' : null" (click)="siblingVil(x.id)"><span class="fl-rank" [class]="x.band">{{ x.rank }}</span><span class="fl-row-main"><b>{{ x.ar }}</b><span class="fl-track" aria-hidden="true"><span class="fl-fill" [class]="x.band" [style.--k]="x.t / 100"></span></span></span><b class="fl-ink" [class]="x.band">{{ x.pct }}</b></button></li>}</ol></nav>}}
-<div class="fl-pg-top" [class.busy]="v.busy()">
-  <section class="fl-card fl-pg-sum" [attr.aria-label]="'flPgTurnout' | fpT">
-    <div class="fl-ring" [class]="v.band() ?? ''">@if (v.t() !== null) {<svg viewBox="0 0 100 100" aria-hidden="true"><circle class="trk" cx="50" cy="50" r="44"/><circle class="arc" cx="50" cy="50" r="44" [attr.stroke-dasharray]="v.dash()" transform="rotate(-90 50 50)"/></svg>
-      <div class="fl-ring-in"><b class="fl-big fl-ink" [class]="v.band() ?? ''" data-fig="place.turnout">{{ v.pct() }}</b><small>{{ 'flPgTurnout' | fpT }}</small></div>} @else {<i class="fl-pg-skring" aria-hidden="true"></i>}</div>
-    <div class="fl-pg-cmp"><p class="fl-micro">{{ 'flPgCmp' | fpT }}</p>@for (c of v.cmp(); track c.label) {<p class="fl-pg-cmpc" [class]="c.side"><svg [flIcon]="c.side === 'down' ? 'down' : 'up'"></svg><span>{{ c.text }}</span></p>}</div>
-  </section>
-  @if (v.flow(); as f) {
-    <section class="fl-card fl-pg-flow" [attr.aria-label]="'flPgFlowL' | fpT">
-      @for (s of f.slice(0, 3); track s.key; let i = $index) {
-        @if (i) {<svg class="fl-pg-step" flIcon="back"></svg>}
-        <div class="fl-pg-fig"><p>{{ (s.key === 'pop' ? 'flPgPop' : s.key === 'reg' ? 'flPgReg' : 'flPgVoted') | fpT }}</p><b [attr.data-fig]="'place.flow.' + s.key">{{ s.t === null ? '—' : fmt(s.t) }}</b>@if (s.of) {<small>{{ (s.key === 'reg' ? 'flPgOfPop' : 'flPgOfReg') | fpT: { p: s.of } }}</small>}</div>
+  <header class="fl-pg-head" mjSwipe="x" (swipeNext)="go(h.next)" (swipePrev)="go(h.prev)">
+    <div class="fl-pg-bar">
+      <nav class="fl-pg-crumbs" [attr.aria-label]="'flPgCrumbs' | fpT">
+        <ol>
+          @for (c of v.crumbs(); track $index; let first = $first) {
+            <li>
+              @if (!first) {
+                <svg class="sep" flIcon="back"></svg>
+              }
+              @if (c.current) {
+                <span aria-current="page">{{ c.label }}</span>
+              } @else {
+                <button type="button" [attr.aria-label]="c.full" (click)="crumb(c.to)">
+                  {{ c.label }}
+                </button>
+              }
+            </li>
+          }
+        </ol>
+      </nav>
+      @if (followAt()) {
+        <button
+          type="button"
+          class="fl-btn icon quiet fl-follow-t"
+          [class.on]="followed()"
+          [attr.aria-pressed]="followed()"
+          [attr.aria-label]="'flFollow' | fpT"
+          [title]="(followed() ? 'flFollowing' : 'flFollow') | fpT"
+          (click)="toggleFollow()"
+        >
+          <svg flIcon="star"></svg>
+        </button>
       }
+      <button
+        type="button"
+        class="fl-btn icon quiet"
+        [attr.aria-label]="'flPgShare' | fpT"
+        [title]="'flPgShare' | fpT"
+        (click)="share()"
+      >
+        <svg flIcon="share"></svg>
+      </button>
+      <button
+        type="button"
+        class="fl-btn icon quiet"
+        [attr.aria-label]="'flPgClose' | fpT"
+        [title]="'flPgClose' | fpT"
+        (click)="detail.close()"
+      >
+        <svg flIcon="close"></svg>
+      </button>
+    </div>
+    <p class="fl-pg-kind">{{ 'flPgKind-' + h.level | fpT }}</p>
+    <h1 class="fl-pg-name" tabindex="-1">{{ h.title ?? ('flPgLoading' | fpT) }}</h1>
+    @if (v.say(); as s) {
+      <p class="fl-say">
+        @for (x of s; track $index) {
+          @if (x.bold) {
+            <b [attr.data-fig]="x.key === 'v' ? 'place.voted' : 'place.registered'">{{ x.text }}</b>
+          } @else {
+            {{ x.text }}
+          }
+        }
+      </p>
+    }
+    <div class="fl-chips">
+      @if (v.rank(); as r) {
+        <span class="fl-chip">{{ r }}</span>
+      }
+      @if (v.band(); as b) {
+        <span class="fl-chip band" [class]="b"
+          ><i aria-hidden="true"></i>{{ 'flBand-' + b | fpT }}</span
+        >
+      }
+      @if (v.stamp(); as s) {
+        <span
+          class="fl-chip quiet"
+          [class.stale]="s.stale"
+          [attr.role]="s.stale ? 'status' : null"
+          >{{ s.text }}</span
+        >
+      }
+    </div>
+    <div class="fl-pg-pills">
+      <button
+        type="button"
+        class="fl-pg-pill"
+        [disabled]="!h.prev"
+        [attr.aria-label]="h.prev ? ('flPgPrevL' | fpT: { p: h.prev.name }) : ('flPgPrev' | fpT)"
+        (click)="go(h.prev)"
+      >
+        <svg flIcon="fwd"></svg
+        ><span
+          ><small>{{ 'flPgPrev' | fpT }}</small
+          ><b>{{ h.prev?.name ?? '—' }}</b></span
+        >
+      </button>
+      <button
+        type="button"
+        class="fl-pg-pill end"
+        [disabled]="!h.next"
+        [attr.aria-label]="h.next ? ('flPgNextL' | fpT: { p: h.next.name }) : ('flPgNext' | fpT)"
+        (click)="go(h.next)"
+      >
+        <span
+          ><small>{{ 'flPgNext' | fpT }}</small
+          ><b>{{ h.next?.name ?? '—' }}</b></span
+        ><svg flIcon="back"></svg>
+      </button>
+    </div>
+  </header>
+  <span class="fl-pg-sent" #sent aria-hidden="true"></span>
+  @if (wide() && h.level === 'vil') {
+    @if (sibs(); as list) {
+      <nav class="fl-pg-sibs" [attr.aria-label]="'flPgSibsL' | fpT: { p: v.wil()?.name ?? '' }">
+        <p class="fl-micro">{{ 'flPgSibsL' | fpT: { p: v.wil()?.name ?? '' } }}</p>
+        <ol class="fl-plain">
+          @for (x of list; track x.id) {
+            <li>
+              <button
+                type="button"
+                class="fl-prow"
+                [class.lit]="x.on"
+                [attr.aria-current]="x.on ? 'page' : null"
+                (click)="siblingVil(x.id)"
+              >
+                <span class="fl-rank" [class]="x.band">{{ x.rank }}</span
+                ><span class="fl-row-main"
+                  ><b>{{ x.ar }}</b
+                  ><span class="fl-track" aria-hidden="true"
+                    ><span
+                      class="fl-fill"
+                      [class]="x.band"
+                      [style.--k]="x.t / 100"
+                    ></span></span></span
+                ><b class="fl-ink" [class]="x.band">{{ x.pct }}</b>
+              </button>
+            </li>
+          }
+        </ol>
+      </nav>
+    }
+  }
+  <div class="fl-pg-top" [class.busy]="v.busy()">
+    <section class="fl-card fl-pg-sum" [attr.aria-label]="'flPgTurnout' | fpT">
+      <div class="fl-ring" [class]="v.band() ?? ''">
+        @if (v.t() !== null) {
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle class="trk" cx="50" cy="50" r="44" />
+            <circle
+              class="arc"
+              cx="50"
+              cy="50"
+              r="44"
+              [attr.stroke-dasharray]="v.dash()"
+              transform="rotate(-90 50 50)"
+            />
+          </svg>
+          <div class="fl-ring-in">
+            <b class="fl-big fl-ink" [class]="v.band() ?? ''" data-fig="place.turnout">{{
+              v.pct()
+            }}</b
+            ><small>{{ 'flPgTurnout' | fpT }}</small>
+          </div>
+        } @else {
+          <i class="fl-pg-skring" aria-hidden="true"></i>
+        }
+      </div>
+      <div class="fl-pg-cmp">
+        <p class="fl-micro">{{ 'flPgCmp' | fpT }}</p>
+        @for (c of v.cmp(); track c.label) {
+          <p class="fl-pg-cmpc" [class]="c.side">
+            <svg [flIcon]="c.side === 'down' ? 'down' : 'up'"></svg><span>{{ c.text }}</span>
+          </p>
+        }
+      </div>
     </section>
-    @if (f[3]; as n) {<p class="fl-say small fl-pg-notyet">{{ 'flPgNot' | fpT: { n: n.t === null ? '—' : fmt(n.t), p: n.of ?? '—' } }}@if (n.m !== null && n.f !== null) { · <span class="fl-sex m" mjGlyph="m"></span> {{ fmt(n.m) }} · <span class="fl-sex f" mjGlyph="f"></span> {{ fmt(n.f) }}}</p>}
-  } @else {
-    <div class="fl-card fl-pg-flow fl-pg-skel" aria-hidden="true"><i></i><i></i><i></i></div>
-  }
-</div>
-<div class="fl-pg-tabs" role="tablist" data-keys #tabsBar [attr.aria-label]="'flPgTabs' | fpT">@for (x of tabs(); track x) {<button type="button" role="tab" class="fl-tab" [id]="'fl-pg-t-' + x" [attr.aria-selected]="tab() === x" aria-controls="fl-pg-panel" [tabIndex]="tab() === x ? 0 : -1" (click)="pickTab(x)" (keydown)="tabKey($event)">{{ 'flPgTab-' + x | fpT }}</button>}</div>
-<section class="fl-pg-sec" id="fl-pg-panel" role="tabpanel" [attr.aria-labelledby]="'fl-pg-t-' + tab()" [class.busy]="v.busy()">
-  @switch (tab()) {
-    @case ('wil') {
-      @if (v.gov(); as g) {
-        @if (g.wils.length) {
-          <div flPgRegion [gid]="g.id" [gname]="g.ar" [rows]="wils()" (pick)="openWil($event)"></div>
-          <div class="fl-sort" role="group" [attr.aria-label]="'flPgSortL' | fpT">@for (s of sorts; track s) {<button type="button" class="fl-chip" [class.on]="sort() === s" [attr.aria-pressed]="sort() === s" (click)="sort.set(s)">{{ 'flPgSort-' + s | fpT }}</button>}</div>
-          <ol flPgList [rows]="ranking()" [tick]="tick()" [attr.aria-label]="'flPgWilsL' | fpT: { p: g.ar }" (pick)="openWil($event)"></ol>
-        } @else {<div class="fl-skel-rows" role="status" aria-busy="true" [attr.aria-label]="'flPgLoading' | fpT">@for (i of [1, 2, 3, 4]; track i) {<i></i>}</div>}
+    @if (v.flow(); as f) {
+      <section class="fl-card fl-pg-flow" [attr.aria-label]="'flPgFlowL' | fpT">
+        @for (s of f.slice(0, 3); track s.key; let i = $index) {
+          @if (i) {
+            <svg class="fl-pg-step" flIcon="back"></svg>
+          }
+          <div class="fl-pg-fig">
+            <p>
+              {{ (s.key === 'pop' ? 'flPgPop' : s.key === 'reg' ? 'flPgReg' : 'flPgVoted') | fpT }}
+            </p>
+            <b [attr.data-fig]="'place.flow.' + s.key">{{ s.t === null ? '—' : fmt(s.t) }}</b>
+            @if (s.of) {
+              <small>{{ (s.key === 'reg' ? 'flPgOfPop' : 'flPgOfReg') | fpT: { p: s.of } }}</small>
+            }
+          </div>
+        }
+      </section>
+      @if (f[3]; as n) {
+        <p class="fl-say small fl-pg-notyet">
+          {{ 'flPgNot' | fpT: { n: n.t === null ? '—' : fmt(n.t), p: n.of ?? '—' } }}
+          @if (n.m !== null && n.f !== null) {
+            · <span class="fl-sex m" mjGlyph="m"></span> {{ fmt(n.m) }} ·
+            <span class="fl-sex f" mjGlyph="f"></span> {{ fmt(n.f) }}
+          }
+        </p>
+      }
+    } @else {
+      <div class="fl-card fl-pg-flow fl-pg-skel" aria-hidden="true"><i></i><i></i><i></i></div>
+    }
+  </div>
+  <div class="fl-pg-tabs" role="tablist" data-keys #tabsBar [attr.aria-label]="'flPgTabs' | fpT">
+    @for (x of tabs(); track x) {
+      <button
+        type="button"
+        role="tab"
+        class="fl-tab"
+        [id]="'fl-pg-t-' + x"
+        [attr.aria-selected]="tab() === x"
+        aria-controls="fl-pg-panel"
+        [tabIndex]="tab() === x ? 0 : -1"
+        (click)="pickTab(x)"
+        (keydown)="tabKey($event)"
+      >
+        {{ 'flPgTab-' + x | fpT }}
+      </button>
+    }
+  </div>
+  <section
+    class="fl-pg-sec"
+    id="fl-pg-panel"
+    role="tabpanel"
+    [attr.aria-labelledby]="'fl-pg-t-' + tab()"
+    [class.busy]="v.busy()"
+  >
+    @switch (tab()) {
+      @case ('wil') {
+        @if (v.gov(); as g) {
+          @if (g.wils.length) {
+            <div
+              flPgRegion
+              [gid]="g.id"
+              [gname]="g.ar"
+              [rows]="wils()"
+              (pick)="openWil($event)"
+            ></div>
+            <div class="fl-sort" role="group" [attr.aria-label]="'flPgSortL' | fpT">
+              @for (s of sorts; track s) {
+                <button
+                  type="button"
+                  class="fl-chip"
+                  [class.on]="sort() === s"
+                  [attr.aria-pressed]="sort() === s"
+                  (click)="sort.set(s)"
+                >
+                  {{ 'flPgSort-' + s | fpT }}
+                </button>
+              }
+            </div>
+            <ol
+              flPgList
+              [rows]="ranking()"
+              [attr.aria-label]="'flPgWilsL' | fpT: { p: g.ar }"
+              (pick)="openWil($event)"
+            ></ol>
+          } @else {
+            <div
+              class="fl-skel-rows"
+              role="status"
+              aria-busy="true"
+              [attr.aria-label]="'flPgLoading' | fpT"
+            >
+              @for (i of [1, 2, 3, 4]; track i) {
+                <i></i>
+              }
+            </div>
+          }
+        }
+      }
+      @case ('loc') {
+        @if (v.gov(); as g) {
+          <div
+            flPgRegion
+            [gid]="g.id"
+            [gname]="g.ar"
+            [rows]="wils()"
+            [current]="detail.at()?.wil ?? null"
+            (pick)="siblingWil($event)"
+          ></div>
+        }
+      }
+      @case ('vils') {
+        <div flPgVils [villages]="v.villages()" [ref]="v.t()" (pick)="openVil($event)"></div>
+      }
+      @case ('hours') {
+        <div flPgHours [hours]="v.hours()"></div>
+      }
+      @case ('ages') {
+        <div flPgAges [ages]="v.ages()"></div>
+      }
+      @case ('gender') {
+        @if (v.gender(); as g) {
+          <div flPgGender [gender]="g"></div>
+        } @else {
+          <div class="fl-skel-rows" aria-hidden="true"><i></i><i></i></div>
+        }
+      }
+      @case ('cmp') {
+        @if (v.villages()?.length && v.wil()) {
+          <div
+            flPgCols
+            [villages]="v.villages()!"
+            [current]="detail.at()?.vil ?? 0"
+            [wname]="v.wil()!.name"
+            [wturnout]="v.upT()"
+            (pick)="siblingVil($event)"
+          ></div>
+        } @else {
+          <div class="fl-skel-rows" aria-hidden="true"><i></i><i></i></div>
+        }
+      }
+      @case ('rate') {
+        @if (v.rate(); as r) {
+          @if (v.none()) {
+            <p class="fl-say small">{{ 'flPgNoVotes' | fpT }}</p>
+          }
+          <div flPgRate [rate]="r"></div>
+          <h2 class="fl-h2 fl-pg-h2">{{ 'flPgAgesT' | fpT }}</h2>
+          <div flPgAges [ages]="v.ages()"></div>
+        } @else {
+          <div
+            class="fl-skel-rows"
+            role="status"
+            aria-busy="true"
+            [attr.aria-label]="'flPgLoading' | fpT"
+          >
+            @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+              <i></i>
+            }
+          </div>
+        }
       }
     }
-    @case ('loc') {
-      @if (v.gov(); as g) {<div flPgRegion [gid]="g.id" [gname]="g.ar" [rows]="wils()" [current]="detail.at()?.wil ?? null" (pick)="siblingWil($event)"></div>}
-    }
-    @case ('vils') {<div flPgVils [villages]="v.villages()" [ref]="v.t()" (pick)="openVil($event)"></div>}
-    @case ('hours') {<div flPgHours [hours]="v.hours()"></div>}
-    @case ('ages') {<div flPgAges [ages]="v.ages()"></div>}
-    @case ('gender') {
-      @if (v.gender(); as g) {<div flPgGender [gender]="g"></div>} @else {<div class="fl-skel-rows" aria-hidden="true"><i></i><i></i></div>}
-    }
-    @case ('cmp') {
-      @if (v.villages()?.length && v.wil()) {<div flPgCols [villages]="v.villages()!" [current]="detail.at()?.vil ?? 0" [wname]="v.wil()!.name" [wturnout]="v.upT()" (pick)="siblingVil($event)"></div>}
-      @else {<div class="fl-skel-rows" aria-hidden="true"><i></i><i></i></div>}
-    }
-    @case ('rate') {
-      @if (v.rate(); as r) {
-        @if (v.none()) {<p class="fl-say small">{{ 'flPgNoVotes' | fpT }}</p>}
-        <div flPgRate [rate]="r" [turnout]="v.t()"></div>
-        <h2 class="fl-h2 fl-pg-h2">{{ 'flPgAgesT' | fpT }}</h2>
-        <div flPgAges [ages]="v.ages()"></div>
-      } @else {<div class="fl-skel-rows" role="status" aria-busy="true" [attr.aria-label]="'flPgLoading' | fpT">@for (i of [1, 2, 3, 4, 5, 6]; track i) {<i></i>}</div>}
-    }
-  }
-</section>
+  </section>
 }

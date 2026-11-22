@@ -50,6 +50,9 @@ export function hoverWiring(svg: SVGElement, m: MapInput): void {
     if (m.drilled()) return;
     m.setHot(null);
   });
+  svg.addEventListener('mousedown', (e) => {
+    if (rg(e) || wp(e)) e.preventDefault();
+  });
   svg.addEventListener('click', (e) => {
     const w = wp(e);
     if (w) {

@@ -20,7 +20,7 @@ import { Col, ColPlace, colsModel, colsScroll } from './cols.model';
   selector: 'div.dt-cols',
   imports: [DtTPipe],
   template: `@let m = model();
-<div class="dt-cols-plot" [style.--ref]="m.ref ?? 0" [class.ref]="m.ref !== null" [style.--at]="m.at ?? 0">
+<div class="dt-cols-plot" [style.--at]="m.at ?? 0">
   @if (m.me; as me) {
     <p class="dt-cols-me" aria-hidden="true"><b>{{ me.name }}</b><span class="mj-num">{{ pct(me.t) }} · {{ 'dtPlaceMe' | dtT: { n: me.rank, m: m.cols.length } }}</span></p>
   }
@@ -36,7 +36,6 @@ import { Col, ColPlace, colsModel, colsScroll } from './cols.model';
       </li>
     }
   </ol>
-  @if (m.ref !== null) {<span class="dt-cols-ref" aria-hidden="true"><em class="mj-num">{{ 'dtRef.wil' | dtT: { t: pct(ref()!) } }}</em></span>}
   </div>
 </div>`,
   encapsulation: ViewEncapsulation.None,

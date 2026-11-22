@@ -31,7 +31,6 @@ export const SORT_ITEMS: SegItem[] = [
         (valueChange)="sort.emit($any($event))"
       ></div>
     </div>
-    <p class="dw-note">{{ 'tickNote' | t: { what: ('tickGov' | t) } }}.</p>
     @if (drawer.snap()?.rowsAt; as at) {
       <p class="dw-note dw-stale">{{ 'wilFiguresAt' | t: { t: at } }}</p>
     }
@@ -43,7 +42,6 @@ export const SORT_ITEMS: SegItem[] = [
             class="dw-wr"
             [row]="r"
             [index]="i"
-            [avg]="drawer.gt()"
             (click)="pick.emit(r.name)"
           ></button>
           <button

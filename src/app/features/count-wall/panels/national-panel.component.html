@@ -34,9 +34,13 @@
         <span class="nm"
           ><span class="t"
             ><b>{{ row.gov.ar }}</b
-            ><em class="pc mj-num" [attr.data-fig]="'count.gov.' + row.gov.id + '.p'">{{ percent(s.p) }}</em></span
+            ><em class="pc mj-num" [attr.data-fig]="'count.gov.' + row.gov.id + '.p'">{{
+              percent(s.p)
+            }}</em></span
           ><span class="pg"><i [style.width]="decimal(s.p) + '%'"></i></span></span
-        ><b class="n c mj-num" [attr.data-fig]="'count.gov.' + row.gov.id + '.counted'">{{ number(s.counted) }}</b
+        ><b class="n c mj-num" [attr.data-fig]="'count.gov.' + row.gov.id + '.counted'">{{
+          number(s.counted)
+        }}</b
         ><b class="n l mj-num">{{ number(s.cast - s.counted) }}</b
         ><b class="n m mj-num">{{ number(row.gender.m) }}</b
         ><b class="n f mj-num">{{ number(row.gender.f) }}</b

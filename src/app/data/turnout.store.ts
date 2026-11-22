@@ -7,6 +7,7 @@ import { PollScheduler } from '../core/poll/poll-scheduler';
 import { clockStr } from '../domain/format';
 import { checkAges, checkStats, checkVillageAges, Issue } from '../domain/stats/check';
 import { diffStats, reached, StatsEvents, toldKey } from '../domain/stats/diff';
+import { fillGovs, fillOverall, fillRegion } from '../domain/stats/fill';
 import { indexGovs } from '../domain/stats/gov-index';
 import {
   Base,
@@ -24,6 +25,7 @@ import { nationalOf } from '../domain/stats/turnout';
 import { checkOverall, checkRegion, checkVillage, checkWilayat } from '../domain/validate/answers';
 import { log } from '../core/log/log';
 import { IssueLog } from './issue-log';
+import { PlaceSlots, type Slot } from './place-slots';
 import { RegionNeeds, withIds, type RegionNeed } from './region-needs';
 import { StaleClock } from './stale-clock';
 
@@ -40,7 +42,8 @@ export type TurnoutEvent = {
 
 const OMAN_MS = 4 * 60 * 60 * 1000;
 const POLL = 10 * 1000,
-  STALE_POLLS = 3;
+  STALE_POLLS = 3,
+  SETTLE = 60 * 1000;
 
 @Injectable({ providedIn: 'root' })
 export class TurnoutStore {
@@ -66,8 +69,9 @@ export class TurnoutStore {
   private readonly _ready = signal(false);
   private readonly _updatedAt = signal(this.clock.now());
   private readonly fresh = new StaleClock(STALE_POLLS * POLL, () => this.poll.running);
-  readonly govs = this._govs.asReadonly();
-  readonly index = computed(() => indexGovs(this._govs()));
+  private shown: Gov[] = [];
+  readonly govs = computed(() => (this.shown = fillGovs(this._govs(), this.shown)));
+  readonly index = computed(() => indexGovs(this.govs()));
   readonly ranked = computed(() => this.index().ranked);
   readonly national = computed(() =>
     nationalOf(
@@ -91,9 +95,9 @@ export class TurnoutStore {
   private readonly vil = new Map<number, Village[]>();
   private readonly wd = new Map<number, WilayatDetail>();
   private readonly vd = new Map<number, VillageDetail>();
-  private readonly inflight = new Map<'w' | 'v', { id: number; ctl: AbortController }>();
-  private readonly applied = new Map<string, number>();
-  private seq = 0;
+  private readonly slots = new PlaceSlots(() => this.settled());
+  private finished = false;
+  private readonly finalRegions = new Set<number>();
   private readonly told = new Set<string>();
   private readonly lastRegions = new Map<number, RegionResp>();
   private readonly regionAt = new Map<number, number>();
@@ -111,7 +115,7 @@ export class TurnoutStore {
   }
 
   start(): void {
-    if (this.poll.running) return;
+    if (this.poll.running || this.finished) return;
     this.fresh.arm();
     this.poll.start();
   }
@@ -135,7 +139,9 @@ export class TurnoutStore {
     );
   }
   regionRead(apiId: number): boolean {
-    return this._read().has(apiId);
+    return (
+      this._read().has(apiId) || (this._ready() && !this._govs().some((g) => g.apiId === apiId))
+    );
   }
 
   gov(id: string): Gov | null {
@@ -148,13 +154,13 @@ export class TurnoutStore {
   watchWilayat(wid: number | null): void {
     if (wid === this.wid) return;
     this.wid = wid;
-    if (wid === null) this.cancel('w');
+    if (wid === null) this.slots.cancel('w');
     else void this.loadWilayat(wid);
   }
   watchVillage(vid: number | null): void {
     if (vid === this.vid) return;
     this.vid = vid;
-    if (vid === null) this.cancel('v');
+    if (vid === null) this.slots.cancel('v');
     else void this.loadVillage(vid);
   }
   villages(wid: number): Village[] | undefined {
@@ -182,10 +188,11 @@ export class TurnoutStore {
   }
 
   private async pull(signal: AbortSignal): Promise<void> {
-    const extra = Promise.all([
-      this.wid !== null ? this.loadWilayat(this.wid) : null,
-      this.vid !== null ? this.loadVillage(this.vid) : null,
-    ]);
+    const last = this.settled(),
+      extra = Promise.all([
+        this.wid !== null ? this.loadWilayat(this.wid) : null,
+        this.vid !== null ? this.loadVillage(this.vid) : null,
+      ]);
     const ovP = this.api.get(endpoints.statsOverall, { signal });
     let ids = this.listed();
     if (!ids.length && this.needs.size)
@@ -204,27 +211,36 @@ export class TurnoutStore {
       if (r.status === 'fulfilled') regions.set(ids[i]!, r.value);
       else log.warn('statistics/region failed', r.reason);
     });
-    const bad =
-      ov.status === 'fulfilled' && !(Array.isArray(ov.value.hPSRL) && ov.value.hPSRL.length)
-        ? new Error('statistics/overall: no governorate list (hPSRL)')
-        : null;
-    if (ov.status === 'fulfilled' && !bad) this.publish(ov.value, regions);
-    else log.warn('statistics/overall failed', bad ?? (ov as PromiseRejectedResult).reason);
+    if (ov.status === 'fulfilled') this.publish(ov.value, regions, ids);
+    else log.warn('statistics/overall failed', ov.reason);
     await extra;
-    if (bad) throw bad;
     if (ov.status === 'rejected') throw ov.reason;
+    if (last) regions.forEach((_, id) => this.finalRegions.add(id));
+    if (last && regions.size === ids.length) this.finish();
   }
 
-  private publish(raw: OverallResp, answered: Map<number, RegionResp>): void {
+  private settled(): boolean {
+    const end = this.clock.votingEnd();
+    return this.clock.closed() && end !== null && this.clock.now() >= end + SETTLE;
+  }
+  private finish(): void {
+    this.finished = true;
+    this.poll.stop();
+    this.fresh.stop();
+  }
+
+  private publish(raw: OverallResp, answered: Map<number, RegionResp>, asked: number[]): void {
     const prev = this._govs(),
       first = !this._ready(),
       before = this.turnout();
     const ov = checkOverall(raw),
-      o = ov.value;
+      o = fillOverall(ov.value, new Set(prev.map((g) => g.apiId)));
     this.lastOverall = raw;
     answered.forEach((r, id) => this.lastRegions.set(id, r));
     const checked = new Map([...this.lastRegions].map(([id, r]) => [id, checkRegion(id, r)]));
-    const regions = new Map([...answered.keys()].map((id) => [id, checked.get(id)!.value]));
+    const regions = new Map(
+      [...answered.keys()].map((id) => [id, fillRegion(id, checked.get(id)!.value, prev)]),
+    );
     const govs = buildGovs(o, regions, prev);
     this._govs.set(govs);
     if (ov.others.length || this._others().length)
@@ -234,7 +250,7 @@ export class TurnoutStore {
     this._base.set(baseOf(o, first ? undefined : this._base()));
     this._updatedAt.set(this.clock.now());
     answered.forEach((_, id) => this.regionAt.set(id, this._updatedAt()));
-    this._read.update((r) => withIds(r, answered.keys()));
+    this._read.update((r) => withIds(r, asked));
     this.fresh.arm();
     this.issues.report([
       ...ov.issues,
@@ -261,27 +277,34 @@ export class TurnoutStore {
     return this._govs().map((g) => g.apiId);
   }
   private async loadRegion(id: number): Promise<void> {
-    if (this.regionLoads.has(id)) return;
+    if (this.regionLoads.has(id) || this.finalRegions.has(id)) return;
     const ctl = new AbortController(),
-      from = this.clock.now();
+      from = this.clock.now(),
+      last = this.settled();
     this.regionLoads.set(id, ctl);
     try {
       const r = await this.api.get(endpoints.statsRegion(id), { signal: ctl.signal });
       if (ctl.signal.aborted || !this.lastOverall || (this.regionAt.get(id) ?? -1) >= from) return;
       this.lastRegions.set(id, r);
-      const o = checkOverall(this.lastOverall).value;
-      this._govs.set(buildGovs(o, new Map([[id, checkRegion(id, r).value]]), this._govs()));
+      const prev = this._govs(),
+        o = fillOverall(checkOverall(this.lastOverall).value, new Set(prev.map((g) => g.apiId)));
+      this._govs.set(
+        buildGovs(o, new Map([[id, fillRegion(id, checkRegion(id, r).value, prev)]]), prev),
+      );
       this.regionAt.set(id, this.clock.now());
       this._read.update((r) => withIds(r, [id]));
+      if (last) this.finalRegions.add(id);
     } catch (e) {
-      if (!ctl.signal.aborted) log.warn('statistics/region failed', e);
+      if (ctl.signal.aborted) return;
+      log.warn('statistics/region failed', e);
+      this._read.update((r) => withIds(r, [id]));
     } finally {
       if (this.regionLoads.get(id) === ctl) this.regionLoads.delete(id);
     }
   }
 
   private loadWilayat(wid: number): Promise<void> {
-    return this.load('w', wid, 'statistics/wilayat', async (signal) => {
+    return this.slots.load('w', wid, 'statistics/wilayat', async (signal) => {
       const r = checkWilayat(
         wid,
         await this.api.get(endpoints.statsWilayat(wid), { signal }),
@@ -297,7 +320,7 @@ export class TurnoutStore {
     });
   }
   private loadVillage(vid: number): Promise<void> {
-    return this.load('v', vid, 'statistics/village', async (signal) => {
+    return this.slots.load('v', vid, 'statistics/village', async (signal) => {
       const r = checkVillage(
         vid,
         await this.api.get(endpoints.statsVillage(vid), { signal }),
@@ -309,38 +332,9 @@ export class TurnoutStore {
       };
     });
   }
-  private async load(
-    slot: 'w' | 'v',
-    id: number,
-    what: string,
-    get: (signal: AbortSignal) => Promise<() => void>,
-  ): Promise<void> {
-    const cur = this.inflight.get(slot);
-    if (cur?.id === id) return;
-    cur?.ctl.abort();
-    const ctl = new AbortController(),
-      n = ++this.seq,
-      key = slot + id;
-    this.inflight.set(slot, { id, ctl });
-    try {
-      const apply = await get(ctl.signal);
-      if (!ctl.signal.aborted && n > (this.applied.get(key) ?? 0)) {
-        this.applied.set(key, n);
-        apply();
-      }
-    } catch (e) {
-      if (!ctl.signal.aborted) log.warn(what + ' failed', e);
-    } finally {
-      if (this.inflight.get(slot)?.ctl === ctl) this.inflight.delete(slot);
-    }
-  }
-  private check(slot: 'w' | 'v', run: (out: Issue[]) => void): void {
+  private check(slot: Slot, run: (out: Issue[]) => void): void {
     const out: Issue[] = [];
     run(out);
     this.slotIssues[slot].report(out);
-  }
-  private cancel(slot: 'w' | 'v'): void {
-    this.inflight.get(slot)?.ctl.abort();
-    this.inflight.delete(slot);
   }
 }

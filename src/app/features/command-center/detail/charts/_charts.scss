@@ -104,11 +104,6 @@
   border-block-start: 2px dashed var(--ink-muted);
   background: none;
 }
-.dt-page .dt-sw.tick {
-  width: 2px;
-  height: 14px;
-  border-radius: $r-1;
-}
 
 @keyframes dt-grow-x {
   from {

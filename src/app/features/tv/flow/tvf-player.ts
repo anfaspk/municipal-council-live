@@ -35,6 +35,9 @@ export abstract class TvfPlayer {
   protected readonly announce = signal({ text: '', polite: false });
   protected readonly pinned = computed(() => this.screen.rotation() === 'pinned');
   protected readonly inter = computed(() => this.interim.phase() === 'open');
+  protected readonly stays = computed(
+    () => this.pinned() || (this.inter() && this.screen.region() !== 'nat'),
+  );
   protected readonly walking = signal(false);
   protected readonly segMs = signal(0);
   protected readonly segRound = signal(0);
@@ -59,17 +62,23 @@ export abstract class TvfPlayer {
     this.k.set(idx);
     this.view.slide.set(slide);
     this.view.spot.set(-1);
+    if (user && slide.key !== this.memo.key) this.follow(slide.key);
     this.memo.keep(slide.key);
     this.walker.onView.set(slide.uid);
     this.walker.shown.update((n) => n + 1);
     const walk = this.inter() && slide.kind === 'gov';
     this.walking.set(walk);
     const dur = this.duration(slide);
-    this.endJob = this.pinned() ? null : this.clock.at(dur, () => this.show(this.k() + 1));
+    this.endJob = this.stays() ? null : this.clock.at(dur, () => this.show(this.k() + 1));
     if (walk) this.walk(slide.wilayat.length, 0, INT_FROM);
     else this.fill(dur);
     this.say(this.slideLabel(idx, true), user);
     if (this.running()) this.clock.start();
+  }
+  private follow(key: string): void {
+    if (this.pinned()) return;
+    this.placed = key + '|false';
+    this.screen.setRegion(key);
   }
   protected abstract running(): boolean;
   protected build(keys: string[], idx: number): TvSlide {
@@ -88,7 +97,7 @@ export abstract class TvfPlayer {
     const end = at + Math.max(1, n - from) * INT_STEP;
     this.walkEnd = end;
     if (this.endJob) this.clock.retime(this.endJob, end);
-    else if (this.pinned()) this.walkJobs.push(this.clock.at(end, () => this.walk(n, 0, end)));
+    else if (this.stays()) this.walkJobs.push(this.clock.at(end, () => this.walk(n, 0, end)));
     const until = from === 0 ? (n > 1 ? at + INT_STEP : end) : from < n ? at : end;
     this.fill(Math.max(0, until - this.clock.now()));
   }
@@ -106,11 +115,6 @@ export abstract class TvfPlayer {
     this.memo.lit = i;
     this.walk(g.wilayat.length, i + 1, this.clock.now() + INT_STEP);
     if (say) this.say(w.name, true);
-  }
-  protected walkLeft(): number {
-    const now = this.clock.now(),
-      next = this.walkJobs.find((j) => !j.done && j.at > now)?.at;
-    return Math.max(0, (next ?? this.walkEnd ?? now + INT_STEP) - now);
   }
   protected fill(ms: number): void {
     this.segMs.set(ms);

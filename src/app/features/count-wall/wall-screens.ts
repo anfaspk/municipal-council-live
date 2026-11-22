@@ -87,6 +87,7 @@ export class WallScreens {
     this.pager.stop();
     Object.assign(this.h.state, { mode: 'nat', gov: null, wil: null, natHot: null });
     this.h.feed.focus(null);
+    this.h.feed.want(null);
     const stage = this.h.stage();
     stage.prepareNational(instant);
     this.live.wireNat(this.h.faces.swap(this.h.faces.view('national'), null, instant));
@@ -98,6 +99,7 @@ export class WallScreens {
     this.pager.stop();
     Object.assign(state, { mode: 'gov', gov: id, wil: null });
     this.h.feed.focus(id);
+    this.h.feed.want(null);
     const stage = this.h.stage();
     stage.prepareGovernorate(id, instant);
     const face = this.h.faces.swap(this.h.faces.view('governorate', governorate), null, instant);
@@ -127,6 +129,7 @@ export class WallScreens {
     }
     if (same) return;
     state.wil = w.n;
+    this.h.feed.want(w.id);
     this.h.stage().setSel(w.n);
     const view = this.h.faces.view('wilayat', gv, w);
     this.live.wireWil(this.h.faces.swap(view, origin || WallFaces.origin(face)));
@@ -142,6 +145,7 @@ export class WallScreens {
     if (user) this.h.play.manualHold();
     const wn = cssEscape(state.wil);
     state.wil = null;
+    this.h.feed.want(null);
     this.h.stage().setSel(null);
     const f = this.h.faces.swap(
       this.h.faces.view('governorate', gv),

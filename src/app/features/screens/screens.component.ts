@@ -61,7 +61,7 @@ import { ScreenActivity } from './screen-activity';
     '[class.cc-drill]': 'state.drilled()',
     '[class.cc-paged]': '!!detail.at() && !detail.beside()',
     '[class.cc-beside]': '!!detail.at() && detail.beside()',
-    '[attr.data-theme]': 'state.theme()',
+    '[attr.data-theme]': 'look()',
     dir: 'rtl',
     lang: 'ar',
   },
@@ -69,7 +69,7 @@ import { ScreenActivity } from './screen-activity';
     @if (!stats()) {@if (waiting()) {<p class="mj-connecting" role="status">{{ 'connecting' | t }}</p>}} @else if (tvFlow()) {@defer (when screen.is('tv')) {<div tvFlow role="dialog" aria-modal="true" [attr.aria-label]="'tv' | t"></div>} @error {<i hidden [mjRecover]="'tv'"></i>}} @else {@defer (when screen.is('tv')) {<div class="mj-tv" role="dialog" aria-modal="true" [attr.aria-label]="'tv' | t"></div>} @error {<i hidden [mjRecover]="'tv'"></i>}}
     @if (wallFlow()) {@defer (when screen.is('wall')) {<div countFlow></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'wall'"></i>}} @else {@defer (when screen.is('wall')) {<div class="ct-root"></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'wall'"></i>}}
     @if (winnersFlow()) {@defer (when screen.is('winners')) {<div winnersFlow></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'winners'"></i>}} @else {@defer (when screen.is('winners')) {<div class="wn-root" role="dialog" aria-modal="true" [attr.aria-label]="'winners' | t"></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'winners'"></i>}}
-    @if (drawFlow()) {@defer (when screen.is('draw')) {<div drawFlow [theme]="state.theme()"></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'draw'"></i>}} @else {@defer (when screen.is('draw')) {<div class="cxd-root" [theme]="state.theme()"></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'draw'"></i>}}`,
+    @if (drawFlow()) {@defer (when screen.is('draw')) {<div drawFlow></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'draw'"></i>}} @else {@defer (when screen.is('draw')) {<div class="cxd-root"></div>} @loading {<div class="cc-cover" aria-hidden="true"></div>} @error {<i hidden [mjRecover]="'draw'"></i>}}`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -78,6 +78,9 @@ export class ScreensComponent {
   protected readonly screen = inject(ScreenState);
   protected readonly state = inject(CommandCenterState);
   protected readonly detail = inject(DetailState);
+  protected readonly look = computed(() =>
+    this.screen.is('dashboard') ? this.state.theme() : 'night',
+  );
   private readonly viewport = inject(ViewportState);
   protected readonly stats = inject(TurnoutStore).ready;
   protected readonly flowShell = computed(
@@ -128,7 +131,7 @@ export class ScreensComponent {
       meta = doc.querySelector('meta[name="theme-color"]');
     effect(() => {
       const el = this.screen.is('winners') ? doc.documentElement : frame;
-      void this.state.theme();
+      void this.look();
       let color = '';
       frames.once({
         read: () => (color = getComputedStyle(el).getPropertyValue('--canvas-0').trim()),

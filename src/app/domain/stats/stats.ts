@@ -230,7 +230,7 @@ export function baseOf(o: OverallResp, prev?: Base): Base {
   );
 }
 
-function wilRows(r: RegionResp, prev: readonly WilRow[] = []): WilRow[] {
+export function wilRowsOf(r: RegionResp, prev: readonly WilRow[] = []): WilRow[] {
   const before = new Map(prev.map((w) => [w.id, w]));
   const rows = (r.hPSWL || [])
     .filter((x) => x && x.w)
@@ -273,7 +273,7 @@ export function buildGovs(
       const rg = regions.get(apiId),
         old = before.get(id),
         reg = countsOf(it.reg, old && { t: old.reg, m: old.regM, f: old.regF });
-      const wils = rg ? wilRows(rg, old?.wils) : old ? old.wils : [];
+      const wils = rg ? wilRowsOf(rg, old?.wils) : old ? old.wils : [];
       return kept(
         {
           id,

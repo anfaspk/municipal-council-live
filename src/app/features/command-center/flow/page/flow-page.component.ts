@@ -133,10 +133,6 @@ export class FlowPageComponent {
     const s = this.sort();
     return rankedModel(this.wils(), s === 'low' ? 'turnout' : s, this.v.t()).rows;
   });
-  protected readonly tick = computed(() => {
-    const t = this.v.t();
-    return t === null ? null : Math.min(1, Math.max(0, t / 100));
-  });
 
   constructor() {
     const key = (e: KeyboardEvent) => this.key(e),

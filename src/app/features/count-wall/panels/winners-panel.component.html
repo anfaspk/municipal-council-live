@@ -21,9 +21,11 @@
         ><em>{{ text('cxVotesW') }}</em></span
       ><span class="shr"
         ><i [style.--w]="decimal((c.v / (r.sorted[0]?.v || 1)) * 100) + '%'"></i></span
-      ><em class="pc"
-        >@if (c.vP !== null) {<b class="mj-num">{{ share(c.vP) }}</b> {{ text('cxOfValid') }}}</em
-      >
+      ><em class="pc">
+        @if (c.vP !== null) {
+          <b class="mj-num">{{ share(c.vP) }}</b> {{ text('cxOfValid') }}
+        }
+      </em>
     </div>
   }
 </div>

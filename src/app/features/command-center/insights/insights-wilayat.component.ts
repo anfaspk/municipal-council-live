@@ -16,10 +16,7 @@ import { WilView } from './insights.model';
   imports: [CountUpDirective, FmtPipe, IconComponent, PctPipe, TPipe],
   template: `@let v = view();
     <div class="ix-wref">
-      <span class="mj-micro">{{ 'sTurnoutL' | t }} · {{ 'votesOfReg' | t }}</span
-      ><span class="ix-wkl"
-        ><i></i><span>{{ v.refLabel }}</span></span
-      >
+      <span class="mj-micro">{{ 'sTurnoutL' | t }} · {{ 'votesOfReg' | t }}</span>
     </div>
     <ol class="ix-wl">
       @for (r of v.rows; track r?.id ?? ('empty-' + $index); let i = $index) {
@@ -41,8 +38,7 @@ import { WilView } from './insights.model';
             <bdi>{{ r?.name }}</bdi>
           </div>
           <div class="ix-wt">
-            <i class="ix-wf" [style.width]="r ? min(100, r.t).toFixed(2) + '%' : null"></i
-            ><i class="ix-wk" [style.inset-inline-start]="v.ref.toFixed(2) + '%'"></i>
+            <i class="ix-wf" [style.width]="r ? min(100, r.t).toFixed(2) + '%' : null"></i>
           </div>
           <div class="ix-wv">
             <span class="ix-wp"

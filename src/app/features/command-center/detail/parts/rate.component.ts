@@ -16,7 +16,7 @@ import { RateRow, rateModel } from './age.model';
   selector: 'div.dt-rate',
   imports: [DtTPipe],
   template: `@let m = model();
-<ol class="dt-rate-rows" [style.--ref]="m.ref ?? 0" [class.ref]="m.ref !== null">
+<ol class="dt-rate-rows">
   @for (r of m.rows; track r.band) {
     <li class="dt-rate-row" [class.hi]="r.hi" [class.lo]="r.lo" [style.--j]="$index" [attr.aria-label]="say(r)">
       <span class="dt-rate-b mj-num" aria-hidden="true">{{ r.label }}</span>
@@ -28,7 +28,7 @@ import { RateRow, rateModel } from './age.model';
     </li>
   }
 </ol>
-<div class="dt-rate-key" aria-hidden="true"><span><i class="dt-sw m"></i>{{ 'dtMen' | dtT }}</span><span><i class="dt-sw f"></i>{{ 'dtWomen' | dtT }}</span>@if (ref() !== null) {<span class="ref"><i class="dt-rate-refk"></i>{{ 'dtRef.vil' | dtT: { t: p(ref()) } }}</span>}</div>`,
+<div class="dt-rate-key" aria-hidden="true"><span><i class="dt-sw m"></i>{{ 'dtMen' | dtT }}</span><span><i class="dt-sw f"></i>{{ 'dtWomen' | dtT }}</span></div>`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

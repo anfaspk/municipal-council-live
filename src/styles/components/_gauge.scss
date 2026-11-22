@@ -52,6 +52,7 @@
 }
 .mj-gauge .tip {
   stroke: var(--gold-glow);
+  display: none;
 }
 .mj-gauge .hilt {
   stroke: var(--gold);

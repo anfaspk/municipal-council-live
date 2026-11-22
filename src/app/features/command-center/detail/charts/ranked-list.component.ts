@@ -22,7 +22,7 @@ import { RankInput, rankedModel, RankRow, RankSort } from './ranked.model';
   imports: [DtTPipe, IconComponent],
   host: { '(keydown)': 'key($event)' },
   template: `@let m = model();
-<ol class="dt-rows" [style.--tick]="m.tick ?? 0" [class.ticked]="m.tick !== null">
+<ol class="dt-rows">
   @for (r of m.rows; track r.id; let i = $index) {
     <li [style.--j]="i" [attr.data-id]="r.id">
       <button type="button" class="dt-row" [class]="r.band" [class.hot]="hot() === r.id" [attr.aria-label]="say(r)" (click)="pick.emit(r.id)" (pointerenter)="hover.emit(r.id)" (pointerleave)="hover.emit(null)" (focus)="hover.emit(r.id)" (blur)="hover.emit(null)">
@@ -35,8 +35,7 @@ import { RankInput, rankedModel, RankRow, RankSort } from './ranked.model';
       </button>
     </li>
   }
-</ol>
-@if (refLabel() && m.tick !== null) {<p class="dt-key dt-ranked-key" aria-hidden="true"><span><i class="dt-sw tick"></i>{{ refLabel() }}</span></p>}`,
+</ol>`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -44,7 +43,6 @@ export class RankedListComponent<K = number | string> {
   readonly rows = input.required<readonly RankInput<K>[]>();
   readonly sort = input<RankSort>('turnout');
   readonly ref = input<number | null>(null);
-  readonly refLabel = input('');
   readonly hot = input<K | null>(null);
   readonly pick = output<K>();
   readonly hover = output<K | null>();

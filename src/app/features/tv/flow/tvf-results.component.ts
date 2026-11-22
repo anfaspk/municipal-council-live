@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  DestroyRef,
   effect,
   ElementRef,
   inject,
@@ -14,9 +13,7 @@ import {
 import { fmt } from '../../../domain/format';
 import { FmtPipe, SharePipe } from '../../../shared/ui/format.pipes';
 import { RaceAvatarComponent } from '../../../shared/ui/race-avatar.component';
-import { ListPager } from '../../../shared/motion/list-pager';
 import { TvView } from '../tv.view';
-import { TvWalk } from '../tv-walk';
 import { TvfIconComponent } from './tvf-icon.component';
 import { FrameLoop } from '../../../shared/motion/frame-loop.service';
 import { reducedMotion } from '../../../shared/motion/reduced-motion';
@@ -53,7 +50,7 @@ import { TvfTPipe } from './tvf-t.pipe';
           @if (view.wide()) {
             @if (f.rest.length) {
               <p class="tvf-micro tvf-rest-h">{{ 'intRest' | tvfT }}</p>
-              <ol class="tvf-rest" #rest [attr.data-pages]="view.comp() === 'sign' ? '' : null" [attr.tabindex]="view.comp() === 'sign' ? null : 0" [attr.aria-label]="'intRest' | tvfT">
+              <ol class="tvf-rest" [attr.tabindex]="view.comp() === 'sign' ? null : 0" [attr.aria-label]="'intRest' | tvfT">
                 @for (b of f.rest; track b.c.id) {<li class="tvf-cr"><span class="tvf-pos">{{ b.c.pos }}</span><span class="tvf-av sm" mjRaceAv [cand]="b.c"></span><span class="tvf-cr-m"><b class="tvf-nm">{{ b.c.name }}</b><span class="tvf-cbar"><i [style.--k]="b.w"></i></span></span><span class="tvf-vp sm"><b [attr.data-fig]="'tv.int.' + b.c.id + '.votes'">{{ b.c.v | fmt }}</b><span [attr.data-fig]="'tv.int.' + b.c.id + '.share'">{{ b.c.vP | share }}</span></span></li>}
               </ol>
             }
@@ -79,30 +76,9 @@ export class TvfResultsComponent {
   readonly picked = output<number>();
   protected readonly lit = computed(() => this.view.featured()?.i ?? -1);
   private readonly chips = viewChild<ElementRef<HTMLElement>>('chips');
-  private readonly rest = viewChild<ElementRef<HTMLElement>>('rest');
-  private readonly walk = inject(TvWalk);
-  private readonly pager = new ListPager(inject(FrameLoop), this.walk.clock, 'tv');
   protected readonly num = fmt;
 
   constructor() {
-    effect(() => {
-      this.walk.shown();
-      this.lit();
-      const on =
-        this.view.comp() === 'sign' &&
-        this.walk.onView() === this.view.slide()?.uid &&
-        !!this.view.featured()?.wil &&
-        !!this.rest();
-      untracked(() => {
-        if (!on) return this.pager.stop();
-        this.pager.run(() => this.rest()?.nativeElement ?? null, {
-          time: this.walk.left(),
-          travel: !this.walk.still(),
-          wait: (ms) => this.walk.wait(ms),
-        });
-      });
-    });
-    inject(DestroyRef).onDestroy(() => this.pager.stop());
     const frames = inject(FrameLoop);
     effect(() => {
       const i = this.lit(),

@@ -103,15 +103,6 @@
     transform: scaleX(0);
   }
 }
-.fc-bar em {
-  position: absolute;
-  top: -$sp-4;
-  width: 2px;
-  height: 16px;
-  margin-inline-start: -$sp-1;
-  background: var(--ink);
-  border-radius: $r-2;
-}
 .mj-omap.compact .om-lab {
   padding: $sp-1 $sp-5 $sp-2;
   border-radius: $r-7;

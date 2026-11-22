@@ -16,7 +16,9 @@
     <div class="cx-st f">
       <span>{{ text('cxCastBallots') }}</span
       ><b class="mj-num">{{ number(s.cast) }}</b
-      ><em class="mj-num">{{ text('cxGenderSplit', { m: number(gender().m), f: number(gender().f) }) }}</em>
+      ><em class="mj-num">{{
+        text('cxGenderSplit', { m: number(gender().m), f: number(gender().f) })
+      }}</em>
     </div>
     <div class="cx-st l">
       <span>{{ text('cxClosest') }}</span>

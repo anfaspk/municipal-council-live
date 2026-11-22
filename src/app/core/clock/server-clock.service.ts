@@ -7,6 +7,8 @@ import { parseOman } from './oman-time';
 import { serverOffset } from './offset';
 
 const POLL = 10 * 1000,
+  SLOW = 60 * 1000,
+  NEAR = 2 * 60 * 1000,
   FAIL_OPEN = 30 * 1000;
 
 const opt = (s?: string | null): number | null => (s ? parseOman(s) : null);
@@ -55,12 +57,22 @@ export class ServerClock {
     }, FAIL_OPEN);
     inject(PollScheduler)
       .create({
-        every: () => POLL,
+        every: () => this.pace(),
         run: (signal) => this.load(signal),
         phase: true,
         while: () => !(this.latched() && this.endLatched() && this.countLatched()),
       })
       .start();
+  }
+
+  private pace(): number {
+    const next = !this.latched()
+        ? this.start()
+        : this.endLatched() && !this.countLatched()
+          ? this.countStart()
+          : null,
+      ahead = next === null || this.failed() ? 0 : next - this.now() - NEAR;
+    return Math.max(POLL, Math.min(SLOW, ahead));
   }
 
   now(): number {

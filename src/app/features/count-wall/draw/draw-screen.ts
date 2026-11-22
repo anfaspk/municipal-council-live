@@ -103,6 +103,7 @@ export abstract class DrawScreen {
     this.conflicts.watch(it && it.state === 'open' && it.stage !== 'prep' ? it.id : null);
     if (!it) return;
     this.store.focus(it.gid);
+    this.store.want(it.id);
     if (it.state === 'drawn') this.conflicts.want(it.id);
     else if (it.stage === 'prep' || it.stage === 'ready') this.conflicts.forget(it.id);
     if (!it.draw) return;

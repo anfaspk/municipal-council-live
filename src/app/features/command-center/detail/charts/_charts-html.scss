@@ -131,15 +131,6 @@
   transform-origin: 100% 50%;
   transition: transform $t-900 var(--ease-expo);
 }
-.dt-ranked .ticked .dt-track::after {
-  content: '';
-  position: absolute;
-  inset-block: -$sp-4;
-  inset-inline-start: calc(var(--tick, 0) * 100%);
-  width: 2px;
-  border-radius: $r-1;
-  background: var(--gold);
-}
 .dt-ranked .dt-t {
   grid-area: t;
   display: inline-flex;
@@ -181,9 +172,6 @@
     opacity: 1;
     transform: translateX(-3px);
   }
-}
-.dt-ranked .dt-ranked-key {
-  flex: none;
 }
 
 .dt-strip {

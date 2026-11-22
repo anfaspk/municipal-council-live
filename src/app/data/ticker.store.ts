@@ -41,7 +41,7 @@ export class TickerStore {
     this._ticks.set(
       this.turnout
         .govs()
-        .slice()
+        .filter((g) => g.voted > 0)
         .sort((a, b) => b.voted - a.voted)
         .slice(0, 5)
         .map((g) => ({ kind: 'counted', time, gov: name(g), votes: g.voted })),

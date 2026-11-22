@@ -7,7 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { t } from '../../../core/i18n/i18n';
-import { pct, pctOf } from '../../../domain/format';
+import { pctOf } from '../../../domain/format';
 import { hourLabels, turnoutCurve } from '../../../domain/stats/stats';
 import { band } from '../../../domain/stats/turnout';
 import { CountUpDirective } from '../../../shared/motion/count-up.directive';
@@ -59,8 +59,6 @@ export class DrawerOverviewComponent {
       band: b,
       delta: tg - n.turnout,
       deltaText: deltaText(tg - n.turnout, t('pts'), t('vsNat')),
-      nat: n.turnout,
-      natLabel: t('natAvg', { p: pct(n.turnout) }),
       rank: s.rank,
       of: s.of,
       arc: ((RING.c * Math.min(100, tg)) / 100).toFixed(2) + ' ' + RING.c.toFixed(2),

@@ -7,14 +7,20 @@ export function handOffToWinners(): void {
   const screen = inject(ScreenState),
     feed = inject(CountStore);
   let handed = false;
-  const due = (): boolean => {
-    if (handed || !screen.is('wall')) return false;
+  let seen: { r: string; done: boolean } | null = null;
+  const now = (answered = feed.ready()): { r: string; done: boolean } | null => {
+    if (handed || !screen.is('wall') || !answered) return null;
     const r = screen.region();
-    return r === 'nat' ? natPublished(feed.govs) : govPublished(feed.gov(r));
+    return { r, done: r === 'nat' ? natPublished(feed.govs) : govPublished(feed.gov(r)) };
   };
-  inject(DestroyRef).onDestroy(feed.holdDetails(() => untracked(due)));
+  const due = (n: { r: string; done: boolean } | null): boolean =>
+    !!n?.done && (seen?.r === n.r ? !seen.done : !screen.chosen());
+  inject(DestroyRef).onDestroy(feed.holdDetails(() => untracked(() => due(now(true)))));
   effect(() => {
-    if (!due()) return;
+    const n = now(),
+      go = due(n);
+    seen = n;
+    if (!go) return;
     handed = true;
     untracked(() => screen.showWinners(screen.region()));
   });

@@ -35,7 +35,7 @@ import { DrawerState } from './drawer.state';
         <span class="mj-num">{{ r.voted | fmt }} / {{ r.reg | fmt }}</span></span
       ></span
     >
-    <span class="dw-br" [style.--t]="bar(r.t)" [style.--a]="bar(avg())"><i></i><em></em></span>
+    <span class="dw-br" [style.--t]="bar(r.t)"><i></i></span>
     <span class="pc mj-num">{{ r.t | pct }}</span>
     <span class="go"><svg [mjIcon]="'next'"></svg></span>`,
   encapsulation: ViewEncapsulation.None,
@@ -44,7 +44,6 @@ import { DrawerState } from './drawer.state';
 export class DrawerWilRowComponent {
   readonly row = input.required<DRow>();
   readonly index = input.required<number>();
-  readonly avg = input.required<number>();
   protected readonly state = inject(CommandCenterState);
   protected readonly drawer = inject(DrawerState);
   protected readonly band = computed(() => band(this.row().t));

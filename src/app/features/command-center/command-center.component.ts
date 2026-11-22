@@ -172,7 +172,9 @@ export class CommandCenterComponent implements AfterViewInit {
     const lf = this.lastFocus as HTMLElement | null;
     afterNextRender(
       () => {
-        if (lf && lf.focus && lf.isConnected) lf.focus({ preventScroll: true });
+        if (lf && lf !== document.body && lf.focus && lf.isConnected)
+          lf.focus({ preventScroll: true });
+        else (document.activeElement as HTMLElement | null)?.blur?.();
       },
       { injector: this.injector },
     );

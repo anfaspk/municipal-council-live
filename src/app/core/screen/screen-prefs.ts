@@ -15,6 +15,18 @@ export interface ScreenBoot {
 export const SCREEN_DEFAULTS: ScreenPrefs = { region: NAT, rotation: 'auto' };
 
 const BOOT_SCREENS: readonly string[] = ['tv', 'wall', 'winners', 'draw'];
+const URL_NAMES: Partial<Record<Screen, string>> = {
+  tv: 'statistics',
+  wall: 'counting',
+  winners: 'winner',
+  draw: 'draw',
+};
+const ALL = 'all';
+function screenOfName(v: string | null): Screen | null {
+  if (v === null) return null;
+  const s = (Object.keys(URL_NAMES) as Screen[]).find((k) => URL_NAMES[k] === v);
+  return s ?? (BOOT_SCREENS.includes(v) ? (v as Screen) : null);
+}
 const WIL_SCREENS: readonly string[] = ['wall', 'winners'];
 
 export function isRegion(v: unknown, govs: readonly string[]): v is string {
@@ -51,8 +63,10 @@ export function parseScreenBoot(
   const out: ScreenBoot = {},
     screen = q.get('screen'),
     region = q.get('region');
-  if (screen !== null && BOOT_SCREENS.includes(screen)) out.screen = screen as Screen;
-  if (isRegion(region, govs)) out.region = region;
+  const named = screenOfName(screen);
+  if (named) out.screen = named;
+  if (region === ALL) out.region = NAT;
+  else if (isRegion(region, govs)) out.region = region;
   const wil = q.get('wil');
   if (
     out.screen &&
@@ -65,12 +79,15 @@ export function parseScreenBoot(
   return out;
 }
 
-export function winnersSearch(search: string, region: string | null | undefined): string {
-  const q = new URLSearchParams(search);
-  for (const k of ['screen', 'region', 'wil']) q.delete(k);
-  if (region !== undefined) {
-    q.set('screen', 'winners');
-    if (region) q.set('region', region);
+export function screenSearch(search: string, screen: Screen, region: string | null): string {
+  const q = new URLSearchParams(search),
+    name = URL_NAMES[screen];
+  q.delete('screen');
+  q.delete('region');
+  if (name) {
+    if (screen !== 'draw') q.delete('wil');
+    q.set('screen', name);
+    if (screen !== 'draw') q.set('region', region && region !== NAT ? region : ALL);
   }
   const out = q.toString();
   return out ? '?' + out : '';

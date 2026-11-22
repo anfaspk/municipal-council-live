@@ -1,7 +1,17 @@
 <div class="wn-set">
-  <img #pic class="wn-pic" [src]="img" alt="" decoding="async" (load)="onLoad(pic)" fetchpriority="high">
+  <img
+    #pic
+    class="wn-pic"
+    [src]="img"
+    alt=""
+    decoding="async"
+    (load)="onLoad(pic)"
+    fetchpriority="high"
+  />
   <div class="wn-night">
-    @for (s of stars; track $index) {<i class="wn-sstars" [style.--stars]="s" [style.--l]="$index"></i>}
+    @for (s of stars; track $index) {
+      <i class="wn-sstars" [style.--stars]="s" [style.--l]="$index"></i>
+    }
     <i class="wn-meteor"></i><i class="wn-meteor m2"></i>
   </div>
   <i class="wn-hglow"></i>

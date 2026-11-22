@@ -18,7 +18,8 @@ import {
 } from '../domain/count/count';
 import { checkCount, checkCountRows } from '../domain/count/check';
 import { indexCount } from '../domain/count/count-index';
-import { CountEvent, countComplete } from '../domain/count/diff';
+import { CountEvent, countComplete, govPublished, natPublished } from '../domain/count/diff';
+import { fillCount } from '../domain/count/fill';
 import { reduceCount } from '../domain/count/reduce';
 import { detailStep, regionStep } from '../domain/count/steps';
 import { VoteHistory } from '../domain/count/leading';
@@ -51,6 +52,9 @@ export class CountStore {
 
   private readonly state = signal<CGov[]>([]);
   private readonly index = computed(() => indexCount(this.state()));
+  private filled: CGov[] = [];
+  private readonly shown = computed(() => (this.filled = fillCount(this.state(), this.filled)));
+  private readonly shownIndex = computed(() => indexCount(this.shown()));
   private readonly _ready = signal(false);
   private readonly _done = signal(false);
   readonly ready = this._ready.asReadonly();
@@ -83,9 +87,14 @@ export class CountStore {
   private readonly screens = new Set<object>();
   private readonly screenN = signal(0);
   private readonly holds = new Set<() => boolean>();
+  private final = false;
+  private readonly finalGovs = new Set<number>();
+  private need: number | null = null;
+  private readonly asking = new Set<number>();
+  private again: ReturnType<typeof setTimeout> | undefined;
 
   get govs(): CGov[] {
-    return this.state();
+    return this.shown();
   }
   start(owner: object, screen = false): void {
     this.owners.add(owner);
@@ -102,7 +111,7 @@ export class CountStore {
     this.sync();
   }
   private sync(): void {
-    const on = this.owners.size > 0 && this.clock.counting();
+    const on = !this.final && this.owners.size > 0 && this.clock.counting();
     if (on === this.poll.running) return;
     if (on) {
       this.fresh.arm();
@@ -132,25 +141,57 @@ export class CountStore {
   focus(gid: string | null): void {
     this.focusGov = gid;
   }
+  want(id: number | null): void {
+    this.need = id;
+    clearTimeout(this.again);
+    this.ask(id);
+  }
+  private ask(id: number | null): void {
+    if (id === null || !this.dirty.has(id) || this.asking.has(id) || !this.inFinal(id)) return;
+    clearTimeout(this.again);
+    this.asking.add(id);
+    const retry = (e: unknown) => {
+      log.warn('counting/wilayat failed', e);
+      this.again = setTimeout(() => this.need === id && this.ask(id), POLL);
+    };
+    this.api
+      .get(endpoints.countWilayat(id))
+      .then((r) => {
+        const row = this.checked('w' + id, checkCountWilayat(id, r));
+        if (!row.lCL?.length) return retry(new Error('counting/wilayat/' + id + ': no candidates'));
+        const listed = detailStep(this.state(), new Map([[id, row]]));
+        this.dirty.delete(id);
+        this.rows.set('w' + id, row);
+        this.state.set(listed.govs);
+        this.history.record(listed.govs, this.clock.now());
+        if (this._ready())
+          this.events.next({ type: 'poll', events: listed.events, complete: false });
+      }, retry)
+      .finally(() => this.asking.delete(id));
+  }
+  private inFinal(id: number): boolean {
+    const g = this.index().govOf(id);
+    return !!g && this.finalGovs.has(g.apiId);
+  }
 
   national(): CNat {
-    return countNat(this.state(), this.registered, this.leadN);
+    return countNat(this.shown(), this.registered, this.leadN);
   }
   all(): CWil[] {
-    return this.state().flatMap((g) => g.wil);
+    return this.shown().flatMap((g) => g.wil);
   }
   gov(id: string): CGov | null {
-    return this.index().gov(id);
+    return this.shownIndex().gov(id);
   }
   wil(gid: string, n: string): CWil | null {
     return (
-      this.index()
+      this.shownIndex()
         .gov(gid)
         ?.wil.find((w) => w.n === n) || null
     );
   }
   wilById(id: number): CWil | null {
-    return this.index().wil(id);
+    return this.shownIndex().wil(id);
   }
 
   private async pull(signal: AbortSignal): Promise<void> {
@@ -167,6 +208,7 @@ export class CountStore {
         () => {
         },
       );
+    let overall = false;
     try {
       this.state.set(
         reduceCount(this.state(), {
@@ -176,11 +218,12 @@ export class CountStore {
           ),
         }),
       );
+      overall = true;
     } catch (e) {
       if (signal.aborted) return;
       log.warn('counting/overall failed', e);
     }
-    const govs = this.state(),
+    const govs = this.state().filter((g) => !this.finalGovs.has(g.apiId)),
       rg = await Promise.allSettled(
         govs.map((g) => this.api.get(endpoints.countRegion(g.apiId), { signal })),
       );
@@ -194,10 +237,14 @@ export class CountStore {
       const id = govs[i]!.apiId;
       regions.set(id, this.checked('r' + id, checkCountRegion(id, r.value)));
     });
-    const ok = regions.size > 0,
+    const ok = overall || regions.size > 0 || !govs.length,
       region = regionStep(this.state(), regions);
     this.state.set(region.govs);
     region.wanted.forEach((id) => this.dirty.add(id));
+    region.govs.forEach((g) => {
+      if (govPublished(g)) this.finalGovs.add(g.apiId);
+    });
+    this.ask(this.need);
     this.collect(evs, region.events);
     const index = this.index(),
       rank = (id: number) => {
@@ -205,7 +252,7 @@ export class CountStore {
         return (index.govOf(id)?.id === this.focusGov ? 2 : 0) + (w?.conflict || w?.drawn ? 1 : 0);
       };
     const leaving = [...this.holds].some((h) => h()),
-      dirty = [...this.dirty].sort((a, b) => rank(b) - rank(a)),
+      dirty = [...this.dirty].filter((id) => !this.inFinal(id)).sort((a, b) => rank(b) - rank(a)),
       want = leaving
         ? []
         : dirty.slice(0, (first ? dirty.filter((id) => rank(id) > 0).length : 0) + DETAIL_MAX);
@@ -245,6 +292,11 @@ export class CountStore {
       this._ready.set(true);
       this.events.next({ type: 'ready' });
     } else this.events.next({ type: 'poll', events: evs, complete: !was && this._done() });
+    if (natPublished(this.state())) {
+      this.final = true;
+      this.poll.stop();
+      this.fresh.stop();
+    }
   }
 
   private checked<T>(key: string, c: { value: T; issues: Issue[] }): T {

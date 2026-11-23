@@ -34,11 +34,20 @@
   }
 }
 .map-rail .mj-row {
-  grid-template-columns: 20px 12px minmax(0, 1fr) 74px 50px;
-  gap: $sp-8;
-  padding: 0 $sp-8;
+  grid-template-columns: 20px 12px minmax(0, 1fr) 74px 52px;
+  gap: $sp-10;
+  padding: 0 $sp-10;
   align-content: center;
   border-radius: $r-10;
+}
+.map-rail .mj-row .rk {
+  font-size: $fs-13;
+}
+.map-rail .mj-row .vt {
+  text-align: start;
+}
+.map-rail .mj-row .mj-pill {
+  width: 100%;
 }
 .map-rail .mj-row .mb {
   display: none;

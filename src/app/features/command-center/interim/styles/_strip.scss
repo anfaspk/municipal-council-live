@@ -1,0 +1,203 @@
+@use '../../../../../styles/mixins';
+@use '../../../../../styles/scales' as *;
+
+.ir-strip {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: $sp-12;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  pointer-events: auto;
+  background: linear-gradient(
+    90deg,
+    transparent 40%,
+    color-mix(in srgb, var(--gold) 9%, transparent)
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 38%, transparent);
+}
+.ir-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: $z-3;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--gold-pale) 55%, transparent) 50%,
+    transparent
+  );
+  opacity: 0;
+  animation: ir-wipe $t-1100 var(--ease-expo);
+}
+.ir-strip.late::before {
+  animation-delay: $t-800;
+}
+
+.ir-lab {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  height: 100%;
+  margin: 0;
+  padding-inline: $sp-16 $sp-18;
+  background: linear-gradient(90deg, var(--gold-pale), var(--gold) 45%);
+  color: var(--on-gold);
+  font: 800 $fs-12 var(--font-sans);
+  white-space: nowrap;
+  @include mixins.arabic;
+
+  animation: ir-lab-in $t-600 var(--ease-spring) both;
+}
+.ir-lab .ir-tag {
+  color: var(--on-gold);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--on-gold) 45%, transparent);
+}
+.ir-left {
+  display: flex;
+  align-items: baseline;
+  gap: $sp-4;
+  padding-inline-start: $sp-10;
+  border-inline-start: 1px solid color-mix(in srgb, var(--on-gold) 30%, transparent);
+  font: 600 $fs-11 var(--font-sans);
+}
+.ir-left time {
+  font: 700 $fs-14 var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+
+.ir-hint {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: $sp-4;
+  color: var(--gold-ink);
+  font: 700 $fs-12 var(--font-sans);
+  white-space: nowrap;
+  @include mixins.arabic;
+
+  animation: ir-chip $t-600 var(--ease-spring) $t-200 both;
+}
+.ir-hint svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.2;
+  animation: ir-nudge $t-1200 var(--ease-std) infinite;
+}
+
+.ir-govs {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: $sp-6;
+  padding-inline-end: $sp-6;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ir-gov {
+  --c: var(--gold);
+
+  flex: 1 1 0;
+  min-width: max-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $sp-6;
+  height: 26px;
+  padding-block: 0;
+  padding-inline: $sp-10;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 48%, transparent);
+  color: var(--ink);
+  font: 600 $fs-12 var(--font-sans);
+  white-space: nowrap;
+  cursor: pointer;
+  @include mixins.arabic;
+  @include mixins.hit;
+
+  transition:
+    transform $t-200 var(--ease-std),
+    background-color $t-200 var(--ease-std),
+    box-shadow $t-200 var(--ease-std);
+  animation: ir-chip $t-600 var(--ease-spring) both;
+  animation-delay: calc(var(--i) * #{$t-50} + #{$t-300});
+}
+.ir-strip.late .ir-gov {
+  animation-delay: calc(var(--i) * #{$t-50} + #{$t-1000});
+}
+.ir-strip.late :is(.ir-lab, .ir-hint) {
+  animation-delay: $t-800;
+}
+.ir-gdot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-round;
+  background: var(--c);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 24%, transparent);
+}
+.ir-gov svg {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  opacity: 0.5;
+  transition:
+    opacity $t-200 var(--ease-std),
+    transform $t-200 var(--ease-std);
+}
+.ir-gov:active {
+  transform: scale(0.95);
+}
+@include mixins.hover {
+  .ir-gov:hover {
+    transform: translateY(-2px);
+    background: color-mix(in srgb, var(--c) 26%, transparent);
+    box-shadow:
+      inset 0 0 0 1px var(--c),
+      0 6px 18px -6px var(--c);
+  }
+  .ir-gov:hover svg {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.ir-sheen {
+  position: absolute;
+  inset: 0;
+  z-index: $z-3;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 44%,
+    color-mix(in srgb, var(--gold-pale) 22%, transparent) 50%,
+    transparent 56%
+  );
+  animation: ir-sheen $t-5000 var(--ease-std) $t-2000 infinite;
+}
+
+.ir-halo,
+.ir-hint svg,
+.ir-sheen {
+  @include mixins.lite {
+    animation: none;
+  }
+}
+.ir-sheen {
+  @include mixins.lite {
+    opacity: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .ir-gov {
+    outline: 1px solid buttontext;
+  }
+}

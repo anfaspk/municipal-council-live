@@ -49,6 +49,14 @@
     min-block-size: var(--hit);
   }
 }
+.cx-w.tie {
+  background: color-mix(
+    in srgb,
+    var(--tie) 9%,
+    color-mix(in srgb, var(--canvas-1) 58%, transparent)
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tie) 36%, transparent);
+}
 .cx-w:focus-visible {
   outline: none;
   background: color-mix(in srgb, var(--c) 10%, var(--canvas-1));

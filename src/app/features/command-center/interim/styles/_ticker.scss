@@ -1,0 +1,27 @@
+@use '../../../../../styles/scales' as *;
+
+.ir-tk {
+  grid-column: 1 / -1;
+  grid-row: -2 / -1;
+  position: absolute;
+  inset: 0;
+  z-index: $z-5;
+  pointer-events: none;
+}
+
+:where(.cc-grid:has(> .ir-tk.open)) > .cc-ticker > * {
+  visibility: hidden;
+}
+:where(.cc-grid:has(> .ir-tk.open)) > .cc-ticker .track {
+  animation-play-state: paused;
+}
+
+.ir-halo {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-pill);
+  box-shadow:
+    0 0 0 1.5px var(--gold),
+    0 0 26px var(--gold-glow);
+  animation: ir-glow $t-1600 var(--ease-std) infinite alternate;
+}

@@ -1,0 +1,100 @@
+@keyframes ir-in {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.92);
+  }
+}
+@keyframes ir-land {
+  25% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.02);
+  }
+  70% {
+    opacity: 0.9;
+    transform: translateY(55%) scale(0.6, 0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(78%) scale(0.45, 0.16);
+  }
+}
+@keyframes ir-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+@keyframes ir-glow {
+  from {
+    opacity: 0.25;
+  }
+}
+@keyframes ir-ping {
+  to {
+    opacity: 0;
+    transform: scale(2.8);
+  }
+}
+@keyframes ir-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+}
+@keyframes ir-wipe {
+  from {
+    opacity: 1;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+@keyframes ir-lab-in {
+  from {
+    opacity: 0;
+    transform: translateX(40%);
+  }
+}
+@keyframes ir-chip {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.9);
+  }
+}
+@keyframes ir-nudge {
+  50% {
+    transform: translateX(-4px);
+  }
+}
+@keyframes ir-sheen {
+  0%,
+  45% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+@keyframes ir-dial-in {
+  0% {
+    opacity: 0;
+    transform: rotate(-140deg) scale(0.6);
+  }
+}
+@keyframes ir-breathe {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1.06);
+  }
+}

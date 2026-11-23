@@ -59,6 +59,6 @@ export class TvRegionColumnsComponent {
     return 'url(#' + this.ref(b) + ')';
   }
   protected color(b: string): string {
-    return 'var(--band-' + b + ')';
+    return 'var(--tv-band-' + b + ', var(--band-' + b + '))';
   }
 }

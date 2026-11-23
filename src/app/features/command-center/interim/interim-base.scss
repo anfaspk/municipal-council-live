@@ -1,0 +1,23 @@
+@use 'sass:meta';
+
+@layer tokens, base, app, motion, states;
+
+@layer app {
+  @include meta.load-css('styles/shared');
+  @include meta.load-css('styles/keyframes');
+}
+
+@layer motion {
+  @media (prefers-reduced-motion: reduce) {
+    .ir *,
+    .ir *::before,
+    .ir *::after {
+      animation: none;
+      transition: none;
+    }
+    .ir-sheen,
+    .ir-wave {
+      opacity: 0;
+    }
+  }
+}

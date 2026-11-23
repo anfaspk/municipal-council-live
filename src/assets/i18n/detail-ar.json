@@ -128,8 +128,6 @@
   "dtShareTop": "الفئة {b} أكبر فئة بين المصوّتين: {n|vote}",
   "dtSum": "صوّت {v} من أصل {r|voter}",
   "dtSum0": "لم يصوّت أحد بعد من {r|voter}",
-  "dtCmpT": " ",
-  "dtCmpS": " ",
   "dtDiff.up": "أعلى من {p} بـ {n} نقطة",
   "dtDiff.down": "أقل من {p} بـ {n} نقطة",
   "dtDiff.level": "مثل {p} تمامًا",

@@ -283,7 +283,7 @@
   width: var(--w) !important;
 }
 :is(.mj-tv.tva-still, .tv-face.tva-settled) .tv-sh-halo {
-  opacity: 0.32 !important;
+  opacity: var(--halo, 0.32) !important;
 }
 @media (prefers-reduced-motion: reduce) {
   .tv-face {
@@ -333,7 +333,7 @@
     width: var(--w) !important;
   }
   .tv-sh-halo {
-    opacity: 0.32 !important;
+    opacity: var(--halo, 0.32) !important;
   }
 }
 

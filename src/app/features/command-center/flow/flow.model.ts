@@ -77,7 +77,7 @@ export function cmpOf(t: number, nat: number): { key: string; p: string } {
 
 export interface BarItem {
   screen: Extract<Screen, 'dashboard' | 'tv' | 'wall' | 'winners'>;
-  icon: 'grid' | 'tv' | 'box' | 'crown';
+  icon: 'grid' | 'tv' | 'box' | 'medal';
   key: string;
   later: boolean;
 }
@@ -85,7 +85,7 @@ const ITEMS: Record<BarItem['screen'], Omit<BarItem, 'later'>> = {
   dashboard: { screen: 'dashboard', icon: 'grid', key: 'flDash' },
   tv: { screen: 'tv', icon: 'tv', key: 'flTv' },
   wall: { screen: 'wall', icon: 'box', key: 'flCount' },
-  winners: { screen: 'winners', icon: 'crown', key: 'flWin' },
+  winners: { screen: 'winners', icon: 'medal', key: 'flWin' },
 };
 export function barOf(counting: boolean): BarItem[] {
   const order: BarItem['screen'][] = counting

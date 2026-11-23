@@ -136,7 +136,7 @@ export class TvFlowComponent extends TvfPlayer {
         this.show(this.keyIndex(this.screen.region()), true);
       });
     });
-    effect(() => this.interim.watch(this.isOpen()));
+    effect(() => this.interim.watch(this, this.isOpen()));
     effect(() => {
       const now = this.inter();
       untracked(() => {

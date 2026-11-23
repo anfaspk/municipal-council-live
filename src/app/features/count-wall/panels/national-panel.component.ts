@@ -5,7 +5,7 @@ import {
   input,
   ViewEncapsulation,
 } from '@angular/core';
-import { CGov, CNat, countGov } from '../../../domain/count/count';
+import { CGov, CNat, countGov, govTied } from '../../../domain/count/count';
 import { ct } from '../../../core/i18n/count-strings';
 import { fmt, pct } from '../../../domain/format';
 import { IconComponent } from '../../../shared/ui/icon.component';
@@ -25,6 +25,7 @@ export class NationalPanel {
     this.governors().map((gov) => ({
       gov,
       sum: countGov(gov),
+      tie: govTied(gov),
       gender: gov.wil.reduce((a, w) => ({ m: a.m + w.m, f: a.f + w.f }), { m: 0, f: 0 }),
     })),
   );

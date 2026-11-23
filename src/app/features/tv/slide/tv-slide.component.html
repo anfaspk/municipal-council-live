@@ -48,12 +48,9 @@
       <div class="tv-cards" style="--i: 5">
         <div class="tv-card tv-gen" appTvGender [gender]="n.gender"></div>
         <div class="tv-card">
-          <div class="tv-ch">
-            <span class="mj-micro">{{ 'podium' | t }}</span>
-          </div>
           <div class="tv-leads">
             @for (l of n.leaders; track l.rank) {
-              <div class="tv-lead" [class]="l.band">
+              <div class="tv-lead" [style.--rg]="'var(--gov-vivid-' + l.id + ')'">
                 <span class="mj-num r">{{ l.rank }}</span
                 ><span class="nm">{{ l.name }}</span
                 ><b class="mj-num" [attr.data-fig]="'tv.lead.' + $index">{{ l.t | pct }}</b>
@@ -70,11 +67,6 @@
         ><span class="b">{{ 'tvGovs' | t }}</span>
       </div>
       <svg class="tv-shape tv-oman" appTvCountryMap [map]="n.map"></svg>
-      <div class="tv-key">
-        @for (b of bands; track b) {
-          <span [class]="b"><i></i>{{ b | t }}</span>
-        }
-      </div>
     </div>
   </div>
 } @else if (gov(); as g) {

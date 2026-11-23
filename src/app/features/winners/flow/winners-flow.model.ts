@@ -4,9 +4,9 @@ import type { WCand, WWil } from '../../../domain/winners/winners';
 import { titled } from '../winners.model';
 import { wf } from './wf-strings';
 
-export const BAR: readonly { s: Screen; icon: 'box' | 'crown' | 'grid' | 'tv'; key: string }[] = [
+export const BAR: readonly { s: Screen; icon: 'box' | 'medal' | 'grid' | 'tv'; key: string }[] = [
   { s: 'wall', icon: 'box', key: 'wfBarCount' },
-  { s: 'winners', icon: 'crown', key: 'wfBarWin' },
+  { s: 'winners', icon: 'medal', key: 'wfBarWin' },
   { s: 'dashboard', icon: 'grid', key: 'wfBarDash' },
   { s: 'tv', icon: 'tv', key: 'wfBarTv' },
 ];

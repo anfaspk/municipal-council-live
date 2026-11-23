@@ -2,6 +2,9 @@
 
 @layer tokens, base, app, motion, states;
 
+@layer tokens {
+  @include meta.load-css('../../../styles/gov-vivid');
+}
 @layer app {
   @include meta.load-css('styles/frame');
   @include meta.load-css('styles/stats');

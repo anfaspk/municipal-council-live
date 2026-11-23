@@ -1,0 +1,35 @@
+@if (shown()) {
+  <div
+    class="ir-cd"
+    [class.land]="landing()"
+    [class.hot]="urgent()"
+    [style.--k]="ring()"
+    (animationend)="landed($event)"
+  >
+    <span class="ir-edge" aria-hidden="true"></span>
+    <span class="ir-aura" aria-hidden="true"></span>
+    <div class="ir-dial" role="timer" [attr.aria-label]="timerL()">
+      <span class="ir-sweep" aria-hidden="true"></span>
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle class="ticks" cx="60" cy="60" r="55" pathLength="60" />
+        <circle class="trk" cx="60" cy="60" r="46" pathLength="100" />
+        <circle class="arc" cx="60" cy="60" r="46" pathLength="100" />
+        <g class="head"><circle cx="60" cy="14" r="4.5" /></g>
+      </svg>
+      <span class="ir-num" aria-hidden="true">
+        <i class="ir-wave" #wave></i><b #num>{{ secs() }}</b>
+      </span>
+    </div>
+    <div class="ir-txt">
+      <p class="ir-kick">
+        <i class="ir-dot"></i>{{ s.kick }}<em class="ir-tag">{{ s.tag }}</em>
+      </p>
+      <p class="ir-title">{{ title() }}</p>
+      <p class="ir-sub">{{ s.sub }}</p>
+    </div>
+    <span class="ir-bar" aria-hidden="true"><i></i></span>
+  </div>
+  @if (!landing()) {
+    <span class="ir-beam" aria-hidden="true"><i></i></span>
+  }
+}

@@ -8,6 +8,7 @@ import {
   ElementRef,
   inject,
   Injector,
+  signal,
   untracked,
   ViewEncapsulation,
   viewChild,
@@ -15,6 +16,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SCREEN_FRAME, ScreenState } from '../../core/screen/screen.state';
 import { t } from '../../core/i18n/i18n';
+import { ServerClock } from '../../core/clock/server-clock.service';
 import { TickerStore } from '../../data/ticker.store';
 import { TurnoutStore } from '../../data/turnout.store';
 import { govShade } from '../../shared/ui/gov-shade';
@@ -36,6 +38,9 @@ import { DetailState } from './detail/detail.state';
 import { DrawerComponent } from './drawer/drawer.component';
 import { HeaderComponent } from './header/header.component';
 import { HeroComponent } from './hero/hero.component';
+import { InterimCountComponent } from './interim/interim-count.component';
+import { InterimCueComponent } from './interim/interim-cue.component';
+import { cueFetchIn } from './interim/interim-cue.model';
 import { InsightsComponent } from './insights/insights.component';
 import { KpisComponent } from './kpis/kpis.component';
 import { MapFocusComponent } from './map/map-focus.component';
@@ -65,6 +70,8 @@ import { DetailRecoverDirective } from './detail/detail-recover.directive';
     InsightsComponent,
     DrawerComponent,
     DetailPageComponent,
+    InterimCueComponent,
+    InterimCountComponent,
     ConfettiComponent,
   ],
   host: {
@@ -85,6 +92,8 @@ export class CommandCenterComponent implements AfterViewInit {
   private said: Extract<ScreenEvent, { type: 'cross' | 'milestone' | 'complete' }> | null = null;
   protected readonly fx = inject(FxService);
   protected readonly star = starPoints(12, 12, 11);
+  private readonly clock = inject(ServerClock);
+  protected readonly cueNear = signal(false);
 
   private readonly root: HTMLElement = inject(ElementRef).nativeElement;
   private readonly frame = inject(SCREEN_FRAME);
@@ -105,6 +114,14 @@ export class CommandCenterComponent implements AfterViewInit {
   constructor() {
     inject(RemoteNav).zone({ root: this.frame, on: () => this.screen.is('dashboard') });
     inject(TickerStore);
+    effect((onCleanup) => {
+      const c = this.clock,
+        voting = c.phase() === 'live' && !c.closed() && !c.counting(),
+        wait = voting ? cueFetchIn(c.interimFrom(), c.interimTo(), c.now()) : null;
+      if (wait === null || this.cueNear()) return;
+      const timer = setTimeout(() => this.cueNear.set(true), wait);
+      onCleanup(() => clearTimeout(timer));
+    });
     effect(() => {
       const id = this.state.pinned();
       untracked(() => this.drawerMoved(id));

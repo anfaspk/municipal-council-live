@@ -14,8 +14,13 @@
     }
   </svg:g>
   @for (r of m.regions; track r.id) {
-    <svg:g class="tv-rg" [class]="r.band" [style.--k]="r.k">
-      <svg:path class="fill" [attr.d]="r.d" />
+    <svg:g class="tv-rg" [style.--k]="r.k" [style.--rg]="'var(--gov-vivid-' + r.id + ')'">
+      <svg:radialGradient [attr.id]="m.id + '-g' + r.id" cx=".5" cy=".45" r=".72">
+        <svg:stop class="tv-bs dp" offset="0" stop-opacity=".12" />
+        <svg:stop class="tv-bs" offset=".7" stop-opacity=".22" />
+        <svg:stop class="tv-bs" offset="1" stop-opacity=".46" />
+      </svg:radialGradient>
+      <svg:path class="fill" [attr.d]="r.d" [attr.fill]="'url(#' + m.id + '-g' + r.id + ')'" />
       <svg:g class="tv-wd">
         @for (w of r.wil; track w.q) {
           <svg:circle
@@ -27,7 +32,7 @@
           />
         }
       </svg:g>
-      <svg:path class="tv-sh-trace" [attr.d]="r.d" pathLength="1" stroke-width="1.3" />
+      <svg:path class="tv-sh-trace" [attr.d]="r.d" pathLength="1" stroke-width="1.1" />
       @for (p of r.pts; track $index) {
         <svg:g class="tv-pt" [style.--d]="p.d" [style.--p]="p.p">
           <svg:circle class="ring" [attr.cx]="p.cx" [attr.cy]="p.cy" r="7" stroke-width="1" />

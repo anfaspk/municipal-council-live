@@ -104,6 +104,7 @@
               class="mj-pill bare"
               [class]="r.band"
               [attr.data-fig]="'gov.' + r.id + '.turnout'"
+              [style.--k]="r.t / 100"
               >{{ pct(r.t) }}</span
             ><span class="mb"><i [style.width.%]="r.t"></i></span></span
           ><span class="vt" [attr.data-fig]="'gov.' + r.id + '.voted'">{{ fmt(r.voted) }}</span>

@@ -1,0 +1,282 @@
+@use '../../../../../styles/mixins';
+@use '../../../../../styles/scales' as *;
+
+.ir-pod {
+  position: absolute;
+  inset: 0;
+  z-index: $z-6;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.ir-cd {
+  --ir-c: var(--gold);
+  --ir-glow: var(--gold-glow);
+
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: $sp-22;
+  padding-block: $sp-16 $sp-22;
+  padding-inline: $sp-18 $sp-24;
+  border-radius: inherit;
+  pointer-events: auto;
+  isolation: isolate;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--ir-c) 55%, transparent),
+    0 0 46px -8px var(--ir-glow),
+    var(--shadow-raised);
+  animation: ir-in $t-800 var(--ease-spring) both;
+  transition: box-shadow $t-300 var(--ease-std);
+}
+.ir-cd.hot {
+  --ir-c: var(--live);
+  --ir-glow: color-mix(in srgb, var(--live) 55%, transparent);
+}
+.ir-cd.land {
+  animation: ir-land $t-1100 var(--ease-std) both;
+}
+.ir-cd > :is(.ir-dial, .ir-txt) {
+  position: relative;
+  z-index: $z-3;
+}
+
+.ir-edge {
+  position: absolute;
+  inset: 0;
+  z-index: $z-1;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.ir-edge::before {
+  content: '';
+  position: absolute;
+  inset: -300% -10%;
+  background: conic-gradient(
+    transparent 0 56%,
+    color-mix(in srgb, var(--ir-c) 60%, transparent) 76%,
+    var(--gold-pale) 84%,
+    transparent 92%
+  );
+  animation: ir-spin $t-4000 linear infinite;
+}
+.ir-cd.hot .ir-edge::before {
+  animation-duration: $t-1200;
+}
+.ir-edge::after {
+  content: '';
+  position: absolute;
+  inset: $sp-2;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      90% 130% at 100% 0%,
+      color-mix(in srgb, var(--ir-c) 16%, transparent),
+      transparent 60%
+    ),
+    var(--glass-solid);
+}
+
+.ir-aura {
+  position: absolute;
+  z-index: $z-2;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 250px;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--ir-c) 26%, transparent),
+    transparent
+  );
+  animation: ir-breathe $t-2400 var(--ease-std) infinite alternate;
+}
+
+.ir-dial {
+  flex: none;
+  display: grid;
+  place-items: center;
+  block-size: 100%;
+  max-block-size: 188px;
+  aspect-ratio: 1;
+}
+.ir-dial svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: ir-dial-in $t-1000 var(--ease-spring) both;
+}
+.ir-dial circle {
+  fill: none;
+}
+.ir-dial .ticks {
+  stroke: color-mix(in srgb, var(--ir-c) 40%, transparent);
+  stroke-width: 3;
+  stroke-dasharray: 0.12 0.88;
+}
+.ir-dial .trk {
+  stroke: color-mix(in srgb, var(--ir-c) 14%, transparent);
+  stroke-width: 7;
+}
+.ir-dial .arc {
+  stroke: var(--ir-c);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc((1 - var(--k, 0)) * 100px);
+  transform: rotate(-90deg);
+  transform-origin: 60px 60px;
+  filter: drop-shadow(0 0 6px var(--ir-glow));
+  transition:
+    stroke-dashoffset $t-1000 linear,
+    stroke $t-300 var(--ease-std);
+}
+.ir-dial .head {
+  transform: rotate(calc(var(--k, 0) * 360deg));
+  transform-origin: 60px 60px;
+  transition: transform $t-1000 linear;
+}
+.ir-dial .head circle {
+  fill: var(--gold-pale);
+  filter: drop-shadow(0 0 5px var(--ir-c));
+}
+.ir-sweep {
+  position: absolute;
+  inset: 13%;
+  border-radius: $radius-round;
+  background: conic-gradient(transparent 0 72%, color-mix(in srgb, var(--ir-c) 24%, transparent));
+  animation: ir-spin $t-3000 linear infinite;
+}
+.ir-num {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  line-height: 1;
+}
+.ir-num b {
+  grid-area: 1 / 1;
+  font: 700 $fs-62 var(--font-display);
+  font-variant-numeric: tabular-nums;
+  color: var(--ir-c);
+  text-shadow: 0 0 26px var(--ir-glow);
+}
+.ir-num small {
+  grid-area: 2 / 1;
+  margin-top: $sp-4;
+  font: 600 $fs-12 var(--font-sans);
+  color: var(--ink-muted);
+  @include mixins.arabic;
+}
+.ir-wave {
+  grid-area: 1 / 1;
+  align-self: center;
+  width: 96px;
+  height: 96px;
+  border-radius: $radius-round;
+  box-shadow: 0 0 0 2px var(--ir-c);
+  opacity: 0;
+}
+
+.ir-txt {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $sp-8;
+}
+.ir-txt p {
+  margin: 0;
+}
+.ir-kick {
+  display: flex;
+  align-items: center;
+  gap: $sp-8;
+  font: 700 $fs-15 var(--font-sans);
+  color: var(--gold-ink);
+  @include mixins.arabic;
+}
+.ir-title {
+  font: 800 #{$fs-30}/ 1.25 var(--font-sans);
+  color: var(--ink);
+  @include mixins.arabic;
+}
+.ir-sub {
+  font: 500 #{$fs-14}/ 1.6 var(--font-sans);
+  color: var(--ink-muted);
+  @include mixins.arabic;
+}
+
+.ir-bar {
+  position: absolute;
+  z-index: $z-3;
+  inset-inline: $sp-24;
+  bottom: $sp-10;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ir-c) 14%, transparent);
+  overflow: hidden;
+}
+.ir-bar i {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--ir-c), var(--gold-pale));
+  transform-origin: 100% 50%;
+  transform: scaleX(var(--k, 0));
+  transition: transform $t-1000 linear;
+}
+
+.ir-beam {
+  position: absolute;
+  top: 100%;
+  inset-inline: 0;
+  margin-inline: auto;
+  width: 2px;
+  height: 14px;
+  overflow: hidden;
+  background: linear-gradient(var(--gold), transparent);
+}
+.ir-beam i {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-pale);
+  animation: ir-drop $t-1200 var(--ease-std) infinite;
+}
+
+.ir-sub {
+  @include mixins.short {
+    display: none;
+  }
+}
+.ir-title {
+  @include mixins.short {
+    font-size: $fs-22;
+  }
+}
+.ir-num b {
+  @include mixins.short {
+    font-size: $fs-38;
+  }
+}
+
+.ir-edge::before,
+.ir-aura,
+.ir-sweep,
+.ir-beam i {
+  @include mixins.lite {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .ir-dial .arc {
+    stroke: highlight;
+  }
+  .ir-bar i {
+    background: highlight;
+  }
+}

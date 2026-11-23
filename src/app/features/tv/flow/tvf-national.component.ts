@@ -55,7 +55,7 @@ import { TvfTPipe } from './tvf-t.pipe';
             </ol>
           } @else {
             <p class="tvf-micro">{{ 'tvfTop' | tvfT }}</p>
-            <ol class="tvf-top" [attr.aria-label]="'podium' | tvfT">
+            <ol class="tvf-top">
               @for (l of n.leaders; track $index) {<li [class]="l.band"><span class="tvf-rank">{{ l.rank }}</span><b class="nm">{{ l.name }}</b><b class="tvf-ink" [attr.data-fig]="'tv.lead.' + $index">{{ l.t | pct }}</b></li>}
             </ol>
           }

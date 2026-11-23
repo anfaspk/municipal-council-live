@@ -93,6 +93,16 @@
     scale: 0.82;
   }
 }
+.cx-lb.tie {
+  background: color-mix(
+    in srgb,
+    var(--tie) 12%,
+    color-mix(in srgb, var(--canvas-0) 80%, transparent)
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--tie) 50%, transparent),
+    0 14px 30px -16px var(--shadow-ink-85);
+}
 .has-sel .cx-lb:not(.sel):not(.hov) {
   opacity: 0.26;
 }

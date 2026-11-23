@@ -62,8 +62,19 @@
   flex-direction: column;
   gap: $sp-5;
 }
+.mj-row .mj-pill {
+  justify-content: center;
+  letter-spacing: 0;
+}
 .mj-row .mj-pill.bare {
-  padding-inline: $sp-9;
+  padding-inline: $sp-8;
+  background:
+    linear-gradient(
+      to left,
+      color-mix(in srgb, var(--gold) 24%, transparent) calc(var(--k, 0) * 100%),
+      transparent 0
+    ),
+    var(--glass-fill);
 }
 .mj-row .mb {
   height: 4px;

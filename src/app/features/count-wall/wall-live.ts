@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ct } from '../../core/i18n/count-strings';
 import { CountStore } from '../../data/count.store';
-import { CEvent, CGov, countGov, CWil } from '../../domain/count/count';
+import { CEvent, CGov, countGov, CWil, govTied } from '../../domain/count/count';
 import { fmt, pct } from '../../domain/format';
 import { FrameLoop } from '../../shared/motion/frame-loop.service';
 import { restartAnimation } from '../../shared/motion/restart-animation';
@@ -129,6 +129,7 @@ export class WallLive {
         'cx-w cx-gr ' +
         (s.decl === s.n ? 'decl' : s.counted ? 'count' : 'await') +
         (state.natHot === id ? ' hot' : '') +
+        (govTied(gv) ? ' tie' : '') +
         (gid ? ' upd' : '');
       row.querySelector('.pc')!.textContent = pct(s.p);
       row.querySelector<HTMLElement>('.pg i')!.style.width = f1(s.p) + '%';
@@ -144,7 +145,12 @@ export class WallLive {
     const row = f.querySelector<HTMLElement>('.cx-w[data-w="' + cssEscape(w.n) + '"]');
     if (row) {
       const p = w.cast ? (w.counted / w.cast) * 100 : 0;
-      row.className = 'cx-w ' + w.st + ' upd' + (row.classList.contains('was') ? ' was' : '');
+      row.className =
+        'cx-w ' +
+        w.st +
+        ' upd' +
+        (w.conflict ? ' tie' : '') +
+        (row.classList.contains('was') ? ' was' : '');
       this.h.govPanel(f, w);
       this.h.detectChanges();
       row.querySelector('.pc')!.textContent = pct(p);

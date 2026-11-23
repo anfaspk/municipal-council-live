@@ -1,0 +1,28 @@
+@if (cue.cue() === 'count') {
+  <span class="ir-halo" aria-hidden="true"></span>
+}
+@if (cue.cue() === 'open') {
+  <div class="ir-strip" [class.late]="cue.landing()">
+    <p class="ir-lab">
+      <i class="ir-dot"></i><b>{{ s.kick }}</b><em class="ir-tag">{{ s.tag }}</em>
+      @if (left(); as l) {
+        <span class="ir-left">{{ s.ends }}&ngsp;<time>{{ l }}</time></span>
+      }
+    </p>
+    <span class="ir-hint" aria-hidden="true">{{ s.pick }}<svg [mjIcon]="'prev'"></svg></span>
+    <nav class="ir-govs" [attr.aria-label]="s.nav">
+      @for (g of govs; track g.id; let i = $index) {
+        <button
+          type="button"
+          class="ir-gov"
+          [style.--c]="'var(--gov-' + g.id + ')'"
+          [style.--i]="i"
+          [attr.aria-label]="goL(g)"
+          [title]="goL(g)"
+          (click)="open(g)"
+        ><i class="ir-gdot"></i><span>{{ g.name }}</span><svg [mjIcon]="'tv'"></svg></button>
+      }
+    </nav>
+    <span class="ir-sheen" aria-hidden="true"></span>
+  </div>
+}

@@ -4,6 +4,7 @@
   <div class="tv-ih" style="--i:3">
     @if (featured(); as f) {
         <div class="tv-ih-in" #hero>
+          <div class="tv-ih-walk" aria-hidden="true">@for (r of g.rows; track r.id) {<i [class.on]="r.id === f.id" [class.read]="!!r.wil"></i>}</div>
           <div class="tv-ih-top">
             <span class="tv-ih-pin" aria-hidden="true"><svg [mjIcon]="'ballot'"></svg></span>
             <div class="tv-ih-w"><span class="mj-micro">{{ 'intWil' | t }}</span><b>{{ f.name }}</b></div>
@@ -19,6 +20,7 @@
               <div class="tv-seats" [class.dense]="f.leaders.length === 3" [class.slim]="f.leaders.length > 3" [style.--c]="seatCols(f.leaders.length)">
                 @for (c of f.leaders; track c.id; let k = $index) {
                   <div class="tv-seat" [style.--k]="k < 8 ? k : 8">
+                    <i class="tv-seat-w" [style.--w]="seatW(f, c.v)"></i>
                     <span class="tv-iav md" mjRaceAv [cand]="c"></span>
                     <div class="who">
                       <span class="tv-ih-badge"><svg [mjIcon]="'crown'"></svg>{{ (f.seats > 1 ? (k < 2 ? 'resSeat' + (k + 1) : 'resSeat') : 'intLead') | t: { n: k + 1 } }}</span>
@@ -41,7 +43,7 @@
             </div>
             <div class="tv-ih-rest" tabindex="0" [attr.aria-label]="(f.leaders.length ? 'intRest' : 'intAll') | t">
               @for (b of f.rest; track b.c.id; let k = $index) {
-                <div class="tv-ir" [style.--k]="k < 12 ? k : 12">
+                <div class="tv-ir" [class.next]="k === 0 && f.leaders.length > 0 && !f.tied" [style.--k]="k < 12 ? k : 12">
                   <span class="p mj-num">{{ b.c.pos }}</span>
                   <span class="tv-iav sm" mjRaceAv [cand]="b.c"></span>
                   <span class="tv-ir-t" [style.--w]="b.w"><i></i><span class="nm">{{ b.c.name }}</span></span>
@@ -51,7 +53,7 @@
               @if (f.other; as o) {
                 <div class="tv-ir other" [style.--k]="f.rest.length < 12 ? f.rest.length : 12">
                   <span class="p"></span>
-                  <span class="tv-iav sm none"></span>
+                  <span class="tv-iav sm none"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="3.5" y="2.5" width="13" height="15" rx="2.5" /><path d="M7.5 7.5l5 5M12.5 7.5l-5 5" /></svg></span>
                   <span class="tv-ir-t" [style.--w]="o.w"><i></i><span class="nm">{{ 'intOther' | t }}</span></span>
                   <span class="vp"><span class="v mj-num">{{ o.v | fmt }}</span><b class="pc mj-num">{{ o.vP | share }}</b></span>
                 </div>

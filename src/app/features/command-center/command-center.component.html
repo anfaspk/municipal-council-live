@@ -21,7 +21,6 @@
     class="cc-map mj-glass"
     data-boot
     [inert]="covered"
-    [attr.aria-label]="'map' | t"
     (pointerenter)="tourEnter()"
     (pointerleave)="tourLeave()"
     (focusin)="tourFocus(true)"
@@ -37,9 +36,16 @@
       <span class="mj-crenel"></span>
       <div class="ixw mj-z"></div>
     </section>
-    <section class="cc-podium mj-glass" data-boot [attr.aria-label]="'podium' | t"></section>
+    <section class="cc-podium mj-glass" data-boot>
+      @defer (when cueNear()) {
+        <div ccInterimCd></div>
+      }
+    </section>
   </div>
   <footer class="cc-ticker mj-glass mj-ticker" data-boot [inert]="covered"></footer>
+  @defer (when cueNear()) {
+    <div ccInterim [inert]="covered"></div>
+  }
 </div>
 @if (paged) {
   @defer (on immediate) {

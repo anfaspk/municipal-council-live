@@ -222,6 +222,12 @@
   stroke-width: 1;
   stroke-dasharray: 2 3;
 }
+.cx-n.tie .halo {
+  fill: color-mix(in srgb, var(--tie) 24%, transparent);
+}
+.cx-n.tie .core {
+  stroke: var(--tie);
+}
 .cx-n.hov .in {
   transform: scale(1.18);
 }

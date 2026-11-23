@@ -61,6 +61,11 @@ export class TvInterimComponent {
 
   protected readonly seatCols = seatCols;
 
+  protected seatW(f: InterimRow, v: number): number {
+    const top = f.leaders[0]?.v ?? 0;
+    return top > 0 ? Math.min(1, v / top) : 0;
+  }
+
   protected votes(n: number): { n: string } {
     return { n: fmt(n) };
   }

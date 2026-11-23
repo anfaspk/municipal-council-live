@@ -232,6 +232,7 @@ export function countGov(gv: CGov): CGovSum {
   s.p = s.cast ? (s.counted / s.cast) * 100 : 0;
   return s;
 }
+export const govTied = (gv: CGov): boolean => gv.wil.some((w) => !!w.conflict);
 export function countNat(govs: CGov[], registered: number, leadN: number): CNat {
   const n: CNat = {
     cast: 0,

@@ -23,7 +23,6 @@ import { TvRegionShapeComponent } from './tv-region-shape.component';
 import { TvSlideState } from './tv-slide-state';
 import { TvStatsComponent } from './tv-stats.component';
 import { TvWilayatTableComponent } from './tv-wilayat-table.component';
-import { BANDS } from '../../../domain/stats/turnout';
 import { TurnoutStore } from '../../../data/turnout.store';
 import { InterimStore } from '../../../data/interim.store';
 import { timeLeft } from '../../../domain/interim/interim';
@@ -56,6 +55,9 @@ import { TvInterimComponent } from './tv-interim.component';
     '[class.spot]': 'state.spot() >= 0',
     '[class.tv-pick]': 'inter() && !!gov()',
     '[style.--sp]': 'settled() ? "0s" : slide().split + "s"',
+    '[style.--rg]': 'rg()',
+    '[class.tv-own]': '!!rg()',
+    '[class.tv-nat]': '!rg()',
   },
   templateUrl: './tv-slide.component.html',
   encapsulation: ViewEncapsulation.None,
@@ -85,11 +87,14 @@ export class TvSlideComponent {
     const s = this.slide();
     return s.kind === 'gov' ? s : null;
   });
+  protected readonly rg = computed(() => {
+    const s = this.slide();
+    return s.kind === 'gov' ? 'var(--gov-vivid-' + s.key + ')' : null;
+  });
   protected readonly logo = LOGO;
   protected readonly logoDark = LOGO_DARK;
   protected readonly moi = MOI_LOGO;
   protected readonly moiDark = MOI_LOGO_DARK;
-  protected readonly bands = BANDS;
   protected readonly registeredLower = t('registered').toLowerCase();
 
   constructor() {

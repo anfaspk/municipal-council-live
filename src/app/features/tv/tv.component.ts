@@ -112,7 +112,7 @@ export class TvComponent extends TvControls {
       this.clock.reset();
       clearTimeout(this.idleTimer);
     });
-    effect(() => this.interim.watch(this.isOpen()));
+    effect(() => this.interim.watch(this, this.isOpen()));
     effect(() => {
       const now = this.inter();
       untracked(() => {

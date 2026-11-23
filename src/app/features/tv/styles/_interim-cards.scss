@@ -10,26 +10,60 @@
   min-height: 0;
   border-radius: $r-24;
   overflow: hidden;
-  background: linear-gradient(
-    150deg,
-    color-mix(in srgb, var(--gold) 15%, var(--canvas-1)),
-    color-mix(in srgb, var(--canvas-1) 55%, transparent) 70%
-  );
+  isolation: isolate;
+  background:
+    radial-gradient(
+      70% 80% at 100% 0%,
+      color-mix(in srgb, var(--rg) 18%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      60% 60% at 0% 100%,
+      color-mix(in srgb, var(--rg-deep) 22%, transparent),
+      transparent 72%
+    ),
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, color-mix(in oklab, var(--rg) 10%, var(--canvas-1)) 80%, transparent),
+      color-mix(in srgb, var(--canvas-1) 44%, transparent)
+    );
   box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--gold) 32%, transparent),
-    0 24px 60px -30px var(--shadow-ink-50);
+    inset 0 0 0 1px color-mix(in srgb, var(--rg) 28%, var(--hairline)),
+    0 30px 70px -36px var(--shadow-ink-50),
+    0 0 64px -32px color-mix(in srgb, var(--rg) 45%, transparent);
+  backdrop-filter: blur(14px);
+
+  @include mixins.lite {
+    backdrop-filter: none;
+  }
 }
 .tv-ih::before {
   content: '';
   position: absolute;
-  inset-block-start: -40%;
-  inset-inline-end: -10%;
-  width: 60%;
-  height: 120%;
+  inset: $sp-8;
   pointer-events: none;
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--gold) 16%, transparent),
+  opacity: 0.55;
+  background:
+    linear-gradient(var(--rg), var(--rg)) 0 0/18px 1.5px,
+    linear-gradient(var(--rg), var(--rg)) 0 0/1.5px 18px,
+    linear-gradient(var(--rg), var(--rg)) 100% 0/18px 1.5px,
+    linear-gradient(var(--rg), var(--rg)) 100% 0/1.5px 18px,
+    linear-gradient(var(--rg), var(--rg)) 0 100%/18px 1.5px,
+    linear-gradient(var(--rg), var(--rg)) 0 100%/1.5px 18px,
+    linear-gradient(var(--rg), var(--rg)) 100% 100%/18px 1.5px,
+    linear-gradient(var(--rg), var(--rg)) 100% 100%/1.5px 18px;
+  background-repeat: no-repeat;
+}
+.tv-ih::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--rg-lite) 80%, transparent),
     transparent
   );
 }
@@ -39,29 +73,57 @@
   flex-direction: column;
   min-height: 0;
   gap: $sp-12;
-  padding: $sp-16 $sp-24 $sp-14;
+  padding: $sp-24 $sp-24 $sp-14;
 }
 .tv-ih-in.swap {
   animation: tv-int-swap $t-700 var(--ease-expo) both;
 }
+.tv-ih-walk {
+  position: absolute;
+  inset: $sp-10 $sp-24 auto;
+  display: flex;
+  gap: $sp-4;
+}
+.tv-ih-walk i {
+  flex: 1;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+  transition:
+    background $t-400 var(--ease-std),
+    box-shadow $t-400 var(--ease-std);
+}
+.tv-ih-walk i.read {
+  background: color-mix(in srgb, var(--rg) 38%, transparent);
+}
+.tv-ih-walk i.on {
+  background: linear-gradient(270deg, var(--rg-lite), var(--rg));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--rg) 70%, transparent);
+}
 .tv-ih-top {
   display: flex;
   align-items: center;
-  gap: $sp-12;
+  gap: $sp-14;
 }
 .tv-ih-pin {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: $r-12;
-  color: var(--gold-ink);
-  background: color-mix(in srgb, var(--gold) 14%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 40%, transparent);
+  width: 40px;
+  height: 40px;
+  border-radius: $r-14;
+  color: var(--rg-lite);
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--rg) 30%, transparent),
+    color-mix(in srgb, var(--rg-deep) 18%, transparent)
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--rg) 55%, transparent),
+    0 0 22px -6px var(--rg);
 }
 .tv-ih-pin svg {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
 }
 .tv-ih-w {
   display: flex;
@@ -70,25 +132,62 @@
   min-width: 0;
   margin-inline-end: auto;
 }
+.tv-ih-w .mj-micro {
+  color: var(--rg-lite);
+}
 .tv-ih-w b {
-  font: 700 #{$fs-26}/ 1.1 var(--font-arabic);
+  font: 700 #{$fs-30}/ 1.1 var(--font-arabic);
+  text-shadow: 0 0 32px color-mix(in srgb, var(--rg) 40%, transparent);
   @include mixins.ellipsis;
+}
+.tv-ih-top .mj-chip {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--rg) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--rg) 40%, transparent);
 }
 .tv-seats {
   display: grid;
   grid-template-columns: repeat(var(--c, 1), minmax(0, 1fr));
-  gap: $sp-12;
+  gap: $sp-14;
 }
 .tv-seat {
+  position: relative;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: $sp-12;
-  padding: $sp-8 $sp-14;
-  border-radius: $r-16;
-  background: color-mix(in srgb, var(--gold) 10%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 38%, transparent);
+  gap: $sp-14;
+  padding: $sp-8 $sp-16 $sp-12;
+  border-radius: $r-18;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      200deg,
+      color-mix(in srgb, var(--rg) 26%, transparent),
+      color-mix(in srgb, var(--rg) 6%, transparent) 62%
+    ),
+    color-mix(in srgb, var(--canvas-0) 40%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--rg) 50%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--rg-lite) 45%, transparent),
+    0 18px 40px -24px color-mix(in srgb, var(--rg) 70%, transparent);
   animation: tv-int-rise $t-700 var(--ease-expo) calc($t-250 + var(--k) * $t-80) both;
+}
+.tv-seat-w {
+  position: absolute;
+  inset: auto 0 0;
+  height: 3px;
+  background: linear-gradient(270deg, var(--rg), var(--rg-lite));
+  box-shadow: 0 0 14px var(--rg);
+  transform-origin: 100% 50%;
+  transform: scaleX(var(--w));
+  animation: tv-int-bar $t-1200 var(--ease-expo) $t-400 both;
+  transition: transform $t-600 var(--ease-std);
+}
+.tv-seat .tv-iav {
+  box-shadow:
+    0 0 0 2px var(--rg),
+    0 0 0 5px color-mix(in srgb, var(--rg) 22%, transparent),
+    0 0 26px -4px var(--rg);
 }
 .tv-seat .who {
   display: flex;
@@ -106,15 +205,25 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: $sp-4;
+  gap: $sp-6;
 }
 .tv-seat .pc b {
-  font: 800 #{$fs-34}/ 1 var(--font-display);
+  font: 800 #{$fs-38}/ 1 var(--font-display);
   letter-spacing: -0.02em;
+  background: linear-gradient(
+    180deg,
+    var(--ink) 30%,
+    color-mix(in srgb, var(--rg) 80%, var(--ink))
+  );
+  background-clip: text;
+  color: transparent;
 }
 .tv-seat .pc span {
-  font: 600 #{$fs-14}/ 1 var(--font-sans);
-  color: var(--ink-muted);
+  padding: $sp-3 $sp-8;
+  border-radius: var(--radius-pill);
+  font: 700 #{$fs-14}/ 1 var(--font-sans);
+  color: var(--rg-lite);
+  background: color-mix(in srgb, var(--rg) 16%, transparent);
 }
 .tv-seats.dense .tv-seat {
   grid-template-columns: auto minmax(0, 1fr);
@@ -126,15 +235,15 @@
 .tv-seats.dense .tv-seat .pc {
   grid-column: 1 / -1;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
 }
 .tv-seats.dense .tv-seat .pc b {
-  font-size: $fs-26;
+  font-size: $fs-28;
 }
 .tv-seats.slim .tv-seat {
   gap: $sp-10;
-  padding: $sp-6 $sp-10;
+  padding: $sp-6 $sp-10 $sp-9;
 }
 .tv-seats.slim .tv-iav {
   width: 40px;
@@ -157,116 +266,51 @@
   border-radius: var(--radius-pill);
   font: 700 #{$fs-12}/ 1 var(--font-sans);
   color: var(--canvas-0);
-  background: linear-gradient(180deg, var(--gold-glow), var(--gold));
+  background: linear-gradient(180deg, var(--rg-lite), var(--rg));
+  box-shadow: 0 4px 14px -4px var(--rg);
 }
 .tv-ih-badge svg {
   width: 13px;
   height: 13px;
 }
 .tv-ih-head {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: $sp-16;
   padding-top: $sp-10;
-  border-top: 1px solid var(--hairline);
+}
+.tv-ih-head::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--rg) 55%, transparent),
+    var(--hairline) 40%,
+    transparent
+  );
+}
+.tv-ih-head .mj-micro {
+  color: var(--rg-lite);
 }
 .tv-ih-line {
   display: inline-flex;
   align-items: center;
   gap: $sp-8;
+  padding: $sp-4 $sp-12;
+  border-radius: var(--radius-pill);
   font: 700 #{$fs-14}/ 1 var(--font-arabic);
-  color: var(--gold-ink);
+  color: var(--rg-lite);
+  background: color-mix(in srgb, var(--rg) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--rg) 32%, transparent);
 }
 .tv-ih-line::before {
   content: '';
   width: 22px;
-  border-top: 2px dashed var(--gold);
-}
-.tv-ih-rest {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-auto-rows: 68px;
-  gap: $sp-8 $sp-20;
-  min-height: 0;
-  padding-inline-end: $sp-6;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
-  border-radius: $r-12;
-}
-.tv-ih-rest:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
-}
-.tv-ih-rest .tv-iav.sm {
-  width: 52px;
-  height: 52px;
-}
-.tv-ir {
-  display: flex;
-  align-items: center;
-  gap: $sp-10;
-  padding: 0 $sp-4;
-  animation: tv-int-in $t-700 var(--ease-expo) calc($t-250 + var(--k) * $t-80) backwards;
-}
-.tv-ir .p {
-  width: 24px;
-  font: 700 #{$fs-16}/ 1 var(--font-display);
-  color: var(--ink-muted);
-  text-align: center;
-}
-.tv-ir-t {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-  align-self: stretch;
-  display: flex;
-  align-items: center;
-  padding-inline: $sp-14;
-  border-radius: $r-12;
-  background: color-mix(in srgb, var(--ink) 6%, transparent);
-  overflow: hidden;
-}
-.tv-ir-t i {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: color-mix(in srgb, var(--ink) 15%, transparent);
-  transform-origin: 100% 50%;
-  transform: scaleX(var(--w));
-  animation: tv-int-bar $t-1200 var(--ease-expo) $t-300 both;
-  transition: transform $t-600 var(--ease-std);
-}
-.tv-ir .nm {
-  position: relative;
-  min-width: 0;
-  font: 600 #{$fs-18}/ 1.3 var(--font-arabic);
-  @include mixins.ellipsis;
-}
-.tv-ir.other {
-  grid-column: 1 / -1;
-}
-.tv-ir.other .nm {
-  color: var(--ink-muted);
-}
-.tv-ir.other .tv-ir-t i {
-  background: color-mix(in srgb, var(--ink) 12%, transparent);
-}
-.tv-ir .vp {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: $sp-6;
-  min-width: 64px;
-}
-.tv-ir .v {
-  font: 700 #{$fs-20}/ 1 var(--font-display);
-}
-.tv-ir .pc {
-  font: 600 #{$fs-14}/ 1 var(--font-sans);
-  color: var(--ink-muted);
+  border-top: 2px dashed var(--rg);
 }
 .tv-ih-wait {
   display: flex;
@@ -281,52 +325,6 @@
   height: 18px;
   border-radius: $radius-round;
   border: 2px solid var(--hairline);
-  border-top-color: var(--gold);
+  border-top-color: var(--rg);
   animation: tv-spin $t-1000 linear infinite;
-}
-
-@keyframes tv-int-rise {
-  from {
-    opacity: 0;
-    transform: translateY(22px);
-  }
-}
-@keyframes tv-int-in {
-  from {
-    opacity: 0;
-    transform: translateX(22px);
-  }
-}
-@keyframes tv-int-swap {
-  from {
-    opacity: 0;
-    transform: translateX(-28px);
-    filter: blur(6px);
-  }
-}
-@keyframes tv-int-pop {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-}
-@keyframes tv-int-bar {
-  from {
-    transform: scaleX(0);
-  }
-}
-
-@media (forced-colors: active) {
-  .tv-tab[aria-selected='true'],
-  .tv-ih-badge {
-    forced-color-adjust: none;
-    color: highlighttext;
-    background: highlight;
-  }
-  .tv-ir-t i {
-    forced-color-adjust: none;
-    inset-block-start: auto;
-    height: 4px;
-    background: canvastext;
-  }
 }

@@ -1,5 +1,21 @@
 @use '../../../../styles/scales' as *;
 
+.tv-own {
+  --tv-band-low: color-mix(in oklab, var(--rg) 70%, var(--gov-shade));
+  --tv-band-mid: var(--rg);
+  --tv-band-high: color-mix(in oklab, var(--rg) 52%, var(--paper));
+  --tv-ink-low: color-mix(in oklab, var(--rg) 72%, var(--ink-muted));
+  --tv-ink-mid: var(--rg);
+  --tv-ink-high: var(--tv-band-high);
+}
+@each $b in low, mid, high {
+  .tv-own.#{$b},
+  .tv-own .#{$b} {
+    --band: var(--tv-band-#{$b});
+    --band-ink: var(--tv-ink-#{$b});
+  }
+}
+
 
 .tv-face.on .tv-whole {
   animation: tv-plinth $t-800 var(--ease-std) var(--sp) forwards;
@@ -190,7 +206,7 @@
 .tv-wl .pc {
   font-family: var(--font-display);
   font-weight: 700;
-  fill: var(--band);
+  fill: var(--band-ink);
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }

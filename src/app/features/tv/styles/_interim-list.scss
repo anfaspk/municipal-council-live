@@ -1,0 +1,159 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/scales' as *;
+
+
+.tv-ih-rest {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 68px;
+  gap: $sp-8 $sp-20;
+  min-height: 0;
+  padding-inline-end: $sp-6;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--rg) 40%, transparent) transparent;
+  border-radius: $r-12;
+}
+.tv-ih-rest:focus-visible {
+  outline: 2px solid var(--rg);
+  outline-offset: 2px;
+}
+.tv-ih-rest .tv-iav.sm {
+  width: 52px;
+  height: 52px;
+}
+.tv-ir {
+  display: flex;
+  align-items: center;
+  gap: $sp-10;
+  padding: 0 $sp-4;
+  animation: tv-int-in $t-700 var(--ease-expo) calc($t-250 + var(--k) * $t-80) backwards;
+}
+.tv-ir .p {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: $radius-round;
+  font: 700 #{$fs-14}/ 1 var(--font-display);
+  color: var(--rg-lite);
+  background: color-mix(in srgb, var(--rg) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--rg) 40%, transparent);
+}
+.tv-ir-t {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  padding-inline: $sp-14;
+  border-radius: $r-12;
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--rg) 12%, var(--hairline));
+  overflow: hidden;
+}
+.tv-ir-t i {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--rg) 8%, transparent),
+    color-mix(in srgb, var(--rg) 40%, transparent)
+  );
+  transform-origin: 100% 50%;
+  transform: scaleX(var(--w));
+  animation: tv-int-bar $t-1200 var(--ease-expo) $t-300 both;
+  transition: transform $t-600 var(--ease-std);
+}
+.tv-ir .nm {
+  position: relative;
+  min-width: 0;
+  font: 600 #{$fs-18}/ 1.3 var(--font-arabic);
+  @include mixins.ellipsis;
+}
+.tv-ir.next .tv-ir-t {
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--rg) 60%, transparent);
+}
+.tv-ir.next .p {
+  color: var(--canvas-0);
+  background: linear-gradient(180deg, var(--rg-lite), var(--rg));
+}
+.tv-ir.other .p {
+  background: none;
+  box-shadow: none;
+}
+.tv-ir.other .nm {
+  color: var(--ink-muted);
+}
+.tv-ir.other .tv-ir-t i {
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.tv-ir .vp {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: $sp-6;
+  min-width: 64px;
+}
+.tv-ir .v {
+  font: 700 #{$fs-20}/ 1 var(--font-display);
+}
+.tv-ir .pc {
+  font: 600 #{$fs-14}/ 1 var(--font-sans);
+  color: var(--ink-muted);
+}
+@keyframes tv-int-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+}
+@keyframes tv-int-in {
+  from {
+    opacity: 0;
+    transform: translateX(22px);
+  }
+}
+@keyframes tv-int-swap {
+  from {
+    opacity: 0;
+    transform: translateX(-28px) scale(0.985);
+  }
+}
+@keyframes tv-int-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+@keyframes tv-int-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@media (forced-colors: active) {
+  .tv-tab[aria-selected='true'],
+  .tv-ih-badge,
+  .tv-ir.next .p {
+    forced-color-adjust: none;
+    color: highlighttext;
+    background: highlight;
+  }
+  .tv-seat .pc b {
+    color: canvastext;
+    background: none;
+  }
+  .tv-ir-t i,
+  .tv-seat-w {
+    forced-color-adjust: none;
+    inset-block-start: auto;
+    height: 4px;
+    background: canvastext;
+  }
+}

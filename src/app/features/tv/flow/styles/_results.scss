@@ -216,6 +216,16 @@
 }
 .tvf-av.none {
   background: color-mix(in srgb, var(--ink) 6%, transparent);
+  color: var(--ink-muted);
+}
+.tvf-av.none svg {
+  inline-size: 48%;
+  block-size: 48%;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .tvf-line {
   display: flex;

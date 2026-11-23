@@ -27,7 +27,11 @@
       @let s = row.sum;
       <button
         type="button"
-        [class]="'cx-w cx-gr ' + (s.decl === s.n ? 'decl' : s.counted ? 'count' : 'await')"
+        [class]="
+          'cx-w cx-gr ' +
+          (s.decl === s.n ? 'decl' : s.counted ? 'count' : 'await') +
+          (row.tie ? ' tie' : '')
+        "
         [attr.data-g]="row.gov.id"
         [style.--j]="$index"
       >

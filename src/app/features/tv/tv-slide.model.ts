@@ -29,6 +29,7 @@ export interface Gender {
   widthF: string;
 }
 export interface Leader {
+  id: string;
   rank: number;
   name: string;
   t: number;
@@ -133,7 +134,7 @@ export function buildSlide(
       gender: genderOf(nat),
       leaders: index.ranked.slice(0, 3).map((g) => {
         const tg = turnout(g);
-        return { rank: index.rankOf(g.id), name: g.ar, t: tg, band: band(tg) };
+        return { id: g.id, rank: index.rankOf(g.id), name: g.ar, t: tg, band: band(tg) };
       }),
       map: countryMap(index.ranked, boxes.country),
     };

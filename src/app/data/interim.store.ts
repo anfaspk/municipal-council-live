@@ -20,7 +20,8 @@ export class InterimStore {
   private readonly issueLog = new IssueLog('intermediate');
   private readonly issues = new Map<number, Issue[]>();
 
-  private readonly watching = signal(false);
+  private readonly owners = signal<ReadonlySet<object>>(new Set());
+  private readonly watching = computed(() => this.owners().size > 0);
   private readonly now = signal(0);
   private readonly _results = signal<ReadonlyMap<number, IWil>>(new Map());
   readonly results = this._results.asReadonly();
@@ -59,11 +60,16 @@ export class InterimStore {
     });
   }
 
-  watch(on: boolean): void {
-    if (on === this.watching()) return;
-    this.watching.set(on);
+  watch(owner: object, on: boolean): void {
+    if (on === this.owners().has(owner)) return;
+    const was = this.watching(),
+      next = new Set(this.owners());
+    if (on) next.add(owner);
+    else next.delete(owner);
+    this.owners.set(next);
+    if (was === this.watching()) return;
     clearTimeout(this.timer);
-    if (on) this.tick();
+    if (!was) this.tick();
   }
 
   want(id: number): void {

@@ -61,7 +61,7 @@ export class GovRailComponent {
   private readonly index = computed(() => indexGovs(this.govs()));
   readonly listLabel = computed(() => {
     const g = this.headGov();
-    return g ? t('wilOf', { g: name(g) }) : t('map');
+    return g ? t('wilOf', { g: name(g) }) : t('railTitle');
   });
   private busy = false;
   private pend = false;

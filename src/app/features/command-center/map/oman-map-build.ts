@@ -1,4 +1,3 @@
-import { t } from '../../../core/i18n/i18n';
 import { GEO } from '../../../domain/geo/geo.data';
 import { ViewBox } from '../../../domain/geo/projection';
 import { pathRings, Pt } from '../../../domain/geo/shapes';
@@ -44,7 +43,7 @@ export function buildMap(
     el('svg', { class: cls, viewBox: vb, preserveAspectRatio: 'xMidYMid meet', ...a }, tilt);
   const ground = layer('om-svg om-ground'),
     halo = layer('om-svg om-halo-layer');
-  const svg = layer('om-svg', { role: 'group', 'aria-label': t('map') });
+  const svg = layer('om-svg', { role: 'group' });
   const defs = el('defs', null, svg);
   setMarkup(defs, mapDefs(id));
   const grid = defs.querySelector<SVGElement>('#' + id + '-grid')!;

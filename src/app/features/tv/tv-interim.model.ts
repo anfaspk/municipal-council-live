@@ -1,7 +1,7 @@
 import { ICand, IWil, raceOfInterim } from '../../domain/interim/interim';
 import { SPLIT_GOV } from './tv-slide.model';
 
-export const INT_STEP = 20 * 1000,
+export const INT_STEP = 15 * 1000,
   INT_FROM = SPLIT_GOV * 1000 + 2600;
 export const interimDuration = (wilayat: number): number =>
   INT_FROM + Math.max(1, wilayat) * INT_STEP;

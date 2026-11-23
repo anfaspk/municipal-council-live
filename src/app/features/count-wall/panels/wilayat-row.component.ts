@@ -15,6 +15,7 @@ import { CountAvatar, CountStatus } from './panel-parts';
   selector: 'button[countWilayatRow]',
   templateUrl: './wilayat-row.component.html',
   imports: [IconComponent, CountAvatar, CountStatus],
+  host: { '[class.tie]': '!!current().conflict' },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

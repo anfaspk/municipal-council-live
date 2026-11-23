@@ -46,7 +46,7 @@ export class GovernorateOverlay {
       const g = svgEl(
         'g',
         {
-          class: 'cx-n ' + w.st,
+          class: 'cx-n ' + w.st + (w.conflict ? ' tie' : ''),
           'data-w': w.n,
           tabindex: '0',
           role: 'button',
@@ -57,7 +57,7 @@ export class GovernorateOverlay {
       g.style.setProperty('--j', String(i));
       setMarkup(g, nodeMarkup(w));
       const lb = document.createElement('div');
-      lb.className = 'cx-lb ' + w.st;
+      lb.className = 'cx-lb ' + w.st + (w.conflict ? ' tie' : '');
       lb.setAttribute('data-w', w.n);
       lb.style.setProperty('--j', String(i));
       setMarkup(lb, labelInner(w));
@@ -206,10 +206,13 @@ export class GovernorateOverlay {
     const nd = this.nodeOf(w.n);
     if (!nd) return;
     const has = (e: Element, c: string) => (e.classList.contains(c) ? ' ' + c : '');
-    nd.g.setAttribute('class', 'cx-n ' + w.st + has(nd.g, 'sel') + has(nd.g, 'hov'));
+    nd.g.setAttribute(
+      'class',
+      'cx-n ' + w.st + (w.conflict ? ' tie' : '') + has(nd.g, 'sel') + has(nd.g, 'hov'),
+    );
     const inner = nd.g.querySelector('.in')!;
     setMarkup(inner, nodeInner(w));
-    nd.lb.className = 'cx-lb ' + w.st + has(nd.lb, 'sel');
+    nd.lb.className = 'cx-lb ' + w.st + (w.conflict ? ' tie' : '') + has(nd.lb, 'sel');
     setMarkup(nd.lb, labelInner(w));
     this.x.relayout();
     if (this.x.still()) return;

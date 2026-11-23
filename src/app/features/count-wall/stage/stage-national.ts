@@ -1,4 +1,4 @@
-import { countGov } from '../../../domain/count/count';
+import { countGov, govTied } from '../../../domain/count/count';
 import { GEO } from '../../../domain/geo/geo.data';
 import { CountLabelBox as Box, layoutCountLabels } from '../../../domain/geo/label-layout';
 import { Pt } from '../../../domain/geo/shapes';
@@ -26,7 +26,9 @@ export class NationalOverlay {
   tint(id: string): void {
     const p = this.x.els.el.querySelector<HTMLElement>('.cx-g[data-g="' + id + '"]'),
       s = countGov(this.x.gov(id));
-    if (p) p.style.setProperty('--pp', C.f1(6 + s.p * 0.2) + '%');
+    if (!p) return;
+    p.style.setProperty('--pp', C.f1(6 + s.p * 0.2) + '%');
+    p.classList.toggle('tie', govTied(this.x.gov(id)));
   }
   build(ids: readonly string[]): void {
     const els = this.x.els;
@@ -37,7 +39,7 @@ export class NationalOverlay {
         c = GEO.g[id]?.c;
       if (!c) return;
       const lb = document.createElement('div');
-      lb.className = 'cx-nl' + (s.decl === s.n ? ' full' : '');
+      lb.className = 'cx-nl' + (s.decl === s.n ? ' full' : '') + (govTied(gv) ? ' tie' : '');
       lb.setAttribute('data-g', id);
       lb.style.setProperty('--j', String(i));
       setMarkup(lb, natLabelInner(gv));
@@ -126,6 +128,7 @@ export class NationalOverlay {
         s = countGov(gv);
       setMarkup(n.lb, natLabelInner(gv));
       n.lb.classList.toggle('full', s.decl === s.n);
+      n.lb.classList.toggle('tie', govTied(gv));
     });
     this.x.relayout();
     this.ping(id, false);

@@ -62,11 +62,15 @@
   border-radius: $r-20;
   background: linear-gradient(
     160deg,
-    color-mix(in srgb, var(--canvas-1) 72%, transparent),
+    color-mix(
+      in srgb,
+      color-mix(in oklab, var(--rg, var(--gold)) 8%, var(--canvas-1)) 72%,
+      transparent
+    ),
     color-mix(in srgb, var(--canvas-1) 38%, transparent)
   );
   box-shadow:
-    inset 0 0 0 1px var(--hairline),
+    inset 0 0 0 1px color-mix(in srgb, var(--rg, var(--gold)) 16%, var(--hairline)),
     0 18px 40px -24px var(--shadow-ink-50);
   backdrop-filter: blur(14px);
   overflow: hidden;
@@ -83,7 +87,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    color-mix(in srgb, var(--gold) 55%, transparent),
+    color-mix(in srgb, var(--rg, var(--gold)) 60%, transparent),
     transparent
   );
 }
@@ -110,6 +114,14 @@
 }
 .tv-gv .gf {
   text-align: end;
+}
+.tv-gv .gn {
+  display: flex;
+  align-items: baseline;
+  gap: $sp-6;
+}
+.tv-gv .gf .gn {
+  justify-content: flex-end;
 }
 .tv-gv b {
   display: block;
@@ -165,6 +177,7 @@
 }
 .tv-gbar .f {
   background: var(--female);
+  transform-origin: left;
 }
 .tv-face.on .tv-gbar i {
   animation: tv-w $t-1400 var(--ease-expo) $t-900 both;
@@ -197,7 +210,7 @@
 }
 .tv-curve .ln {
   fill: none;
-  stroke: var(--band);
+  stroke: var(--rg);
   stroke-width: 2.5;
   vector-effect: non-scaling-stroke;
   stroke-dasharray: 1;
@@ -207,9 +220,9 @@
   opacity: 0;
 }
 .tv-curve .hd {
-  fill: var(--band);
+  fill: var(--rg);
   opacity: 0;
-  filter: drop-shadow(0 0 6px var(--band));
+  filter: drop-shadow(0 0 6px var(--rg));
 }
 .tv-face.on .tv-curve .ln {
   animation: tv-draw $t-1800 var(--ease-std) $t-1000 forwards;
@@ -245,8 +258,11 @@
   display: grid;
   place-items: center;
   font: 700 #{$fs-14}/ 1 var(--font-display);
-  color: var(--gold-ink);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 50%, transparent);
+  color: var(--rg, var(--gold-ink));
+  background: color-mix(in srgb, var(--rg, var(--gold)) 14%, transparent);
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in srgb, var(--rg, var(--gold)) 60%, transparent),
+    0 0 18px -6px var(--rg, var(--gold));
 }
 .tv-lead .nm {
   flex: 1;
@@ -256,6 +272,6 @@
   white-space: nowrap;
 }
 .tv-lead b {
-  color: var(--band-ink);
+  color: var(--rg, var(--band-ink));
   font: 700 #{$fs-22}/ 1 var(--font-display);
 }

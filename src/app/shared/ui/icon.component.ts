@@ -11,6 +11,7 @@ export type IconName =
   | 'badge'
   | 'ballot'
   | 'crown'
+  | 'medal'
   | 'prev'
   | 'search'
   | 'sun'

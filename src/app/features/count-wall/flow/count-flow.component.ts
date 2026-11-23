@@ -54,9 +54,9 @@ import { NAT, type Place, placeKey, siblingOf, upOf } from './count-flow.model';
 import { CountView } from './count.view';
 
 const KEEP = 30;
-const BAR: readonly { s: Screen; icon: 'box' | 'crown' | 'grid' | 'tv'; key: string }[] = [
+const BAR: readonly { s: Screen; icon: 'box' | 'medal' | 'grid' | 'tv'; key: string }[] = [
   { s: 'wall', icon: 'box', key: 'cfBarCount' },
-  { s: 'winners', icon: 'crown', key: 'cfBarWin' },
+  { s: 'winners', icon: 'medal', key: 'cfBarWin' },
   { s: 'dashboard', icon: 'grid', key: 'cfBarDash' },
   { s: 'tv', icon: 'tv', key: 'cfBarTv' },
 ];

@@ -11,7 +11,8 @@ const PATHS = {
   grid: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
   tv: 'M3 6h18v11H3zM8 21h8M12 17v4',
   box: 'M4 9h16v11H4zM8 9V5h8v4M10 13h4',
-  crown: 'M3 8l4 4 5-7 5 7 4-4-2 11H5z',
+  medal:
+    'M8 2.5l2.6 6M16 2.5l-2.6 6M12 9a5.5 5.5 0 1 1 0 11a5.5 5.5 0 0 1 0-11zM9.6 14.6l1.7 1.7 3.2-3.3',
   close: 'M6 6l12 12M18 6L6 18',
   share: 'M12 4v11M7 9l5-5 5 5M5 14v6h14v-6',
   back: 'M15 6l-6 6 6 6',

@@ -21,7 +21,7 @@
   fig="count.nat"
 ></div>
 <div class="cx-tbl" style="--i: 3">
-  <div class="cx-th" [first]="text('cxGov')" [last]="text('stDecl')"></div>
+  <div class="cx-th" [first]="text('cxGov')"></div>
   <div class="cx-wl cx-gl">
     @for (row of rows(); track row.gov.id) {
       @let s = row.sum;
@@ -48,7 +48,6 @@
         ><b class="n l mj-num">{{ number(s.cast - s.counted) }}</b
         ><b class="n m mj-num">{{ number(row.gender.m) }}</b
         ><b class="n f mj-num">{{ number(row.gender.f) }}</b
-        ><span class="dc mj-num">{{ text('cDeclOf', { d: s.decl, t: s.n }) }}</span
         ><span class="go"><svg mjIcon="next"></svg></span>
       </button>
     }

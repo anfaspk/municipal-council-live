@@ -93,7 +93,6 @@ export class CountStage implements AfterViewInit {
   ngAfterViewInit(): void {
     const u = uid('cx');
     this.host.prepend(fragment(stageMarkup(u, (id) => this.feed.gov(id)?.ar ?? null)));
-    this.host.appendChild(this.host.querySelector('.cx-legend')!);
     this.initStage();
   }
   stop(): void {
@@ -302,7 +301,6 @@ export class CountStage implements AfterViewInit {
     this.onGov.set(false);
     els.el.querySelectorAll('.cx-g.on').forEach((path) => path.classList.remove('on'));
     [els.edge, els.edgeG, els.clipP, els.comet].forEach((path) => path.setAttribute('d', ''));
-    els.hint.textContent = ct('cxMapHint');
   }
   showNational(instant?: boolean): void {
     this.els.hot.setAttribute('d', '');
@@ -329,7 +327,6 @@ export class CountStage implements AfterViewInit {
     els.el
       .querySelectorAll('.cx-g')
       .forEach((path) => path.classList.toggle('on', path.getAttribute('data-g') === id));
-    els.hint.textContent = ct('cxWilHint');
   }
   showGovernorate(governorate: CGov, instant: boolean | undefined, landed: () => void): void {
     this.flyTo(this.viewGov(governorate.id), null, () => {

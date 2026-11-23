@@ -156,35 +156,6 @@
   animation: tv-int-rise $t-900 var(--ease-expo) both;
   animation-delay: calc($t-150 + var(--i, 0) * $t-90);
 }
-.tv-int-win {
-  margin-inline-start: $sp-14;
-  padding: $sp-4 $sp-12;
-  border-radius: var(--radius-pill);
-  font: 600 #{$fs-15}/ 1 var(--font-sans);
-  vertical-align: middle;
-  color: var(--rg-lite);
-  background: color-mix(in srgb, var(--rg) 12%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--rg) 40%, transparent);
-}
-.tv-int-sub {
-  font: 500 #{$fs-18}/ 26px var(--font-sans);
-  color: var(--ink-muted);
-}
-.tv-int-note {
-  display: flex;
-  align-items: center;
-  gap: $sp-8;
-  font: 500 #{$fs-13}/ 18px var(--font-sans);
-  color: var(--ink-muted);
-}
-.tv-int-note::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: $radius-round;
-  background: var(--rg);
-  box-shadow: 0 0 8px var(--rg);
-}
 .tv-iav {
   position: relative;
   flex: none;

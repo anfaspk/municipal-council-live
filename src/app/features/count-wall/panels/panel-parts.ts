@@ -132,13 +132,12 @@ export class CountStats {
     ><span>{{ text('cxUncounted') }}</span
     ><span class="m">{{ text('cxMale') }}</span
     ><span class="f">{{ text('cxFemale') }}</span
-    ><span>{{ last() }}</span
-    ><span></span>`,
+    >@if (last()) {<span>{{ last() }}</span>}<span></span>`,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountTableHead {
   readonly first = input.required<string>();
-  readonly last = input.required<string>();
+  readonly last = input<string>('');
   protected readonly text = ct;
 }

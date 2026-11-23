@@ -1,29 +1,35 @@
 @let s = slide();
-<div class="tv-top">
-  <img class="tv-logo night" [src]="moiDark" alt="" decoding="async" width="790" height="875" />
-  <img class="tv-logo day" [src]="moi" alt="" decoding="async" width="790" height="875" />
-  <i class="tv-sep"></i>
-  <img class="tv-logo night" [src]="logoDark" alt="" decoding="async" width="1000" height="1082" />
-  <img class="tv-logo day" [src]="logo" alt="" decoding="async" width="1000" height="1082" />
-  <div class="tv-ttl">
-    <b>{{ 'title' | t }}</b
-    ><span>{{ 'liveAcross' | t }}</span>
+<div class="tv-top tv-top-c">
+  <div class="tv-top-s">
+    <img class="tv-logo night" [src]="moiDark" alt="" decoding="async" width="790" height="875" />
+    <img class="tv-logo day" [src]="moi" alt="" decoding="async" width="790" height="875" />
+    @if (phase() === 'soon') {
+      <span class="tv-int-cd" [title]="'intSoonL' | t: { t: fromAt() ?? '' }"
+        ><svg [mjIcon]="'ballot'"></svg>{{ 'intSoon' | t }}<b class="mj-num">{{ left() }}</b></span
+      >
+    } @else if (phase() === 'open' && left(); as l) {
+      <span class="tv-int-cd on"
+        ><i></i>{{ 'intTab' | t }} · {{ 'intEnds' | t }}<b class="mj-num">{{ l }}</b></span
+      >
+    }
+    @if (staleAt(); as at) {
+      <span class="tv-live stale"><i></i>{{ 'figuresAt' | t: { t: at } }}</span>
+    }
   </div>
-  @if (phase() === 'soon') {
-    <span class="tv-int-cd" [title]="'intSoonL' | t: { t: fromAt() ?? '' }"
-      ><svg [mjIcon]="'ballot'"></svg>{{ 'intSoon' | t }}<b class="mj-num">{{ left() }}</b></span
-    >
-  } @else if (phase() === 'open' && left(); as l) {
-    <span class="tv-int-cd on"
-      ><i></i>{{ 'intTab' | t }} · {{ 'intEnds' | t }}<b class="mj-num">{{ l }}</b></span
-    >
-  }
-  @if (staleAt(); as at) {
-    <span class="tv-live stale"><i></i>{{ 'figuresAt' | t: { t: at } }}</span>
-  } @else {
-    <span class="tv-live"><i></i>{{ (s.done ? 'declared' : 'live') | t }}</span>
-  }
-  <span class="tv-count mj-num">{{ s.count }}</span>
+  <div class="tv-ttl">
+    <b>{{ 'title' | t }}</b>
+  </div>
+  <div class="tv-top-e">
+    <img
+      class="tv-logo night"
+      [src]="logoDark"
+      alt=""
+      decoding="async"
+      width="1000"
+      height="1082"
+    />
+    <img class="tv-logo day" [src]="logo" alt="" decoding="async" width="1000" height="1082" />
+  </div>
 </div>
 @if (nat(); as n) {
   <div class="tv-body">
@@ -62,10 +68,6 @@
     </div>
     <div class="tv-map">
       <div class="tv-hud"></div>
-      <div class="tv-phase" aria-hidden="true">
-        <i class="th"></i><span class="a">{{ 'tvOman' | t }}</span
-        ><span class="b">{{ 'tvGovs' | t }}</span>
-      </div>
       <svg class="tv-shape tv-oman" appTvCountryMap [map]="n.map"></svg>
     </div>
   </div>
@@ -102,10 +104,6 @@
         <span class="tv-tag">{{ 'tvGov' | t }}</span>
       </div>
       <h2 class="tv-name" style="--i: 1">{{ g.name }}</h2>
-      <div class="tv-sub" style="--i: 2">
-        {{ 'wilCount' | t: { n: g.wilCount } }} · {{ 'share' | t }}
-        <b class="mj-num">{{ g.share | pct }}</b>
-      </div>
       <div class="tv-big" style="--i: 3">
         <span
           class="tv-pct mj-num"
@@ -148,23 +146,12 @@
     </div>
     <div class="tv-map">
       <div class="tv-hud"></div>
-      <div class="tv-phase" aria-hidden="true">
-        <i class="th"></i><span class="a">{{ 'tvGov' | t }}</span
-        ><span class="b">{{ 'tvWil' | t }} · {{ g.wilayat.length }}</span>
-      </div>
       <svg class="tv-shape" appTvRegionShape [shape]="g.region"></svg>
       @if (g.region.columns; as c) {
         <svg class="tv-shape tv-lbl" appTvRegionColumns [columns]="c"></svg>
       }
       <div class="tv-locw">
-        <svg class="tv-loc" appTvLocator [locator]="g.locator"></svg
-        ><span class="mj-micro"
-          >{{ 'rank' | t }} <b class="mj-num">{{ g.rank }}</b></span
-        >
-      </div>
-      <div class="tv-coord mj-num" dir="ltr">{{ g.reg | fmt }} {{ registeredLower }}</div>
-      <div class="tv-wkey">
-        <span>{{ 'labelKey' | t }}</span>
+        <svg class="tv-loc" appTvLocator [locator]="g.locator"></svg>
       </div>
     </div>
   </div>

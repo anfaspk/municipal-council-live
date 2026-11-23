@@ -115,6 +115,33 @@
   font: 500 #{$fs-15}/ 20px var(--font-sans);
   color: var(--ink-muted);
 }
+.tv-top-c {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+.tv-top-s,
+.tv-top-e {
+  display: flex;
+  align-items: center;
+  gap: $sp-20;
+  min-width: 0;
+}
+.tv-top-e {
+  justify-content: flex-end;
+}
+.tv-top-c .tv-ttl {
+  align-items: center;
+  padding-inline-start: 0;
+  border-inline-start: 0;
+  text-align: center;
+}
+.tv-top-c .tv-ttl b {
+  font-size: $fs-28;
+  line-height: 36px;
+}
+.tv-top-s :is(.tv-int-cd, .tv-live) {
+  margin-inline-start: 0;
+}
 .tv-live {
   margin-inline-start: auto;
   display: inline-flex;
@@ -202,14 +229,6 @@
   text-overflow: ellipsis;
   font: 700 #{$fs-84}/ 1.15 var(--font-arabic);
   letter-spacing: 0;
-}
-.tv-sub {
-  font: 500 #{$fs-22}/ 30px var(--font-sans);
-  color: var(--ink-muted);
-}
-.tv-sub b {
-  color: var(--ink);
-  font-weight: 700;
 }
 .tv-nat::before {
   background:

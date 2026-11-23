@@ -14,8 +14,7 @@
 }
 @if (w.st === 'await') {
   <div class="cx-sealed aw">
-    <svg countStatus="await" [size]="56"></svg><b>{{ text('cAwaitBox') }}</b
-    ><span>{{ text('cAwaitBoxSub') }}</span>
+    <svg countStatus="await" [size]="56"></svg><b>{{ text('cAwaitBox') }}</b>
   </div>
 } @else if (r) {
   <div class="cx-race" [mjRaceBoard]="r" [extraGridRows]="1" [drawWins]="drawWins()">

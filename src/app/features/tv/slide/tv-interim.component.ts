@@ -11,7 +11,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { InterimStore } from '../../../data/interim.store';
-import { fmt } from '../../../domain/format';
 import { restartAnimation } from '../../../shared/motion/restart-animation';
 import { FmtPipe, SharePipe } from '../../../shared/ui/format.pipes';
 import { IconComponent } from '../../../shared/ui/icon.component';
@@ -34,7 +33,6 @@ export class TvInterimComponent {
 
   private readonly store = inject(InterimStore);
   private readonly spot = inject(TvSlideState).spot;
-  protected readonly toAt = this.store.toAt;
   private readonly hero = viewChild<ElementRef<HTMLElement>>('hero');
 
   protected readonly gov = computed(() => {
@@ -64,9 +62,5 @@ export class TvInterimComponent {
   protected seatW(f: InterimRow, v: number): number {
     const top = f.leaders[0]?.v ?? 0;
     return top > 0 ? Math.min(1, v / top) : 0;
-  }
-
-  protected votes(n: number): { n: string } {
-    return { n: fmt(n) };
   }
 }

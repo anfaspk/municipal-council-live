@@ -184,6 +184,9 @@
     backdrop-filter: none;
   }
 }
+.mj-tv:not(.ct-tv) > .tva-state {
+  top: calc(var(--tv-title-y) + $sp-64 + $sp-14);
+}
 .tva-state svg {
   width: 16px;
   height: 16px;
@@ -266,7 +269,6 @@
     .tv-sh-ext > *,
     .tv-rg .fill,
     .tv-locw,
-    .tv-coord,
     .tv-hud,
     .tv-curve .area,
     .tv-curve .hd,
@@ -316,7 +318,6 @@
   .tv-sh-ext > *,
   .tv-rg .fill,
   .tv-locw,
-  .tv-coord,
   .tv-hud,
   .tv-curve .area,
   .tv-curve .hd,

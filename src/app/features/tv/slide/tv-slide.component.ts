@@ -8,10 +8,9 @@ import {
   untracked,
   ViewEncapsulation,
 } from '@angular/core';
-import { t } from '../../../shared/ui/tv-strings';
 import { LOGO, LOGO_DARK, MOI_LOGO, MOI_LOGO_DARK } from '../../../shared/ui/brand';
 import { CountUpDirective, CountUpGroup } from '../../../shared/motion/count-up.directive';
-import { FmtPipe, PctPipe } from '../../../shared/ui/format.pipes';
+import { PctPipe } from '../../../shared/ui/format.pipes';
 import { TvTPipe as TPipe } from '../../../shared/ui/tv-t.pipe';
 import { TvSlide } from '../tv-slide.model';
 import { TvCountryMapComponent } from './tv-country-map.component';
@@ -34,7 +33,6 @@ import { TvInterimComponent } from './tv-interim.component';
   selector: 'div[appTvSlide]',
   imports: [
     CountUpDirective,
-    FmtPipe,
     PctPipe,
     TPipe,
     TvStatsComponent,
@@ -95,7 +93,6 @@ export class TvSlideComponent {
   protected readonly logoDark = LOGO_DARK;
   protected readonly moi = MOI_LOGO;
   protected readonly moiDark = MOI_LOGO_DARK;
-  protected readonly registeredLower = t('registered').toLowerCase();
 
   constructor() {
     effect(() => {

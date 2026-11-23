@@ -20,7 +20,6 @@ import { uid } from '../../shared/ui/uid';
 export interface CountShellView {
   slides: string[];
   index: number;
-  done: boolean;
   results: boolean;
   theme: string;
   paused: boolean;
@@ -28,7 +27,6 @@ export interface CountShellView {
   osMotion: boolean;
   seconds: number;
   next: string;
-  subtitle: string;
 }
 export type CountShellAction =
   | { type: 'close' | 'theme' | 'fullscreen' | 'pause' | 'previous' | 'next' | 'motion' }

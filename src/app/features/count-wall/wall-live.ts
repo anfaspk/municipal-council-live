@@ -135,7 +135,6 @@ export class WallLive {
       row.querySelector<HTMLElement>('.pg i')!.style.width = f1(s.p) + '%';
       row.querySelector('.n.c')!.textContent = fmt(s.counted);
       row.querySelector('.n.l')!.textContent = fmt(s.cast - s.counted);
-      row.querySelector('.dc')!.textContent = ct('cDeclOf', { d: s.decl, t: s.n });
       if (gid) setTimeout(() => row.classList.remove('upd'), 1200);
     });
   }

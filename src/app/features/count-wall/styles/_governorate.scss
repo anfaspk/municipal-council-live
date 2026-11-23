@@ -246,7 +246,7 @@
   flex: 1;
 }
 .cx-natp .cx-tbl {
-  --cols: minmax(0, 1.3fr) 96px 96px 88px 88px 112px 14px;
+  --cols: minmax(0, 1.3fr) 96px 96px 88px 88px 14px;
 }
 .cx-th {
   display: grid;
@@ -308,15 +308,6 @@
 }
 .cx-w .n.l {
   color: var(--stat-pending);
-}
-.cx-gr .dc {
-  font: 500 #{$fs-12-5}/ 1 var(--font-sans);
-  color: var(--ink-muted);
-  text-align: end;
-  white-space: nowrap;
-}
-.cx-gr .dc {
-  font-family: var(--font-arabic);
 }
 .cx-gr.hot {
   background: color-mix(in srgb, var(--gold) 12%, var(--canvas-1));

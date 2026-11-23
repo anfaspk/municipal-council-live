@@ -6,7 +6,6 @@
   --wn-rose-x: 420px;
   --wn-rose-y: 0;
   --wn-horizon-y: 150px;
-  --wn-grid-over: -120px;
   direction: ltr;
   overflow: clip;
   pointer-events: none;
@@ -46,32 +45,8 @@
   transition: opacity $t-1400 var(--ease-std);
 }
 
-.wn-grid {
-  position: absolute;
-  inset-block: 0;
-  inset-inline: 0 var(--wn-grid-over);
-  width: calc(100% - var(--wn-grid-over));
-  height: 100%;
-  opacity: 0.14;
-  -webkit-mask-image: radial-gradient(60% 60% at 50% 45%, var(--ink), transparent 85%);
-  mask-image: radial-gradient(60% 60% at 50% 45%, var(--ink), transparent 85%);
-  animation: wn-grid $t-60000 linear infinite;
-}
-.wn-grid g,
-.wn-grid path {
-  fill: none;
-  stroke: var(--gold);
-  stroke-width: 0.8;
-}
-.wn-grid circle {
-  fill: var(--gold-glow);
-}
 .wn-sky-lat {
   @include mixins.cover;
-  opacity: 0.12;
-  -webkit-mask-image: radial-gradient(55% 60% at 50% 50%, transparent 35%, var(--ink));
-  mask-image: radial-gradient(55% 60% at 50% 50%, transparent 35%, var(--ink));
-  animation: wn-fade $t-3000 var(--ease-std) $t-600 backwards;
 }
 
 .wn-rose {
@@ -152,11 +127,6 @@
 @keyframes wn-twinkle {
   from {
     opacity: 0.35;
-  }
-}
-@keyframes wn-grid {
-  to {
-    transform: translate3d(-120px, 0, 0);
   }
 }
 @keyframes wn-glow {

@@ -112,7 +112,7 @@
 .cx-wn {
   margin: 0;
   font: 700 #{$fs-48}/ 1.04 var(--font-sans);
-  @include mixins.ellipsis;
+  white-space: nowrap;
   @include mixins.arabic;
 }
 .cx-wn.long {

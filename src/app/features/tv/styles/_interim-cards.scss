@@ -296,22 +296,6 @@
 .tv-ih-head .mj-micro {
   color: var(--rg-lite);
 }
-.tv-ih-line {
-  display: inline-flex;
-  align-items: center;
-  gap: $sp-8;
-  padding: $sp-4 $sp-12;
-  border-radius: var(--radius-pill);
-  font: 700 #{$fs-14}/ 1 var(--font-arabic);
-  color: var(--rg-lite);
-  background: color-mix(in srgb, var(--rg) 10%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--rg) 32%, transparent);
-}
-.tv-ih-line::before {
-  content: '';
-  width: 22px;
-  border-top: 2px dashed var(--rg);
-}
 .tv-ih-wait {
   display: flex;
   align-items: center;

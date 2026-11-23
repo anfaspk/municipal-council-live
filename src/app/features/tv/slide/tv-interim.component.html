@@ -1,6 +1,4 @@
-@let at = toAt();
 @if (gov(); as g) {
-  <div class="tv-int-sub" style="--i:1">{{ 'intSub' | t: { n: g.rows.length } }} · {{ 'intVotes' | t: votes(g.votes) }}@if (at) {&ngsp;<span class="tv-int-win">{{ 'intUntil' | t: { t: at } }}</span>}</div>
   <div class="tv-ih" style="--i:3">
     @if (featured(); as f) {
         <div class="tv-ih-in" #hero>
@@ -35,11 +33,6 @@
             }
             <div class="tv-ih-head">
               <span class="mj-micro">{{ (f.leaders.length ? 'intRest' : 'intAll') | t }}</span>
-              @if (f.tied) {
-                <span class="tv-ih-line">{{ 'intTied' | t }}</span>
-              } @else if (f.margin !== null) {
-                <span class="tv-ih-line">{{ 'intLine' | t: votes(f.margin) }}</span>
-              }
             </div>
             <div class="tv-ih-rest" tabindex="0" [attr.aria-label]="(f.leaders.length ? 'intRest' : 'intAll') | t">
               @for (b of f.rest; track b.c.id; let k = $index) {
@@ -64,4 +57,3 @@
     }
   </div>
 }
-<div class="tv-int-note" style="--i:5">{{ 'intNote' | t }}</div>

@@ -27,7 +27,6 @@ export interface PanelView {
 export const CHROME0: CountShellView = {
   slides: [],
   index: 0,
-  done: false,
   results: false,
   theme: 'night',
   paused: false,
@@ -35,7 +34,6 @@ export const CHROME0: CountShellView = {
   osMotion: false,
   seconds: 6,
   next: '',
-  subtitle: '',
 };
 
 export function chromeOf(
@@ -49,7 +47,6 @@ export function chromeOf(
   return {
     slides: list.map((_, i) => label(i)),
     index: k,
-    done: s.done,
     results: s.res,
     theme: s.theme,
     paused: play.paused,
@@ -57,6 +54,5 @@ export function chromeOf(
     osMotion: o.os,
     seconds: play.sec,
     next: o.next ?? ct('cTvNat'),
-    subtitle: ct(s.res ? 'cxResSub' : list[k] === 'nat' ? 'cTvNatSub' : 'cTvSub'),
   };
 }

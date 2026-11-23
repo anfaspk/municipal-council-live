@@ -32,7 +32,6 @@ export interface StageEls {
   sweep: HTMLElement;
   natg: HTMLElement;
   lock: HTMLElement;
-  hint: HTMLElement;
 }
 
 export interface StageContext {
@@ -66,7 +65,6 @@ const ELS: Record<keyof StageEls, string> = {
   sweep: '.cx-sweep',
   natg: '.cx-natg',
   lock: '.cx-lock',
-  hint: '.cx-hint',
 };
 export function findEls(host: HTMLElement, els: StageEls): void {
   const out = els as unknown as Record<string, HTMLElement>;

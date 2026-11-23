@@ -5,42 +5,40 @@
 <div class="mj-horizon"></div>
 <div class="cx" [class.cxr-on]="view().results">
   <div class="cx-top">
-    <div class="tv-top">
-      <img
-        class="tv-logo night"
-        [src]="moiDark"
-        alt=""
-        decoding="async"
-        width="790"
-        height="875"
-      /><img class="tv-logo day" [src]="moi" alt="" decoding="async" width="790" height="875" /><i
-        class="tv-sep"
-      ></i
-      ><img
-        class="tv-logo night"
-        [src]="darkLogo"
-        alt=""
-        decoding="async"
-        width="1000"
-        height="1082"
-      /><img class="tv-logo day" [src]="logo" alt="" decoding="async" width="1000" height="1082" />
-      <div class="tv-ttl">
-        <b>{{ text('cTitle') }}</b
-        ><span>{{ view().subtitle }}</span>
-      </div>
-      <span class="ctv-pill" [class.done]="view().done"
-        ><i></i>{{ text(view().done ? 'cDone' : 'cPhCount') }}</span
-      >
-      @if (!view().results) {
-        @if (staleAt(); as at) {
+    <div class="tv-top tv-top-c">
+      <div class="tv-top-s">
+        <img
+          class="tv-logo night"
+          [src]="moiDark"
+          alt=""
+          decoding="async"
+          width="790"
+          height="875"
+        /><img class="tv-logo day" [src]="moi" alt="" decoding="async" width="790" height="875" />
+        @if (!view().results && staleAt(); as at) {
           <span class="ctv-live stale"><i></i>{{ text('figuresAt', { t: at }) }}</span>
-        } @else {
-          <span class="ctv-live"><i></i>{{ text('live') }}</span>
         }
-      }
-      <span class="tv-count mj-num"
-        >{{ number(view().index + 1) }} / {{ number(view().slides.length) }}</span
-      >
+      </div>
+      <div class="tv-ttl">
+        <b>{{ text('cTitle') }}</b>
+      </div>
+      <div class="tv-top-e">
+        <img
+          class="tv-logo night"
+          [src]="darkLogo"
+          alt=""
+          decoding="async"
+          width="1000"
+          height="1082"
+        /><img
+          class="tv-logo day"
+          [src]="logo"
+          alt=""
+          decoding="async"
+          width="1000"
+          height="1082"
+        />
+      </div>
     </div>
   </div>
   <div class="cx-body"><ng-content /></div>
@@ -142,9 +140,7 @@
   </div>
 </div>
 <div class="tva-live" aria-live="off" aria-atomic="true"></div>
-<button type="button" class="mj-btn tv-dash" (click)="action.emit({ type: 'close' })">
-  <svg mjIcon="prev"></svg><span>{{ text('cDashboard') }}</span></button
-><button
+<button
   type="button"
   class="mj-btn icon tv-x"
   [attr.aria-label]="text('close')"

@@ -12,19 +12,6 @@ export const STATUS_LABEL: Record<CSt, string> = {
   pend: 'cxCountedSt',
   decl: 'stDecl',
 };
-export function stGlyph(st: CSt, s = 16): Markup {
-  const h = s / 2,
-    r = s * 0.38,
-    sw = Math.max(1.2, s / 11);
-  const tick = html`<path d="M${f2(h - r * 0.48)} ${f2(h + r * 0.02)}l${f2(r * 0.36)} ${f2(r * 0.36)}l${f2(r * 0.62)} ${f2(-r * 0.7)}"/>`;
-  const body =
-    st === 'await'
-      ? html`<circle cx="${h}" cy="${h}" r="${f2(r)}" class="o"/>`
-      : st === 'count'
-        ? html`<circle cx="${h}" cy="${h}" r="${f2(r)}" class="t"/><path class="a" d="M${h} ${f2(h - r)}A${f2(r)} ${f2(r)} 0 1 1 ${f2(h - r)} ${h}"/>`
-        : html`<circle cx="${h}" cy="${h}" r="${f2(r)}" class="d"/>${tick}`;
-  return html`<svg class="cxg ${st}" width="${s}" height="${s}" viewBox="0 0 ${s} ${s}" style="--sw:${f2(sw)}px" aria-hidden="true">${body}</svg>`;
-}
 export function avatar(c: CCand): Markup {
   return portraitOk(c.photo)
     ? html`<i class="cx-av ph "><b>${c.ini}</b><img class="${picClass(c.photo)}" src="${c.photo}" alt="" decoding="async"></i>`
@@ -35,10 +22,7 @@ export function stageMarkup(u: string, govName: (id: string) => string | null): 
     ([id, g]) =>
       html`<path class="cx-g" data-g="${id}" d="${g.d}"><title>${govName(id) ?? ''}</title></path>`,
   );
-  const keys = (['decl', 'pend', 'count', 'await'] as CSt[]).map(
-    (k) => html`<span class="${k}">${stGlyph(k, 14)}${ct(STATUS_LABEL[k])}</span>`,
-  );
-  return html`<svg class="cx-geo" aria-hidden="true"><defs><pattern id="${u}-dots" width="11" height="11" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.05"/></pattern><linearGradient id="${u}-sweep" x1="0" y1="0" x2="1" y2="0" gradientTransform="rotate(18 .5 .5)"><stop offset="0" class="w0"/><stop offset=".42" class="w1"/><stop offset=".5" class="w2"/><stop offset=".58" class="w1"/><stop offset="1" class="w0"/></linearGradient><radialGradient id="${u}-fill" cx="50%" cy="45%" r="70%"><stop offset="0" class="s0"/><stop offset="1" class="s1"/></radialGradient><linearGradient id="${u}-scan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="k0"/><stop offset=".78" class="k1"/><stop offset=".97" class="k2"/><stop offset="1" class="k3"/></linearGradient><clipPath id="${u}-clip"><path class="cx-clipp"/></clipPath></defs><g class="cx-cam">${paths}</g><path class="cx-area" clip-path="url(#${u}-clip)" fill="url(#${u}-fill)" d="M0 0H4000V4000H0Z"/><rect class="cx-dots" clip-path="url(#${u}-clip)" fill="url(#${u}-dots)" width="100%" height="100%"/><g clip-path="url(#${u}-clip)"><rect class="cx-scan" fill="url(#${u}-scan)" x="0" y="0" width="0" height="0"/><rect class="cx-sweep" fill="url(#${u}-sweep)" x="0" y="0" width="0" height="0"/></g><path class="cx-hot" pathLength="1"/><path class="cx-edgeg"/><path class="cx-edge" pathLength="1"/><path class="cx-comet" pathLength="1"/><path class="cx-comet c2" pathLength="1"/></svg><svg class="cx-ov"><g class="cx-natg"></g><g class="cx-nodes"></g></svg><div class="cx-labels"></div><div class="cx-lock" aria-hidden="true"><i></i><i></i><i></i><i></i><span></span></div><div class="cx-hud" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="cx-legend"><div class="cx-key">${keys}</div><div class="cx-hint"></div></div>`;
+  return html`<svg class="cx-geo" aria-hidden="true"><defs><pattern id="${u}-dots" width="11" height="11" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.05"/></pattern><linearGradient id="${u}-sweep" x1="0" y1="0" x2="1" y2="0" gradientTransform="rotate(18 .5 .5)"><stop offset="0" class="w0"/><stop offset=".42" class="w1"/><stop offset=".5" class="w2"/><stop offset=".58" class="w1"/><stop offset="1" class="w0"/></linearGradient><radialGradient id="${u}-fill" cx="50%" cy="45%" r="70%"><stop offset="0" class="s0"/><stop offset="1" class="s1"/></radialGradient><linearGradient id="${u}-scan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="k0"/><stop offset=".78" class="k1"/><stop offset=".97" class="k2"/><stop offset="1" class="k3"/></linearGradient><clipPath id="${u}-clip"><path class="cx-clipp"/></clipPath></defs><g class="cx-cam">${paths}</g><path class="cx-area" clip-path="url(#${u}-clip)" fill="url(#${u}-fill)" d="M0 0H4000V4000H0Z"/><rect class="cx-dots" clip-path="url(#${u}-clip)" fill="url(#${u}-dots)" width="100%" height="100%"/><g clip-path="url(#${u}-clip)"><rect class="cx-scan" fill="url(#${u}-scan)" x="0" y="0" width="0" height="0"/><rect class="cx-sweep" fill="url(#${u}-sweep)" x="0" y="0" width="0" height="0"/></g><path class="cx-hot" pathLength="1"/><path class="cx-edgeg"/><path class="cx-edge" pathLength="1"/><path class="cx-comet" pathLength="1"/><path class="cx-comet c2" pathLength="1"/></svg><svg class="cx-ov"><g class="cx-natg"></g><g class="cx-nodes"></g></svg><div class="cx-labels"></div><div class="cx-lock" aria-hidden="true"><i></i><i></i><i></i><i></i><span></span></div><div class="cx-hud" aria-hidden="true"><i></i><i></i><i></i><i></i></div>`;
 }
 export function nodeInner(w: CWil): Markup {
   const r = countRace(w),

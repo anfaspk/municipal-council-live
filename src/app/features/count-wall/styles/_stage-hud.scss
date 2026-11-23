@@ -276,39 +276,9 @@
   pointer-events: auto;
   transform: none;
 }
-.cx-back span,
-.cx-legend {
+.cx-back span {
   font-family: var(--font-arabic);
 }
-.cx-legend {
-  position: absolute;
-  inset-inline: $sp-28;
-  bottom: $sp-16;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: $sp-16;
-  font-size: $fs-12-5;
-  color: var(--ink-muted);
-  pointer-events: none;
-}
-.cx-key {
-  display: flex;
-  gap: $sp-16;
-  flex-wrap: wrap;
-}
-.cx-key span {
-  display: inline-flex;
-  align-items: center;
-  gap: $sp-6;
-}
-.m-gov .cx-legend .cx-key {
-  opacity: 1;
-}
-.ct-tv:has(.cx-pv > .cx-wil) .cx-hint {
-  visibility: hidden;
-}
-
 .cx-lb .ld.el {
   font-size: $fs-12-5;
   color: var(--ink);

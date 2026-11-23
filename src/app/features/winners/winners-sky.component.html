@@ -2,19 +2,6 @@
 @for (s of stars; track $index) {
   <i class="wn-stars" [style.--stars]="s" [style.--l]="$index"></i>
 }
-<svg class="wn-grid" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
-  <defs>
-    <pattern id="wn-khatam" width="120" height="120" patternUnits="userSpaceOnUse">
-      <g transform="translate(60 60)">
-        <rect x="-26" y="-26" width="52" height="52" />
-        <rect x="-26" y="-26" width="52" height="52" transform="rotate(45)" />
-        <circle r="4" />
-      </g>
-      <path d="M0 60h34M86 60h34M60 0v34M60 86v34" />
-    </pattern>
-  </defs>
-  <rect class="wn-grid-r" x="-480" y="-480" width="2880" height="2040" fill="url(#wn-khatam)" />
-</svg>
 <div class="wn-sky-lat"><svg mjLattice></svg></div>
 <i class="wn-horizon"></i>
 <svg class="wn-dunes" viewBox="0 0 1920 260" preserveAspectRatio="none">

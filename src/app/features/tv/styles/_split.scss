@@ -235,18 +235,3 @@
 .tv-face.on .tv-wl .ld {
   animation: tv-draw $t-600 var(--ease-std) calc(var(--sp) + $t-1350 + var(--j) * $t-90) forwards;
 }
-.tv-wkey {
-  position: absolute;
-  bottom: 5.5%;
-  inset-inline-start: 5%;
-  display: flex;
-  align-items: center;
-  gap: $sp-10;
-  font: 500 #{$fs-13}/ 1 var(--font-sans);
-  color: var(--ink-muted);
-  opacity: 0;
-  font-family: var(--font-arabic);
-}
-.tv-face.on .tv-wkey {
-  animation: tv-fade $t-600 calc(var(--sp) + $t-1400) forwards;
-}

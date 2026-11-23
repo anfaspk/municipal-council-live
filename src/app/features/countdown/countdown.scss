@@ -79,9 +79,6 @@
     font-size: clamp(14px, 1.6vw, $fs-20);
     color: var(--ink);
   }
-  .mj-countdown .cdn-note {
-    opacity: 0.7;
-  }
   .mj-countdown.cdn-flow {
     @include mixins.frame;
     overflow-y: auto;
@@ -110,7 +107,7 @@
   .cdn-flow .cdn-title {
     font-size: $fs-22;
   }
-  .cdn-flow :is(.cdn-sub, .cdn-note) {
+  .cdn-flow .cdn-sub {
     display: none;
   }
   .cdn-flow .cdn-opens {

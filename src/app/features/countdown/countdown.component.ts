@@ -24,7 +24,6 @@ const STR = {
   h: t('cdnH'),
   m: t('cdnM'),
   s: t('cdnS'),
-  note: t('cdnNote'),
   full: t('full'),
   fullOff: t('fullOff'),
 };
@@ -63,7 +62,6 @@ const two = (n: number) => (n < 10 ? '0' : '') + n;
         }
       </div>
       <div class="cdn-at">{{ at() }}</div>
-      <div class="mj-micro cdn-note">{{ s().note }}</div>
     </main>
   `,
   styleUrl: './countdown.scss',

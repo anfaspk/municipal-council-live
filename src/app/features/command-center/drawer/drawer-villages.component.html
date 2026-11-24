@@ -122,12 +122,6 @@
       (input)="input($event)"
     />
   </label>
-  <div
-    class="dw-vsort mj-seg"
-    [items]="sortItems"
-    [value]="drawer.vSort()"
-    (valueChange)="sort.emit($any($event))"
-  ></div>
 </div>
 <div class="dw-vl" role="list">
   @if (h) {

@@ -36,6 +36,7 @@ interface RailRow {
   voted: number;
 }
 interface WilRow {
+  id: number;
   name: string;
   band: Band;
   t: number;
@@ -71,8 +72,7 @@ export class GovRailComponent {
   readonly pct = pct;
   readonly sortItems = computed<SegItem[]>(() => [
     { v: 'turnout', label: t('sTurnoutS') },
-    { v: 'votes', label: t('sVotes') },
-    { v: 'name', label: t('sName') },
+    { v: 'order', label: t('sOrder') },
   ]);
 
   readonly rows = computed<RailRow[]>(() => {
@@ -81,20 +81,14 @@ export class GovRailComponent {
       sort = this.state.sort();
     const list = govs
       .slice()
-      .sort((a, b) =>
-        sort === 'votes'
-          ? b.voted - a.voted
-          : sort === 'name'
-            ? a.ar.localeCompare(b.ar, 'ar')
-            : turnout(b) - turnout(a),
-      );
-    return list.map((g) => {
+      .sort((a, b) => (sort === 'order' ? a.apiId - b.apiId : turnout(b) - turnout(a)));
+    return list.map((g, i) => {
       const t = turnout(g);
       return {
         id: g.id,
         band: band(t),
         t,
-        rk: index.rankOf(g.id),
+        rk: sort === 'order' ? i + 1 : index.rankOf(g.id),
         short: g.ar,
         full: g.ar,
         voted: g.voted,
@@ -111,6 +105,7 @@ export class GovRailComponent {
     if (!g) return [];
     const sort = this.state.sort();
     const rows = g.wils.map((r) => ({
+      id: r.id,
       name: r.name,
       voted: r.voted,
       t: turnout(r),
@@ -122,13 +117,10 @@ export class GovRailComponent {
       r.rank = rank[i]!;
       r.band = band(r.t);
     });
-    return rows.sort((a, b) =>
-      sort === 'votes'
-        ? b.voted - a.voted
-        : sort === 'name'
-          ? a.name.localeCompare(b.name, 'ar')
-          : b.t - a.t,
-    );
+    if (sort !== 'order') return rows.sort((a, b) => b.t - a.t);
+    rows.sort((a, b) => a.id - b.id);
+    rows.forEach((r, i) => (r.rank = i + 1));
+    return rows;
   });
   readonly gt = computed(() => {
     const g = this.wgov();

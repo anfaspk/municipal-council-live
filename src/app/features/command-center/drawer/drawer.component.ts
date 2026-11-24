@@ -26,7 +26,7 @@ import { CommandCenterState } from '../command-center.state';
 import { DrawerOverviewComponent } from './drawer-overview.component';
 import { DrawerVillagesComponent } from './drawer-villages.component';
 import { DrawerWilayatComponent } from './drawer-wilayat.component';
-import { SortKey, Tab, tabDir, tabKey, TABS } from './drawer.model';
+import { Tab, tabDir, tabKey, TABS, WilSort } from './drawer.model';
 import { DrawerState } from './drawer.state';
 import { t } from '../../../core/i18n/i18n';
 
@@ -349,17 +349,11 @@ export class DrawerComponent {
     this.drawer.q.set(q);
     this.drawer.take(this.gid);
   }
-  protected sortWil(v: SortKey): void {
+  protected sortWil(v: WilSort): void {
     if (!this.gid) return;
     this.drawer.wSort.set(v);
     this.drawer.take(this.gid);
     this.afterRender(() => this.anim('wil'));
-  }
-  protected sortVil(v: SortKey): void {
-    if (!this.gid) return;
-    this.drawer.vSort.set(v);
-    this.drawer.take(this.gid);
-    this.afterRender(() => this.anim('vil'));
   }
 }
 

@@ -5,7 +5,7 @@ import { VillageDetail } from '../../../domain/stats/place';
 import { Gov } from '../../../domain/stats/stats';
 import { band, National, turnout } from '../../../domain/stats/turnout';
 import { govShade } from '../../../shared/ui/gov-shade';
-import { bandCounts, dRows, DRow, dTop, SortKey, Tab, villageList } from './drawer.model';
+import { bandCounts, dRows, DRow, dTop, Tab, villageList, WilSort } from './drawer.model';
 
 export interface DrawerSnap {
   g: Gov;
@@ -24,8 +24,7 @@ export class DrawerState {
   readonly snap = signal<DrawerSnap | null>(null);
   readonly tab = signal<Tab>('ov');
   readonly wil = signal<string | null>(null);
-  readonly wSort = signal<SortKey>('turnout');
-  readonly vSort = signal<SortKey>('turnout');
+  readonly wSort = signal<WilSort>('turnout');
   readonly q = signal('');
   readonly vOpen = signal<number | null>(null);
   readonly detail = signal<VillageDetail | null>(null);
@@ -46,7 +45,7 @@ export class DrawerState {
   });
   readonly villages = computed(() => {
     const vil = this.w()?.vil;
-    return vil ? villageList(vil, this.vSort(), this.q()) : null;
+    return vil ? villageList(vil, 'turnout', this.q()) : null;
   });
   readonly bandCounts = computed(() => bandCounts(this.w()?.vil ?? null));
 

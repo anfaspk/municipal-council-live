@@ -11,13 +11,12 @@ import { IconComponent } from '../../../shared/ui/icon.component';
 import { SegComponent, SegItem } from '../../../shared/ui/seg.component';
 import { TPipe } from '../../../shared/ui/t.pipe';
 import { DrawerWilRowComponent } from './drawer-wil-row.component';
-import { dSort, SortKey } from './drawer.model';
+import { wilList, WilSort } from './drawer.model';
 import { DrawerState } from './drawer.state';
 
-export const SORT_ITEMS: SegItem[] = [
+const WIL_SORT_ITEMS: SegItem[] = [
   { v: 'turnout', label: t('sTurnout') },
-  { v: 'votes', label: t('sVotes') },
-  { v: 'name', label: t('sName') },
+  { v: 'order', label: t('sOrder') },
 ];
 
 @Component({
@@ -61,11 +60,11 @@ export const SORT_ITEMS: SegItem[] = [
 })
 export class DrawerWilayatComponent {
   readonly pick = output<string>();
-  readonly sort = output<SortKey>();
+  readonly sort = output<WilSort>();
   readonly page = output<number>();
   protected readonly drawer = inject(DrawerState);
-  protected readonly sortItems = SORT_ITEMS;
+  protected readonly sortItems = WIL_SORT_ITEMS;
   protected readonly rows = computed(() =>
-    dSort(this.drawer.snap()?.rows ?? [], this.drawer.wSort(), (r) => r.name),
+    wilList(this.drawer.snap()?.rows ?? [], this.drawer.wSort()),
   );
 }

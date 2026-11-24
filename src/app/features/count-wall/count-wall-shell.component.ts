@@ -7,6 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ct } from '../../core/i18n/count-strings';
+import { t } from '../../core/i18n/i18n';
 import { Fullscreen } from '../../core/screen/fullscreen';
 import { CountStore } from '../../data/count.store';
 import { LOGO, LOGO_DARK, MOI_LOGO, MOI_LOGO_DARK } from '../../shared/ui/brand';
@@ -45,6 +46,7 @@ export class CountWallShell {
   readonly view = input.required<CountShellView>();
   readonly action = output<CountShellAction>();
   protected readonly text = ct;
+  protected readonly title = t('title');
   protected readonly staleAt = inject(CountStore).staleAt;
   protected readonly full = inject(Fullscreen);
   protected readonly logo = LOGO;

@@ -12,14 +12,12 @@ import { band } from '../../../domain/stats/turnout';
 import { CountUpDirective } from '../../../shared/motion/count-up.directive';
 import { IconComponent } from '../../../shared/ui/icon.component';
 import { FmtPipe, PctPipe } from '../../../shared/ui/format.pipes';
-import { SegComponent } from '../../../shared/ui/seg.component';
 import { TPipe } from '../../../shared/ui/t.pipe';
 import { CommandCenterState } from '../command-center.state';
 import { DrawerGenderComponent } from './drawer-gender.component';
 import { DrawerKpiComponent } from './drawer-kpi.component';
 import { barPos } from './drawer-wil-row.component';
-import { SORT_ITEMS } from './drawer-wilayat.component';
-import { BANDS_DOWN, deltaText, SortKey } from './drawer.model';
+import { BANDS_DOWN, deltaText } from './drawer.model';
 import { DrawerState } from './drawer.state';
 
 @Component({
@@ -29,7 +27,6 @@ import { DrawerState } from './drawer.state';
     IconComponent,
     FmtPipe,
     PctPipe,
-    SegComponent,
     TPipe,
     DrawerGenderComponent,
     DrawerKpiComponent,
@@ -40,13 +37,11 @@ import { DrawerState } from './drawer.state';
 })
 export class DrawerVillagesComponent {
   readonly pick = output<string>();
-  readonly sort = output<SortKey>();
   readonly query = output<string>();
   readonly openVil = output<number>();
   readonly page = output<number>();
   protected readonly state = inject(CommandCenterState);
   protected readonly drawer = inject(DrawerState);
-  protected readonly sortItems = SORT_ITEMS;
   protected readonly bands = BANDS_DOWN;
   protected readonly str = { loading: t('vilLoading'), loadingV: t('vilLoadingOne') };
   protected readonly band = band;

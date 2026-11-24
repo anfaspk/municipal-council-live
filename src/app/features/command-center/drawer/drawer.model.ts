@@ -7,6 +7,7 @@ import { Band, BANDS, band, turnout } from '../../../domain/stats/turnout';
 export type Tab = 'ov' | 'wil' | 'vil';
 export const TABS: readonly Tab[] = ['ov', 'wil', 'vil'];
 export type SortKey = 'turnout' | 'votes' | 'name';
+export type WilSort = 'turnout' | 'order';
 
 export interface DRow {
   id: number;
@@ -55,6 +56,14 @@ export function dSort<X extends { voted: number; t: number }>(
           ? nm(a).localeCompare(nm(b), 'ar')
           : b.t - a.t,
     );
+}
+
+export function wilList(rows: readonly DRow[], how: WilSort): DRow[] {
+  if (how !== 'order') return rows.slice().sort((a, b) => b.t - a.t);
+  return rows
+    .slice()
+    .sort((a, b) => a.id - b.id)
+    .map((r, i) => ({ ...r, rank: i + 1 }));
 }
 
 export function villageList(list: readonly Village[], how: SortKey, q: string): Village[] {

@@ -23,7 +23,6 @@ export interface RankRow<K> {
 export interface Ranked<K> {
   rows: RankRow<K>[];
   tick: number | null;
-  tied: number;
 }
 
 const COLLATOR = new Intl.Collator('ar');
@@ -53,11 +52,8 @@ export function rankedModel<K>(
         ? b.r.voted - a.r.voted || a.i - b.i
         : b.r.t - a.r.t || a.i - b.i,
   );
-  const seen = new Map<number, number>();
-  ranks.forEach((r) => seen.set(r, (seen.get(r) ?? 0) + 1));
   return {
     rows: order.map((x) => x.r),
     tick: ref === null ? null : r2(clamp(ref / 100, 0, 1)),
-    tied: ranks.filter((r) => seen.get(r)! > 1).length,
   };
 }

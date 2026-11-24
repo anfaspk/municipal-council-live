@@ -127,7 +127,7 @@ $chips: (
   flex-direction: column;
   padding: var(--tv-title-y) var(--tv-title-x) var(--tv-foot);
 }
-.cx-top .tv-top {
+.cx-top .tv-top:not(.tv-top-c) {
   gap: $sp-18;
 }
 .cx-body {

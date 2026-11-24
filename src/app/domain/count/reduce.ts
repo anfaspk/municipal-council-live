@@ -1,4 +1,5 @@
 import { GEO } from '../geo/geo.data';
+import { LARGE_PHOTOS } from '../photo-size';
 import { num, placeName, Ref } from '../stats/stats';
 import { cleanText } from '../validate/text';
 import {
@@ -20,10 +21,13 @@ import {
   statusOf,
   tieDrawn,
 } from './count';
+const PHOTO_FIELDS = LARGE_PHOTOS
+  ? (['iml', 'imm', 'imu'] as const)
+  : (['imm', 'iml', 'imu'] as const);
 export const photoOf = (
   c?: { im?: string; imu?: string; imm?: string; iml?: string } | null,
 ): string | undefined => {
-  for (const k of ['imm', 'iml', 'imu'] as const) {
+  for (const k of PHOTO_FIELDS) {
     const u = typeof c?.[k] === 'string' ? c[k].trim() : '';
     if (/^https?:\/\//i.test(u)) return u;
   }

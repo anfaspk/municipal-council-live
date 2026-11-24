@@ -1,5 +1,6 @@
 import { candInitials, shareOf } from '../count/count';
 import { photoOf } from '../count/reduce';
+import { LARGE_PHOTOS } from '../photo-size';
 import { kept, keptList } from '../same';
 import { num, Ref } from '../stats/stats';
 
@@ -55,7 +56,9 @@ export function bigPhoto(c: WinnerCandRow['c'] | null | undefined): string | nul
   return photoOf(c) ?? null;
 }
 
-const THUMB_SIZES = ['ims', 'imm', 'imu', 'iml'] as const;
+const THUMB_SIZES = LARGE_PHOTOS
+  ? (['iml', 'imm', 'imu', 'ims'] as const)
+  : (['ims', 'imm', 'imu', 'iml'] as const);
 export function smallPhoto(c: WinnerCandRow['c'] | null | undefined): string | null {
   for (const k of THUMB_SIZES) {
     const u = typeof c?.[k] === 'string' ? c[k].trim() : '';

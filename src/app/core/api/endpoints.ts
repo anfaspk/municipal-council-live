@@ -3,7 +3,7 @@ import { ConflictInfoResp } from '../../domain/conflict/conflict';
 import { CountOverallResp, CountRegionResp, CountWilayatResp } from '../../domain/count/count';
 import { InterimResp } from '../../domain/interim/interim';
 import { WinnerResp } from '../../domain/winners/winners';
-import { OverallResp, RegionResp, VillageResp, WilayatResp } from '../../domain/stats/stats';
+import { OverallResp, RegionsResp, VillageResp, WilayatResp } from '../../domain/stats/stats';
 
 export interface Endpoint<T> {
   readonly path: string;
@@ -11,6 +11,7 @@ export interface Endpoint<T> {
   readonly fresh?: boolean;
   readonly body?: unknown;
   readonly bare?: boolean;
+  readonly list?: boolean;
   readonly payload?: T;
 }
 
@@ -28,7 +29,7 @@ const at = <T>(path: string): Endpoint<T> => ({ path });
 export const endpoints = {
   electionDetail: { path: 'election/detail', fresh: true } as Endpoint<ElectionDetail>,
   statsOverall: at<OverallResp>('statistics/overall'),
-  statsRegion: (id: number) => at<RegionResp>('statistics/region/' + id),
+  statsRegions: { path: 'statistics/region/all?hPSL=true', list: true } as Endpoint<RegionsResp>,
   statsWilayat: (id: number) => at<WilayatResp>('statistics/wilayat/' + id),
   statsVillage: (id: number) => at<VillageResp>('statistics/village/' + id),
   countOverall: at<CountOverallResp>('counting/overall'),

@@ -1,7 +1,14 @@
 import { GEO } from '../geo/geo.data';
 import { AGE_KEYS } from '../stats/age';
 import { Issue } from '../stats/check';
-import { OverallResp, Ref, RegionResp, VillageResp, WilayatResp } from '../stats/stats';
+import {
+  OverallResp,
+  Ref,
+  RegionResp,
+  RegionsResp,
+  VillageResp,
+  WilayatResp,
+} from '../stats/stats';
 import {
   CCandRow,
   CountOverallResp,
@@ -100,6 +107,20 @@ export function checkRegion(id: number, r: RegionResp): Checked<RegionResp> {
   const notes = new Notes('statistics/region/' + id);
   notes.figures(r);
   return { value: { ...r, hPSWL: uniq(notes, r.hPSWL, 'w', 'wilayat') }, issues: notes.issues };
+}
+
+export function checkRegions(list: RegionsResp): Checked<Map<number, RegionResp>> {
+  const notes = new Notes('statistics/region/all'),
+    out = new Map<number, RegionResp>();
+  const all = uniq(notes, list, 'r', 'governorate');
+  if (!Array.isArray(all)) notes.add('list', 'no governorate list');
+  else
+    all.forEach((x) =>
+      x.i && typeof x.i === 'object'
+        ? out.set(x.r.i, x.i)
+        : notes.add('empty:' + x.r.i, 'governorate ' + x.r.i + ' has no answer (left out)'),
+    );
+  return { value: out, issues: notes.issues };
 }
 
 export function checkWilayat(id: number, r: WilayatResp): Checked<WilayatResp> {

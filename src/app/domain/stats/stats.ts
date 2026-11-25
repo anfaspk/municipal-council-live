@@ -37,6 +37,7 @@ export interface RegionResp {
   lV: string;
   hPSWL: { w: Ref; r: Counts; hPSL: HourlyItem[] }[];
 }
+export type RegionsResp = { r: Ref; i: RegionResp | null }[];
 export interface WilayatResp {
   p: Counts;
   r: Counts;

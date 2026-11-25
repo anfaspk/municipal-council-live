@@ -50,6 +50,8 @@ export class ApiClient {
         (route.bare ? route.path.split('/')[0] : route.path) + ': HTTP ' + res.status,
       );
     const body: unknown = await res.json();
-    return route.bare ? (body as T) : unwrap(route.path, body as Envelope<T>);
+    return route.bare
+      ? (body as T)
+      : unwrap(route.path, body as Envelope<T>, route.list ? 'l' : 'i');
   }
 }
